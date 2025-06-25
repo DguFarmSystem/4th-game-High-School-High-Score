@@ -135,7 +135,10 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 1.0.2
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 11400000, guid: 491b957a1e58da1438f955c730137fbd, type: 2}
+  - {fileID: -3404224017005504890, guid: 64c8b62c28046554d8e00855712e6738, type: 2}
+  - {fileID: 11400000, guid: 24fbde28fce565b44810443a67d00661, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -154,7 +157,8 @@ PlayerSettings:
   resetResolutionOnWindowResize: 0
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
-  applicationIdentifier: {}
+  applicationIdentifier:
+    Standalone: com.DefaultCompany.High-School-High-Score
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -888,7 +892,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: 4310d46b-cac9-46f3-b5a6-bdbd8c377fc4
   framebufferDepthMemorylessMode: 0
