@@ -8,71 +8,100 @@ using UnityEngine.InputSystem;
 using Vector3 = UnityEngine.Vector3;
 using Vector2 = UnityEngine.Vector2;
 using System.Linq;
+using System;
 
 public class InputManager : Singleton<InputManager>
 {
     [SerializeField] private GameObject testObject; // 테스트용 오브젝트
     private PlayerInput _playerInput;
 
-    private InputAction _touchPressAction;
-    private InputAction _touchPositionAction;
-    private InputAction _dragAction;
+    private static InputAction _tapAction;   // 단일 터치 입력을 위한 액션
+    private static InputAction _touchAction; // 연속적인 터치(드래그) 입력을 위한 액션
+    private static InputAction _dragAction;  // 드래그 델타 값을 받기 위한 액션
 
-    private Vector3 _touchWorldPos;
+    public static event Action OnStageTapPerformed; // 스테이지 탭이 수행되었을 때 발생하는 이벤트
+    public static event Action OnStageTouchPerformed; // 스테이지 연속적인 터치(드래그)가 수행되었을 때 발생하는 이벤트
+
+    private static Vector3 _touchWorldPos;      // 터치 월드 좌표
+    private static Vector2 _delta;              // 드래그 시의 변화량
+    private static Collider2D _touchedCollider; // 터치한 콜라이더
+    
+    public static Vector3 TouchWorldPos      => Instance? _touchWorldPos   : default; // 외부에서 접근 시 해당 프로퍼티 사용
+    public static Vector2 Delta              => Instance? _delta           : default; // 외부에서 접근 시 해당 프로퍼티 사용
+    public static Collider2D TouchedCollider => Instance? _touchedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
+
+    private void OnEnable()
+    {
+        // InputActions 활성화
+        if (_playerInput != null)
+        {
+            // InputActions 설정
+            _tapAction   = _playerInput.actions["Tap"];
+            _touchAction = _playerInput.actions["Touch"];
+            _dragAction  = _playerInput.actions["Drag"];
+
+            _tapAction.performed   += tapPerformed;
+            _touchAction.performed += touchPerformed;
+            _dragAction.performed  += dragPerformed;
+        }
+    }
+    private void OnDisable()
+    {
+        // InputActions 비활성화
+        if (_playerInput != null)
+        {
+            _touchAction.performed -= touchPerformed;
+            _dragAction.performed  -= dragPerformed;
+        }
+    }
+
+    private void tapPerformed(InputAction.CallbackContext context)
+    {
+        Debug.Log("Tap performed!"); // 탭이 수행되었을 때 로그 출력
+        OnStageTapPerformed?.Invoke(); // 스테이지 내에서 탭이 수행되었을 때 이벤트 발생
+    }
+    private void touchPerformed(InputAction.CallbackContext context)
+    {
+        // 터치 월드 좌표 계산
+        Vector2 screenPos = context.ReadValue<Vector2>();
+        Vector3 screenPos3d = new Vector3(screenPos.x, screenPos.y, Mathf.Abs(Camera.main.transform.position.z));
+        _touchWorldPos = Camera.main.ScreenToWorldPoint(screenPos3d); // z = 0에서의 터치 월드 좌표
+
+        // TEST CODE
+        Debug.Log($"Touched WorldPosition: {_touchWorldPos}"); // 터치한 위치의 월드 좌표
+        testObject.transform.position = _touchWorldPos; // 테스트 오브젝트 이동
+
+        // 터치한 위치에 있는 Collider2D를 가져옴
+        Collider2D[] hits = Physics2D.OverlapPointAll(_touchWorldPos); // 터치한 위치에 있는 모든 Collider2D를 가져옴
+        if (hits.Length > 0)
+        {
+            _touchedCollider = hits.OrderBy(hit => hit.GetComponent<SpriteRenderer>().sortingOrder).Last(); // 가장 위에 있는 콜라이더를 반환
+            Debug.Log($"Top object: {_touchedCollider.name}");
+        }
+        else Debug.Log("No collider found at touch position.");
+
+        OnStageTouchPerformed?.Invoke(); // 스테이지 내에서 연속적인 터치(드래그)가 수행되었을 때 이벤트 발생
+    }
+
+    private void dragPerformed(InputAction.CallbackContext context)
+    {
+        _delta = context.ReadValue<Vector2>();
+    }
+
+
+    // Lifecycle methods
     public override void Awake()
     {
         base.Awake();
 
         _playerInput = GetComponent<PlayerInput>();
-
-        if (_playerInput != null)
-        {
-            // InputActions 설정
-            // touchPressAction = _playerInput.actions["TouchPress"]; // 짧은 탭 입력은 현재로선 필요 없을 것으로 판단
-            _touchPositionAction = _playerInput.actions["TouchPosition"];
-            // DragAction = _playerInput.actions["Drag"]; // touchPositionAction 입력만으로 드래그시 복수 콜백
-
-            // touchPressAction.performed += (context) => { Debug.Log("Touch Pressed"); };
-            _touchPositionAction.started += (context) => { /* 손이 닿았을 때의 이벤트 */ };
-            _touchPositionAction.performed += touchPerformed;
-            _touchPositionAction.canceled += (context) => { /* 손을 떼었을 때의 입력 */ };
-            // DragAction.performed += (context) => { Debug.Log($"Delta Position: {context.ReadValue<Vector2>()}"); }; 
-            // DragAction, 즉, delta를 이용한 입력은 짧은 시간 이내에 얼마나 빠르게 드래그 했는지에 대한 정보가 필요할 때 사용하면 될 듯
-        }
     }
 
-    private void touchPerformed(InputAction.CallbackContext context)
+    public void Update()
     {
-        Vector2 screenPos = context.ReadValue<Vector2>();
-        Vector3 screenPos3d = new Vector3(screenPos.x, screenPos.y, Mathf.Abs(Camera.main.transform.position.z));
-        _touchWorldPos = Camera.main.ScreenToWorldPoint(screenPos3d); // z = 0에서의 터치 월드 좌표
+        if (EventSystem.current.IsPointerOverGameObject()) // UI 위에 포인터가 있을 경우
+            _playerInput.actions.Disable(); // 모든 입력 액션 비활성화
+        else 
+            _playerInput.actions.Enable(); // 입력 액션 활성화
     }
-    
-    public void LateUpdate()
-    {
-        if (_touchPositionAction.WasPerformedThisFrame())
-        {
-
-            if (EventSystem.current.IsPointerOverGameObject())
-            {
-                // ui 터치 시 입력 이벤트
-                return;
-            }
-
-            // TEST CODE
-            Debug.Log($"Touched WorldPosition: {_touchWorldPos}"); // 터치한 위치의 월드 좌표
-            testObject.transform.position = _touchWorldPos; // 테스트 오브젝트 이동
-            //
-
-            Collider2D[] hits = Physics2D.OverlapPointAll(_touchWorldPos); // 터치한 위치에 있는 모든 Collider2D를 가져옴
-            if (hits.Length > 0)
-            {
-                Collider2D first = hits.OrderBy(hit => hit.GetComponent<SpriteRenderer>().sortingOrder).Last(); // 가장 위에 있는 콜라이더를 반환
-                Debug.Log($"Top object: {first.name}");
-                
-                // 어떤 오브젝트였나에 따라 다른 이벤트 처리
-            }
-        }
-    }
-
 }
