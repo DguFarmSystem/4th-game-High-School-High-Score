@@ -19,7 +19,7 @@ public class InputManager : Singleton<InputManager>
     private static InputAction _touchAction; // 연속적인 터치(드래그) 입력을 위한 액션
     private static InputAction _dragAction;  // 드래그 델타 값을 받기 위한 액션
 
-    public static event Action OnStageTapPerformed; // 스테이지 탭이 수행되었을 때 발생하는 이벤트
+    public static event Action OnStageTapPerformed;   // 스테이지 탭이 수행되었을 때 발생하는 이벤트
     public static event Action OnStageTouchPerformed; // 스테이지 연속적인 터치(드래그)가 수행되었을 때 발생하는 이벤트
 
     private static Vector3 _touchWorldPos;      // 터치 월드 좌표
@@ -50,6 +50,7 @@ public class InputManager : Singleton<InputManager>
         // InputActions 비활성화
         if (_playerInput != null)
         {
+            _tapAction.performed   -= tapPerformed;
             _touchAction.performed -= touchPerformed;
             _dragAction.performed  -= dragPerformed;
         }
@@ -58,7 +59,9 @@ public class InputManager : Singleton<InputManager>
     private void tapPerformed(InputAction.CallbackContext context)
     {
         Debug.Log("Tap performed!"); // 탭이 수행되었을 때 로그 출력
-        OnStageTapPerformed?.Invoke(); // 스테이지 내에서 탭이 수행되었을 때 이벤트 발생
+
+        // 탭 입력에 대한 스테이지 기믹 수행
+        OnStageTapPerformed?.Invoke();
     }
     private void touchPerformed(InputAction.CallbackContext context)
     {
@@ -69,7 +72,7 @@ public class InputManager : Singleton<InputManager>
 
         // TEST CODE
         Debug.Log($"Touched WorldPosition: {_touchWorldPos}"); // 터치한 위치의 월드 좌표
-        testObject.transform.position = _touchWorldPos; // 테스트 오브젝트 이동
+        testObject.transform.position = _touchWorldPos;        // 테스트 오브젝트 이동
 
         // 터치한 위치에 있는 Collider2D를 가져옴
         Collider2D[] hits = Physics2D.OverlapPointAll(_touchWorldPos); // 터치한 위치에 있는 모든 Collider2D를 가져옴
@@ -80,7 +83,8 @@ public class InputManager : Singleton<InputManager>
         }
         else Debug.Log("No collider found at touch position.");
 
-        OnStageTouchPerformed?.Invoke(); // 스테이지 내에서 연속적인 터치(드래그)가 수행되었을 때 이벤트 발생
+        // 연속적인 터치(드래그)에 대한 스테이지 기믹 수행
+        OnStageTouchPerformed?.Invoke();
     }
 
     private void dragPerformed(InputAction.CallbackContext context)
