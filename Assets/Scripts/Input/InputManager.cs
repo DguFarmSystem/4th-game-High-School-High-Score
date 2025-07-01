@@ -15,7 +15,7 @@ public class InputManager : Singleton<InputManager>
     [SerializeField] private GameObject testObject; // 테스트용 오브젝트
     private PlayerInput _playerInput;
 
-    private static InputAction _tapAction;   // 단일 터치 입력을 위한 액션
+    //private static InputAction _tapAction;   // 단일 터치 입력을 위한 액션
     private static InputAction _touchAction; // 연속적인 터치(드래그) 입력을 위한 액션
     private static InputAction _dragAction;  // 드래그 델타 값을 받기 위한 액션
 
@@ -25,10 +25,10 @@ public class InputManager : Singleton<InputManager>
     private static Vector3 _touchWorldPos;      // 터치 월드 좌표
     private static Vector2 _delta;              // 드래그 시의 변화량
     private static Collider2D _touchedCollider; // 터치한 콜라이더
-    
-    public static Vector3 TouchWorldPos      => Instance? _touchWorldPos   : default; // 외부에서 접근 시 해당 프로퍼티 사용
-    public static Vector2 Delta              => Instance? _delta           : default; // 외부에서 접근 시 해당 프로퍼티 사용
-    public static Collider2D TouchedCollider => Instance? _touchedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
+
+    public static Vector3 TouchWorldPos => Instance ? _touchWorldPos : default; // 외부에서 접근 시 해당 프로퍼티 사용
+    public static Vector2 Delta => Instance ? _delta : default; // 외부에서 접근 시 해당 프로퍼티 사용
+    public static Collider2D TouchedCollider => Instance ? _touchedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
 
     private void OnEnable()
     {
@@ -36,12 +36,13 @@ public class InputManager : Singleton<InputManager>
         if (_playerInput != null)
         {
             // InputActions 설정
-            _tapAction   = _playerInput.actions["Tap"];
+            //_tapAction = _playerInput.actions["Tap"];
             _touchAction = _playerInput.actions["Touch"];
-            _dragAction  = _playerInput.actions["Drag"];
+            _dragAction = _playerInput.actions["Drag"];
 
-            _tapAction.performed   += tapPerformed;
-            _touchAction.performed += touchPerformed;
+            //_tapAction.performed += tapPerformed;
+            _touchAction.started   += tapPerformed;   // 터치 시작 시 tapPerformed 메서드 호출
+            _touchAction.performed += touchPerformed; // 터치 위치가 바뀔 때마다 touchPerformed 메서드 호출
             _dragAction.performed  += dragPerformed;
         }
     }
@@ -50,7 +51,8 @@ public class InputManager : Singleton<InputManager>
         // InputActions 비활성화
         if (_playerInput != null)
         {
-            _tapAction.performed   -= tapPerformed;
+            //_tapAction.performed -= tapPerformed;
+            _touchAction.started   -= tapPerformed;
             _touchAction.performed -= touchPerformed;
             _dragAction.performed  -= dragPerformed;
         }
@@ -58,17 +60,29 @@ public class InputManager : Singleton<InputManager>
 
     private void tapPerformed(InputAction.CallbackContext context)
     {
+        // 터치 월드 좌표 계산
+        Vector2 screenPos = context.ReadValue<Vector2>();
+        Vector3 screenPos3d = new Vector3(screenPos.x, screenPos.y, Mathf.Abs(Camera.main.transform.position.z));
+        _touchWorldPos = Camera.main.ScreenToWorldPoint(screenPos3d); // z = 0에서의 터치 월드 좌표
+
+        // UI 터치 여부 확인
+        if (IsPointerOverUI(screenPos)) return; // UI를 터치한 경우, 월드 상호작용을 중단
+
         Debug.Log("Tap performed!"); // 탭이 수행되었을 때 로그 출력
 
         // 탭 입력에 대한 스테이지 기믹 수행
         OnStageTapPerformed?.Invoke();
     }
+    
     private void touchPerformed(InputAction.CallbackContext context)
     {
         // 터치 월드 좌표 계산
         Vector2 screenPos = context.ReadValue<Vector2>();
         Vector3 screenPos3d = new Vector3(screenPos.x, screenPos.y, Mathf.Abs(Camera.main.transform.position.z));
         _touchWorldPos = Camera.main.ScreenToWorldPoint(screenPos3d); // z = 0에서의 터치 월드 좌표
+
+        // UI 터치 여부 확인
+        if (IsPointerOverUI(screenPos)) return; // UI를 터치한 경우, 월드 상호작용을 중단
 
         // TEST CODE
         Debug.Log($"Touched WorldPosition: {_touchWorldPos}"); // 터치한 위치의 월드 좌표
@@ -81,7 +95,11 @@ public class InputManager : Singleton<InputManager>
             _touchedCollider = hits.OrderBy(hit => hit.GetComponent<SpriteRenderer>().sortingOrder).Last(); // 가장 위에 있는 콜라이더를 반환
             Debug.Log($"Top object: {_touchedCollider.name}");
         }
-        else Debug.Log("No collider found at touch position.");
+        else
+        {
+            _touchedCollider = null;
+            Debug.Log("No collider found at touch position.");
+        }
 
         // 연속적인 터치(드래그)에 대한 스테이지 기믹 수행
         OnStageTouchPerformed?.Invoke();
@@ -93,19 +111,25 @@ public class InputManager : Singleton<InputManager>
     }
 
 
+    // UI 터치 여부를 확인하는 메서드
+    private bool IsPointerOverUI(Vector2 screenPos)
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current)
+        {
+            position = screenPos // raycast 위치는 현재 터치 위치로 설정
+        };
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        return results.Count > 0; // UI 요소가 감지되면 true 반환
+    }
+
     // Lifecycle methods
     public override void Awake()
     {
         base.Awake();
 
         _playerInput = GetComponent<PlayerInput>();
-    }
-
-    public void Update()
-    {
-        if (EventSystem.current.IsPointerOverGameObject()) // UI 위에 포인터가 있을 경우
-            _playerInput.actions.Disable(); // 모든 입력 액션 비활성화
-        else 
-            _playerInput.actions.Enable(); // 입력 액션 활성화
     }
 }
