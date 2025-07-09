@@ -578,7 +578,6 @@ GameObject:
   - component: {fileID: 1059674628}
   - component: {fileID: 1059674630}
   - component: {fileID: 1059674629}
-  - component: {fileID: 1059674631}
   m_Layer: 5
   m_Name: Counting
   m_TagString: Untagged
@@ -644,18 +643,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1059674627}
   m_CullTransparentMesh: 1
---- !u!114 &1059674631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1059674627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df92cc8e8f50abe459e99564d3e14f1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1155967019
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,7 +869,6 @@ GameObject:
   - component: {fileID: 1332702842}
   - component: {fileID: 1332702844}
   - component: {fileID: 1332702843}
-  - component: {fileID: 1332702845}
   m_Layer: 5
   m_Name: GaugeBar
   m_TagString: Untagged
@@ -948,18 +934,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1332702841}
   m_CullTransparentMesh: 1
---- !u!114 &1332702845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332702841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df92cc8e8f50abe459e99564d3e14f1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1572147266
 GameObject:
   m_ObjectHideFlags: 0
