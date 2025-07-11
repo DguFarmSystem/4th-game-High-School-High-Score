@@ -11,11 +11,20 @@
                     "id": "7b8ad407-8f10-4a0c-a579-bbfc1eb9acba",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Touch",
+                    "name": "Press",
+                    "type": "Button",
+                    "id": "edebfc6e-8156-4de5-920d-d7f144839b26",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "TouchPosition",
                     "type": "Value",
                     "id": "3d7334b6-20c6-4531-8a1c-83856394c043",
                     "expectedControlType": "Vector2",
@@ -37,7 +46,7 @@
                 {
                     "name": "",
                     "id": "7a8d72e2-aae9-413a-8854-b141025a9644",
-                    "path": "<Touchscreen>/Press",
+                    "path": "<Touchscreen>/primaryTouch/tap",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -52,7 +61,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Touch",
+                    "action": "TouchPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -64,6 +73,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Drag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a9522be3-33de-47a9-ad33-3cf9ae70e30f",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Press",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

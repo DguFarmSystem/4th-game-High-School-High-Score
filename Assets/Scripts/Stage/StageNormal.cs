@@ -6,7 +6,7 @@ namespace Stage
 {
     public class StageNormal : MonoBehaviour, IStageBase
     {
-        public Action<bool> OnStageEnded { get; private set; }
+        public Action<bool> OnStageEnded { get; protected set; }
 
         [SerializeField] protected float timerTime = 10.0f;
         protected StageState CurrentStageState = StageState.NotStart;
