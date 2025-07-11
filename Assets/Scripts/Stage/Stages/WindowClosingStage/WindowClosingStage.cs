@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Linq;
 using Stage;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -42,6 +43,7 @@ public class WindowClosingStage : StageNormal
     [SerializeField] public int stageLevel = 0;
     [SerializeField] private GameObject _windowPrefab;
     [SerializeField] private GameObject _bugPrefab;
+    [SerializeField] private GameObject _windowBrokenPrefab;
     [SerializeField] private GameObject _blindPrefab;
     //TEST CODE
     [SerializeField] private GameObject _greenSphere;
@@ -68,6 +70,18 @@ public class WindowClosingStage : StageNormal
                 {
                     // 벌레를 죽임
                     bug.killbug();
+                    Collider2D[] hits = Physics2D.OverlapPointAll(InputManager.TouchWorldPos);
+                    Collider2D windowCol;
+
+                    windowCol = hits
+                        .Where(hit => hit.GetComponent<SpriteRenderer>() != null && !hit.CompareTag("Bug")) // SpriteRenderer가 null이 아닌 경우만 선택
+                        .OrderBy(hit => hit.GetComponent<SpriteRenderer>().sortingOrder) // sortingOrder 기준으로 정렬
+                        .LastOrDefault();
+
+                    GameObject broken = Instantiate(_windowBrokenPrefab, InputManager.TouchWorldPos, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
+                    broken.GetComponent<SpriteRenderer>().sortingOrder = windowCol.GetComponent<SpriteRenderer>().sortingOrder;
+                    broken.transform.SetParent(windowCol.transform, true);
+
                     _bugInStage--;
 
                     if (_bugInStage <= 0)
@@ -237,7 +251,7 @@ public class WindowClosingStage : StageNormal
 
                         if (obj.CompareTag("Window"))
                         {
-                            Vector2 moveVec = Vector2.right * InputManager.Delta.x * 2.7f;
+                            Vector2 moveVec = Vector2.right * InputManager.Delta.x;
 
                             float leftRange = _windowMovingRange.min.x - _windowBounds.min.x;
                             float rightRange = _windowMovingRange.max.x - _windowBounds.max.x;
@@ -262,7 +276,7 @@ public class WindowClosingStage : StageNormal
 
                         if (obj.CompareTag("Handle"))
                         {
-                            Vector2 moveVec = Vector2.up * InputManager.Delta.y * 2.8f;
+                            Vector2 moveVec = Vector2.up * InputManager.Delta.y;
 
                             float upRange = _fixedBlindBounds.max.y - _movingBlindBounds.max.y;
                             float downRange = _fixedBlindBounds.min.y - _movingBlindBounds.max.y;

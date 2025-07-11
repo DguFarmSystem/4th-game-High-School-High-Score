@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Window
   - Handle
+  - Bug
   layers:
   - Default
   - TransparentFX
