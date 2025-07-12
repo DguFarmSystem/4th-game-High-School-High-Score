@@ -6,6 +6,9 @@ public class Bug : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 0.8f; // 벌레 이동 속도
 
+    public static int _bugInStage = 0; // 벌레가 스테이지에 있는 개수
+    public bool IsAlive => currentState != BugState.Dead; // 벌레가 살아있는지 여부
+
     private GameObject _windowPrefab;
     private Vector2 _moveDirection;
     private float _stateTimer;
@@ -52,6 +55,7 @@ public class Bug : MonoBehaviour
                 transform.rotation = Quaternion.identity;
                 _animator.speed = 1f;
                 rb.constraints &= ~RigidbodyConstraints2D.FreezePositionY; // 죽어서 떨어지는 연출을 위해 Rigidbody2D 활성화
+                _bugInStage--; // 벌레가 죽으면 스테이지 내 벌레 개수 감소
                 break;
         }
     }
@@ -110,15 +114,17 @@ public class Bug : MonoBehaviour
     // Lifecyle methods
     void Start()
     {
-        if (_windowPrefab == null) 
+        if (_windowPrefab == null)
         {
             _windowPrefab = GameObject.Find("Window");
             _bugMovingBounds = _windowPrefab.transform.Find("MovingRange").GetComponent<Collider2D>().bounds;
         }
-        
+
         rb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         SetRandomDirection(); // 초기 방향 설정
+        
+        _bugInStage++;
     }
 
     void Update()

@@ -31,7 +31,7 @@ public class WindowClosingStage : StageNormal
 
     private Stack<StageClearCondition> _stageClearConditions = new Stack<StageClearCondition>();
     private int _bugSpawnCount = 0;
-    private int _bugInStage = 0;
+    private int _bugInStage = 0; // 벌레가 스테이지에 있는 개수
 
     private Rigidbody2D _windowRd;
     private Bounds _windowBounds;
@@ -64,28 +64,36 @@ public class WindowClosingStage : StageNormal
 
             case StageClearConditionType.KillBugs:
                 Collider2D touchedCollider = InputManager.TouchedCollider;
-                Bug bug = touchedCollider?.GetComponent<Bug>();
 
-                if (bug != null)
+                if (touchedCollider != null)
                 {
-                    // 벌레를 죽임
-                    bug.killbug();
-                    Collider2D[] hits = Physics2D.OverlapPointAll(InputManager.TouchWorldPos);
-                    Collider2D windowCol;
-
-                    windowCol = hits
-                        .Where(hit => hit.GetComponent<SpriteRenderer>() != null && !hit.CompareTag("Bug") && !hit.CompareTag("Blind")) // SpriteRenderer가 null이 아닌 경우만 선택
-                        .OrderBy(hit => hit.GetComponent<SpriteRenderer>().sortingOrder) // sortingOrder 기준으로 정렬
-                        .LastOrDefault();
-
-                    GameObject broken = Instantiate(_windowBrokenPrefab, InputManager.TouchWorldPos, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
-                    broken.transform.SetParent(windowCol.transform, true);
-
-                    _bugInStage--;
-
-                    if (_bugInStage <= 0)
+                    Bug bug = touchedCollider.gameObject.GetComponent<Bug>();
+                    
+                    if (bug != null && bug.IsAlive)
                     {
-                        _stageClearConditions.Pop(); // 벌레가 모두 죽으면 조건을 제거
+                        // 벌레를 죽임
+                        bug.killbug();
+                        _bugInStage--; // 벌레가 죽으면 스테이지 내 벌레 개수 감소
+                        Debug.Log("Bugs in stage: " + _bugInStage);
+                        Collider2D[] hits = Physics2D.OverlapPointAll(InputManager.TouchWorldPos);
+                        Collider2D windowCol;
+
+                        windowCol = hits
+                            .Where(hit => hit.GetComponent<SpriteRenderer>() != null && !hit.CompareTag("Bug") && !hit.CompareTag("Blind")) // SpriteRenderer가 null이 아닌 경우만 선택
+                            .OrderBy(hit => hit.GetComponent<SpriteRenderer>().sortingOrder) // sortingOrder 기준으로 정렬
+                            .LastOrDefault();
+
+                        GameObject broken = Instantiate(_windowBrokenPrefab, InputManager.TouchWorldPos, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
+
+                        if (broken != null)
+                        {
+                            broken.transform.SetParent(windowCol.transform, true);
+                        }
+
+                        if (_bugInStage <= 0)
+                        {
+                            _stageClearConditions.Pop(); // 벌레가 모두 죽으면 조건을 제거
+                        }
                     }
                 }
                 break;
@@ -95,6 +103,25 @@ public class WindowClosingStage : StageNormal
                 break;
         }
     }
+    
+    private void OnStageEndedGimmik(bool isStageCleared)
+    {
+        InputManager.OnStageTapPerformed -= StageGimmikTap; // 이벤트 구독 해제
+
+        if (isStageCleared)
+        {
+            //TEST CODE
+            Debug.Log("Stage cleared!");
+            _greenSphere.SetActive(true);
+        }
+        else
+        {
+            //TEST CODE
+            Debug.Log("Stage failed!");
+            _redSphere.SetActive(true);
+        }
+    }
+
     private void SpawnMultiPrefabs(GameObject prefab, int SpawnCount, Bounds GeneratingBounds)
     {
         List<Bounds> GeneratedBounds = new List<Bounds>();
@@ -152,6 +179,19 @@ public class WindowClosingStage : StageNormal
 
     }
 
+    public void OnEnable()
+    {
+
+        InputManager.OnStageTapPerformed += StageGimmikTap;
+        OnStageEnded += OnStageEndedGimmik;
+    }
+
+    public void OnDisable()
+    {
+        InputManager.OnStageTapPerformed -= StageGimmikTap;
+        OnStageEnded -= OnStageEndedGimmik;
+    }
+
     void Start()
     {
         for (int i = 0; i < stageLevel; i++)
@@ -202,31 +242,13 @@ public class WindowClosingStage : StageNormal
             }
         }
 
-        InputManager.OnStageTapPerformed += StageGimmikTap;
-        OnStageEnded += isStageCleared =>
-        {
-            InputManager.OnStageTapPerformed -= StageGimmikTap; // 이벤트 구독 해제
-
-            if (isStageCleared)
-            {
-                //TEST CODE
-                Debug.Log("Stage cleared!");
-                _greenSphere.SetActive(true);
-            }
-            else
-            {
-                //TEST CODE
-                Debug.Log("Stage failed!");
-                _redSphere.SetActive(true);
-            }
-        };
-
         // 스테이지 시작
         OnStageStart();
     }
 
     void Update()
     {
+        Debug.Log(_stageClearConditions.Peek().conditionType);
         if (_stageClearConditions.Count == 0 && CurrentStageState == StageState.Playing)
         {
             OnStageClear(); // 모든 조건이 완료되면 스테이지 클리어 처리
@@ -240,9 +262,12 @@ public class WindowClosingStage : StageNormal
             InputManager.IsTouching &&
             _stageClearConditions.Count > 0)
         {
-            GameObject obj = InputManager.SelectedCollider?.gameObject;
-            if (obj != null)
+            Collider2D col = InputManager.SelectedCollider;
+
+            if (col != null)
             {
+                GameObject obj = col.gameObject;
+
                 switch (_stageClearConditions.Peek().conditionType)
                 {
                     case StageClearConditionType.CloseWindow:
