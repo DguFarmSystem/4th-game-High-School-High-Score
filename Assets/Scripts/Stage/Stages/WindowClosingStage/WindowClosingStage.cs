@@ -248,7 +248,6 @@ public class WindowClosingStage : StageNormal
 
     void Update()
     {
-        Debug.Log(_stageClearConditions.Peek().conditionType);
         if (_stageClearConditions.Count == 0 && CurrentStageState == StageState.Playing)
         {
             OnStageClear(); // 모든 조건이 완료되면 스테이지 클리어 처리
