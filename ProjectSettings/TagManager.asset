@@ -45,3 +45,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ActionObj
+    uniqueID: 948801423
+    locked: 0
+  - name: ControlObj
+    uniqueID: 1347502487
+    locked: 0
+  - name: Pointer
+    uniqueID: 867366061
+    locked: 0
