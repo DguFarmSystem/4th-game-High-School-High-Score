@@ -40,7 +40,7 @@ public class WindowClosingStage : StageNormal
     private Bounds _fixedBlindBounds;
     private Bounds _movingBlindBounds;
 
-    [SerializeField] public int stageLevel = 0;
+    [SerializeField] public int stageLevel;
     [SerializeField] private GameObject _windowPrefab;
     [SerializeField] private GameObject _bugPrefab;
     [SerializeField] private GameObject _windowBrokenPrefab;

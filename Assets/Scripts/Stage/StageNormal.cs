@@ -8,7 +8,8 @@ namespace Stage
     {
         public Action<bool> OnStageEnded { get; protected set; }
 
-        [SerializeField] protected float timerTime = 10.0f;
+        [SerializeField] protected float timerTime;// 스테이지 타이머 시간 (초 단위)
+        public float TimerTime => timerTime;
         protected StageState CurrentStageState = StageState.NotStart;
         private Coroutine _timerCoroutine;
         
