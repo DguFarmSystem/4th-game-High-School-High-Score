@@ -258,7 +258,7 @@ public class WindowClosingStage : StageNormal
     void FixedUpdate()
     {
         if (CurrentStageState == StageState.Playing &&
-            InputManager.IsTouching &&
+            InputManager.IsPressing &&
             _stageClearConditions.Count > 0)
         {
             Collider2D col = InputManager.SelectedCollider;
