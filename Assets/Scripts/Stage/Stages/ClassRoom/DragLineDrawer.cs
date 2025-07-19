@@ -11,6 +11,8 @@ public class DragLineDrawer : MonoBehaviour
     private InputManager ipManager;
     private bool isDragging = false;
 
+    //Player.Collider2D.bounds.Contains()
+
     public void OnTouch(InputAction.CallbackContext context)
     {
         switch (context.phase)

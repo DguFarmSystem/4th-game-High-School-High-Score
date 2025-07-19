@@ -8,6 +8,10 @@ TagManager:
   - Handle
   - Bug
   - Blind
+  - MovingRange
+  - Student
+  - LeftSide
+  - RightSide
   layers:
   - Default
   - TransparentFX

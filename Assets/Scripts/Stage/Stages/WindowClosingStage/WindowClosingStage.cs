@@ -79,7 +79,8 @@ public class WindowClosingStage : StageNormal
                         Collider2D windowCol;
 
                         windowCol = hits
-                            .Where(hit => hit.GetComponent<SpriteRenderer>() != null && !hit.CompareTag("Bug") && !hit.CompareTag("Blind")) // SpriteRenderer가 null이 아닌 경우만 선택
+                            .Where(hit => hit.GetComponent<SpriteRenderer>() != null && !hit.CompareTag("Bug")
+                            && !hit.CompareTag("Blind") && !hit.CompareTag("MovingRange")) // SpriteRenderer가 null이 아닌 경우만 선택
                             .OrderBy(hit => hit.GetComponent<SpriteRenderer>().sortingOrder) // sortingOrder 기준으로 정렬
                             .LastOrDefault();
 
