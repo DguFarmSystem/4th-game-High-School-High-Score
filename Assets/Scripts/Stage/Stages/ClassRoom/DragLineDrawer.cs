@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using Stage;
 
 public class DragLineDrawer : MonoBehaviour
 {
@@ -48,6 +49,12 @@ public class DragLineDrawer : MonoBehaviour
     private void UpdateLine(Vector3 newPos)
     {
         if (!_isDragging) return;
+
+        if (_classRoomStage.CurrentState != StageState.Playing)
+        {
+            OnDisable(); // 입력 해제
+            return;
+        }
 
         Collider2D hit = Physics2D.OverlapPoint(newPos, _obstacleLayer);
 

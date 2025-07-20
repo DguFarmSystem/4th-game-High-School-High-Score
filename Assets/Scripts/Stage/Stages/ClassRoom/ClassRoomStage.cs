@@ -14,6 +14,7 @@ public class ClassRoomStage : StageNormal
     public Transform TargetDesk { get; private set; }
 
     public bool stageClearFlag = false;
+    public StageState CurrentState => CurrentStageState;
 
     // TEST CODE
     [SerializeField] private GameObject _greenSphere;
