@@ -171,6 +171,7 @@ public class WindowClosingStage : StageNormal
     protected override void OnStageClear()
     {
         base.OnStageClear();
+        Debug.Log("Stage Clear!");
     }
 
 
@@ -249,7 +250,7 @@ public class WindowClosingStage : StageNormal
 
     void Update()
     {
-        if (_stageClearConditions.Count == 0 && currentStageState == StageState.Playing)
+        if (_stageClearConditions.Count == 0 && CurrentStageState == StageState.Playing)
         {
             OnStageClear(); // 모든 조건이 완료되면 스테이지 클리어 처리
         }
@@ -258,7 +259,7 @@ public class WindowClosingStage : StageNormal
 
     void FixedUpdate()
     {
-        if (currentStageState == StageState.Playing &&
+        if (CurrentStageState == StageState.Playing &&
             InputManager.IsPressing &&
             _stageClearConditions.Count > 0)
         {

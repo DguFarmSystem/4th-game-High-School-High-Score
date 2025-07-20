@@ -5,12 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/BlackBoard.unity
-    guid: c850ee8c3b14cc8459e7e186857cf567
   - enabled: 1
     path: Assets/Scenes/WindowClosingStage.unity
     guid: 2fb67fd00b69a4a4eaa96a1cb437a5e8
+  - enabled: 1
+    path: Assets/Scenes/ClassRoom.unity
+    guid: 59e465b21eaadba4a8d9ee43e83b3754
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 64c8b62c28046554d8e00855712e6738,
       type: 2}

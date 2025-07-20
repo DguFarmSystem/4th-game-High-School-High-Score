@@ -11,10 +11,10 @@ public class DragLineDrawer : MonoBehaviour
     private LineRenderer _currentLine;
     private List<Vector3> _points = new();
 
+    private ClassRoomStage _classRoomStage;
     private InputManager _ipManager;
     private bool _isDragging = false;
 
-    //Player.Collider2D.bounds.Contains()
 
     public void OnTouch(InputAction.CallbackContext context)
     {
@@ -53,6 +53,14 @@ public class DragLineDrawer : MonoBehaviour
 
         if (hit != null)
         {
+            if (hit == _classRoomStage.TargetDesk.GetComponent<Collider2D>())
+            {
+                // 목표 좌석에 닿았을 때 라인 드로잉 중지
+                OnDisable();
+                _classRoomStage.stageClearFlag = true;
+                return;
+            }
+
             // 장애물에 닿았을 때 라인 드로잉 중지
             EndLine();
             return;
@@ -84,6 +92,7 @@ public class DragLineDrawer : MonoBehaviour
     void Awake()
     {
         _ipManager = FindObjectOfType<InputManager>();
+        _classRoomStage = FindObjectOfType<ClassRoomStage>();
     }
 
     void OnEnable()

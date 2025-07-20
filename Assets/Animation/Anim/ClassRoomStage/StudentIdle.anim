@@ -67,10 +67,9 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: 
+    functionName: DisableColliders
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: a5a73460ac2b4c046af8dd5501bd1487,
-      type: 3}
+    objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
