@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3560630063763455000}
   - component: {fileID: 7924599374242539405}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RightCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,7 +211,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a73460ac2b4c046af8dd5501bd1487, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deskObject: {fileID: 8713953991686449803}
   _studentObject: {fileID: 3991132754493877749}
   _leftCollider: {fileID: 3362888016536933269}
   _rightCollider: {fileID: 7924599374242539405}
@@ -225,7 +224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 866529845745877965}
   - component: {fileID: 3362888016536933269}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LeftCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,9 +283,9 @@ GameObject:
   - component: {fileID: 4394747434172097098}
   - component: {fileID: 6487577118361798877}
   - component: {fileID: 5681160524006764203}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Desk
-  m_TagString: Untagged
+  m_TagString: Desk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

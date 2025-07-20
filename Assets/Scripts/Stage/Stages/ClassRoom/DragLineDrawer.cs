@@ -4,12 +4,15 @@ using System.Collections.Generic;
 
 public class DragLineDrawer : MonoBehaviour
 {
-    [SerializeField] private LineRenderer linePrefab;
-    private LineRenderer currentLine;
-    private List<Vector3> points = new();
+    [SerializeField] private LineRenderer _linePrefab;
+    [SerializeField] private Collider2D _playerCollider;
+    [SerializeField] private LayerMask _obstacleLayer;
 
-    private InputManager ipManager;
-    private bool isDragging = false;
+    private LineRenderer _currentLine;
+    private List<Vector3> _points = new();
+
+    private InputManager _ipManager;
+    private bool _isDragging = false;
 
     //Player.Collider2D.bounds.Contains()
 
@@ -33,48 +36,60 @@ public class DragLineDrawer : MonoBehaviour
 
     private void StartLine(Vector3 startPos)
     {
-        currentLine = Instantiate(linePrefab);
-        currentLine.positionCount = 0;
-        points.Clear();
-        isDragging = true;
+        if (!_playerCollider.OverlapPoint(startPos)) return;
+
+        _currentLine = Instantiate(_linePrefab);
+        _currentLine.positionCount = 0;
+        _points.Clear();
+        _isDragging = true;
         AddPoint(startPos);
     }
 
     private void UpdateLine(Vector3 newPos)
     {
-        if (!isDragging) return;
+        if (!_isDragging) return;
 
+        Collider2D hit = Physics2D.OverlapPoint(newPos, _obstacleLayer);
+
+        if (hit != null)
+        {
+            // 장애물에 닿았을 때 라인 드로잉 중지
+            EndLine();
+            return;
+        }
         // 너무 가까운 지점은 무시
-        if (points.Count == 0 || Vector3.Distance(points[^1/*points.Count - 1*/], newPos) > 0.05f)
+        if (_points.Count == 0 || Vector3.Distance(_points[^1/*points.Count - 1*/], newPos) > 0.05f)
         {
             AddPoint(newPos);
         }
     }
 
-    private void AddPoint(Vector3 point)
-    {
-        points.Add(point);
-        currentLine.positionCount = points.Count;
-        currentLine.SetPositions(points.ToArray());
-    }
-
     private void EndLine()
     {
-        isDragging = false;
-        Destroy(currentLine.gameObject);
+        if (!_isDragging) return;
+        
+        _isDragging = false;
+        Destroy(_currentLine.gameObject);
+    }
+
+    private void AddPoint(Vector3 point)
+    {
+        _points.Add(point);
+        _currentLine.positionCount = _points.Count;
+        _currentLine.SetPositions(_points.ToArray());
     }
 
     //============= Lifecycle methods =============//
 
     void Awake()
     {
-        ipManager = FindObjectOfType<InputManager>();
+        _ipManager = FindObjectOfType<InputManager>();
     }
 
     void OnEnable()
     {
         
-        if (ipManager != null)
+        if (_ipManager != null)
         {
             Debug.Log("InputManager found, enabling touch input.");
             InputManager._pressAction.started += OnTouch;
@@ -85,7 +100,7 @@ public class DragLineDrawer : MonoBehaviour
 
     void OnDisable()
     {
-        if (ipManager != null)
+        if (_ipManager != null)
         {
             InputManager._pressAction.started -= OnTouch;
             InputManager._positionAction.performed -= OnTouch;

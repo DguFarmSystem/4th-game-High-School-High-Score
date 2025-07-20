@@ -10,10 +10,14 @@ public class Seat : MonoBehaviour
     [SerializeField] private Collider2D _rightCollider; // 오른쪽 콜라이더
     public bool IsOccupied { get; private set; } = false; // 좌석이 점유되었는지 여부
 
+    private static bool _isAllSeatOccupied = false; // 모든 좌석이 점유되었는지 여부
+    // 모든 좌석이 점유된 경우 목적지가 없어 스테이지 자체가 오류 발생
+    // 그러나 그 확률이 극히 낮아 따로 장치는 하지 않았음
+
     private enum StudentState { Idle, Tackling }
     private StudentState _currentState = StudentState.Idle;
     private float _stateTimer = 0f;
-    public static float TacklingTime = 0f; // 태클 지속 시간
+    private float _tacklingTime = 0f; // 태클 지속 시간
 
     private Animator _animator;
     
@@ -29,25 +33,11 @@ public class Seat : MonoBehaviour
                 _stateTimer = (float)(rng.NextDouble() * (2f - 0.5f) + 0.5f); // 대기 시간 초기화
                 _animator.SetBool("IsTackling", false);
 
-                _leftCollider.enabled = false; // 왼쪽 콜라이더 활성화
-                _rightCollider.enabled = false; // 오른쪽 콜라이더 비활성화
-
                 break;
 
             case StudentState.Tackling:
-                _stateTimer = TacklingTime;
+                _stateTimer = _tacklingTime;
                 _animator.SetBool("IsTackling", true);
-
-                if (_animator.GetBool("IsLeftSide"))
-                {
-                    _leftCollider.enabled = true; // 왼쪽 콜라이더 활성화
-                    _rightCollider.enabled = false; // 오른쪽 콜라이더 비활성화
-                }
-                else
-                {
-                    _leftCollider.enabled = false; // 왼쪽 콜라이더 비활성화
-                    _rightCollider.enabled = true; // 오른쪽 콜라이더 활성화
-                }
 
                 break;
         }
@@ -71,18 +61,75 @@ public class Seat : MonoBehaviour
         }
     }
 
+    // =========== Animation Event =========== //
+    public void EnableLeftCollider()
+    {
+        _leftCollider.enabled = true;
+    }
+
+    public void EnableRightCollider()
+    {
+        _rightCollider.enabled = true;
+    }
+
+    public void DisableColliders()
+    {
+        _leftCollider.enabled = false;
+        _rightCollider.enabled = false;
+    }
+
     // ============ Lifecycle methods ============ //
     void Awake()
     {
-        bool flag = (0 == UnityEngine.Random.Range(0, 2));
+        ClassRoomStage stage = FindObjectOfType<ClassRoomStage>();
 
-        if (flag)
+        if (stage)
         {
-            _studentObject.SetActive(true);
-            IsOccupied = true;
+            int stageLevel = stage.stageLevel;
+            bool flag = (UnityEngine.Random.Range(0, 2) == 0); // 무작위로 true 또는 false 설정
+
+            switch (stageLevel)
+            {
+                case 1:
+
+                    break;
+
+                case 2:
+                    if (flag)
+                    {
+                        _studentObject.SetActive(true);
+                        IsOccupied = true;
+                        _tacklingTime = 1.0f;
+                    }
+
+                    break;
+
+                case 3:
+                    if (flag)
+                    {
+                        _studentObject.SetActive(true);
+                        IsOccupied = true;
+                        _tacklingTime = 2.0f;
+                    }
+
+                    break;
+
+                default:
+                    Debug.LogWarning("Unknown stage level: " + stageLevel);
+
+                    break;
+            }
+
             rng = new System.Random(Guid.NewGuid().GetHashCode());
         }
-        
+
+        // 모든 좌석이 점유된 경우의 장치, 현재 작동X
+        if (_isAllSeatOccupied)
+        {
+            _studentObject.SetActive(false);
+            IsOccupied = false;
+            _tacklingTime = 0f;
+        } 
     }
     void Start()
     {

@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerTime: 5
+  stageLevel: 3
 --- !u!4 &27430288
 Transform:
   m_ObjectHideFlags: 0
@@ -205,7 +206,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33938700}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1090317, y: 1.0907278, z: -0.66858506}
+  m_LocalPosition: {x: 1.1090317, y: 1.0907278, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -222,7 +223,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (4)
+      value: Seat (4)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -297,7 +298,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (1)
+      value: Seat (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -407,7 +408,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (2)
+      value: Seat (2)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -482,7 +483,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (6)
+      value: Seat (6)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -672,7 +673,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (3)
+      value: Seat (3)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -1035,7 +1036,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (5)
+      value: Seat (5)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -1110,7 +1111,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (5)
+      value: Seat (5)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -1336,7 +1337,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk
+      value: Seat
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -1500,7 +1501,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (2)
+      value: Seat (2)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -1669,8 +1670,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5e1ddd0d07415e4c9dd360422e2d92c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  linePrefab: {fileID: 1406647790698288912, guid: 5a3906838ff3a90499912d52582090e3,
+  _linePrefab: {fileID: 1406647790698288912, guid: 5a3906838ff3a90499912d52582090e3,
     type: 3}
+  _playerCollider: {fileID: 1861488885}
+  _obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!4 &829165233
 Transform:
   m_ObjectHideFlags: 0
@@ -1696,7 +1701,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (5)
+      value: Seat (5)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -2037,7 +2042,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk
+      value: Seat
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -2217,7 +2222,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (7)
+      value: Seat (7)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -2498,7 +2503,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (6)
+      value: Seat (6)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -2573,7 +2578,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (4)
+      value: Seat (4)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -2648,7 +2653,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (7)
+      value: Seat (7)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -2723,7 +2728,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (2)
+      value: Seat (2)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -2798,7 +2803,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (7)
+      value: Seat (7)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -2887,8 +2892,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1489016684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.1, y: 3.7, z: 90}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -1.935, y: 1.226, z: 0}
+  m_LocalScale: {x: 0.09, y: 0.09, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 459318412}
@@ -3084,7 +3089,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk
+      value: Seat
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -3302,8 +3307,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1861488882}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 88.8, y: 35.34, z: 90}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_LocalPosition: {x: 7.595, y: 3.987, z: 0}
+  m_LocalScale: {x: 0.23, y: 0.23, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3322,7 +3327,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.19641554, y: 0.6194482}
+  m_Offset: {x: 0.21232772, y: 1.0090005}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.4759847, y: 0.06292028}
@@ -3333,7 +3338,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.2058165, y: 2.5300207}
+  m_Size: {x: 3.8208275, y: 3.3091254}
   m_EdgeRadius: 0
 --- !u!1 &1873524429
 GameObject:
@@ -3422,7 +3427,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -3464,7 +3469,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (3)
+      value: Seat (3)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -3574,7 +3579,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (1)
+      value: Seat (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -3759,7 +3764,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (1)
+      value: Seat (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -3834,7 +3839,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (4)
+      value: Seat (4)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -4003,7 +4008,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (6)
+      value: Seat (6)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
@@ -4078,7 +4083,7 @@ PrefabInstance:
     - target: {fileID: 4026963274702348308, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}
       propertyPath: m_Name
-      value: Desk (3)
+      value: Seat (3)
       objectReference: {fileID: 0}
     - target: {fileID: 4026963274702348309, guid: 2cf9b96ed5413ef468ed71513de89573,
         type: 3}

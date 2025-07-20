@@ -249,7 +249,7 @@ public class WindowClosingStage : StageNormal
 
     void Update()
     {
-        if (_stageClearConditions.Count == 0 && CurrentStageState == StageState.Playing)
+        if (_stageClearConditions.Count == 0 && currentStageState == StageState.Playing)
         {
             OnStageClear(); // 모든 조건이 완료되면 스테이지 클리어 처리
         }
@@ -258,7 +258,7 @@ public class WindowClosingStage : StageNormal
 
     void FixedUpdate()
     {
-        if (CurrentStageState == StageState.Playing &&
+        if (currentStageState == StageState.Playing &&
             InputManager.IsPressing &&
             _stageClearConditions.Count > 0)
         {
