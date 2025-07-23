@@ -349,7 +349,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -985,7 +985,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8d967432b14ad8f4e87745a14fc49b4e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5533c92962140af4583e1c02d7584f58, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
