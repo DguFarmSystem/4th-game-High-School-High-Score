@@ -51,7 +51,7 @@ public class Bug : MonoBehaviour
                 SetRandomDirection(); // 새로운 방향 설정
                 break;
             case BugState.Dead:
-                _animator.SetTrigger("isDead"); // 죽은 애니메이션 설정
+                _animator.SetBool("isDead", true); // 죽은 애니메이션 설정
                 transform.rotation = Quaternion.identity;
                 _animator.speed = 1f;
                 rb.constraints &= ~RigidbodyConstraints2D.FreezePositionY; // 죽어서 떨어지는 연출을 위해 Rigidbody2D 활성화

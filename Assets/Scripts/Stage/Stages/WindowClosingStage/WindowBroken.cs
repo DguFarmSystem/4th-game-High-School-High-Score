@@ -26,7 +26,7 @@ public class WindowBroken : MonoBehaviour
         
         sr.SetPropertyBlock(mpb);
 
-        GetComponent<SpriteRenderer>().sortingOrder = parentCollider.GetComponent<SpriteRenderer>().sortingOrder;
+        GetComponent<SpriteRenderer>().sortingOrder = parentCollider.GetComponent<SpriteRenderer>().sortingOrder + 1;
     }
 
     void Update()

@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Stage;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Gauge_Timer : MonoBehaviour
 {
-    public Image gaugeImage;   // °ÔÀÌÁö ÀÌ¹ÌÁö (fillAmount¸¦ ÁÙÀÓ)
-    public float duration = 10f; // Á¦ÇÑ ½Ã°£ (ÃÊ)
+    public Image gaugeImage;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ (fillAmountï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    public float duration; // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ (ï¿½ï¿½)
 
-    private float timeLeft;    // ³²Àº ½Ã°£
+    private float timeLeft;    // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
     private bool isRunning = false;
     // Start is called before the first frame update
     void Start()
     {
+        StageNormal manager = FindObjectOfType<StageNormal>();
+        duration = manager.TimerTime;
         timeLeft = duration;
         gaugeImage.fillAmount = 1f;
         isRunning = true;
@@ -24,27 +27,27 @@ public class Gauge_Timer : MonoBehaviour
     {
         if(isRunning)
         {
-            timeLeft -= Time.deltaTime; // ÇÁ·¹ÀÓ¸¶´Ù ½Ã°£ °¨¼Ò
+            timeLeft -= Time.deltaTime; // ï¿½ï¿½ï¿½ï¿½ï¿½Ó¸ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
             Debug.Log("gauge decreased");
-            // ³²Àº ½Ã°£ ºñÀ² °è»ê
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             //float ratio = Mathf.Clamp01(timeLeft / duration);
-            float ratio = Mathf.Ceil(timeLeft / duration * 10f) / 10f;
+            float ratio = timeLeft / duration;
             gaugeImage.fillAmount = ratio;
 
-            // ½Ã°£ÀÌ ´Ù µÇ¸é ¸ØÃã
+            // ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (timeLeft <= 0f)
             {
                 isRunning = false;
-                gaugeImage.fillAmount = 0f; // °ÔÀÌÁö ¿ÏÀüÈ÷ ºñ¿ò
-                OnTimerEnd();               // Å¸ÀÌ¸Ó Á¾·á ½Ã Ã³¸®
+                gaugeImage.fillAmount = 0f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+                OnTimerEnd();               // Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã³ï¿½ï¿½
             }
         }
     }
 
-    // Å¸ÀÌ¸Ó Á¾·á ½Ã È£ÃâµÇ´Â ÇÔ¼ö
+    // Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½Ç´ï¿½ ï¿½Ô¼ï¿½
     void OnTimerEnd()
     {
         Debug.Log("Timer End");
-        // ¿©±â¿¡ Ãß°¡ µ¿ÀÛ (¿¹: °ÔÀÓ ¿À¹ö, ´ÙÀ½ ´Ü°è µî) ³Ö±â
+        // ï¿½ï¿½ï¿½â¿¡ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Ü°ï¿½ ï¿½ï¿½) ï¿½Ö±ï¿½
     }
 }

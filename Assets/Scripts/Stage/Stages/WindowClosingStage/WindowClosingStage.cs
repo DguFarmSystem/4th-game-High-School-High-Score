@@ -40,7 +40,7 @@ public class WindowClosingStage : StageNormal
     private Bounds _fixedBlindBounds;
     private Bounds _movingBlindBounds;
 
-    [SerializeField] public int stageLevel = 0;
+    [SerializeField] public int stageLevel;
     [SerializeField] private GameObject _windowPrefab;
     [SerializeField] private GameObject _bugPrefab;
     [SerializeField] private GameObject _windowBrokenPrefab;
@@ -79,7 +79,8 @@ public class WindowClosingStage : StageNormal
                         Collider2D windowCol;
 
                         windowCol = hits
-                            .Where(hit => hit.GetComponent<SpriteRenderer>() != null && !hit.CompareTag("Bug") && !hit.CompareTag("Blind")) // SpriteRenderer가 null이 아닌 경우만 선택
+                            .Where(hit => hit.GetComponent<SpriteRenderer>() != null && !hit.CompareTag("Bug")
+                            && !hit.CompareTag("Blind") && !hit.CompareTag("MovingRange")) // SpriteRenderer가 null이 아닌 경우만 선택
                             .OrderBy(hit => hit.GetComponent<SpriteRenderer>().sortingOrder) // sortingOrder 기준으로 정렬
                             .LastOrDefault();
 
@@ -170,6 +171,7 @@ public class WindowClosingStage : StageNormal
     protected override void OnStageClear()
     {
         base.OnStageClear();
+        Debug.Log("Stage Clear!");
     }
 
 
@@ -258,7 +260,7 @@ public class WindowClosingStage : StageNormal
     void FixedUpdate()
     {
         if (CurrentStageState == StageState.Playing &&
-            InputManager.IsTouching &&
+            InputManager.IsPressing &&
             _stageClearConditions.Count > 0)
         {
             Collider2D col = InputManager.SelectedCollider;

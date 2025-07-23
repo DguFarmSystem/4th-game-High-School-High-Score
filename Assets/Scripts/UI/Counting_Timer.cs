@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Stage;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,13 +8,15 @@ public class Counting_Timer : MonoBehaviour
 {
     public Image numberImage;
     public Sprite[] numberSprites;
-    public float duration = 10f;
+    public float duration;
 
     private float timeLeft;
     private bool isRunning = false;
     // Start is called before the first frame update
     void Start()
     {
+        StageNormal manager = FindObjectOfType<StageNormal>();
+        duration = manager.TimerTime;
         timeLeft = duration;
         isRunning = true;
     }
@@ -25,12 +28,12 @@ public class Counting_Timer : MonoBehaviour
         {
             timeLeft -= Time.deltaTime;
 
-            // ³²Àº ½Ã°£¿¡ µû¶ó Ç¥½ÃÇÒ ¼ýÀÚ °è»ê
-            int currentNumber = Mathf.CeilToInt(timeLeft); // 2ÃÊ¸¶´Ù ¼ýÀÚ ¹Ù²Þ
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+            int currentNumber = Mathf.CeilToInt(timeLeft); // 2ï¿½Ê¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½
 
             if (currentNumber >= 1 && currentNumber <= 5)
             {
-                // numberSprites[0] = 1, [1] = 2 ... ÀÌ¶ó°í °¡Á¤
+                // numberSprites[0] = 1, [1] = 2 ... ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 numberImage.sprite = numberSprites[currentNumber - 1];
             }
 

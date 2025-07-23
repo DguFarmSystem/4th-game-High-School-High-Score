@@ -98,7 +98,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.06433487, y: 0.118766546}
+  m_Offset: {x: -0.021941185, y: 0.09316349}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -109,7 +109,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 22.984612, y: 15.496948}
+  m_Size: {x: 20.891363, y: 13.469418}
   m_EdgeRadius: 0
 --- !u!1 &8857897181355217066
 GameObject:
@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 8857897181366824580}
   m_Layer: 0
   m_Name: MovingRange
-  m_TagString: Untagged
+  m_TagString: MovingRange
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -190,7 +190,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 3.895811, y: -1.287991}
+  m_Offset: {x: 3.9224563, y: -1.1047475}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -201,7 +201,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 14.9686985, y: 5.508544}
+  m_Size: {x: 13.65227, y: 5.142059}
   m_EdgeRadius: 0
 --- !u!1 &8857897181968541875
 GameObject:
@@ -277,7 +277,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 2a5b2d503e85a754b8088ee6228005a6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -302,7 +302,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 5.2625937, y: 0.12947083}
+  m_Offset: {x: 5.2261, y: 0.11585498}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -313,7 +313,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 11.250268, y: 14.584623}
+  m_Size: {x: 10.282488, y: 13.612736}
   m_EdgeRadius: 0
 --- !u!50 &1975438457
 Rigidbody2D:
