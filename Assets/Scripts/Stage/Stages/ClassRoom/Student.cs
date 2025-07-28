@@ -13,7 +13,7 @@ public class Student : MonoBehaviour
     private enum StudentState { Idle, Tackling }
     private StudentState _currentState = StudentState.Idle;
     private float _stateTimer = 0f;
-    public float tacklingTime = 0f; // 태클 지속 시간
+    private float _tacklingTime = 2f; // 태클 지속 시간
 
     private System.Random rng;
 
@@ -30,7 +30,7 @@ public class Student : MonoBehaviour
                 break;
 
             case StudentState.Tackling:
-                _stateTimer = tacklingTime;
+                _stateTimer = _tacklingTime;
                 _animator.SetBool("IsTackling", true);
 
                 break;

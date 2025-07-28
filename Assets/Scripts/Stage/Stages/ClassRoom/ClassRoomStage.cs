@@ -9,8 +9,8 @@ public class ClassRoomStage : StageNormal
 {
     [SerializeField] public int stageLevel;
     
-    private Seat[] _allSeats;
-    private Seat[] _noneOccupiedSeats;
+    private Student[] _allSeats;
+    private Student[] _noneOccupiedSeats;
     public Transform TargetDesk { get; private set; }
 
     public bool stageClearFlag = false;
@@ -64,11 +64,11 @@ public class ClassRoomStage : StageNormal
 
     void Start()
     {
-        _allSeats = FindObjectsOfType<Seat>();
-        _noneOccupiedSeats = _allSeats.Where(seat => !seat.IsOccupied).ToArray();
-        Seat TargetSeat = _noneOccupiedSeats[Random.Range(0, _noneOccupiedSeats.Length)];
+        _allSeats = FindObjectsOfType<Student>(true);
+        _noneOccupiedSeats = _allSeats.Where(seat => !seat.gameObject.activeSelf).ToArray();
+        Student TargetSeat = _noneOccupiedSeats[Random.Range(0, _noneOccupiedSeats.Length)];
 
-        foreach (Transform child in TargetSeat.transform)
+        foreach (Transform child in TargetSeat.transform.parent)
         {
             if (child.CompareTag("Desk"))
             {
