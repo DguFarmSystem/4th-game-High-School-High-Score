@@ -32,7 +32,7 @@ public class StudentAllocater : MonoBehaviour
     // ============ Lifecycle methods ============ //
     void Awake()
     {
-        ClassRoomStage stage = FindObjectOfType<ClassRoomStage>();
+        FindSeatStage stage = FindObjectOfType<FindSeatStage>();
 
         if (stage)
         {

@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/WindowClosingStage.unity
     guid: 2fb67fd00b69a4a4eaa96a1cb437a5e8
   - enabled: 1
-    path: Assets/Scenes/ClassRoom.unity
+    path: Assets/Scenes/FindSeatStage.unity
     guid: 59e465b21eaadba4a8d9ee43e83b3754
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 64c8b62c28046554d8e00855712e6738,

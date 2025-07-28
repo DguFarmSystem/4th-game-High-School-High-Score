@@ -12,7 +12,7 @@ public class DragLineDrawer : MonoBehaviour
     private LineRenderer _currentLine;
     private List<Vector3> _points = new();
 
-    private ClassRoomStage _classRoomStage;
+    private FindSeatStage _classRoomStage;
     private InputManager _ipManager;
     private bool _isDragging = false;
 
@@ -99,7 +99,7 @@ public class DragLineDrawer : MonoBehaviour
     void Awake()
     {
         _ipManager = FindObjectOfType<InputManager>();
-        _classRoomStage = FindObjectOfType<ClassRoomStage>();
+        _classRoomStage = FindObjectOfType<FindSeatStage>();
     }
 
     void OnEnable()

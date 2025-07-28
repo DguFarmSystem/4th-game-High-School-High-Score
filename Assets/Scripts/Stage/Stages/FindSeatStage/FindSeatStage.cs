@@ -5,7 +5,7 @@ using Stage;
 using System.Linq;
 using UnityEditor.Rendering;
 
-public class ClassRoomStage : StageNormal
+public class FindSeatStage : StageNormal
 {
     [SerializeField] public int stageLevel;
     

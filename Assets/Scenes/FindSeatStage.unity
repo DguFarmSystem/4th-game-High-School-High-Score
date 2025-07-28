@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 27430288}
   - component: {fileID: 27430287}
   m_Layer: 0
-  m_Name: ClassRoomStage
+  m_Name: FindSeatStage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
