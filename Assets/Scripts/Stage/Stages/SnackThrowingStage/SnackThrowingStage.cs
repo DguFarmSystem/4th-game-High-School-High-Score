@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Stage;
-using System.Linq;
-using UnityEditor.Rendering;
 
 public class SnackThrowingStage : StageNormal
 {
     [SerializeField] public int stageLevel;
 
-    // public StageState CurrentState => CurrentStageState;
+    public StageState CurrentState => CurrentStageState;
 
     // TEST CODE
     [SerializeField] private GameObject _greenSphere;
@@ -47,6 +44,7 @@ public class SnackThrowingStage : StageNormal
     }
 
     // ============ Lifecycle methods ============ //
+    
     public void OnEnable()
     {
         OnStageEnded += OnStageEndedGimmik;
@@ -59,11 +57,9 @@ public class SnackThrowingStage : StageNormal
 
     void Start()
     {
-
         // 스테이지 시작
         OnStageStart();
     }
-
 
     void Update()
     {

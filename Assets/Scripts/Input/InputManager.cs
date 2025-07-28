@@ -36,7 +36,7 @@ public class InputManager : Singleton<InputManager>
     public static Vector2 Delta => Instance ? _worldDelta : default; // 외부에서 접근 시 해당 프로퍼티 사용
     public static Collider2D TappedCollider => Instance ? _tappedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
     public static Collider2D TouchedCollider => Instance ? _touchedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
-    public static Collider2D SelectedCollider => Instance ? _pressedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
+    public static Collider2D PressedCollider => Instance ? _pressedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
 
     private void OnEnable()
     {
@@ -84,7 +84,7 @@ public class InputManager : Singleton<InputManager>
         //Vector2 pos = Touchscreen.current.primaryTouch.position.ReadValue();
         OnStageTapPerformed?.Invoke(); // 탭이 발생했을 때 이벤트 호출
     }
-    
+
     private void pressPerformed(InputAction.CallbackContext context)
     {
         _isPressing = true; // 터치 상태를 true로 설정

@@ -10,10 +10,6 @@ public class StudentAllocater : MonoBehaviour
     [SerializeField] private GameObject _columnTwo;
     [SerializeField] private GameObject _columnThree;
 
-    // private static bool _isAllSeatOccupied = false; // 모든 좌석이 점유되었는지 여부
-    // 모든 좌석이 점유된 경우 목적지가 없어 스테이지 자체가 오류 발생
-    // 그러나 그 확률이 극히 낮아 따로 장치는 하지 않았음
-
     void ActivateStudents(Student[] students, int amount = 1)
     {
         for (int i = 0; i < amount; i++)
@@ -38,8 +34,8 @@ public class StudentAllocater : MonoBehaviour
         {
             int stageLevel = stage.stageLevel;
 
-            Student[] studentsOne = _columnOne.GetComponentsInChildren<Student>(true); // true로 설정하여 비활성화된 오브젝트도 포함
-            Student[] studentsTwo = _columnTwo.GetComponentsInChildren<Student>(true);
+            Student[] studentsOne   = _columnOne.GetComponentsInChildren<Student>(true); // true로 설정하여 비활성화된 오브젝트도 포함
+            Student[] studentsTwo   = _columnTwo.GetComponentsInChildren<Student>(true);
             Student[] studentsThree = _columnThree.GetComponentsInChildren<Student>(true);
 
             switch (stageLevel)

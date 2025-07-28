@@ -102,7 +102,7 @@ public class DragLineDrawer : MonoBehaviour
         _classRoomStage = FindObjectOfType<FindSeatStage>();
     }
 
-    void OnEnable()
+    void Start()
     {
         
         if (_ipManager != null)
