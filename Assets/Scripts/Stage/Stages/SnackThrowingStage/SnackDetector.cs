@@ -4,27 +4,105 @@ using UnityEngine;
 
 public class SnackDetector : MonoBehaviour
 {
+    private SnackThrowingStage _stage;
+
+    private enum State { Waiting, Caught }
+    private State _currentState = State.Waiting;
+
+    private float _pressedTime = 0f;
+    private bool _isPressing = false;
+
+    public float PressedTime => _pressedTime;
+    public Vector2 Distance = Vector2.zero;
+
     public void Ready2Catch()
     {
-        
-        Debug.Log("Ready to catch the snack!");
+        _isPressing = true;
     }
 
     public void Try2Catch()
     {
-        
-        Debug.Log("Trying to catch the snack!");
+        _isPressing = false;
     }
 
-    // Start is called before the first frame update
+    private void TransitionToState(State newState)
+    {
+        _currentState = newState;
+
+        switch (newState)
+        {
+            case State.Waiting:
+
+                break;
+
+            case State.Caught:
+                if (_stage)
+                {
+                    _stage.StudentGotSnack();
+                    gameObject.SetActive(false);
+                }
+
+                break;
+        }
+    }
+
+    private void HandleWaitingState()
+    {
+        if (_isPressing)
+        {
+            if (_pressedTime + Time.deltaTime > 3f) _pressedTime = 3f;
+            else _pressedTime += Time.deltaTime;
+            Debug.Log($"Pressed Time: {_pressedTime}");
+        }
+        else
+        {
+            if (_pressedTime > Mathf.Max(Mathf.Abs(Distance.x), Mathf.Abs(Distance.y)))
+            {
+                /* if (선생님이 뒤돌아 보고 있는 상태라면)
+                {
+                    ex) 체력이 깎임
+                }
+                else */TransitionToState(State.Caught);
+            }
+
+            if (!Mathf.Approximately(_pressedTime, 0f)) _pressedTime = 0f;
+        }
+    }
+
+    private void HandleCaughtState()
+    {
+        Debug.Log("Snack is caught, processing...");
+    }
+
+    // ============ Lifecycle methods ============ //
+
+    void Awake()
+    {
+        _stage = FindObjectOfType<SnackThrowingStage>();
+        if (!_stage)
+        {
+            Debug.LogError("SnackThrowingStage not found in the scene.");
+        }
+    }
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        switch (_currentState)
+        {
+            case State.Waiting:
+                HandleWaitingState();
+
+                break;
+
+            case State.Caught:
+                HandleCaughtState();
+
+                break;
+        }
     }
 }

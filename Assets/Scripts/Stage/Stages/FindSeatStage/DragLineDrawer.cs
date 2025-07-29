@@ -52,7 +52,6 @@ public class DragLineDrawer : MonoBehaviour
 
         if (_classRoomStage.CurrentState != StageState.Playing)
         {
-            OnDisable(); // 입력 해제
             return;
         }
 
@@ -63,7 +62,6 @@ public class DragLineDrawer : MonoBehaviour
             if (hit == _classRoomStage.TargetDesk.GetComponent<Collider2D>())
             {
                 // 목표 좌석에 닿았을 때 라인 드로잉 중지
-                OnDisable();
                 _classRoomStage.stageClearFlag = true;
                 return;
             }
@@ -82,7 +80,7 @@ public class DragLineDrawer : MonoBehaviour
     private void EndLine()
     {
         if (!_isDragging) return;
-        
+
         _isDragging = false;
         Destroy(_currentLine.gameObject);
     }
@@ -104,7 +102,7 @@ public class DragLineDrawer : MonoBehaviour
 
     void Start()
     {
-        
+
         if (_ipManager != null)
         {
             Debug.Log("InputManager found, enabling touch input.");
@@ -121,6 +119,15 @@ public class DragLineDrawer : MonoBehaviour
             InputManager._pressAction.started -= OnTouch;
             InputManager._positionAction.performed -= OnTouch;
             InputManager._pressAction.canceled -= OnTouch;
+        }
+    }
+    
+    void Update()
+    {
+        if (_classRoomStage && (_classRoomStage.CurrentState == StageState.Clear
+                             || _classRoomStage.CurrentState == StageState.Over))
+        {
+            gameObject.SetActive(false);
         }
     }
 }

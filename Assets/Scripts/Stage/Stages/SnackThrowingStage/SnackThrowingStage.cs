@@ -6,11 +6,29 @@ public class SnackThrowingStage : StageNormal
 {
     [SerializeField] public int stageLevel;
 
+    private int _numberOfStudents = 0;
+
     public StageState CurrentState => CurrentStageState;
 
     // TEST CODE
     [SerializeField] private GameObject _greenSphere;
     [SerializeField] private GameObject _redSphere;
+
+    public void StudentGotSnack()
+    {
+        _numberOfStudents--;
+        Debug.Log($"Students remaining: {_numberOfStudents}");
+
+        if (_numberOfStudents <= 0)
+        {
+            SetStageClear();
+        }
+    }
+
+    public void SetStageClear()
+    {
+        OnStageClear();
+    }
 
     public override void OnStageStart()
     {
@@ -57,6 +75,8 @@ public class SnackThrowingStage : StageNormal
 
     void Start()
     {
+        _numberOfStudents = FindObjectsOfType<SnackDetector>().Length;
+
         // 스테이지 시작
         OnStageStart();
     }
