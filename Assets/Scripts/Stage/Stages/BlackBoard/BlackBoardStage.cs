@@ -1,40 +1,75 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stage;
 
 /*
- * ½ºÅ×ÀÌÁö ¼³°è
- * º¯¼ö ¼±¾ğ : ½ºÅ×ÀÌÁö º¯¼ö, ½ºÅ×ÀÌÁö Áö¼Ó ½Ã°£ È®ÀÎ º¯¼ö
- * ½ºÅ×ÀÌÁö ½ÃÀÛ : Áö¿ö¾ßÇÒ °ÔÀÓ¿ÀºêÁ§Æ®¿¡ ½ºÅ×ÀÌÁö¿¡ ¸Â´Â ÀÌ¹ÌÁö ºÎ¿©
- * ½ºÅ×ÀÌÁö µµÁß : Áö¿ö¾ßÇÒ °ÔÀÓ¿ÀºêÁ§Æ®°¡ ¾ó¸¶³ª Áö¿öÁ³´ÂÁö È®ÀÎ
+ * ìŠ¤í…Œì´ì§€ ì„¤ê³„
+ * ë³€ìˆ˜ ì„ ì–¸ : ìŠ¤í…Œì´ì§€ ë³€ìˆ˜, ìŠ¤í…Œì´ì§€ ì§€ì† ì‹œê°„ í™•ì¸ ë³€ìˆ˜
+ * ìŠ¤í…Œì´ì§€ ì‹œì‘ : ì§€ì›Œì•¼í•  ê²Œì„ì˜¤ë¸Œì íŠ¸ì— ìŠ¤í…Œì´ì§€ì— ë§ëŠ” ì´ë¯¸ì§€ ë¶€ì—¬
+ * ìŠ¤í…Œì´ì§€ ë„ì¤‘ : ì§€ì›Œì•¼í•  ê²Œì„ì˜¤ë¸Œì íŠ¸ê°€ ì–¼ë§ˆë‚˜ ì§€ì›Œì¡ŒëŠ”ì§€ í™•ì¸
  */
 public class BlackBoardStage : StageNormal
 {
-    //ÇöÀç ½ºÅ×ÀÌÁö ·¹º§
-    [SerializeField] private int currentLevel = 0;
-    //½ºÅ×ÀÌÁö Á¦ÇÑ ½Ã°£
-    [SerializeField] private int timeLimit = 0;
-    //gameobjects
-    //ÅÍÄ¡ ½Ã ³ªÅ¸³¯ Áö¿ì°³ ¿ÀºêÁ§Æ®
+    [Header("ìŠ¤í…Œì´ì§€ ì˜¤ë¸Œì íŠ¸")]
     [SerializeField] private GameObject BoardEraser;
-    //Áö¿ö¾ßÇÒ ½ºÇÁ¶óÀÌÆ® °ÔÀÓ¿ÀºêÁ§Æ®
-    //[SerializeField] private GameObject Eraserable;
-    //Test Object
+    [SerializeField] private EraseTexture eraseTarget; //ì§€ì›Œì§ˆ ì˜¤ë¸Œì íŠ¸ ì—°ê²°
+
     public GameObject TestSphere;
-    //inputManager °´Ã¼ ÁöÁ¤À» ÅëÇØ ÁÂÇ¥ È¹µæ
-    [SerializeField] private InputManager IManager;
-    // Start is called before the first frame update
+
+    private bool isCleared = false; //ì¤‘ë³µ ë°©ì§€ìš©
+
+    public override void OnStageStart()
+    {
+        base.OnStageStart();
+        isCleared = false;
+    }
+
+    protected override void OnStageEnd()
+    {
+        base.OnStageEnd();
+    }
+
+    protected override void OnStageClear()
+    {
+        base.OnStageClear();
+    }
+
+    private void StageDistinction(bool cleared)
+    {
+        if (cleared)
+        {
+            Debug.Log("Stage Cleared.");
+        }
+        else
+        {
+            Debug.Log("Stage Failed.");
+        }
+    }
+
+    private void OnEnable()
+    {
+        OnStageEnded += StageDistinction;
+    }
+
+    private void OnDisable()
+    {
+        OnStageEnded -= StageDistinction;
+    }
+
     void Start()
     {
-        
+        OnStageStart();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        //ë§¤ í”„ë ˆì„ ì²´í¬í•˜ì—¬ í´ë¦¬ì–´ ì¡°ê±´ ë§Œì¡± ì‹œ ì²˜ë¦¬
+        if (!isCleared && eraseTarget != null && eraseTarget.IsFullyErased)
+        {
+            isCleared = true;
+            OnStageClear();     // StageNormal ê¸°ë°˜ í•¨ìˆ˜
+            OnStageEnd();       // ì¢…ë£Œ ì²˜ë¦¬
+        }
     }
-
-
 }
