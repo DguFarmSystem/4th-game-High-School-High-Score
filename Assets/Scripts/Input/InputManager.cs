@@ -13,7 +13,7 @@ using System;
 
 public class InputManager : Singleton<InputManager>
 {
-    [SerializeField] private GameObject testObject; // 테스트용 오브젝트
+    //[SerializeField] private GameObject testObject; // 테스트용 오브젝트
     private PlayerInput _playerInput;
 
     public static InputAction _tapAction;   // 탭 입력을 위한 액션

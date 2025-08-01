@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 
 public class StudentAssigner : MonoBehaviour
 {
+    /*
     private List<List<SnackDetector>> _students;
 
     void ActivateStudents(List<List<SnackDetector>> students, int amount = 1)
@@ -60,6 +61,48 @@ public class StudentAssigner : MonoBehaviour
             _students = ConvertTo2DList(temp12, 3, 4);
 
             ActivateStudents(_students, 3);
+        }
+    }
+    */
+
+    [SerializeField] private GameObject _columnOne;
+    [SerializeField] private GameObject _columnTwo;
+    [SerializeField] private GameObject _columnThree;
+
+    void ActivateStudents(SnackDetector[] students, int amount = 1)
+    {
+        for (int i = 0; i < amount; i++)
+        {
+            int num = Random.Range(0, students.Length);
+
+            if (students[num].gameObject.activeSelf)
+            {
+                i--;
+                continue; // 이미 활성화된 학생은 건너뜀
+            }
+            students[num].gameObject.SetActive(true);
+            students[num].Distance = 3 - num; // 학생의 위치 설정
+        }
+    }
+
+    // ============ Lifecycle methods ============ //
+    void Awake()
+    {
+        SnackThrowingStage stage = FindObjectOfType<SnackThrowingStage>();
+
+        if (stage)
+        {
+            SnackDetector[] studentsOne = _columnOne.GetComponentsInChildren<SnackDetector>(true); // true로 설정하여 비활성화된 오브젝트도 포함
+            SnackDetector[] studentsTwo = _columnTwo.GetComponentsInChildren<SnackDetector>(true);
+            SnackDetector[] studentsThree = _columnThree.GetComponentsInChildren<SnackDetector>(true);
+
+            ActivateStudents(studentsOne, 1);
+            ActivateStudents(studentsTwo, 1);
+            ActivateStudents(studentsThree, 1);
+        }
+        else
+        {
+            Debug.LogWarning("SnackThrowingStage not found in the scene.");
         }
     }
 }

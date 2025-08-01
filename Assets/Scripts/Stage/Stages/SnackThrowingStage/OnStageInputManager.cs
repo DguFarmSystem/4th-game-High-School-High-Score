@@ -19,8 +19,9 @@ public class OnStageInputManager : MonoBehaviour
                 if (InputManager.PressedCollider)
                 {
                     _snackDetector = InputManager.PressedCollider.GetComponent<SnackDetector>();
+                    Debug.Log($"Pressed Collider: {_snackDetector?.name}");
 
-                    if (_snackDetector != null)
+                    if (_snackDetector)
                     {
                         _snackDetector.Ready2Catch();
                     }
@@ -30,7 +31,7 @@ public class OnStageInputManager : MonoBehaviour
 
             case InputActionPhase.Canceled:
 
-                if (_snackDetector != null)
+                if (_snackDetector)
                 {
                     _snackDetector.Try2Catch();
                 }

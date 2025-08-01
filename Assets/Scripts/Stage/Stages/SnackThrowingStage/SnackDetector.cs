@@ -13,7 +13,7 @@ public class SnackDetector : MonoBehaviour
     private bool _isPressing = false;
 
     public float PressedTime => _pressedTime;
-    public Vector2 Distance = Vector2.zero;
+    public int Distance = 0;
 
     public void Ready2Catch()
     {
@@ -50,17 +50,17 @@ public class SnackDetector : MonoBehaviour
     {
         if (_isPressing)
         {
-            if (_pressedTime + Time.deltaTime > 3f) _pressedTime = 3f;
+            if (_pressedTime + Time.deltaTime > 4f) _pressedTime = 0f;
             else _pressedTime += Time.deltaTime;
             Debug.Log($"Pressed Time: {_pressedTime}");
         }
         else
         {
-            if (_pressedTime > Mathf.Max(Mathf.Abs(Distance.x), Mathf.Abs(Distance.y)))
+            if (_pressedTime >= Distance)
             {
                 /* if (선생님이 뒤돌아 보고 있는 상태라면)
                 {
-                    ex) 체력이 깎임
+                    ex) 게임 오버
                 }
                 else */TransitionToState(State.Caught);
             }
