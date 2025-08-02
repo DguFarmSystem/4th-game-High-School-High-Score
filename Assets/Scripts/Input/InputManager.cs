@@ -88,7 +88,7 @@ public class InputManager : Singleton<InputManager>
     private void pressPerformed(InputAction.CallbackContext context)
     {
         _isPressing = true; // 터치 상태를 true로 설정
-        _pressedCollider = _touchedCollider; // 현재 터치한 콜라이더를 선택된 콜라이더로 설정
+        _pressedCollider = GetTouchedCollider2D(_touchWorldPos); // 현재 터치한 콜라이더를 선택된 콜라이더로 설정
     }
 
     private void pressCanceled(InputAction.CallbackContext context)

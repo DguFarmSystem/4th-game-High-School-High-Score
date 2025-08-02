@@ -15,6 +15,8 @@ public class SnackDetector : MonoBehaviour
     public float PressedTime => _pressedTime;
     public int Distance = 0;
 
+    public bool SnackArrived { get; private set; } = false;
+
     public void Ready2Catch()
     {
         _isPressing = true;
@@ -39,7 +41,7 @@ public class SnackDetector : MonoBehaviour
                 if (_stage)
                 {
                     _stage.StudentGotSnack();
-                    gameObject.SetActive(false);
+                    gameObject.GetComponent<Collider2D>().enabled = false;
                 }
 
                 break;
@@ -50,20 +52,39 @@ public class SnackDetector : MonoBehaviour
     {
         if (_isPressing)
         {
-            if (_pressedTime + Time.deltaTime > 4f) _pressedTime = 0f;
+            if (_pressedTime + Time.deltaTime > 4f) _pressedTime -= 4f;
             else _pressedTime += Time.deltaTime;
-            Debug.Log($"Pressed Time: {_pressedTime}");
         }
         else
         {
-            if (_pressedTime >= Distance)
+            PowerGauge gauge = FindObjectOfType<PowerGauge>();
+            Teacher teacher = FindObjectOfType<Teacher>();
+            
+            if (_pressedTime > 0f && teacher.IsTurning)
             {
-                /* if (선생님이 뒤돌아 보고 있는 상태라면)
-                {
-                    ex) 게임 오버
-                }
-                else */TransitionToState(State.Caught);
+                FindObjectOfType<SnackThrowingStage>().SetStageFailed();
             }
+            
+            if (_pressedTime >= Distance && _pressedTime < Distance + 1f)
+            {
+                if (gauge.transform.GetChild(0).gameObject.activeSelf)
+                {
+                    gauge.setGaugeColor(Color.green);
+
+                    Candies candies = FindObjectOfType<Candies>();
+                    if (candies)
+                    {
+                        StartCoroutine(candies.ThrowCandy(this.GetComponent<Collider2D>()));
+                    }
+                }
+
+                TransitionToState(State.Caught);
+            }
+            else if (!Mathf.Approximately(_pressedTime, 0f) && gauge.transform.GetChild(0).gameObject.activeSelf)
+            {
+                gauge.setGaugeColor(Color.red);
+            }
+            
 
             if (!Mathf.Approximately(_pressedTime, 0f)) _pressedTime = 0f;
         }
@@ -71,8 +92,10 @@ public class SnackDetector : MonoBehaviour
 
     private void HandleCaughtState()
     {
-        Debug.Log("Snack is caught, processing...");
+        
     }
+
+    public void GetCandy() => SnackArrived = true;
 
     // ============ Lifecycle methods ============ //
 

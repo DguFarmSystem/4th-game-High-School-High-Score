@@ -19,7 +19,6 @@ public class OnStageInputManager : MonoBehaviour
                 if (InputManager.PressedCollider)
                 {
                     _snackDetector = InputManager.PressedCollider.GetComponent<SnackDetector>();
-                    Debug.Log($"Pressed Collider: {_snackDetector?.name}");
 
                     if (_snackDetector)
                     {

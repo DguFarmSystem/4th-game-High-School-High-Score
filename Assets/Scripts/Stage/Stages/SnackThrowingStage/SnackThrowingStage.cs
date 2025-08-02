@@ -1,28 +1,35 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Stage;
+using System;
 
-public class SnackThrowingStage : StageNormal
+public class SnackThrowingStage : MonoBehaviour, IStageBase
 {
-    [SerializeField] public int stageLevel;
+    public Action<bool> OnStageEnded { get; protected set; }
+
+    protected StageState CurrentStageState = StageState.NotStart;
+    public StageState CurrentState => CurrentStageState;
 
     private int _numberOfStudents = 0;
-
-    public StageState CurrentState => CurrentStageState;
 
     // TEST CODE
     [SerializeField] private GameObject _greenSphere;
     [SerializeField] private GameObject _redSphere;
-
-    public void StudentGotSnack()
+    
+    public void OnStageStart()
     {
-        _numberOfStudents--;
-        Debug.Log($"Students remaining: {_numberOfStudents}");
-
-        if (_numberOfStudents <= 0)
-        {
-            SetStageClear();
-        }
+        CurrentStageState = StageState.Playing;
+    }
+    public void OnStageEnd()
+    {
+        // Clear된 스테이지면 true, 아니면 false
+        OnStageEnded?.Invoke(CurrentStageState == StageState.Clear);
+    }
+    
+    public void OnStageClear()
+    {
+        CurrentStageState = StageState.Clear;
+        OnStageEnd();
     }
 
     public void SetStageClear()
@@ -30,18 +37,10 @@ public class SnackThrowingStage : StageNormal
         OnStageClear();
     }
 
-    public override void OnStageStart()
+    public void SetStageFailed()
     {
-        base.OnStageStart();
-    }
-    protected override void OnStageEnd()
-    {
-        base.OnStageEnd();
-    }
-
-    protected override void OnStageClear()
-    {
-        base.OnStageClear();
+        CurrentStageState = StageState.Over;
+        OnStageEnd();
     }
 
     private void OnStageEndedGimmik(bool isStageCleared)
@@ -60,9 +59,19 @@ public class SnackThrowingStage : StageNormal
             _redSphere.SetActive(true);
         }
     }
+    
+    public void StudentGotSnack()
+    {
+        _numberOfStudents--;
+
+        if (_numberOfStudents <= 0)
+        {
+            SetStageClear();
+        }
+    }
 
     // ============ Lifecycle methods ============ //
-    
+
     public void OnEnable()
     {
         OnStageEnded += OnStageEndedGimmik;
