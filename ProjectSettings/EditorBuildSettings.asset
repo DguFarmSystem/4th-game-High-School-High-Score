@@ -15,6 +15,8 @@ EditorBuildSettings:
     path: Assets/Scenes/SnackThrowingStage.unity
     guid: 9f84d2632c8e6154790d8d722c752f0f
   m_configObjects:
+    com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
+      guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 64c8b62c28046554d8e00855712e6738,
       type: 2}
     com.unity.adaptiveperformance.samsung.android.provider_settings: {fileID: 11400000,
