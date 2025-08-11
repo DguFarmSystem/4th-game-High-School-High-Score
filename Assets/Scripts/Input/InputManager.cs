@@ -13,7 +13,7 @@ using System;
 
 public class InputManager : Singleton<InputManager>
 {
-    [SerializeField] private GameObject testObject; // 테스트용 오브젝트
+    //[SerializeField] private GameObject testObject; // 테스트용 오브젝트
     private PlayerInput _playerInput;
 
     public static InputAction _tapAction;   // 탭 입력을 위한 액션
@@ -36,7 +36,7 @@ public class InputManager : Singleton<InputManager>
     public static Vector2 Delta => Instance ? _worldDelta : default; // 외부에서 접근 시 해당 프로퍼티 사용
     public static Collider2D TappedCollider => Instance ? _tappedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
     public static Collider2D TouchedCollider => Instance ? _touchedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
-    public static Collider2D SelectedCollider => Instance ? _pressedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
+    public static Collider2D PressedCollider => Instance ? _pressedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
 
     private void OnEnable()
     {
@@ -84,11 +84,11 @@ public class InputManager : Singleton<InputManager>
         //Vector2 pos = Touchscreen.current.primaryTouch.position.ReadValue();
         OnStageTapPerformed?.Invoke(); // 탭이 발생했을 때 이벤트 호출
     }
-    
+
     private void pressPerformed(InputAction.CallbackContext context)
     {
         _isPressing = true; // 터치 상태를 true로 설정
-        _pressedCollider = _touchedCollider; // 현재 터치한 콜라이더를 선택된 콜라이더로 설정
+        _pressedCollider = GetTouchedCollider2D(_touchWorldPos); // 현재 터치한 콜라이더를 선택된 콜라이더로 설정
     }
 
     private void pressCanceled(InputAction.CallbackContext context)

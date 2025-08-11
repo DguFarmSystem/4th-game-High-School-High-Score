@@ -263,7 +263,7 @@ public class WindowClosingStage : StageNormal
             InputManager.IsPressing &&
             _stageClearConditions.Count > 0)
         {
-            Collider2D col = InputManager.SelectedCollider;
+            Collider2D col = InputManager.PressedCollider;
 
             if (col != null)
             {
