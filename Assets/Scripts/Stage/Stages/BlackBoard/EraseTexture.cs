@@ -19,8 +19,7 @@ public class EraseTexture : MonoBehaviour
     // 이미 지운 픽셀 좌표 저장 (중복 카운트 방지)
     private HashSet<Vector2Int> erasedPixelSet = new HashSet<Vector2Int>();
     public bool IsFullyErased => isFullyErased;
-    // 외부에서도 비율 확인 가능
-    public float ErasedRatio => (float)erasedPixels / totalPixels;
+    public float ErasedRatio => (float)erasedPixels / totalPixels; // 외부에서도 비율 확인 가능
 
     public GameObject eraseCursorPrefab; // 원형 지우개 표시용 프리팹
     private GameObject eraseCursorInstance;
@@ -41,22 +40,16 @@ public class EraseTexture : MonoBehaviour
         editableTexture.Apply();
 
         // SpriteRenderer에 수정 가능한 텍스처 적용
-        Vector2 originalPivot = new Vector2(
-         spriteRenderer.sprite.pivot.x / spriteRenderer.sprite.rect.width,
-         spriteRenderer.sprite.pivot.y / spriteRenderer.sprite.rect.height
-     );
-
         spriteRenderer.sprite = Sprite.Create(
             editableTexture,
             spriteRenderer.sprite.rect,
-            originalPivot,
+            new Vector2(0.5f, 0.5f), // pivot 중심
             spriteRenderer.sprite.pixelsPerUnit
         );
 
-        //Sprite의 rect 기준으로 총 픽셀 수 계산
+        // 총 픽셀 수 계산
         totalPixels = 0;
         Color[] pixels = editableTexture.GetPixels();
-
         int width = editableTexture.width;
         int height = editableTexture.height;
 
@@ -65,7 +58,7 @@ public class EraseTexture : MonoBehaviour
             for (int x = 0; x < width; x++)
             {
                 Color c = editableTexture.GetPixel(x, y);
-                if (c.a > 0.01f) // 일정 알파 이상만 "지워야 할 대상"으로 판단
+                if (c.a > 0.01f)
                     totalPixels++;
             }
         }
@@ -76,9 +69,10 @@ public class EraseTexture : MonoBehaviour
         if (InputManager.IsPressing)
         {
             Vector3 pos = InputManager.TouchWorldPos;
+            pos.z = 0f; // z=0 평면 고정
             EraseAt(pos);
 
-            //디버그
+            // 디버그
             Debug.DrawLine(Camera.main.transform.position, pos, Color.red, 0.05f);
 
             // 지우개 위치 갱신 및 표시
@@ -86,8 +80,8 @@ public class EraseTexture : MonoBehaviour
             {
                 eraseCursorInstance.SetActive(true);
                 eraseCursorInstance.transform.position = pos;
-                eraseCursorInstance.transform.localScale = Vector3.one * (eraseRadius * 2f / spriteRenderer.sprite.pixelsPerUnit);
-                // eraseRadius는 픽셀 단위, 유니티 월드 단위로 맞춰줌
+                eraseCursorInstance.transform.localScale =
+                    Vector3.one * (eraseRadius * 2f / spriteRenderer.sprite.pixelsPerUnit);
             }
         }
         else
@@ -99,14 +93,13 @@ public class EraseTexture : MonoBehaviour
 
     void EraseAt(Vector3 worldPos)
     {
-        Vector2 localPos = transform.InverseTransformPoint(worldPos);
+        // 월드 좌표 → 로컬 좌표 변환
+        Vector3 localPos = spriteRenderer.transform.InverseTransformPoint(worldPos);
 
-        Rect spriteRect = spriteRenderer.sprite.rect;
-        Vector2 pivot = spriteRenderer.sprite.pivot;
+        // pivot(0.5, 0.5) 중심 보정 → 픽셀 좌표 변환
         float pixelsPerUnit = spriteRenderer.sprite.pixelsPerUnit;
-
-        int texPosX = Mathf.RoundToInt(pivot.x + localPos.x * pixelsPerUnit);
-        int texPosY = Mathf.RoundToInt(pivot.y + localPos.y * pixelsPerUnit);
+        int pixelX = Mathf.RoundToInt(localPos.x * pixelsPerUnit + editableTexture.width / 2f);
+        int pixelY = Mathf.RoundToInt(localPos.y * pixelsPerUnit + editableTexture.height / 2f);
 
         int radius = Mathf.CeilToInt(eraseRadius);
 
@@ -114,12 +107,12 @@ public class EraseTexture : MonoBehaviour
         {
             for (int x = -radius; x <= radius; x++)
             {
-                int px = texPosX + x;
-                int py = texPosY + y;
+                int px = pixelX + x;
+                int py = pixelY + y;
 
-                //rect 내 픽셀만 처리
-                if (px >= spriteRect.xMin && px < spriteRect.xMax &&
-                    py >= spriteRect.yMin && py < spriteRect.yMax)
+                // 텍스처 범위 내
+                if (px >= 0 && px < editableTexture.width &&
+                    py >= 0 && py < editableTexture.height)
                 {
                     float distance = Mathf.Sqrt(x * x + y * y);
                     if (distance <= eraseRadius)
@@ -145,29 +138,21 @@ public class EraseTexture : MonoBehaviour
         CheckErased();
     }
 
-
     void CheckErased()
     {
         if (isFullyErased) return;
 
         float ratio = ErasedRatio;
+        Debug.Log($"Erased Ratio: {ratio * 100f:F2}% / Threshold: {erasedThreshold * 100f:F2}%");
 
-        //로그 출력 추가
-        Debug.Log($"Erased Ratio: {ratio * 100f:F1}%");
-
-        if (ratio >= erasedThreshold)
+        if (ratio >= erasedThreshold - 0.0001f)
         {
             isFullyErased = true;
-            //OnFullyErased();
         }
     }
 
-    //void OnFullyErased()
-    //{
-    //    Debug.Log($"{gameObject.name} → 완전히 지워짐!");
-    //    // 여기서 원하는 처리 추가
-    //    // Destroy(gameObject); // 완전히 지워지면 삭제
-    //    // 또는 StageManager에 알림 보내기
-    //}
+    // void OnFullyErased()
+    // {
+    //     Debug.Log($"{gameObject.name} → 완전히 지워짐!");
+    // }
 }
-

@@ -15,8 +15,6 @@ public class BlackBoardStage : StageNormal
     [SerializeField] private GameObject BoardEraser;
     [SerializeField] private EraseTexture eraseTarget; //지워질 오브젝트 연결
 
-    public GameObject TestSphere;
-
     private bool isCleared = false; //중복 방지용
 
     public override void OnStageStart()
@@ -64,12 +62,17 @@ public class BlackBoardStage : StageNormal
 
     void Update()
     {
-        //매 프레임 체크하여 클리어 조건 만족 시 처리
-        if (!isCleared && eraseTarget != null && eraseTarget.IsFullyErased)
+        if (!isCleared && eraseTarget != null)
         {
-            isCleared = true;
-            OnStageClear();     // StageNormal 기반 함수
-            OnStageEnd();       // 종료 처리
+            float ratio = eraseTarget.ErasedRatio;
+            Debug.Log($"현재 지운 비율: {ratio * 100f:F2}% / 목표: {eraseTarget.erasedThreshold * 100f:F2}%");
+
+            if (ratio >= eraseTarget.erasedThreshold - 0.0001f)
+            {
+                isCleared = true;
+                OnStageClear();
+                OnStageEnd();
+            }
         }
     }
 }
