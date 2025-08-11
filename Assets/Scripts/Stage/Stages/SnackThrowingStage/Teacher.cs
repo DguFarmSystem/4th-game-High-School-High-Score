@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class Teacher : MonoBehaviour
 {
-    [SerializeField] private GameObject _sparkle;
+    [SerializeField] private ParticleSystem _sparkle;
     private Animator _animator;
 
-    private enum StudentState { Idle, Turning }
-    private StudentState _currentState = StudentState.Idle;
+    private enum State { Idle, Turning }
+    private State _currentState = State.Idle;
     private float _stateTimer = 0f;
     private float _turningTime = 2f; // 뒤돌아 보고 있는 시간
 
-    public bool IsTurning => _currentState == StudentState.Turning;
+    public bool IsTurning => _currentState == State.Turning;
 
-    private void TransitionToState(StudentState newState)
+    private void TransitionToState(State newState)
     {
         _currentState = newState;
 
         switch (newState)
         {
-            case StudentState.Idle:
+            case State.Idle:
                 _stateTimer = Random.Range(3f, 6f); // 대기 시간 초기화
                 _animator.SetBool("IsTurning", false);
 
                 break;
 
-            case StudentState.Turning:
+            case State.Turning:
                 _stateTimer = _turningTime;
                 _animator.SetBool("IsTurning", true);
                 _animator.speed = 1f; // 애니메이션 속도 복원
@@ -45,7 +45,7 @@ public class Teacher : MonoBehaviour
 
             if (_stateTimer <= 0f)
             {
-                TransitionToState(StudentState.Turning); // Idle 상태에서 Turning 상태로 전환
+                TransitionToState(State.Turning); // Idle 상태에서 Turning 상태로 전환
             }
         }
 
@@ -56,24 +56,20 @@ public class Teacher : MonoBehaviour
         _stateTimer -= Time.deltaTime;
         if (_stateTimer <= 0f)
         {
-            TransitionToState(StudentState.Idle); // Turning 상태에서 Idle 상태로 전환
+            TransitionToState(State.Idle); // Turning 상태에서 Idle 상태로 전환
         }
     }
 
     // =========== Animation Event =========== //
-    private void EnableSparkle()
+    private IEnumerator EnableSparkle()
     {
-        _sparkle.SetActive(true);
+        yield return new WaitForSeconds(0.2f); // 약간의 딜레이 후에 스파클 효과 시작
+        _sparkle.Play();
     }
 
     private void DisableSparkle()
     {
-        if (_sparkle.activeSelf)
-        {
-            AnimatorStateInfo stateInfo = _sparkle.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0); // 0은 기본 레이어
-            if (stateInfo.normalizedTime >= 1f) _sparkle.SetActive(false);
-        }
-        
+        _sparkle.Stop();
     }
 
     // ========== LifeCyle Methods ========== //
@@ -88,12 +84,12 @@ public class Teacher : MonoBehaviour
     {
         switch (_currentState)
         {
-            case StudentState.Idle:
+            case State.Idle:
                 HandleIdleState();
 
                 break;
 
-            case StudentState.Turning:
+            case State.Turning:
                 HandleTurningState();
 
                 break;
