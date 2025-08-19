@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 858f749c237c75e46ba6730683ace9e1
+guid: 999c5eed0c011e44b84532504fa884e2
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,9 +9,8 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - CookieRunOTF
-  fallbackFontReferences:
-  - {fileID: 12800000, guid: 320d302f6b96c984bb76a931b00989f7, type: 3}
+  - ?????
+  fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
   ascentCalculationMode: 1

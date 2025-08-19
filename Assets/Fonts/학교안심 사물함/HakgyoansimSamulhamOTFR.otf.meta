@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 320d302f6b96c984bb76a931b00989f7
+guid: 3b88084eb96a9714d8cea6cd708908e8
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - CookieRunOTF
+  - Hakgyoansim SamulhamOTF
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
