@@ -59,10 +59,12 @@ public class SnackDetector : MonoBehaviour
         {
             PowerGauge gauge = FindObjectOfType<PowerGauge>();
             Teacher teacher = FindObjectOfType<Teacher>();
-            
+
             if (_pressedTime > 0f && teacher.IsTurning)
             {
                 FindObjectOfType<SnackThrowingStage>().SetStageFailed();
+                _pressedTime = 0f;
+                return;
             }
             
             if (_pressedTime >= Distance && _pressedTime < Distance + 1f)

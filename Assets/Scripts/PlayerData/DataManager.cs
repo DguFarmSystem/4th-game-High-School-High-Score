@@ -4,21 +4,57 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.UI;
 
+public enum ScriptSpeedState { Slow, Normal, Fast }
+
 public class PlayerData
 {
-    public string Name;
-    public bool TutorialCompleted = false;
+    [SerializeField] private string Name;
+    [SerializeField] private bool TutorialCompleted = false;
+    [SerializeField] private bool IsBGMOn = true;
+    [SerializeField] private bool IsVibFXOn = true;
+    [SerializeField] private ScriptSpeedState ScriptSpeed = ScriptSpeedState.Normal;
 
     // 기본 생성자
     public PlayerData()
     {
-        Name = "DefaultName";
+        Name = "나고점";
     }
 
     // Name을 입력받는 생성자
     public PlayerData(string name)
     {
-        Name = string.IsNullOrEmpty(name) ? "DefaultName" : name;
+        Name = string.IsNullOrEmpty(name) ? "나고점" : name;
+    }
+
+    // ======= Methods ======= //
+    public string GetName() => Name;
+    public bool GetTutorialCompleted() => TutorialCompleted;
+    public bool GetBGMSetting() => IsBGMOn;
+    public bool GetVibFXSetting() => IsVibFXOn;
+    public ScriptSpeedState GetScriptSpeed() => ScriptSpeed;
+
+    public void UpdatePlayerName(string newName)
+    {
+        Name = newName;
+        DataManager.Instance.SaveData();
+    }
+
+    public void UpdateBGMSetting(bool isOn)
+    {
+        IsBGMOn = isOn;
+        DataManager.Instance.SaveData();
+    }
+
+    public void UpdateVibFXSetting(bool isOn)
+    {
+        IsVibFXOn = isOn;
+        DataManager.Instance.SaveData();
+    }
+
+    public void UpdateScriptSpeed(ScriptSpeedState newSpeed)
+    {
+        ScriptSpeed = newSpeed;
+        DataManager.Instance.SaveData();
     }
 }
 
@@ -31,9 +67,22 @@ public class DataManager : Singleton<DataManager>
 
     public void SaveData()
     {
-        string data = JsonUtility.ToJson(Player);
-        File.WriteAllText(Path, data);
-        print("Saving Player Data: " + data);
+        // 현재 데이터를 JSON으로 직렬화
+        string currentData = JsonUtility.ToJson(Player);
+
+        // 기존 저장된 데이터 읽기
+        string existingData = null;
+        if (File.Exists(Path))
+        {
+            existingData = File.ReadAllText(Path);
+        }
+
+        // 기존 데이터와 현재 데이터 비교
+        if (existingData == currentData) return; // 변경 사항이 없으면 저장하지 않음
+
+        // 데이터 저장
+        File.WriteAllText(Path, currentData);
+        Debug.Log("Saving Player Data: " + currentData);
     }
 
     public void LoadData()
@@ -46,7 +95,7 @@ public class DataManager : Singleton<DataManager>
         }
         else
         {
-            print("No Player Data found.");
+            SaveData(); // 파일이 없으면 새로 저장
         }
     }
 
@@ -63,12 +112,6 @@ public class DataManager : Singleton<DataManager>
         }
 
         Player = new PlayerData(); // 기본 데이터로 초기화
-    }
-
-    public void UpdatePlayerName(string newName)
-    {
-        Player.Name = newName;
-        SaveData();
     }
 
     public override void Awake()

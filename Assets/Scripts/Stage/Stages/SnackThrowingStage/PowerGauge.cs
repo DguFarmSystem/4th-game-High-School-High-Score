@@ -13,7 +13,7 @@ public class PowerGauge : MonoBehaviour
 
     private SnackDetector _student;
 
-    public float yOffset;
+    private float yOffset;
 
     private Coroutine _throwingCoroutine;
 
@@ -30,6 +30,18 @@ public class PowerGauge : MonoBehaviour
                     break;
 
                 case State.Pressed:
+                    switch (_student.Distance)
+                    {
+                        case 1:
+                            yOffset = 5f;
+                            break;
+                        case 2:
+                            yOffset = 3.5f;
+                            break;
+                        case 3:
+                            yOffset = 2.5f;
+                            break;
+                    }
                     Vector3 worldPos = _student.transform.position + Vector3.up * yOffset;
                     Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
                     gauge.GetComponent<RectTransform>().position = screenPos;
