@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameSettings : MonoBehaviour
+public class MainMenuUI : MonoBehaviour
 {
     public GameObject SettingsPopUp;
     public GameObject ResetPopUp;
@@ -14,7 +14,8 @@ public class GameSettings : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene(1); // 추후 변경 필요
+        //SceneManager.LoadScene(SceneNames.WindowClosing); // 추후 변경 필요
+        LoadingSceneController.Instance.LoadScene(SceneNames.WindowClosing);
     }
 
     public void PopUpSettings()

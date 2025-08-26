@@ -16,6 +16,6 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        DataManager.Instance.LoadData();
+        
     }
 }

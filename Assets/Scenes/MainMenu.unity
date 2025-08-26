@@ -631,7 +631,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -102}
+  m_AnchoredPosition: {x: 0, y: -140}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &74450983
@@ -652,7 +652,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 85
+  m_Spacing: 80
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1909,7 +1909,7 @@ GameObject:
   - component: {fileID: 539966008}
   - component: {fileID: 539966007}
   m_Layer: 5
-  m_Name: New Game
+  m_Name: Game Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3946,7 +3946,7 @@ RectTransform:
   m_GameObject: {fileID: 1039357976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1146759977}
@@ -3954,8 +3954,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -240}
-  m_SizeDelta: {x: 765, y: 305}
+  m_AnchoredPosition: {x: 0, y: -260}
+  m_SizeDelta: {x: 2945.514, y: 2189}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1039357978
 MonoBehaviour:
@@ -3977,7 +3977,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c78d2a935c208cc49867f3e64b78e0e3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dfc85c6228bf3454b8387551279d4574, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
