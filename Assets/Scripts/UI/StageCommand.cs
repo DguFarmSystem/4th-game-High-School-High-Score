@@ -24,7 +24,7 @@ public class StageCommand : MonoBehaviour
 
         elapsedTime = 0f;
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.3f);
 
         while (elapsedTime < 0.5f)
         {
