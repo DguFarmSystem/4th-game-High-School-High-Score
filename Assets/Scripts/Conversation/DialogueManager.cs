@@ -8,6 +8,7 @@ using System.IO;
 public class ConversationLine
 {
     public int id;
+    public int characterImage;
     public string speaker;
     public List<string> texts;
 }
@@ -23,6 +24,9 @@ public class DialogueManager : MonoBehaviour
     [Header("UI Components")]
     public Text speakerText;
     public Text dialogueText;
+    public Image Character1;
+    public Image Character2;
+    public List<Sprite> ImageList;
 
     [Header("JSON Settings")]
     public string jsonFileName = "Tutorial.json";
@@ -52,6 +56,12 @@ public class DialogueManager : MonoBehaviour
 
     private void HandleTap()
     {
+        if(conversationData == null || currentIndex >= conversationData.conversation.Count)
+        {
+            //여기서 다음 씬으로 넘기면 될듯?
+            return;
+        }
+
         if (isTyping)
         {
             // 타이핑 중이면 즉시 전체 문장 표시
@@ -82,6 +92,10 @@ public class DialogueManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Color c = Character1.color;
+        c.a = 0;
+        Character1.color = c;
+        Character2.color = c;
         LoadConversation();
         ShowLine();
     }
@@ -114,10 +128,47 @@ public class DialogueManager : MonoBehaviour
             ConversationLine line = conversationData.conversation[currentIndex];
             speakerText.text = line.speaker;
 
+            if(line.characterImage == -1)
+            {
+            }
+            else if(line.characterImage == 0)
+            {
+                StartCoroutine(FadeIn(Character1, 1f));
+                Character1.sprite = ImageList[line.characterImage];
+            }
+            else if(line.characterImage == 1)
+            {
+                StartCoroutine(FadeIn(Character2, 1f));
+                Character2.sprite = ImageList[line.characterImage];
+            }
+
             // coroutine으로 타이핑 효과 시작
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
             typingCoroutine = StartCoroutine(TypeLine(line));
         }
+        else
+        {
+            EndDialogue();
+        }
+    }
+
+    IEnumerator FadeIn(Image img, float duration)
+    {
+        float time = 0f;
+        Color c = img.color;
+        c.a = 0f;
+        img.color = c;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            c.a = Mathf.Lerp(0f, 1f, time / duration); // 0→1로 점점 증가
+            img.color = c;
+            yield return null;
+        }
+
+        c.a = 1f;
+        img.color = c;
     }
 
     IEnumerator TypeLine(ConversationLine line)
