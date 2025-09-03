@@ -26,7 +26,7 @@ public class StudentAllocater : MonoBehaviour
     }
 
     // ============ Lifecycle methods ============ //
-    void Awake()
+    void Start()
     {
         FindSeatStage stage = FindObjectOfType<FindSeatStage>();
 

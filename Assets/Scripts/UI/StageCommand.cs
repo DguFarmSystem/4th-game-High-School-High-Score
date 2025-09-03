@@ -12,27 +12,27 @@ public class StageCommand : MonoBehaviour
 
         float elapsedTime = 0;
 
-        while (elapsedTime < 1.5f)
+        while (elapsedTime < 0.5f)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / 1.5f;
+            float t = elapsedTime / 0.5f;
 
-            transform.position = Vector3.Lerp(transform.position, _showPosition, t);
+            transform.position = Vector3.Lerp(_outPosition, _showPosition, t);
 
             yield return null; // 다음 프레임까지 대기
         }
 
         elapsedTime = 0f;
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
 
-        while (elapsedTime < 1.5f)
+        while (elapsedTime < 0.5f)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / 1.5f;
+            float t = elapsedTime / 0.5f;
 
-            transform.position = Vector3.Lerp(transform.position, _outPosition, t);
-            
+            transform.position = Vector3.Lerp(_showPosition, _outPosition, t);
+
             yield return null; // 다음 프레임까지 대기
         }
     }

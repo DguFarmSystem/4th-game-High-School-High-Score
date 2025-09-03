@@ -73,7 +73,7 @@ public class LoadingSceneController : MonoBehaviour
 
         mLoadSceneName = sceneName;
 
-        mToolTipLabel.text = mToolTips[UnityEngine.Random.Range(0, mToolTips.Length - 1)];
+        mToolTipLabel.text = mToolTips[UnityEngine.Random.Range(0, mToolTips.Length)];
 
         StartCoroutine(CoLoadSceneProcess());
     }
@@ -88,7 +88,7 @@ public class LoadingSceneController : MonoBehaviour
         string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
         mLoadSceneName = sceneName;
 
-        mToolTipLabel.text = mToolTips[UnityEngine.Random.Range(0, mToolTips.Length - 1)];
+        mToolTipLabel.text = mToolTips[UnityEngine.Random.Range(0, mToolTips.Length)];
 
         StartCoroutine(CoLoadSceneProcess());
     }
