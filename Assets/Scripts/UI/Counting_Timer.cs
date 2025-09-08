@@ -8,7 +8,7 @@ public class Counting_Timer : MonoBehaviour
 {
     public Image numberImage;
     public Sprite[] numberSprites;
-    public float duration;
+    private float duration;
 
     private float timeLeft;
     private bool isRunning = false;

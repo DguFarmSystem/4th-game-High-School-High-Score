@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Gauge_Timer : MonoBehaviour
 {
     public Image gaugeImage;   // ������ �̹��� (fillAmount�� ����)
-    public float duration; // ���� �ð� (��)
+    private float duration; // ���� �ð� (��)
 
     private float timeLeft;    // ���� �ð�
     private bool isRunning = false;

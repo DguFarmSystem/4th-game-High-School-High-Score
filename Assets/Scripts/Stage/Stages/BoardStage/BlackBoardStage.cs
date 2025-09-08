@@ -11,16 +11,19 @@ using Stage;
  */
 public class BlackBoardStage : StageNormal
 {
-    [Header("스테이지 오브젝트")]
-    [SerializeField] private GameObject BoardEraser;
-    [SerializeField] private EraseTexture[] eraseTargets; //지워질 오브젝트 연결
+    [Header("Prefab & Stage Config")]
+    public EraseTexture[] erasePrefabs;   // 프리팹 (지울 이미지)
+    public Transform spawnParent;      // 스폰할 부모 오브젝트 (예: Canvas나 특정 위치)
+    public float clearThreshold = 0.8f; // 클리어 목표 (0~1 사이 값)
+    private static int stageLevel = 1;  // 나중에 StageManager에서 stageLevel을 넘겨주는 방식으로 리소스 지정
 
-    private bool isCleared = false; //중복 방지용
+    private EraseTexture eraseObject;  // 스폰된 EraseTexture 인스턴스
+    private float timer;
+    //private bool stageEnded = false;
 
     public override void OnStageStart()
     {
         base.OnStageStart();
-        isCleared = false;
     }
 
     protected override void OnStageEnd()
@@ -38,10 +41,12 @@ public class BlackBoardStage : StageNormal
         if (cleared)
         {
             Debug.Log("Stage Cleared.");
+            //클리어 연출, 스테이지 간 중간 레벨로 이동
         }
         else
         {
             Debug.Log("Stage Failed.");
+            //실패 연출, 스테이지 간 중간 레벨로 이동
         }
     }
 
@@ -57,27 +62,23 @@ public class BlackBoardStage : StageNormal
 
     void Start()
     {
+        //if (stageEnded) return;
+        //spawnPoint 월드좌표 기준(0,0)에 배치 
+        eraseObject = Instantiate(erasePrefabs[stageLevel], spawnParent);
+        eraseObject.transform.localPosition = Vector3.zero;
         OnStageStart();
     }
 
     void Update()
     {
-        foreach(EraseTexture eraseTarget in eraseTargets)
-        {
-            float ratio = 0.0f;
-            if (!isCleared && eraseTarget != null)
-            {
-                ratio += eraseTarget.ErasedRatio; //일단 객체별 지워진 정도를 그냥 더한다.
-            }
-            ratio /= eraseTargets.Length; //지울 객체의 개수만큼 나눠서 0~100사이로 normalize
-            Debug.Log($"현재 지운 비율: {ratio * 100f:F2}% / 목표: {eraseTarget.erasedThreshold * 100f:F2}%");
+        float erasedRatio = eraseObject.GetErasedRatio();
 
-            if (ratio >= eraseTarget.erasedThreshold - 0.0001f)
-            {
-                isCleared = true;
-                OnStageClear();
-                OnStageEnd();
-            }
+        // 디버그 출력
+        Debug.Log($"Erased Ratio: {erasedRatio * 100f:0.00}%");
+
+        if (erasedRatio >= clearThreshold)
+        {
+            OnStageClear();
         }
     }
 }
