@@ -10,12 +10,19 @@ public class MainMenuUI : MonoBehaviour
 {
     public GameObject SettingsPopUp;
     public GameObject ResetPopUp;
+    public GameObject EnterNamePopUp;
     public TextMeshProUGUI PlayerName;
 
-    public void NewGame()
+    [SerializeField] private TMP_InputField _nameInputField;
+
+    public void GameStart()
     {
-        //SceneManager.LoadScene(SceneNames.WindowClosing); // 추후 변경 필요
-        LoadingSceneController.Instance.LoadScene(SceneNames.WindowClosing);
+        if (DataManager.Instance.Player == null)
+        {
+            PopUpEnterNameWindow(true);
+            return;
+        }
+        LoadingSceneController.Instance.LoadScene(SceneNames.WindowClosing); // 추후 세이브 데이터와 연계하도록 변경
     }
 
     public void PopUpSettings()
@@ -23,8 +30,6 @@ public class MainMenuUI : MonoBehaviour
         Toggle[] BGMToggles = SettingsPopUp.transform.Find("BGMSet").GetComponentsInChildren<Toggle>();
         Toggle[] VibFXToggles = SettingsPopUp.transform.Find("VibFXSet").GetComponentsInChildren<Toggle>();
         Toggle[] ScriptSpeedToggles = SettingsPopUp.transform.Find("ScriptSpeedSet").GetComponentsInChildren<Toggle>();
-
-        TextMeshProUGUI playerNameText = SettingsPopUp.transform.Find("PlayerName").GetComponent<TextMeshProUGUI>();
 
         if (DataManager.Instance.Settings.GetBGMSetting()) BGMToggles[0].isOn = true;
         else BGMToggles[1].isOn = true;
@@ -45,7 +50,9 @@ public class MainMenuUI : MonoBehaviour
                 break;
         }
         if (DataManager.Instance.Player != null)
-            playerNameText.text = DataManager.Instance.Player.GetName();
+        {
+            PlayerName.text = DataManager.Instance.Player.GetName();
+        }
 
         SettingsPopUp.SetActive(true);
         
@@ -72,7 +79,42 @@ public class MainMenuUI : MonoBehaviour
         DataManager.Instance.ResetSettingsData(); // 설정 데이터도 초기화?
         Debug.Log("Player data reset.");
 
-        SceneManager.LoadScene(0);
+        LoadingSceneController.Instance.LoadScene(SceneNames.Main);
+    }
+
+    public void PopUpEnterNameWindow(bool isGameStart = false)
+    {
+        if (!isGameStart)
+        {
+            if (DataManager.Instance.Player != null)
+                EnterNamePopUp.SetActive(true);
+        }
+        else EnterNamePopUp.SetActive(true);
+    }
+
+    public void EnterName()
+    {
+        string name = _nameInputField.text;
+
+        if (name.Length == 0) return;
+
+        if (DataManager.Instance.Player == null)
+        {
+            DataManager.Instance.CreateNewGame(name);
+            LoadingSceneController.Instance.LoadScene(SceneNames.WindowClosing); // 추후 튜토리얼 화면으로 넘어가도록 변경
+        }
+        else
+        {
+            DataManager.Instance.Player.UpdatePlayerName(name);
+            PlayerName.text = DataManager.Instance.Player.GetName();
+        }
+
+        EnterNamePopUp.SetActive(false);
+    }
+
+    public void CloseEnterNameWindow()
+    {
+        EnterNamePopUp.SetActive(false);
     }
 
     // ============ Lifecycle methods ============ //

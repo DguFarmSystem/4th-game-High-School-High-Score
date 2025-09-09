@@ -9,16 +9,9 @@ public enum ScriptSpeedState { Slow, Normal, Fast }
 public class GameData
 {
     [SerializeField] private string Name;
-    [SerializeField] private bool isNewGame = true;
     [SerializeField] private bool TutorialCompleted = false;
 
-    // 기본 생성자
-    public GameData()
-    {
-        Name = "나고점";
-    }
-
-    // Name을 입력받는 생성자
+    // 생성자
     public GameData(string name)
     {
         Name = string.IsNullOrEmpty(name) ? "나고점" : name;
@@ -26,8 +19,6 @@ public class GameData
 
     // ======= Methods ======= //
     public string GetName() => Name;
-    public bool IsNewGame() => isNewGame;
-    public void SetNewGameFalse() { isNewGame = false; }
     public bool GetTutorialCompleted() => TutorialCompleted;
 
     public void UpdatePlayerName(string newName)
@@ -81,6 +72,12 @@ public class DataManager : Singleton<DataManager>
     public string settingsPath => Path + SettingsFile;
 
     // ========= Game Data Management ========= //
+    public void CreateNewGame(string playerName)
+    {
+        Player = new GameData(playerName);
+        SaveGameData();
+    }
+
     public void SaveGameData()
     {
         // 현재 데이터를 JSON으로 직렬화
@@ -106,6 +103,7 @@ public class DataManager : Singleton<DataManager>
         if (File.Exists(savePath))
         {
             File.Delete(savePath);
+            Player = null;
             Debug.Log("Player data file deleted: " + savePath);
         }
         else
@@ -152,6 +150,7 @@ public class DataManager : Singleton<DataManager>
         if (File.Exists(settingsPath))
         {
             File.Delete(settingsPath);
+            Settings = new SettingsData();
             Debug.Log("Settings data file deleted: " + settingsPath);
         }
         else
