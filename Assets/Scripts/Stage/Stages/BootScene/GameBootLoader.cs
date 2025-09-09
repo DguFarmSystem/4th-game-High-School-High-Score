@@ -7,6 +7,6 @@ public class GameBootLoader : MonoBehaviour
     // ===== Lifecycle methods ===== //
     void Start()
     {
-        LoadingSceneController.Instance.LoadScene(SceneNames.Main, () => DataManager.Instance.LoadData());
+        LoadingSceneController.Instance.LoadScene(SceneNames.Main/*, () => DataManager.Instance.LoadData()*/);
     }
 }

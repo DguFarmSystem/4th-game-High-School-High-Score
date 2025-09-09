@@ -71,7 +71,7 @@ public class SnackDetector : MonoBehaviour
             {
                 if (gauge.transform.GetChild(0).gameObject.activeSelf)
                 {
-                    gauge.setGaugeColor(Color.green);
+                    gauge.setGaugeColor(new Color(127f / 255f, 255f / 255f, 127f / 255f, 1f));
 
                     Candies candies = FindObjectOfType<Candies>();
                     if (candies)
@@ -84,7 +84,7 @@ public class SnackDetector : MonoBehaviour
             }
             else if (!Mathf.Approximately(_pressedTime, 0f) && gauge.transform.GetChild(0).gameObject.activeSelf)
             {
-                gauge.setGaugeColor(Color.red);
+                gauge.setGaugeColor(new Color(255f / 255f, 127f / 255f, 127f / 255f, 1f));
             }
             
 

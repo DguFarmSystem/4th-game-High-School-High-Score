@@ -26,13 +26,13 @@ public class MainMenuUI : MonoBehaviour
 
         TextMeshProUGUI playerNameText = SettingsPopUp.transform.Find("PlayerName").GetComponent<TextMeshProUGUI>();
 
-        if (DataManager.Instance.Player.GetBGMSetting()) BGMToggles[0].isOn = true;
+        if (DataManager.Instance.Settings.GetBGMSetting()) BGMToggles[0].isOn = true;
         else BGMToggles[1].isOn = true;
 
-        if (DataManager.Instance.Player.GetVibFXSetting()) VibFXToggles[0].isOn = true;
+        if (DataManager.Instance.Settings.GetVibFXSetting()) VibFXToggles[0].isOn = true;
         else VibFXToggles[1].isOn = true;
 
-        switch (DataManager.Instance.Player.GetScriptSpeed())
+        switch (DataManager.Instance.Settings.GetScriptSpeed())
         {
             case ScriptSpeedState.Slow:
                 ScriptSpeedToggles[0].isOn = true;
@@ -44,8 +44,8 @@ public class MainMenuUI : MonoBehaviour
                 ScriptSpeedToggles[2].isOn = true;
                 break;
         }
-
-        playerNameText.text = DataManager.Instance.Player.GetName();
+        if (DataManager.Instance.Player != null)
+            playerNameText.text = DataManager.Instance.Player.GetName();
 
         SettingsPopUp.SetActive(true);
         
@@ -68,7 +68,8 @@ public class MainMenuUI : MonoBehaviour
 
     public void ResetData()
     {
-        DataManager.Instance.ResetData();
+        DataManager.Instance.ResetGameData();
+        DataManager.Instance.ResetSettingsData(); // 설정 데이터도 초기화?
         Debug.Log("Player data reset.");
 
         SceneManager.LoadScene(0);

@@ -6,7 +6,7 @@ public class BGMSetToggle : MonoBehaviour
 {
     public void ToggleClick(bool isOn)
     {
-        if (isOn) DataManager.Instance.Player.UpdateBGMSetting(true);
-        else      DataManager.Instance.Player.UpdateBGMSetting(false);
+        if (isOn) DataManager.Instance.Settings.UpdateBGMSetting(true);
+        else      DataManager.Instance.Settings.UpdateBGMSetting(false);
     }
 }

@@ -6,7 +6,7 @@ public class VibFXSetToggle : MonoBehaviour
 {
     public void ToggleClick(bool isOn)
     {
-        if (isOn) DataManager.Instance.Player.UpdateVibFXSetting(true);
-        else      DataManager.Instance.Player.UpdateVibFXSetting(false);
+        if (isOn) DataManager.Instance.Settings.UpdateVibFXSetting(true);
+        else      DataManager.Instance.Settings.UpdateVibFXSetting(false);
     }
 }

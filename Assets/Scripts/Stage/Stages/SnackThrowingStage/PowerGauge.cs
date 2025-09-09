@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class PowerGauge : MonoBehaviour
 {
     [SerializeField] private GameObject gauge;
+    [SerializeField] private Sprite gauge_blank;
+    [SerializeField] private Sprite gauge_lv1;
+    [SerializeField] private Sprite gauge_lv2;
+    [SerializeField] private Sprite gauge_lv3;
 
     private enum State { Idle, Pressed, Released }
     private State _currentState = State.Idle;
@@ -70,7 +74,29 @@ public class PowerGauge : MonoBehaviour
     {
         if (InputManager.IsPressing)
         {
-            gauge.transform.Find("FullGauge").GetComponent<Image>().fillAmount = _student.PressedTime / 3f;
+            Sprite currentSprite = gauge.transform.GetComponent<Image>().sprite;
+            int scaledPressedTime = Mathf.FloorToInt(_student.PressedTime);
+            Debug.Log(scaledPressedTime);
+
+            switch (scaledPressedTime)
+            {
+                case 1:
+                    if (currentSprite != gauge_lv1)
+                        gauge.transform.GetComponent<Image>().sprite = gauge_lv1;
+                    break;
+                case 2:
+                    if (currentSprite != gauge_lv2)
+                        gauge.transform.GetComponent<Image>().sprite = gauge_lv2;
+                    break;
+                case 3:
+                    if (currentSprite != gauge_lv3)
+                        gauge.transform.GetComponent<Image>().sprite = gauge_lv3;
+                    break;
+                default:
+                    if (currentSprite != gauge_blank)
+                        gauge.transform.GetComponent<Image>().sprite = gauge_blank;
+                    break;
+            }
         }
         else
         {
@@ -85,8 +111,7 @@ public class PowerGauge : MonoBehaviour
     
     public void setGaugeColor(Color color)
     {
-        gauge.transform.Find("EmptyGauge").GetComponent<Image>().color = color;
-        gauge.transform.Find("FullGauge").GetComponent<Image>().color = color;
+        gauge.transform.GetComponent<Image>().color = color;
     }
 
     private IEnumerator WaitSnackArrival(float delay)
@@ -96,7 +121,7 @@ public class PowerGauge : MonoBehaviour
 
         setGaugeColor(Color.white);
 
-        gauge.transform.Find("FullGauge").GetComponent<Image>().fillAmount = 0f;
+        gauge.transform.GetComponent<Image>().sprite = gauge_blank;
         TransitionToState(State.Idle);
     }
 

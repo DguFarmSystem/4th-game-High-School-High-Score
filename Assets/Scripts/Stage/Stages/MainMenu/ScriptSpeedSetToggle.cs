@@ -6,16 +6,16 @@ public class ScriptSpeedSetToggle : MonoBehaviour
 {
     public void ScriptSpeedSetSlow(bool isOn)
     {
-        if (isOn) DataManager.Instance.Player.UpdateScriptSpeed(ScriptSpeedState.Slow);
+        if (isOn) DataManager.Instance.Settings.UpdateScriptSpeed(ScriptSpeedState.Slow);
     }
 
     public void ScriptSpeedSetNormal(bool isOn)
     {
-        if (isOn) DataManager.Instance.Player.UpdateScriptSpeed(ScriptSpeedState.Normal);
+        if (isOn) DataManager.Instance.Settings.UpdateScriptSpeed(ScriptSpeedState.Normal);
     }
 
     public void ScriptSpeedSetFast(bool isOn)
     {
-        if (isOn) DataManager.Instance.Player.UpdateScriptSpeed(ScriptSpeedState.Fast);
+        if (isOn) DataManager.Instance.Settings.UpdateScriptSpeed(ScriptSpeedState.Fast);
     }
 }

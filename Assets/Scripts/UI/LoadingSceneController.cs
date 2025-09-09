@@ -7,7 +7,7 @@ using TMPro;
 using System;
 
 /*
-출처: https://bonnate.tistory.com/303 [나의 개발일지:티스토리]
+참고: https://bonnate.tistory.com/303 [나의 개발일지:티스토리]
 */
 
 public class LoadingSceneController : MonoBehaviour
@@ -58,7 +58,7 @@ public class LoadingSceneController : MonoBehaviour
 
     [SerializeField] private CanvasGroup mCanvasGroup;
     // [SerializeField] private Image mProgressBar;
-    [SerializeField] private TextMeshProUGUI mToolTipLabel;
+    // [SerializeField] private TextMeshProUGUI mToolTipLabel;
     [SerializeField][TextArea] string[] mToolTips;
 
     private string mLoadSceneName;
@@ -73,7 +73,7 @@ public class LoadingSceneController : MonoBehaviour
 
         mLoadSceneName = sceneName;
 
-        mToolTipLabel.text = mToolTips[UnityEngine.Random.Range(0, mToolTips.Length)];
+        // mToolTipLabel.text = mToolTips[UnityEngine.Random.Range(0, mToolTips.Length)];
 
         StartCoroutine(CoLoadSceneProcess());
     }
@@ -88,7 +88,7 @@ public class LoadingSceneController : MonoBehaviour
         string sceneName = System.IO.Path.GetFileNameWithoutExtension(scenePath);
         mLoadSceneName = sceneName;
 
-        mToolTipLabel.text = mToolTips[UnityEngine.Random.Range(0, mToolTips.Length)];
+        // mToolTipLabel.text = mToolTips[UnityEngine.Random.Range(0, mToolTips.Length)];
 
         StartCoroutine(CoLoadSceneProcess());
     }
