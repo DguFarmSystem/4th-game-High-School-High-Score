@@ -10,7 +10,7 @@
         },
         {
             "id": 2,
-            "characterImage": 0,
+            "characterImage": 1,
             "speaker": "???",
             "texts": [
                 "점심시간이네. 맛보기는 여기까지만 하자.",
@@ -20,7 +20,7 @@
         },
         {
             "id": 3,
-            "characterImage": 2,
+            "characterImage": 3,
             "speaker": "체인",
             "texts": [
                 "<사용자가 설정한 닉네임>.",
@@ -29,7 +29,7 @@
         },
         {
             "id": 4,
-            "characterImage": 0,
+            "characterImage": 2,
             "speaker": "나",
             "texts": [
                 "(저 녀석이 짝꿍이었구나.)"
@@ -37,7 +37,7 @@
         },
         {
             "id": 5,
-            "characterImage": 2,
+            "characterImage": 3,
             "speaker": "체인",
             "texts": [
                 "<사용자가 설정한 닉네임)>, 이 학교에선 미니게임 스코어 순위가 성적표고, 곧 권력이야.",
@@ -48,7 +48,7 @@
         },
         {
             "id": 6,
-            "characterImage": 3,
+            "characterImage": 2,
             "speaker": "나",
             "texts": [
                 "(그러고보니 슬슬 배가 고프다. 식당으로 이동하자.)"

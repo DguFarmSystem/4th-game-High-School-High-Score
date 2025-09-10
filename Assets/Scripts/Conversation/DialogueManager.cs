@@ -24,8 +24,8 @@ public class DialogueManager : MonoBehaviour
     [Header("UI Components")]
     public Text speakerText;
     public Text dialogueText;
-    public Image Character1;
-    public Image Character2;
+    public GameObject Character1;
+    public GameObject Character2;
     public List<Sprite> ImageList;
 
     [Header("JSON Settings")]
@@ -36,6 +36,9 @@ public class DialogueManager : MonoBehaviour
 
     private ConversationData conversationData;
     private int currentIndex = 0;
+
+    private Image Character1Img;
+    private Image Character2Img;
 
     private Coroutine typingCoroutine;
     private bool isTyping = false;
@@ -92,10 +95,12 @@ public class DialogueManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Color c = Character1.color;
+        Character1Img = Character1.GetComponent<Image>();
+        Character2Img = Character2.GetComponent<Image>();
+        Color c = Character1Img.color;
         c.a = 0;
-        Character1.color = c;
-        Character2.color = c;
+        Character1Img.color = c;
+        Character2Img.color = c;
         LoadConversation();
         ShowLine();
     }
@@ -121,6 +126,14 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    /*
+     characterImage
+    -1 : 아무 이미지도 띄우지 않는다.
+    0 : 주인공 혼자 대화창에 등장, 위치 바꾸고 배열 3번
+    1 : 첫 등장 - 체인이 대화 진행, left element 2, right element 1
+    2 : 주인공과 체인이 한 장면에. 주인공 강조 효과. left element 0, right element 3
+    3 : 체인 강조 효과.
+     */
     void ShowLine()
     {
         if (conversationData != null && currentIndex < conversationData.conversation.Count)
@@ -130,16 +143,35 @@ public class DialogueManager : MonoBehaviour
 
             if(line.characterImage == -1)
             {
+                Color c = Character2Img.color;
+                c.a = 0;
+                Character1Img.color = c;
+                Character2Img.color = c;
             }
             else if(line.characterImage == 0)
             {
-                StartCoroutine(FadeIn(Character1, 1f));
-                Character1.sprite = ImageList[line.characterImage];
+                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
+                StartCoroutine(FadeIn(Character2Img, 1f));
+                Character2Img.sprite = ImageList[3];
             }
             else if(line.characterImage == 1)
             {
-                StartCoroutine(FadeIn(Character2, 1f));
-                Character2.sprite = ImageList[line.characterImage];
+                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-444, 42);
+                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(499, 59);
+                StartCoroutine(FadeIn(Character1Img, 1f));
+                StartCoroutine(FadeIn(Character2Img, 1f));
+                Character1Img.sprite = ImageList[2];
+                Character2Img.sprite = ImageList[1];
+            }
+            else if(line.characterImage == 2)
+            {
+                Character1Img.sprite = ImageList[0];
+                Character2Img.sprite = ImageList[3];
+            }
+            else if(line.characterImage == 3)
+            {
+                Character1Img.sprite = ImageList[2];
+                Character2Img.sprite = ImageList[1];
             }
 
             // coroutine으로 타이핑 효과 시작
