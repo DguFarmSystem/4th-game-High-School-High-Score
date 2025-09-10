@@ -530,7 +530,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cdde6c2711d75e249b860da518090396, type: 3}
   - {fileID: 21300000, guid: b2b121b03a4e8514baa5046b6c791c73, type: 3}
   - {fileID: 21300000, guid: 55128fdcaeafa2746b820294cbc49a52, type: 3}
-  jsonFileName: Tutorial.json
+  jsonFileName: TutorialEnd.json
   typingSpeed: 0.05
 --- !u!4 &1316887657
 Transform:
