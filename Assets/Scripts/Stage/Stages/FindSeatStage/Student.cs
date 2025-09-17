@@ -8,6 +8,9 @@ public class Student : MonoBehaviour
     [SerializeField] private Collider2D _leftCollider; // 왼쪽 콜라이더
     [SerializeField] private Collider2D _rightCollider; // 오른쪽 콜라이더
 
+    [SerializeField] private Collider2D _leftHandCollider; // 왼쪽 손 콜라이더
+    [SerializeField] private Collider2D _rightHandCollider; // 오른쪽 손 콜라이더
+
     private Animator _animator;
 
     private enum StudentState { Idle, Tackling }
@@ -24,14 +27,23 @@ public class Student : MonoBehaviour
         switch (newState)
         {
             case StudentState.Idle:
-                _stateTimer = (float)(rng.NextDouble() * (2f - 0.5f) + 0.5f); // 대기 시간 초기화
+                _stateTimer = (float)(rng.NextDouble() * (2f - 1f) + 1f); // 대기 시간 초기화
                 _animator.SetBool("IsTackling", false);
+                _animator.SetBool("IsHandTackling", false);
 
                 break;
 
             case StudentState.Tackling:
                 _stateTimer = _tacklingTime;
-                _animator.SetBool("IsTackling", true);
+                int randnum = rng.Next(0, 2); // 0 또는 1 생성
+                if (randnum == 0)
+                {
+                    _animator.SetBool("IsTackling", true);
+                }
+                else
+                {
+                    _animator.SetBool("IsHandTackling", true);
+                }
 
                 break;
         }
@@ -66,10 +78,22 @@ public class Student : MonoBehaviour
         _rightCollider.enabled = true;
     }
 
+    public void EnableLeftHandCollider()
+    {
+        _leftHandCollider.enabled = true;
+    }
+
+    public void EnableRightHandCollider()
+    {
+        _rightHandCollider.enabled = true;
+    }
+
     public void DisableColliders()
     {
         _leftCollider.enabled = false;
         _rightCollider.enabled = false;
+        _leftHandCollider.enabled = false;
+        _rightHandCollider.enabled = false;
     }
 
     // ========== LifeCyle Methods ========== //

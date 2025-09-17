@@ -7,7 +7,8 @@ public class UIManager : MonoBehaviour
 {
     public void ReloadScene()
     {
-        LoadingSceneController.Instance.LoadScene(SceneManager.GetActiveScene().name);
+        //LoadingSceneController.Instance.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadNextLevel()

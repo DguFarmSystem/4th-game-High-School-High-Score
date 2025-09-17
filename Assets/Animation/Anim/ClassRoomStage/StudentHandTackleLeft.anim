@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: StudentIdle
+  m_Name: StudentHandTackleLeft
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,9 +20,9 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: 81e9216e7b78d674e92a29b19600b126, type: 3}
+      value: {fileID: 21300000, guid: e1fe26c47a59f09478ae54d47f414f91, type: 3}
     - time: 3
-      value: {fileID: 21300000, guid: 81e9216e7b78d674e92a29b19600b126, type: 3}
+      value: {fileID: 21300000, guid: e1fe26c47a59f09478ae54d47f414f91, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -42,8 +42,8 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 81e9216e7b78d674e92a29b19600b126, type: 3}
-    - {fileID: 21300000, guid: 81e9216e7b78d674e92a29b19600b126, type: 3}
+    - {fileID: 21300000, guid: e1fe26c47a59f09478ae54d47f414f91, type: 3}
+    - {fileID: 21300000, guid: e1fe26c47a59f09478ae54d47f414f91, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -70,7 +70,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0
-    functionName: DisableColliders
+    functionName: EnableLeftHandCollider
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

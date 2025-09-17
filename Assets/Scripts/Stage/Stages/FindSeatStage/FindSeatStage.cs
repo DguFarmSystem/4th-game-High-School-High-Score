@@ -11,7 +11,7 @@ public class FindSeatStage : StageNormal
     
     private Student[] _allSeats;
     private Student[] _noneOccupiedSeats;
-    public Transform TargetDesk { get; private set; }
+    public Transform Goal { get; private set; }
 
     public bool stageClearFlag = false;
     public StageState CurrentState => CurrentStageState;
@@ -70,13 +70,13 @@ public class FindSeatStage : StageNormal
 
         foreach (Transform child in TargetSeat.transform.parent)
         {
-            if (child.CompareTag("Desk"))
+            if (child.CompareTag("Goal Indicator"))
             {
-                TargetDesk = child;
+                Goal = child;
                 break;
             }
         }
-        TargetDesk.gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+        Goal.gameObject.SetActive(true);
 
         // 스테이지 시작
         OnStageStart();

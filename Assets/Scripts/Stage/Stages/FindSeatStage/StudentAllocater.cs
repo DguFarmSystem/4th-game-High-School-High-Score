@@ -24,7 +24,7 @@ public class StudentAllocater : MonoBehaviour
             students[num].gameObject.SetActive(true);
         }
     }
-
+    
     // ============ Lifecycle methods ============ //
     void Start()
     {

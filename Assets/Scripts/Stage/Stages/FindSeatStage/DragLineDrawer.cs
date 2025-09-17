@@ -59,7 +59,7 @@ public class DragLineDrawer : MonoBehaviour
 
         if (hit != null)
         {
-            if (hit == _classRoomStage.TargetDesk.GetComponent<Collider2D>())
+            if (hit == _classRoomStage.Goal.GetComponent<Collider2D>())
             {
                 // 목표 좌석에 닿았을 때 라인 드로잉 중지
                 _classRoomStage.stageClearFlag = true;
