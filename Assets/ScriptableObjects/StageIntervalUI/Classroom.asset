@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Classroom
+  m_EditorClassIdentifier: Assembly-CSharp::StageIntervalSkin
+  skinName: ClassRoom
+  backgroundDefault: {fileID: 21300000, guid: 57527d593cc1d5f44a8c1083f4ef44d4, type: 3}
+  backgroundSuccess: {fileID: 0}
+  backgroundFailure: {fileID: 21300000, guid: 38eb7d71a59151f47bd5e1f6e521d9a6, type: 3}
+  characterDefault: {fileID: 21300000, guid: 420a53d091bf1e44eb375b0635523151, type: 3}
+  characterSuccess: {fileID: 21300000, guid: 45dc55c857ce90f4bb8ea3219df63997, type: 3}
+  characterFailure: {fileID: 21300000, guid: a7f05efeb26b8d84e91f85cd12ebb09f, type: 3}
+  hpDefault: {fileID: 21300000, guid: b9801841d76637f4ca1e0d9eb6b026fc, type: 3}
+  hpClear:
+  - {fileID: 21300000, guid: 0c775041dbd857f4b8100c3d95727b12, type: 3}
+  - {fileID: 21300000, guid: dda6751fe0ee3e148a16395a4c430efb, type: 3}
+  - {fileID: 21300000, guid: b2acabb4bfeec27418c58e9d4e07d02f, type: 3}
+  - {fileID: 21300000, guid: d0fecbc9df06fdf418ed9f6ba1476208, type: 3}
+  stageCount:
+  - {fileID: 21300000, guid: ec16a136a6ba0d742a41a7049ec99ddc, type: 3}
+  - {fileID: 21300000, guid: a3ddfe7e13d1ca444973ae8a1911d59b, type: 3}
+  - {fileID: 21300000, guid: 539905d7fd25c68408720dc950ddc8c2, type: 3}
+  - {fileID: 21300000, guid: 0c878f2aba4bf5247b76f1dc2c6c2d4a, type: 3}
+  - {fileID: 21300000, guid: 29b98faffc5517f4aa13c7ef78a9cd6f, type: 3}
+  - {fileID: 21300000, guid: e5cd91d87af8ef543919e6827dcda0f5, type: 3}
+  - {fileID: 21300000, guid: fe63679757ec02948a8e66cc8815de72, type: 3}
+  - {fileID: 21300000, guid: 42c3b44983012944c9abd358a549e8e8, type: 3}
+  - {fileID: 21300000, guid: 88292626fec7599448ca71d8854c06a5, type: 3}
+  - {fileID: 21300000, guid: b3183511f8f3a4347b47f76cfefc78a1, type: 3}
+  animatorControllerHP: {fileID: 9100000, guid: 99f2b2e345f68fd47b1bfe932360f616,
+    type: 2}
+  optionalLayoutPrefab: {fileID: 0}
