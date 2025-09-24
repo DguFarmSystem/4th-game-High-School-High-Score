@@ -105,7 +105,6 @@ public class DragLineDrawer : MonoBehaviour
 
         if (_ipManager != null)
         {
-            Debug.Log("InputManager found, enabling touch input.");
             InputManager._pressAction.started += OnTouch;
             InputManager._positionAction.performed += OnTouch;
             InputManager._pressAction.canceled += OnTouch;

@@ -113,13 +113,13 @@ public class WindowClosingStage : StageNormal
         {
             //TEST CODE
             Debug.Log("Stage cleared!");
-            _greenSphere.SetActive(true);
+            StageManager.Instance.StageClear(true);
         }
         else
         {
             //TEST CODE
             Debug.Log("Stage failed!");
-            _redSphere.SetActive(true);
+            StageManager.Instance.StageClear(false);
         }
     }
 

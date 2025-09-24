@@ -1,59 +1,119 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StageManager : Singleton<StageManager>
 {
-    [SerializeField] private GameObject _stageIntervalUIPrefab;
-    [SerializeField] private StageIntervalSkin _defaultSkin;
+    [SerializeField] private StageIntervalSkin _skinData;
 
-    private StageIntervalSkin _currentSkin;
-    private StageIntervalCSController _ui;
+    private GameObject _ui;
+    private StageIntervalCSController _uiController;
     private bool _showCompleted = false;
 
     //StageState 설정 기반으로 씬 넘기기 설정
     //현재 진행되고 있는 스테이지 레벨 관리
     private int _sceneIndex = 0;
-    private int _difficulty = 0;
+    private int _difficulty = 1;
+    private int _hp = 4;
+    private bool _isStageCleared = false;
     private List<string> _sceneNames = new List<string>();
 
-    public void LoadStages(List<string> sceneNames, StageIntervalSkin skin = null)
+    private enum GameMode { Normal, Infinite }
+    private GameMode _gameMode = GameMode.Normal;
+
+    public void Initialize(List<string> sceneNames, string skin, bool gameMode = false)
     {
         _sceneNames = sceneNames;
-        _currentSkin = skin ?? _defaultSkin;
+        _ui = Instantiate(_skinData.GetDictionary()[skin]);
+        _ui.transform.SetParent(transform);
+        gameObject.SetActive(true);
+
+        _gameMode = gameMode ? GameMode.Infinite : GameMode.Normal;
     }
+
+    public void StageClear(bool clear)
+    {
+        _isStageCleared = clear;
+
+        if (clear)
+        {
+            switch (_gameMode)
+            {
+                case GameMode.Normal:
+                    _sceneIndex++;
+
+                    if ((_sceneIndex + 1) % 3 == 0) _difficulty++;
+
+                    break;
+
+                case GameMode.Infinite:
+
+                    break;
+
+            }
+        }
+        else DecreaseHP();
+
+        LoadNextStage();
+    }
+
+    public void ExitGame() => gameObject.SetActive(false);
+
+    public int GetCurrentStage() => _sceneIndex;
+    public int GetDifficulty() => _difficulty;
+
+    public int GetHP() => _hp;
+    public void IncreaseHP() => _hp++;
+    public void DecreaseHP() => _hp--;
+
+    public bool GetStageCleared() => _isStageCleared;
+
+    public void ShowComplete() => _showCompleted = true;
+
+    /* =========== Scene Loading Process =========== */
 
     void EnsureUI() {
-        if (_ui != null) return;
-        var gameObject = Instantiate(_stageIntervalUIPrefab);
-        DontDestroyOnLoad(gameObject);
-        _ui = gameObject.GetComponent<StageIntervalCSController>();
+        if (_uiController != null) return;
+        _uiController = gameObject.GetComponentInChildren<StageIntervalCSController>();
     }
 
-    void Show() {
+    void Show()
+    {
         EnsureUI();
-        _ui.ApplySkin(_currentSkin ?? _defaultSkin);
-        _ui.Show();
+        _uiController.Show();
+        _showCompleted = false;
     }
 
-    void Hide() {
-        StartCoroutine(HideAfter(_showCompleted));
-    }
-
-    IEnumerator HideAfter(bool completed) {
-        yield return new WaitUntil(() => completed);
-        _ui.Hide();
-    }
-
-    // 씬 로드용 유틸: 자동으로 progress 표시하고 씬 활성화까지 처리
-    public void LoadNextScene() {
+    public void LoadNextStage() {
         StartCoroutine(LoadSceneCoroutine());
     }
 
     IEnumerator LoadSceneCoroutine() {
         Show();
-        var op = SceneManager.LoadSceneAsync(_sceneNames[_sceneIndex]);
+        AsyncOperation op = null;
+        switch (_gameMode)
+        {
+            case GameMode.Normal:
+                if (_sceneIndex > 9)
+                {
+                    yield return new WaitForSeconds(3f);
+                    LoadingSceneController.Instance.LoadScene(SceneNames.Main); // 일단 메인으로!!
+                    ExitGame();
+                    yield break;
+                }
+
+                if (_sceneIndex < 9) op = SceneManager.LoadSceneAsync(_sceneNames[_sceneIndex % 3]); // 일반
+                else op = SceneManager.LoadSceneAsync(_sceneNames[3]); // 보스
+
+                break;
+
+            case GameMode.Infinite:
+                
+                break;
+        }
         op.allowSceneActivation = false;
         
         while (op.progress < 0.9f)
@@ -61,10 +121,15 @@ public class StageManager : Singleton<StageManager>
             yield return null;
         }
 
+        // 연출이 끝날 때까지 대기
+        yield return new WaitUntil(() => _showCompleted);
+
         op.allowSceneActivation = true;
-        // 씬 활성화 후 숨김
-        while (!op.isDone) yield return null;
-        Hide();
+
+        yield return null;
+
+        _uiController.Hide();
+        _isStageCleared = false;
     }
 
     /* ========== Life Cycle Methods ========== */
@@ -72,13 +137,16 @@ public class StageManager : Singleton<StageManager>
     void OnDisable()
     {
         _sceneIndex = 0;
-        _difficulty = 0;
+        _difficulty = 1;
+        _hp = 4;
         _sceneNames.Clear();
-        _currentSkin = null;
+        _gameMode = GameMode.Normal;
+        if (_ui != null) Destroy(_ui);
     }
 
     public override void Awake()
     {
         base.Awake();
+        gameObject.SetActive(false);
     }
 }

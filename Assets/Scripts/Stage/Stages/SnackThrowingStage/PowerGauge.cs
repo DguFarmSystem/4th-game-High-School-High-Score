@@ -76,7 +76,6 @@ public class PowerGauge : MonoBehaviour
         {
             Sprite currentSprite = gauge.transform.GetComponent<Image>().sprite;
             int scaledPressedTime = Mathf.FloorToInt(_student.PressedTime);
-            Debug.Log(scaledPressedTime);
 
             switch (scaledPressedTime)
             {
