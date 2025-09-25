@@ -13,8 +13,6 @@ public class StageManager : Singleton<StageManager>
     private StageIntervalCSController _uiController;
     private bool _showCompleted = false;
 
-    //StageState 설정 기반으로 씬 넘기기 설정
-    //현재 진행되고 있는 스테이지 레벨 관리
     private int _sceneIndex = 0;
     private int _difficulty = 1;
     private int _hp = 4;
@@ -60,7 +58,16 @@ public class StageManager : Singleton<StageManager>
         LoadNextStage();
     }
 
-    public void ExitGame() => gameObject.SetActive(false);
+    public void ExitGame()
+    {
+        StartCoroutine(ExitGameCoroutine());
+
+        IEnumerator ExitGameCoroutine()
+        {
+            yield return new WaitForSeconds(1f);
+            gameObject.SetActive(false);
+        }
+    }
 
     public int GetCurrentStage() => _sceneIndex;
     public int GetDifficulty() => _difficulty;
