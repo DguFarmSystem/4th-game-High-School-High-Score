@@ -51,7 +51,6 @@ public class OnStageInputManager : MonoBehaviour
     {
         if (_ipManager != null)
         {
-            Debug.Log("InputManager found, enabling touch input.");
             InputManager._pressAction.performed += OnTouch;
             InputManager._pressAction.canceled  += OnTouch;
         }

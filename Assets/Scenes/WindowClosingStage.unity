@@ -244,7 +244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &286247396
 RectTransform:
   m_ObjectHideFlags: 0
@@ -418,7 +418,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b24e2319e70125248b63eecc3e7246c0, type: 3}
   - {fileID: 21300000, guid: d489a344b5d438347a3cc9ba07b0032b, type: 3}
   - {fileID: 21300000, guid: d42b14d9c60348d4aba972256edd3235, type: 3}
-  duration: 10
 --- !u!114 &332259506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -551,7 +550,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &395512416
 RectTransform:
   m_ObjectHideFlags: 0
@@ -725,7 +724,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gaugeImage: {fileID: 683718597}
-  duration: 10
 --- !u!114 &683718597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1343,7 +1341,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerTime: 5
-  stageLevel: 3
   _windowPrefab: {fileID: 551843300}
   _bugPrefab: {fileID: 1868245122795376634, guid: 027cc8ead424bfe44a9f59d543b83e25,
     type: 3}
@@ -1801,7 +1798,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1898267949
 RectTransform:
   m_ObjectHideFlags: 0
