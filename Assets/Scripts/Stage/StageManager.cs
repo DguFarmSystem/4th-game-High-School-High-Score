@@ -41,9 +41,9 @@ public class StageManager : Singleton<StageManager>
             switch (_gameMode)
             {
                 case GameMode.Normal:
-                    _sceneIndex++;
-
                     if ((_sceneIndex + 1) % 3 == 0) _difficulty++;
+
+                    _sceneIndex++;
 
                     break;
 
@@ -64,7 +64,7 @@ public class StageManager : Singleton<StageManager>
 
         IEnumerator ExitGameCoroutine()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
             gameObject.SetActive(false);
         }
     }
@@ -107,8 +107,8 @@ public class StageManager : Singleton<StageManager>
                 if (_sceneIndex > 9)
                 {
                     yield return new WaitForSeconds(3f);
-                    LoadingSceneController.Instance.LoadScene(SceneNames.Main); // 일단 메인으로!!
                     ExitGame();
+                    LoadingSceneController.Instance.LoadScene(SceneNames.Main); // 일단 메인으로!!
                     yield break;
                 }
 
@@ -132,6 +132,7 @@ public class StageManager : Singleton<StageManager>
         yield return new WaitUntil(() => _showCompleted);
 
         op.allowSceneActivation = true;
+        UnityEngine.Debug.Log($"Stage {_sceneIndex + 1}, Difficulty {_difficulty}");
 
         yield return null;
 

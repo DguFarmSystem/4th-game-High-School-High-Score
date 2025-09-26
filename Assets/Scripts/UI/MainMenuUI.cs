@@ -26,7 +26,7 @@ public class MainMenuUI : MonoBehaviour
         StageManager.Instance.Initialize(
             new List<string> {
                 SceneNames.FindSeat,
-                SceneNames.WindowClosing,
+                SceneNames.FindSeat,
                 SceneNames.FindSeat,
                 SceneNames.SnackThrowing,
             },

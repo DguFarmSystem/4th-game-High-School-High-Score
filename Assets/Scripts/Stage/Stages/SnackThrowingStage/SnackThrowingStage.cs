@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Stage;
 using System;
+using System.Collections;
 
 public class SnackThrowingStage : MonoBehaviour, IStageBase
 {
@@ -42,14 +43,21 @@ public class SnackThrowingStage : MonoBehaviour, IStageBase
         CurrentStageState = StageState.Over;
         OnStageEnd();
     }
-
+    
     private void OnStageEndedGimmik(bool isStageCleared)
     {
+        StartCoroutine(StageEndedGimmik(isStageCleared));
+    }
+
+    private IEnumerator StageEndedGimmik(bool isStageCleared)
+    {
+        yield return new WaitForSeconds(2f);
 
         if (isStageCleared)
         {
             //TEST CODE
             Debug.Log("Stage cleared!");
+
             StageManager.Instance.StageClear(true);
         }
         else
@@ -86,18 +94,13 @@ public class SnackThrowingStage : MonoBehaviour, IStageBase
     {
         _numberOfStudents = FindObjectsOfType<SnackDetector>().Length;
 
+        CurrentStageState = StageState.Playing;
         // 스테이지 시작
         OnStageStart();
     }
 
     void Update()
     {
-        /*
-        if (/*스테이지 클리어 조건 만족 &&
-        CurrentStageState == StageState.Playing)
-        {
-            OnStageClear(); // 모든 조건이 완료되면 스테이지 클리어 처리
-        }
-        */
+
     }
 }

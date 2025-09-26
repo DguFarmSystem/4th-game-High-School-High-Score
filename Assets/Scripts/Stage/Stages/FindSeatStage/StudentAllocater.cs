@@ -32,7 +32,7 @@ public class StudentAllocater : MonoBehaviour
 
         if (stage)
         {
-            int stageLevel = stage.stageLevel;
+            int stageLevel = StageManager.Instance.GetDifficulty();
 
             Student[] studentsOne   = _columnOne.GetComponentsInChildren<Student>(true); // true로 설정하여 비활성화된 오브젝트도 포함
             Student[] studentsTwo   = _columnTwo.GetComponentsInChildren<Student>(true);

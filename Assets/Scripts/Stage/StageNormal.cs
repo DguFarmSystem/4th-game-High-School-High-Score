@@ -26,15 +26,13 @@ namespace Stage
         
         protected virtual void OnStageClear()
         {
-            StopCoroutine(_timerCoroutine);
             CurrentStageState = StageState.Clear;
-            OnStageEnd();
         }
 
         private IEnumerator SetStageTimer(float time)
         {
             yield return new WaitForSeconds(time);
-            CurrentStageState = StageState.Over;
+            if (CurrentStageState != StageState.Clear) CurrentStageState = StageState.Over;
             OnStageEnd();
         }
     }

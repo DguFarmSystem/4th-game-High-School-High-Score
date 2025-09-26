@@ -7,8 +7,6 @@ using UnityEditor.Rendering;
 
 public class FindSeatStage : StageNormal
 {
-    [SerializeField] public int stageLevel;
-    
     private Student[] _allSeats;
     private Student[] _noneOccupiedSeats;
     public Transform Goal { get; private set; }

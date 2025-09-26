@@ -39,8 +39,8 @@ public class WindowClosingStage : StageNormal
     private Rigidbody2D _movingBlindRd;
     private Bounds _fixedBlindBounds;
     private Bounds _movingBlindBounds;
+    private int stageLevel;
 
-    [SerializeField] public int stageLevel;
     [SerializeField] private GameObject _windowPrefab;
     [SerializeField] private GameObject _bugPrefab;
     [SerializeField] private GameObject _windowBrokenPrefab;
@@ -196,6 +196,8 @@ public class WindowClosingStage : StageNormal
 
     void Start()
     {
+        stageLevel = StageManager.Instance.GetDifficulty();
+
         for (int i = 0; i < stageLevel; i++)
         {
             switch (i)
@@ -203,7 +205,7 @@ public class WindowClosingStage : StageNormal
                 case 0: // CloseWindow
                     _windowRd = _windowPrefab.GetComponentInChildren<Rigidbody2D>();
                     _windowMovingRange = _windowPrefab.transform.Find("MovingRange").GetComponent<Collider2D>().bounds;
-                    
+
                     if (i == stageLevel - 1)
                     {
                         _stageClearConditions.Push(new StageClearCondition(StageClearConditionType.CloseWindow));
