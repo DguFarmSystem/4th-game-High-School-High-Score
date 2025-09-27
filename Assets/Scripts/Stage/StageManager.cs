@@ -64,7 +64,7 @@ public class StageManager : Singleton<StageManager>
 
         IEnumerator ExitGameCoroutine()
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
             gameObject.SetActive(false);
         }
     }
@@ -108,7 +108,6 @@ public class StageManager : Singleton<StageManager>
                 {
                     yield return new WaitForSeconds(3f);
                     ExitGame();
-                    yield return null;
                     LoadingSceneController.Instance.LoadScene(SceneNames.Main); // 일단 메인으로!!
                     yield break;
                 }

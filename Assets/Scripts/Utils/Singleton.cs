@@ -20,7 +20,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 _instance = FindObjectOfType<T>();
                 if (_instance == null)
                 {
-                    GameObject container = new GameObject(nameof(T));
+                    GameObject container = new GameObject(typeof(T).Name);
                     _instance = container.AddComponent<T>();
                     DontDestroyOnLoad(_instance);
                 }
