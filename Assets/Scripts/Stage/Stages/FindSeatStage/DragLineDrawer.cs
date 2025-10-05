@@ -22,11 +22,11 @@ public class DragLineDrawer : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                StartLine(InputManager.TouchWorldPos);
+                StartLine(InputManager.Instance.TouchWorldPos);
                 break;
 
             case InputActionPhase.Performed:
-                UpdateLine(InputManager.TouchWorldPos);
+                UpdateLine(InputManager.Instance.TouchWorldPos);
                 break;
 
             case InputActionPhase.Canceled:
@@ -105,9 +105,9 @@ public class DragLineDrawer : MonoBehaviour
 
         if (_ipManager != null)
         {
-            InputManager._pressAction.started += OnTouch;
-            InputManager._positionAction.performed += OnTouch;
-            InputManager._pressAction.canceled += OnTouch;
+            InputManager.Instance._pressAction.started += OnTouch;
+            InputManager.Instance._positionAction.performed += OnTouch;
+            InputManager.Instance._pressAction.canceled += OnTouch;
         }
     }
 
@@ -115,9 +115,9 @@ public class DragLineDrawer : MonoBehaviour
     {
         if (_ipManager != null)
         {
-            InputManager._pressAction.started -= OnTouch;
-            InputManager._positionAction.performed -= OnTouch;
-            InputManager._pressAction.canceled -= OnTouch;
+            InputManager.Instance._pressAction.started -= OnTouch;
+            InputManager.Instance._positionAction.performed -= OnTouch;
+            InputManager.Instance._pressAction.canceled -= OnTouch;
         }
     }
     

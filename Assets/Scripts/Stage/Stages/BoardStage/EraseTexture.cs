@@ -4,7 +4,7 @@ using UnityEngine;
 public class EraseTexture : MonoBehaviour
 {
     [Header("Erase Settings")]
-    public float eraseRadius = 50f; // È­¸é ±âÁØ Áö¿ì°³ ¹Ý°æ (World units)
+    public float eraseRadius = 50f; // È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì°³ ï¿½Ý°ï¿½ (World units)
 
     private SpriteRenderer spriteRenderer;
     private Texture2D runtimeTex;
@@ -13,13 +13,13 @@ public class EraseTexture : MonoBehaviour
 
     private int texWidth;
     private int texHeight;
-    private bool[,] erasedMask; // È­¸é ºñÀ² ±â¹ÝÀ¸·Î Áö¿î ¿µ¿ª ±â·Ï
+    private bool[,] erasedMask; // È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // ¿øº» Texture º¹Á¦ (ÇÁ¸®ÆÕ º¸È£)
+        // ï¿½ï¿½ï¿½ï¿½ Texture ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£)
         Texture2D srcTex = spriteRenderer.sprite.texture;
         Rect spriteRect = spriteRenderer.sprite.rect;
 
@@ -32,7 +32,7 @@ public class EraseTexture : MonoBehaviour
         ));
         runtimeTex.Apply();
 
-        // Sprite¸¦ »õ·Î »ý¼ºÇÏ¿© Renderer¿¡ Àû¿ë
+        // Spriteï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ Rendererï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         spriteRenderer.sprite = Sprite.Create(runtimeTex,
             new Rect(0, 0, runtimeTex.width, runtimeTex.height),
             spriteRenderer.sprite.pivot / new Vector2(spriteRect.width, spriteRect.height),
@@ -49,11 +49,11 @@ public class EraseTexture : MonoBehaviour
 
     void Update()
     {
-        if (!InputManager.IsPressing) return;
+        if (!InputManager.Instance.IsPressing) return;
 
-        Vector3 touchWorldPos = InputManager.TouchWorldPos;
+        Vector3 touchWorldPos = InputManager.Instance.TouchWorldPos;
 
-        // Sprite local ÁÂÇ¥
+        // Sprite local ï¿½ï¿½Ç¥
         Vector3 localPos = transform.InverseTransformPoint(touchWorldPos);
 
         // Sprite size (World units)
@@ -62,7 +62,7 @@ public class EraseTexture : MonoBehaviour
             spriteRenderer.sprite.bounds.size.y * transform.localScale.y
         );
 
-        // World localPos ¡æ Texture UV ÁÂÇ¥
+        // World localPos ï¿½ï¿½ Texture UV ï¿½ï¿½Ç¥
         float uvX = (localPos.x / spriteSize.x + 0.5f);
         float uvY = (localPos.y / spriteSize.y + 0.5f);
 
@@ -72,7 +72,7 @@ public class EraseTexture : MonoBehaviour
         int radiusPixelsX = Mathf.RoundToInt(eraseRadius / spriteSize.x * texWidth);
         int radiusPixelsY = Mathf.RoundToInt(eraseRadius / spriteSize.y * texHeight);
 
-        // Texture ¹üÀ§ ³»¿¡¼­ ¿øÇü ¿µ¿ª Áö¿ì±â
+        // Texture ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
         for (int y = -radiusPixelsY; y <= radiusPixelsY; y++)
         {
             for (int x = -radiusPixelsX; x <= radiusPixelsX; x++)

@@ -16,27 +16,27 @@ public class InputManager : Singleton<InputManager>
     //[SerializeField] private GameObject testObject; // 테스트용 오브젝트
     private PlayerInput _playerInput;
 
-    public static InputAction _tapAction;   // 탭 입력을 위한 액션
-    public static InputAction _pressAction;   // 지속 입력을 위한 액션
-    public static InputAction _positionAction; // 터치 위치 값을 받기 위한 액션
-    public static InputAction _dragAction;  // 드래그 델타 값을 받기 위한 액션
+    public InputAction _tapAction;   // 탭 입력을 위한 액션
+    public InputAction _pressAction;   // 지속 입력을 위한 액션
+    public InputAction _positionAction; // 터치 위치 값을 받기 위한 액션
+    public InputAction _dragAction;  // 드래그 델타 값을 받기 위한 액션
 
-    public static event Action OnStageTapPerformed;
+    public event Action OnStageTapPerformed;
 
-    private static bool _isPressing = false; // 터치 상태를 나타내는 변수
-    private static Vector2 _screenPos;         // 터치 스크린 좌표
-    private static Vector3 _touchWorldPos;      // 터치 월드 좌표
-    private static Vector2 _worldDelta;         // 드래그 시의 변화량
-    private static Collider2D _tappedCollider; // 탭한 콜라이더
-    private static Collider2D _touchedCollider; // 터치한 콜라이더
-    private static Collider2D _pressedCollider; // 선택된 콜라이더
+    private bool _isPressing = false; // 터치 상태를 나타내는 변수
+    private Vector2 _screenPos;         // 터치 스크린 좌표
+    private Vector3 _touchWorldPos;      // 터치 월드 좌표
+    private Vector2 _worldDelta;         // 드래그 시의 변화량
+    private Collider2D _tappedCollider; // 탭한 콜라이더
+    private Collider2D _touchedCollider; // 터치한 콜라이더
+    private Collider2D _pressedCollider; // 선택된 콜라이더
 
-    public static bool IsPressing => Instance ? _isPressing : false; // 외부에서 터치 상태를 확인할 수 있는 프로퍼티
-    public static Vector3 TouchWorldPos => Instance ? _touchWorldPos : default; // 외부에서 접근 시 해당 프로퍼티 사용
-    public static Vector2 Delta => Instance ? _worldDelta : default; // 외부에서 접근 시 해당 프로퍼티 사용
-    public static Collider2D TappedCollider => Instance ? _tappedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
-    public static Collider2D TouchedCollider => Instance ? _touchedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
-    public static Collider2D PressedCollider => Instance ? _pressedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
+    public bool IsPressing => Instance ? _isPressing : false; // 외부에서 터치 상태를 확인할 수 있는 프로퍼티
+    public Vector3 TouchWorldPos => Instance ? _touchWorldPos : default; // 외부에서 접근 시 해당 프로퍼티 사용
+    public Vector2 Delta => Instance ? _worldDelta : default; // 외부에서 접근 시 해당 프로퍼티 사용
+    public Collider2D TappedCollider => Instance ? _tappedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
+    public Collider2D TouchedCollider => Instance ? _touchedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
+    public Collider2D PressedCollider => Instance ? _pressedCollider : default; // 외부에서 접근 시 해당 프로퍼티 사용
 
     private void OnEnable()
     {

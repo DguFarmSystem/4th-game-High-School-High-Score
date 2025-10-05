@@ -62,7 +62,7 @@ public class PowerGauge : MonoBehaviour
 
     private void HandleIdleState()
     {
-        _student = InputManager.PressedCollider?.GetComponent<SnackDetector>();
+        _student = InputManager.Instance.PressedCollider?.GetComponent<SnackDetector>();
 
         if (_student)
         {
@@ -72,7 +72,7 @@ public class PowerGauge : MonoBehaviour
 
     private void HandlePressedState()
     {
-        if (InputManager.IsPressing)
+        if (InputManager.Instance.IsPressing)
         {
             Sprite currentSprite = gauge.transform.GetComponent<Image>().sprite;
             int scaledPressedTime = Mathf.FloorToInt(_student.PressedTime);

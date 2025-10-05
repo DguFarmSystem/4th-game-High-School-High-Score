@@ -33,10 +33,10 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         RemoveDuplicates();
     }
-    
+
     private void RemoveDuplicates()
     {
-        if(_instance == null)
+        if (_instance == null)
         {
             _instance = this as T;
             DontDestroyOnLoad(gameObject);

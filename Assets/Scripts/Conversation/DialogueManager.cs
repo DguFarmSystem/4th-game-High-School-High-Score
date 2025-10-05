@@ -43,48 +43,48 @@ public class DialogueManager : MonoBehaviour
     private Coroutine typingCoroutine;
     private bool isTyping = false;
     private string currentLineFullText;
-    private int currentTextIndex = 0; // texts ¹è¿­ ³» ÇöÀç ¹®Àå ÀÎµ¦½º
+    private int currentTextIndex = 0; // texts ï¿½è¿­ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½
 
     void OnEnable()
     {
-        // InputManagerÀÇ ÅÍÄ¡ ÀÌº¥Æ® ±¸µ¶
-        InputManager.OnStageTapPerformed += HandleTap;
+        // InputManagerï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+        InputManager.Instance.OnStageTapPerformed += HandleTap;
     }
 
     void OnDisable()
     {
-        // ÀÌº¥Æ® ±¸µ¶ ÇØÁ¦
-        InputManager.OnStageTapPerformed -= HandleTap;
+        // ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        InputManager.Instance.OnStageTapPerformed -= HandleTap;
     }
 
     private void HandleTap()
     {
         if(conversationData == null || currentIndex >= conversationData.conversation.Count)
         {
-            //¿©±â¼­ ´ÙÀ½ ¾ÀÀ¸·Î ³Ñ±â¸é µÉµí?
+            //ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½ ï¿½Éµï¿½?
             return;
         }
 
         if (isTyping)
         {
-            // Å¸ÀÌÇÎ ÁßÀÌ¸é Áï½Ã ÀüÃ¼ ¹®Àå Ç¥½Ã
+            // Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
             dialogueText.text = currentLineFullText;
             isTyping = false;
         }
         else
         {
-            // ÇöÀç È­ÀÚÀÇ texts ¹è¿­¿¡¼­ ´ÙÀ½ ¹®ÀåÀ¸·Î ÀÌµ¿
+            // ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ï¿½ï¿½ texts ï¿½è¿­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
             ConversationLine line = conversationData.conversation[currentIndex];
             currentTextIndex++;
 
             if (line.texts != null && currentTextIndex < line.texts.Count)
             {
-                typingCoroutine = StartCoroutine(TypeLine(line)); // ´ÙÀ½ ¹®Àå Ãâ·Â
+                typingCoroutine = StartCoroutine(TypeLine(line)); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             }
             else
             {
-                // ÇöÀç È­ÀÚ ¸ðµç ¹®Àå ¿Ï·á ¡æ ´ÙÀ½ ´ë»ç
+                // ï¿½ï¿½ï¿½ï¿½ È­ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
                 currentIndex++;
                 currentTextIndex = 0;
                 ShowLine();
@@ -122,17 +122,17 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("JSON ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù: " + filePath);
+            Debug.LogError("JSON ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½: " + filePath);
         }
     }
 
     /*
      characterImage
-    -1 : ¾Æ¹« ÀÌ¹ÌÁöµµ ¶ç¿ìÁö ¾Ê´Â´Ù.
-    0 : ÁÖÀÎ°ø È¥ÀÚ ´ëÈ­Ã¢¿¡ µîÀå, À§Ä¡ ¹Ù²Ù°í ¹è¿­ 3¹ø
-    1 : Ã¹ µîÀå - Ã¼ÀÎÀÌ ´ëÈ­ ÁøÇà, left element 2, right element 1
-    2 : ÁÖÀÎ°ø°ú Ã¼ÀÎÀÌ ÇÑ Àå¸é¿¡. ÁÖÀÎ°ø °­Á¶ È¿°ú. left element 0, right element 3
-    3 : Ã¼ÀÎ °­Á¶ È¿°ú.
+    -1 : ï¿½Æ¹ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
+    0 : ï¿½ï¿½ï¿½Î°ï¿½ È¥ï¿½ï¿½ ï¿½ï¿½È­Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ä¡ ï¿½Ù²Ù°ï¿½ ï¿½è¿­ 3ï¿½ï¿½
+    1 : Ã¹ ï¿½ï¿½ï¿½ï¿½ - Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½, left element 2, right element 1
+    2 : ï¿½ï¿½ï¿½Î°ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½é¿¡. ï¿½ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½. left element 0, right element 3
+    3 : Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½.
      */
     void ShowLine()
     {
@@ -174,7 +174,7 @@ public class DialogueManager : MonoBehaviour
                 Character2Img.sprite = ImageList[1];
             }
 
-            // coroutineÀ¸·Î Å¸ÀÌÇÎ È¿°ú ½ÃÀÛ
+            // coroutineï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
             typingCoroutine = StartCoroutine(TypeLine(line));
         }
@@ -194,7 +194,7 @@ public class DialogueManager : MonoBehaviour
         while (time < duration)
         {
             time += Time.deltaTime;
-            c.a = Mathf.Lerp(0f, 1f, time / duration); // 0¡æ1·Î Á¡Á¡ Áõ°¡
+            c.a = Mathf.Lerp(0f, 1f, time / duration); // 0ï¿½ï¿½1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             img.color = c;
             yield return null;
         }
@@ -207,7 +207,7 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
 
-        // texts°¡ ÀÖÀ¸¸é ÇöÀç ¹®Àå¸¸ Ãâ·Â
+        // textsï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½å¸¸ ï¿½ï¿½ï¿½
         if (line.texts != null && currentTextIndex < line.texts.Count)
         {
             currentLineFullText = line.texts[currentTextIndex];
@@ -236,20 +236,20 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    //µð¹ö±×¿ë ÇÔ¼ö
+    //ï¿½ï¿½ï¿½ï¿½×¿ï¿½ ï¿½Ô¼ï¿½
     private void EndDialogue()
     {
-        Debug.Log("´ëÈ­ Á¾·á");
+        Debug.Log("ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½");
         speakerText.text = "";
         dialogueText.text = "";
     }
 
-    //Skip ¹öÆ°¿ë ¸Þ¼­µå
+    //Skip ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public void SkipAll()
     {
         if (typingCoroutine != null) StopCoroutine(typingCoroutine);
 
-        currentIndex = conversationData.conversation.Count; // ´ëÈ­ ÀÎµ¦½º¸¦ ³¡À¸·Î ÀÌµ¿
+        currentIndex = conversationData.conversation.Count; // ï¿½ï¿½È­ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
         EndDialogue();
     }
 }

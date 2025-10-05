@@ -63,7 +63,7 @@ public class WindowClosingStage : StageNormal
                 break;
 
             case StageClearConditionType.KillBugs:
-                Collider2D touchedCollider = InputManager.TouchedCollider;
+                Collider2D touchedCollider = InputManager.Instance.TouchedCollider;
 
                 if (touchedCollider != null)
                 {
@@ -75,7 +75,7 @@ public class WindowClosingStage : StageNormal
                         bug.killbug();
                         _bugInStage--; // 벌레가 죽으면 스테이지 내 벌레 개수 감소
                         Debug.Log("Bugs in stage: " + _bugInStage);
-                        Collider2D[] hits = Physics2D.OverlapPointAll(InputManager.TouchWorldPos);
+                        Collider2D[] hits = Physics2D.OverlapPointAll(InputManager.Instance.TouchWorldPos);
                         Collider2D windowCol;
 
                         windowCol = hits
@@ -84,7 +84,7 @@ public class WindowClosingStage : StageNormal
                             .OrderBy(hit => hit.GetComponent<SpriteRenderer>().sortingOrder) // sortingOrder 기준으로 정렬
                             .LastOrDefault();
 
-                        GameObject broken = Instantiate(_windowBrokenPrefab, InputManager.TouchWorldPos, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
+                        GameObject broken = Instantiate(_windowBrokenPrefab, InputManager.Instance.TouchWorldPos, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
 
                         if (broken != null)
                         {
@@ -107,7 +107,7 @@ public class WindowClosingStage : StageNormal
     
     private void OnStageEndedGimmik(bool isStageCleared)
     {
-        InputManager.OnStageTapPerformed -= StageGimmikTap; // 이벤트 구독 해제
+        InputManager.Instance.OnStageTapPerformed -= StageGimmikTap; // 이벤트 구독 해제
 
         if (isStageCleared)
         {
@@ -184,13 +184,13 @@ public class WindowClosingStage : StageNormal
     public void OnEnable()
     {
 
-        InputManager.OnStageTapPerformed += StageGimmikTap;
+        InputManager.Instance.OnStageTapPerformed += StageGimmikTap;
         OnStageEnded += OnStageEndedGimmik;
     }
 
     public void OnDisable()
     {
-        InputManager.OnStageTapPerformed -= StageGimmikTap;
+        InputManager.Instance.OnStageTapPerformed -= StageGimmikTap;
         OnStageEnded -= OnStageEndedGimmik;
     }
 
@@ -262,10 +262,10 @@ public class WindowClosingStage : StageNormal
     void FixedUpdate()
     {
         if (CurrentStageState == StageState.Playing &&
-            InputManager.IsPressing &&
+            InputManager.Instance.IsPressing &&
             _stageClearConditions.Count > 0)
         {
-            Collider2D col = InputManager.PressedCollider;
+            Collider2D col = InputManager.Instance.PressedCollider;
 
             if (col != null)
             {
@@ -278,7 +278,7 @@ public class WindowClosingStage : StageNormal
 
                         if (obj.CompareTag("Window"))
                         {
-                            Vector2 moveVec = Vector2.right * InputManager.Delta.x;
+                            Vector2 moveVec = Vector2.right * InputManager.Instance.Delta.x;
 
                             float leftRange = _windowMovingRange.min.x - _windowBounds.min.x;
                             float rightRange = _windowMovingRange.max.x - _windowBounds.max.x;
@@ -303,7 +303,7 @@ public class WindowClosingStage : StageNormal
 
                         if (obj.CompareTag("Handle"))
                         {
-                            Vector2 moveVec = Vector2.up * InputManager.Delta.y;
+                            Vector2 moveVec = Vector2.up * InputManager.Instance.Delta.y;
 
                             float upRange = _fixedBlindBounds.max.y - _movingBlindBounds.max.y;
                             float downRange = _fixedBlindBounds.min.y - _movingBlindBounds.max.y;

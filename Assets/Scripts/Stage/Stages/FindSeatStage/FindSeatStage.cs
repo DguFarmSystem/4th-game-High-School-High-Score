@@ -37,13 +37,11 @@ public class FindSeatStage : StageNormal
 
         if (isStageCleared)
         {
-            //TEST CODE
             Debug.Log("Stage cleared!");
             StageManager.Instance.StageClear(true);
         }
         else
         {
-            //TEST CODE
             Debug.Log("Stage failed!");
             StageManager.Instance.StageClear(false);
         }
