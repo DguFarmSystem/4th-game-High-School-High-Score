@@ -28,7 +28,6 @@ public class Gauge_Timer : MonoBehaviour
         if(isRunning)
         {
             timeLeft -= Time.deltaTime; // �����Ӹ��� �ð� ����
-            Debug.Log("gauge decreased");
             // ���� �ð� ���� ���
             //float ratio = Mathf.Clamp01(timeLeft / duration);
             float ratio = timeLeft / duration;

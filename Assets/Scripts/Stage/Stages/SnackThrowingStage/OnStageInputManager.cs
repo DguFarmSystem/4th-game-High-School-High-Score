@@ -16,9 +16,9 @@ public class OnStageInputManager : MonoBehaviour
         {
             case InputActionPhase.Performed:
 
-                if (InputManager.PressedCollider)
+                if (InputManager.Instance.PressedCollider)
                 {
-                    _snackDetector = InputManager.PressedCollider.GetComponent<SnackDetector>();
+                    _snackDetector = InputManager.Instance.PressedCollider.GetComponent<SnackDetector>();
 
                     if (_snackDetector)
                     {
@@ -51,9 +51,8 @@ public class OnStageInputManager : MonoBehaviour
     {
         if (_ipManager != null)
         {
-            Debug.Log("InputManager found, enabling touch input.");
-            InputManager._pressAction.performed += OnTouch;
-            InputManager._pressAction.canceled  += OnTouch;
+            InputManager.Instance._pressAction.performed += OnTouch;
+            InputManager.Instance._pressAction.canceled  += OnTouch;
         }
     }
 
@@ -62,8 +61,8 @@ public class OnStageInputManager : MonoBehaviour
 
         if (_ipManager != null)
         {
-            InputManager._pressAction.performed -= OnTouch;
-            InputManager._pressAction.canceled  -= OnTouch;
+            InputManager.Instance._pressAction.performed -= OnTouch;
+            InputManager.Instance._pressAction.canceled  -= OnTouch;
         }
     }
 

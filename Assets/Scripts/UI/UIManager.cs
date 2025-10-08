@@ -7,7 +7,8 @@ public class UIManager : MonoBehaviour
 {
     public void ReloadScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //LoadingSceneController.Instance.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void LoadNextLevel()
@@ -17,11 +18,11 @@ public class UIManager : MonoBehaviour
 
         if (nextIndex < SceneManager.sceneCountInBuildSettings)
         {
-            SceneManager.LoadScene(nextIndex);
+            LoadingSceneController.Instance.LoadScene(nextIndex);
         }
         else
         {
-            SceneManager.LoadScene(1); // 마지막 씬이면 첫 번째 씬으로 돌아감
+            LoadingSceneController.Instance.LoadScene(2);
         }
 
         Debug.Log("다음 레벨 로드");
@@ -32,13 +33,13 @@ public class UIManager : MonoBehaviour
         int currentIndex = SceneManager.GetActiveScene().buildIndex;
         int prevIndex = currentIndex - 1;
 
-        if (prevIndex >= 1)
+        if (prevIndex >= 2)
         {
-            SceneManager.LoadScene(prevIndex);
+            LoadingSceneController.Instance.LoadScene(prevIndex);
         }
         else
         {
-            SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1); // 첫 번째 씬 이전이면 마지막 씬으로 돌아감
+            LoadingSceneController.Instance.LoadScene(SceneManager.sceneCountInBuildSettings - 1); // 첫 번째 씬 이전이면 마지막 씬으로 돌아감
         }
 
         Debug.Log("이전 레벨 로드");

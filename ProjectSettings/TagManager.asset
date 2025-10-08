@@ -13,6 +13,7 @@ TagManager:
   - LeftSide
   - RightSide
   - Desk
+  - Goal Indicator
   layers:
   - Default
   - TransparentFX

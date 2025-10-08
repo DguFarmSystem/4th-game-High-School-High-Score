@@ -1,150 +1,44 @@
-//using UnityEngine;
-
-//[RequireComponent(typeof(SpriteRenderer))]
-//public class EraseTexture : MonoBehaviour
-//{
-//    [Header("Erase Settings")]
-//    public float eraseRadius = 50f; // È­¸é ±âÁØ Áö¿ì°³ ¹Ý°æ (World units)
-
-//    private SpriteRenderer spriteRenderer;
-//    private Texture2D runtimeTex;
-//    private int totalPixels;
-//    private int erasedPixels;
-
-//    private int texWidth;
-//    private int texHeight;
-//    private bool[,] erasedMask; // È­¸é ºñÀ² ±â¹ÝÀ¸·Î Áö¿î ¿µ¿ª ±â·Ï
-
-//    void Start()
-//    {
-//        spriteRenderer = GetComponent<SpriteRenderer>();
-
-//        // ¿øº» Texture º¹Á¦ (ÇÁ¸®ÆÕ º¸È£)
-//        Texture2D srcTex = spriteRenderer.sprite.texture;
-//        Rect spriteRect = spriteRenderer.sprite.rect;
-
-//        runtimeTex = new Texture2D((int)spriteRect.width, (int)spriteRect.height, srcTex.format, false);
-//        runtimeTex.SetPixels(srcTex.GetPixels(
-//            (int)spriteRect.x,
-//            (int)spriteRect.y,
-//            (int)spriteRect.width,
-//            (int)spriteRect.height
-//        ));
-//        runtimeTex.Apply();
-
-//        // Sprite¸¦ »õ·Î »ý¼ºÇÏ¿© Renderer¿¡ Àû¿ë
-//        spriteRenderer.sprite = Sprite.Create(runtimeTex,
-//            new Rect(0, 0, runtimeTex.width, runtimeTex.height),
-//            spriteRenderer.sprite.pivot / new Vector2(spriteRect.width, spriteRect.height),
-//            spriteRenderer.sprite.pixelsPerUnit);
-
-//        texWidth = runtimeTex.width;
-//        texHeight = runtimeTex.height;
-
-//        totalPixels = texWidth * texHeight;
-//        erasedPixels = 0;
-
-//        erasedMask = new bool[texWidth, texHeight];
-//    }
-
-//    void Update()
-//    {
-//        if (!InputManager.IsPressing) return;
-
-//        Vector3 touchWorldPos = InputManager.TouchWorldPos;
-
-//        // Sprite local ÁÂÇ¥
-//        Vector3 localPos = transform.InverseTransformPoint(touchWorldPos);
-
-//        // Sprite size (World units)
-//        Vector2 spriteSize = new Vector2(
-//            spriteRenderer.sprite.bounds.size.x * transform.localScale.x,
-//            spriteRenderer.sprite.bounds.size.y * transform.localScale.y
-//        );
-
-//        // World localPos ¡æ Texture UV ÁÂÇ¥
-//        float uvX = (localPos.x / spriteSize.x + 0.5f);
-//        float uvY = (localPos.y / spriteSize.y + 0.5f);
-
-//        int centerX = Mathf.RoundToInt(uvX * texWidth);
-//        int centerY = Mathf.RoundToInt(uvY * texHeight);
-
-//        int radiusPixelsX = Mathf.RoundToInt(eraseRadius / spriteSize.x * texWidth);
-//        int radiusPixelsY = Mathf.RoundToInt(eraseRadius / spriteSize.y * texHeight);
-
-//        // Texture ¹üÀ§ ³»¿¡¼­ ¿øÇü ¿µ¿ª Áö¿ì±â
-//        for (int y = -radiusPixelsY; y <= radiusPixelsY; y++)
-//        {
-//            for (int x = -radiusPixelsX; x <= radiusPixelsX; x++)
-//            {
-//                int tx = centerX + x;
-//                int ty = centerY + y;
-
-//                if (tx >= 0 && tx < texWidth && ty >= 0 && ty < texHeight)
-//                {
-//                    if (x * x + y * y <= Mathf.Max(radiusPixelsX, radiusPixelsY) * Mathf.Max(radiusPixelsX, radiusPixelsY))
-//                    {
-//                        if (!erasedMask[tx, ty])
-//                        {
-//                            erasedMask[tx, ty] = true;
-//                            erasedPixels++;
-//                            runtimeTex.SetPixel(tx, ty, new Color(0, 0, 0, 0));
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
-//        runtimeTex.Apply();
-//    }
-
-//    public float GetErasedRatio()
-//    {
-//        return Mathf.Clamp01((float)erasedPixels / totalPixels);
-//    }
-//}
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class EraseTexture : MonoBehaviour
 {
-    [Header("Áö¿ì°³ ¼³Á¤")]
-    public float eraseRadius = 20f;           // Áö¿ì°³ ¹Ý°æ (ÇÈ¼¿ ´ÜÀ§)
-    public float erasedThreshold = 0.95f;     // Áö¿öÁø ÆÇÁ¤ ºñÀ² (0.95 = 95%)
-    private Texture2D originalTexture;        // ¿øº» ÅØ½ºÃ³
-    private Texture2D editableTexture;        // ¼öÁ¤ °¡´ÉÇÑ ÅØ½ºÃ³
+    [Header("ï¿½ï¿½ï¿½ì°³ ï¿½ï¿½ï¿½ï¿½")]
+    public float eraseRadius = 20f;           // ï¿½ï¿½ï¿½ì°³ ï¿½Ý°ï¿½ (ï¿½È¼ï¿½ ï¿½ï¿½ï¿½ï¿½)
+    public float erasedThreshold = 0.95f;     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (0.95 = 95%)
+    private Texture2D originalTexture;        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Ã³
+    private Texture2D editableTexture;        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Ã³
     private SpriteRenderer spriteRenderer;
-    private int totalPixels;                  // ÀüÃ¼ ÇÈ¼¿ °³¼ö
-    private int erasedPixels;                 // Áö¿öÁø ÇÈ¼¿ °³¼ö
+    private int totalPixels;                  // ï¿½ï¿½Ã¼ ï¿½È¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private int erasedPixels;                 // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È¼ï¿½ ï¿½ï¿½ï¿½ï¿½
     private bool isFullyErased = false;
-    // ÀÌ¹Ì Áö¿î ÇÈ¼¿ ÁÂÇ¥ ÀúÀå (Áßº¹ Ä«¿îÆ® ¹æÁö)
+    // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¼ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ (ï¿½ßºï¿½ Ä«ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½)
     private HashSet<Vector2Int> erasedPixelSet = new HashSet<Vector2Int>();
     public bool IsFullyErased => isFullyErased;
-    public float ErasedRatio => (float)erasedPixels / totalPixels; // ¿ÜºÎ¿¡¼­µµ ºñÀ² È®ÀÎ °¡´É
-    public GameObject eraseCursorPrefab; // ¿øÇü Áö¿ì°³ Ç¥½Ã¿ë ÇÁ¸®ÆÕ
+    public float ErasedRatio => (float)erasedPixels / totalPixels; // ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public GameObject eraseCursorPrefab; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì°³ Ç¥ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     private GameObject eraseCursorInstance;
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer == null)
         {
-            Debug.LogError("SpriteRenderer°¡ ¾ø½À´Ï´Ù!");
+            Debug.LogError("SpriteRendererï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½!");
             enabled = false;
             return;
         }
-        // ¿øº» ÅØ½ºÃ³ º¹»çÇØ¼­ ¼öÁ¤ °¡´ÉÇÏ°Ô ¸¸µé±â
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
         originalTexture = spriteRenderer.sprite.texture;
         editableTexture = Instantiate(originalTexture);
         editableTexture.Apply();
-        // SpriteRenderer¿¡ ¼öÁ¤ °¡´ÉÇÑ ÅØ½ºÃ³ Àû¿ë
+        // SpriteRendererï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½
         spriteRenderer.sprite = Sprite.Create(
             editableTexture,
             spriteRenderer.sprite.rect,
             spriteRenderer.sprite.pivot / spriteRenderer.sprite.rect.size,
             spriteRenderer.sprite.pixelsPerUnit
         );
-        // ÃÑ ÇÈ¼¿ ¼ö °è»ê
+        // ï¿½ï¿½ ï¿½È¼ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
         totalPixels = 0;
         Color[] pixels = editableTexture.GetPixels();
         int width = editableTexture.width;
@@ -164,11 +58,11 @@ public class EraseTexture : MonoBehaviour
         if (InputManager.IsPressing)
         {
             Vector3 pos = InputManager.TouchWorldPos;
-            pos.z = 0f; // z=0 Æò¸é °íÁ¤
+            pos.z = 0f; // z=0 ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             EraseAt(pos);
-            // µð¹ö±×
+            // ï¿½ï¿½ï¿½ï¿½ï¿½
             Debug.DrawLine(Camera.main.transform.position, pos, Color.red, 0.05f);
-            // Áö¿ì°³ À§Ä¡ °»½Å ¹× Ç¥½Ã
+            // ï¿½ï¿½ï¿½ì°³ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ç¥ï¿½ï¿½
             if (eraseCursorInstance != null)
             {
                 eraseCursorInstance.SetActive(true);
@@ -185,40 +79,40 @@ public class EraseTexture : MonoBehaviour
     }
     void EraseAt(Vector3 worldPos)
     {
-        // ÇÊµå: spriteRenderer, editableTexture, eraseRadius, erasedPixelSet, erasedPixels, isFullyErased, ErasedRatio, erasedThreshold µîÀº ±âÁ¸ ÄÚµå »ç¿ë
+        // ï¿½Êµï¿½: spriteRenderer, editableTexture, eraseRadius, erasedPixelSet, erasedPixels, isFullyErased, ErasedRatio, erasedThreshold ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½ï¿½ï¿½
         Vector3 localPos = spriteRenderer.transform.InverseTransformPoint(worldPos);
         Sprite sprite = spriteRenderer.sprite;
         if (sprite == null || editableTexture == null) return;
-        Rect rect = sprite.rect; // sprite ³»ºÎ rect (pixels)
+        Rect rect = sprite.rect; // sprite ï¿½ï¿½ï¿½ï¿½ rect (pixels)
         Vector4 border = sprite.border; // left, bottom, right, top (pixels)
         float ppu = sprite.pixelsPerUnit;
         Vector2 rendererSize = spriteRenderer.size; // world units
-        // border¸¦ ¿ùµå ´ÜÀ§·Î º¯È¯
+        // borderï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
         float leftWorld = border.x / ppu;
         float bottomWorld = border.y / ppu;
         float rightWorld = border.z / ppu;
         float topWorld = border.w / ppu;
-        // Áß¾Ó(´Ã¾î³ª´Â) ¿µ¿ªÀÇ ¿ùµå ±æÀÌ
+        // ï¿½ß¾ï¿½(ï¿½Ã¾î³ªï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         float centerWorldX = rendererSize.x - leftWorld - rightWorld;
         float centerWorldY = rendererSize.y - topWorld - bottomWorld;
-        // Áß¾Ó ¿µ¿ªÀÇ ¿ø·¡ ÇÈ¼¿ ±æÀÌ
+        // ï¿½ß¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¼ï¿½ ï¿½ï¿½ï¿½ï¿½
         float borderLeftPx = border.x;
         float borderRightPx = border.z;
         float borderBottomPx = border.y;
         float borderTopPx = border.w;
         float centerPxX = rect.width - borderLeftPx - borderRightPx;
         float centerPxY = rect.height - borderTopPx - borderBottomPx;
-        // 9-slice·Î Á¤È®È÷ ¸ÊÇÎÇÒ ¼ö ÀÖ´Â Á¶°Ç (¾ÈÀü¼º: ¸ðµç ºÐ¸ð°¡ 0ÀÌ¸é ´Ü¼ø ºñ·Ê fallback)
+        // 9-sliceï¿½ï¿½ ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ ï¿½Ð¸ï¿½ 0ï¿½Ì¸ï¿½ ï¿½Ü¼ï¿½ ï¿½ï¿½ï¿½ fallback)
         bool useNineSliceX = (borderLeftPx > 0f || borderRightPx > 0f) && centerPxX > 0f && (centerWorldX > 0f);
         bool useNineSliceY = (borderBottomPx > 0f || borderTopPx > 0f) && centerPxY > 0f && (centerWorldY > 0f);
-        // localPos´Â pivotÀ» ¿øÁ¡(0,0)À¸·Î ÇÔ ¡æ left edge¿¡¼­ÀÇ °Å¸®(¿ùµå) °è»êÀ» À§ÇØ pivotÀÇ '¿ùµå °Å¸® from left/bottom'À» ±¸ÇØ¾ß ÇÔ.
-        // pivotÀº sprite.pivot (pixels, origin = bottom-left)
+        // localPosï¿½ï¿½ pivotï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(0,0)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ left edgeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½(ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ pivotï¿½ï¿½ 'ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ from left/bottom'ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½.
+        // pivotï¿½ï¿½ sprite.pivot (pixels, origin = bottom-left)
         float pivotPxX = sprite.pivot.x;
         float pivotPxY = sprite.pivot.y;
         // Helper: inverse mapping world(distanceFromLeft) -> pixel within rect (px from left)
         float PixelXFromLocalX(float lx)
         {
-            // pivotÀÌ left¿¡¼­ ¶³¾îÁø ¿ùµå °Å¸®
+            // pivotï¿½ï¿½ leftï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½
             float pivotWorldFromLeft;
             if (useNineSliceX)
             {
@@ -236,10 +130,10 @@ public class EraseTexture : MonoBehaviour
             }
             else
             {
-                // fallback: ÀüÃ¼¸¦ ±ÕÀÏ ½ºÄÉÀÏ·Î Ãë±Þ
+                // fallback: ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½
                 pivotWorldFromLeft = (pivotPxX / rect.width) * rendererSize.x;
             }
-            // left¿¡¼­ÀÇ ½ÇÁ¦ ¿ùµå°Å¸® = pivotWorldFromLeft + local x (local x´Â pivot ±âÁØ)
+            // leftï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ = pivotWorldFromLeft + local x (local xï¿½ï¿½ pivot ï¿½ï¿½ï¿½ï¿½)
             float distanceFromLeft = pivotWorldFromLeft + lx;
             // clamp to sprite rendered width in world
             float totalWorldWidth = (useNineSliceX) ? (leftWorld + centerWorldX + rightWorld) : rendererSize.x;
@@ -296,13 +190,13 @@ public class EraseTexture : MonoBehaviour
                 return (distanceFromBottom / rendererSize.y) * rect.height;
             }
         }
-        // ¾ò°íÀÚ ÇÏ´Â ÅØ½ºÃ³ ³» ÇÈ¼¿ ÁÂÇ¥ (float)
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Ø½ï¿½Ã³ ï¿½ï¿½ ï¿½È¼ï¿½ ï¿½ï¿½Ç¥ (float)
         float pixelXf = PixelXFromLocalX(localPos.x);
         float pixelYf = PixelYFromLocalY(localPos.y);
-        // sprite.rectÀÇ (x,y)Àº ÅØ½ºÃ³ ¿øÁ¡(º¸Åë 0,0)¿¡¼­ÀÇ ¿ÀÇÁ¼ÂÀÌ¹Ç·Î ´õÇØÁà¾ß ½ÇÁ¦ ÅØ½ºÃ³ ÁÂÇ¥°¡ µÈ´Ù.
+        // sprite.rectï¿½ï¿½ (x,y)ï¿½ï¿½ ï¿½Ø½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ 0,0)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Ã³ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½È´ï¿½.
         int centerTexX = Mathf.RoundToInt(rect.x + pixelXf);
         int centerTexY = Mathf.RoundToInt(rect.y + pixelYf);
-        int radius = Mathf.CeilToInt(eraseRadius); // eraseRadius°¡ ÇÈ¼¿ ´ÜÀ§¶ó°í °¡Á¤
+        int radius = Mathf.CeilToInt(eraseRadius); // eraseRadiusï¿½ï¿½ ï¿½È¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         for (int y = -radius; y <= radius; y++)
         {
             for (int x = -radius; x <= radius; x++)
@@ -346,6 +240,6 @@ public class EraseTexture : MonoBehaviour
     }
     // void OnFullyErased()
     // {
-    //     Debug.Log($"{gameObject.name} ¡æ ¿ÏÀüÈ÷ Áö¿öÁü!");
+    //     Debug.Log($"{gameObject.name} ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½!");
     // }
 }

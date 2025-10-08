@@ -22,11 +22,11 @@ public class DragLineDrawer : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                StartLine(InputManager.TouchWorldPos);
+                StartLine(InputManager.Instance.TouchWorldPos);
                 break;
 
             case InputActionPhase.Performed:
-                UpdateLine(InputManager.TouchWorldPos);
+                UpdateLine(InputManager.Instance.TouchWorldPos);
                 break;
 
             case InputActionPhase.Canceled:
@@ -59,7 +59,7 @@ public class DragLineDrawer : MonoBehaviour
 
         if (hit != null)
         {
-            if (hit == _classRoomStage.TargetDesk.GetComponent<Collider2D>())
+            if (hit == _classRoomStage.Goal.GetComponent<Collider2D>())
             {
                 // 목표 좌석에 닿았을 때 라인 드로잉 중지
                 _classRoomStage.stageClearFlag = true;
@@ -105,10 +105,9 @@ public class DragLineDrawer : MonoBehaviour
 
         if (_ipManager != null)
         {
-            Debug.Log("InputManager found, enabling touch input.");
-            InputManager._pressAction.started += OnTouch;
-            InputManager._positionAction.performed += OnTouch;
-            InputManager._pressAction.canceled += OnTouch;
+            InputManager.Instance._pressAction.started += OnTouch;
+            InputManager.Instance._positionAction.performed += OnTouch;
+            InputManager.Instance._pressAction.canceled += OnTouch;
         }
     }
 
@@ -116,9 +115,9 @@ public class DragLineDrawer : MonoBehaviour
     {
         if (_ipManager != null)
         {
-            InputManager._pressAction.started -= OnTouch;
-            InputManager._positionAction.performed -= OnTouch;
-            InputManager._pressAction.canceled -= OnTouch;
+            InputManager.Instance._pressAction.started -= OnTouch;
+            InputManager.Instance._positionAction.performed -= OnTouch;
+            InputManager.Instance._pressAction.canceled -= OnTouch;
         }
     }
     

@@ -59,17 +59,20 @@ public class SnackDetector : MonoBehaviour
         {
             PowerGauge gauge = FindObjectOfType<PowerGauge>();
             Teacher teacher = FindObjectOfType<Teacher>();
-            
+
             if (_pressedTime > 0f && teacher.IsTurning)
             {
                 FindObjectOfType<SnackThrowingStage>().SetStageFailed();
+                gauge.setGaugeColor(new Color(255f / 255f, 127f / 255f, 127f / 255f, 1f)); // 빨간색
+                _pressedTime = 0f;
+                return;
             }
             
             if (_pressedTime >= Distance && _pressedTime < Distance + 1f)
             {
                 if (gauge.transform.GetChild(0).gameObject.activeSelf)
                 {
-                    gauge.setGaugeColor(Color.green);
+                    gauge.setGaugeColor(new Color(127f / 255f, 255f / 255f, 127f / 255f, 1f)); // 초록색
 
                     Candies candies = FindObjectOfType<Candies>();
                     if (candies)
@@ -82,7 +85,7 @@ public class SnackDetector : MonoBehaviour
             }
             else if (!Mathf.Approximately(_pressedTime, 0f) && gauge.transform.GetChild(0).gameObject.activeSelf)
             {
-                gauge.setGaugeColor(Color.red);
+                gauge.setGaugeColor(new Color(255f / 255f, 127f / 255f, 127f / 255f, 1f)); // 빨간색
             }
             
 

@@ -45,6 +45,10 @@ public class Candies : MonoBehaviour
             candy.transform.localPosition = new Vector3(0, 5f, 0);
 
             student.GetComponent<SnackDetector>().GetCandy();
+
+            yield return new WaitForSeconds(1f);
+
+            candy.SetActive(false);
         }
         else
         {
