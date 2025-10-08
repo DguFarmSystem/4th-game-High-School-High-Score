@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eraseRadius: 100
+  erasedThreshold: 0.6
+  eraseCursorPrefab: {fileID: 0}
 --- !u!212 &7594895995051142275
 SpriteRenderer:
   m_ObjectHideFlags: 0
