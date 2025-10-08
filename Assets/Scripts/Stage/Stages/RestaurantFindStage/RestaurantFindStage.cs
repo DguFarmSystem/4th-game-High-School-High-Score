@@ -6,24 +6,24 @@ using UnityEngine.UI;
 
 public class RestaurantFindStage : StageNormal
 {
-    [Header("Plate Prefabs - 4개 프리팹")]
-    [SerializeField] private GameObject eggplatePrefab; // 에그플레이트 접시 프리팹
-    [SerializeField] private GameObject omuricePrefab; // 오므라이스 접시 프리팹
-    [SerializeField] private GameObject parfaitPrefab; // 파르페 접시 프리팹
-    [SerializeField] private GameObject sushiPrefab; // 스시 접시 프리팹
+    [Header("접시 프리팹")]
+    [SerializeField] private GameObject eggplatePrefab;
+    [SerializeField] private GameObject omuricePrefab;
+    [SerializeField] private GameObject parfaitPrefab;
+    [SerializeField] private GameObject sushiPrefab;
     
     [Header("UI References")]
     [SerializeField] private Transform platesContainer; // Canvas 안의 접시 컨테이너
     [SerializeField] private Vector3[] platePositions = new Vector3[3]; // 3개 접시 위치 (RectTransform)
     [SerializeField] private Image wantedPosterFood; // Wanted 포스터 Image
     
-    [Header("Wanted Poster Sprites - 4개")]
+    [Header("포스터")]
     [SerializeField] private Sprite eggPlateWantedSprite; // eggplate 포스터
     [SerializeField] private Sprite omuriceWantedSprite; // omurice 포스터
     [SerializeField] private Sprite parfaitWantedSprite; // parfait 포스터
     [SerializeField] private Sprite sushiWantedSprite; // sushi 포스터
     
-    [Header("Animation Settings")]
+    [Header("애니메이션 속도")]
     [SerializeField] private float showFoodDuration = 2f;
     [SerializeField] private float lidCloseDuration = 1f;
     [SerializeField] private Animator shuffleAnimator;
@@ -81,9 +81,6 @@ public class RestaurantFindStage : StageNormal
         }
     }
     
-    /// <summary>
-    /// 게임 시퀀스
-    /// </summary>
     private IEnumerator GameSequence()
     {
         // 1. Wanted 포스터 랜덤 선택 & 접시 소환
@@ -107,16 +104,12 @@ public class RestaurantFindStage : StageNormal
         StartCoroutine(StartGameTimer());
     }
     
-    /// <summary>
-    /// Wanted 포스터 선택 & 접시 3개 소환
-    /// 중요: 3개 중 최소 1개는 Wanted와 같은 음식!
-    /// </summary>
     private void SpawnPlatesWithTarget()
     {
         GameObject[] allPrefabs = { eggplatePrefab, omuricePrefab, parfaitPrefab, sushiPrefab };
         Sprite[] allWantedSprites = { eggPlateWantedSprite, omuriceWantedSprite, parfaitWantedSprite, sushiWantedSprite };
         
-        // 1. Wanted 포스터 랜덤 선택 (4개 중 1개)
+        // 포스터 랜덤 선택
         targetFoodIndex = Random.Range(0, 4);
         
         // Wanted 포스터 표시
@@ -125,13 +118,13 @@ public class RestaurantFindStage : StageNormal
             wantedPosterFood.sprite = allWantedSprites[targetFoodIndex];
         }
         
-        // 2. 접시 3개 선택 (4개 중 3개, 단 targetFood는 무조건 포함!)
+        // 접시 3개 선택
         List<int> selectedIndices = SelectThreePlatesWithTarget(targetFoodIndex);
         
-        // 3. 정답 접시 위치 결정 (선택된 3개 중 targetFood가 있는 위치)
+        // 정답 접시 위치 결정
         correctPlateIndex = selectedIndices.IndexOf(targetFoodIndex);
         
-        // 4. 접시 3개 소환
+        // 접시 3개 소환
         for (int i = 0; i < 3; i++)
         {
             int foodIndex = selectedIndices[i];
@@ -157,9 +150,6 @@ public class RestaurantFindStage : StageNormal
         }
     }
     
-    /// <summary>
-    /// 4개 중 3개 선택, 단 targetFoodIndex는 무조건 포함!
-    /// </summary>
     private List<int> SelectThreePlatesWithTarget(int targetIndex)
     {
         List<int> result = new List<int>();
@@ -197,39 +187,33 @@ public class RestaurantFindStage : StageNormal
         return result;
     }
     
-    /// <summary>
-    /// 뚜껑 닫기
-    /// </summary>
+    // 접시 닫기
     private IEnumerator CloseLids()
     {
         foreach (var plate in spawnedPlates)
         {
             plate.CloseLid();
         }
-        
+
         yield return new WaitForSeconds(lidCloseDuration);
     }
     
-    /// <summary>
-    /// 접시 섞기
-    /// </summary>
+    // 섞기
     private IEnumerator ShufflePlates()
     {
         if (shuffleAnimator != null)
         {
             shuffleAnimator.SetTrigger("Shuffle");
         }
-        
+
         yield return new WaitForSeconds(shuffleDuration);
     }
     
-    /// <summary>
-    /// 타이머 시작
-    /// </summary>
+    // 타이머 시작
     private IEnumerator StartGameTimer()
     {
         yield return new WaitForSeconds(timerTime);
-        
+
         if (CurrentStageState == StageState.Playing && !hasSelected)
         {
             canSelectPlate = false;
@@ -239,9 +223,7 @@ public class RestaurantFindStage : StageNormal
         }
     }
     
-    /// <summary>
     /// 플레이어가 접시 선택
-    /// </summary>
     public void OnPlateSelected(PlateController selectedPlate)
     {
         if (!canSelectPlate || hasSelected || currentGameState != GameState.WaitingSelection)
@@ -255,9 +237,7 @@ public class RestaurantFindStage : StageNormal
         StartCoroutine(HandlePlateSelection(selectedPlate));
     }
     
-    /// <summary>
     /// 선택 처리
-    /// </summary>
     private IEnumerator HandlePlateSelection(PlateController selectedPlate)
     {
         currentGameState = GameState.Revealing;
@@ -284,22 +264,6 @@ public class RestaurantFindStage : StageNormal
         currentGameState = GameState.Ended;
     }
     
-    // ============ Lifecycle methods ============ //
-    void Awake()
-    {
-        if (eggplatePrefab == null || omuricePrefab == null || 
-            parfaitPrefab == null || sushiPrefab == null)
-        {
-            Debug.LogError("Plate prefabs are not properly set!");
-        }
-        
-        if (eggPlateWantedSprite == null || omuriceWantedSprite == null || 
-            parfaitWantedSprite == null || sushiWantedSprite == null)
-        {
-            Debug.LogError("Wanted sprites are not properly set!");
-        }
-    }
-    
     void OnEnable()
     {
         OnStageEnded += OnStageEndedGimmik;
@@ -314,10 +278,5 @@ public class RestaurantFindStage : StageNormal
     {
         OnStageStart();
         StartCoroutine(GameSequence());
-    }
-    
-    void Update()
-    {
-        // 필요한 업데이트 로직
     }
 }
