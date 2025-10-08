@@ -9,7 +9,6 @@ public class ChooseResources : MonoBehaviour
     public Sprite[] backgrounds;                   //배경 이미지 설정
     public Sprite[] Erasers;                       //지우개 이미지 설정
     [SerializeField] private Image image;          //선택한 배경 이미지를 넣을 이미지 오브젝트
-    [SerializeField] private Text InfoText;
     //백그라운드 이미지 개수에 따라 번갈아가면서 출력되도록 하는 static 변수(구현 예정)
     //static private int ImageNum = 0;
     //Start is called before the first frame update
@@ -17,18 +16,6 @@ public class ChooseResources : MonoBehaviour
     void Start()
     {
         int randIndex = Random.Range(0, backgrounds.Length);
-        if(randIndex == 0)
-        {
-            InfoText.color = Color.white;
-        }
-        else if (randIndex == 1)
-        {
-            InfoText.color = Color.black;
-        }
-        else if (randIndex == 2)
-        {
-            InfoText.color = Color.cyan;
-        }
         image.sprite = backgrounds[randIndex];
     }
 
