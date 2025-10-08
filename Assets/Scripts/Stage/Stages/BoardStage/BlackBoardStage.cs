@@ -71,7 +71,7 @@ public class BlackBoardStage : StageNormal
 
     void Update()
     {
-        float erasedRatio = eraseObject.GetErasedRatio();
+        float erasedRatio = eraseObject.ErasedRatio;
 
         // 디버그 출력
         Debug.Log($"Erased Ratio: {erasedRatio * 100f:0.00}%");

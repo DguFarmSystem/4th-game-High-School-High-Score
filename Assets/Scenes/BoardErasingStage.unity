@@ -205,7 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8424597b27f4bc04184a12eca3b346a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTime: 7
   targetImage: {fileID: 178283839}
   timerSprites:
   - {fileID: 21300000, guid: 31a510241f8529543beb8535bc4979dc, type: 3}
@@ -327,7 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a6c35ca6b9886947922fdb83d792a0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerTime: 5
+  timerTime: 7
   erasePrefabs:
   - {fileID: 7594895995051142273, guid: ee8fb746a397a524f8f4312827bdd73d, type: 3}
   - {fileID: 2890047266602959167, guid: 99e7784b374838c4f9d3cb91bde4fa58, type: 3}
@@ -369,7 +368,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f7036ed23e85ecc40be60af3db2a433b, type: 3}
   - {fileID: 21300000, guid: daf03cd2fd86f2a478299f3a6702be92, type: 3}
   image: {fileID: 2030853539}
-  InfoText: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

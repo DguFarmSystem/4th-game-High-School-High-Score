@@ -2,22 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Stage;
 
 public class ProcessTimer : MonoBehaviour
 {
-    [Header("Timer Settings")]
-    public float totalTime = 6f; // 전체 시간 (초 단위)
-
     [Header("Image Settings")]
     public Image targetImage; // 타이머에 표시할 Image
     public Sprite[] timerSprites; // 타이머 단계별 이미지 (6장)
 
+    private float totalTime;
     private float elapsedTime = 0f;
     private int currentIndex = 0;
     private bool isRunning = false;
     // Start is called before the first frame update
     void Start()
     {
+        //스테이지 매니저에서 시간을 가져옴
+        StageNormal manager = FindObjectOfType<StageNormal>();
+        totalTime = manager.TimerTime;
         // 시작 시 초기 이미지 설정
         if (timerSprites.Length > 0 && targetImage != null)
             targetImage.sprite = timerSprites[0];
