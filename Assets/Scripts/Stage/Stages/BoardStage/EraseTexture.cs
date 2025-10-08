@@ -161,9 +161,9 @@ public class EraseTexture : MonoBehaviour
     }
     void Update()
     {
-        if (InputManager.IsPressing)
+        if (InputManager.Instance.IsPressing)
         {
-            Vector3 pos = InputManager.TouchWorldPos;
+            Vector3 pos = InputManager.Instance.TouchWorldPos;
             pos.z = 0f; // z=0 ��� ����
             EraseAt(pos);
             // �����
