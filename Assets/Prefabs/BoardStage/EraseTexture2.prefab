@@ -97,4 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5055378d97b4d354281345e92237a965, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eraseRadius: 0.5
+  eraseRadius: 100
+  erasedThreshold: 0.6
+  eraseCursorPrefab: {fileID: 0}
