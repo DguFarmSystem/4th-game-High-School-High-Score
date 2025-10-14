@@ -5,6 +5,9 @@ MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - _skinData: {fileID: 11400000, guid: 265bc1b58e3e8034081efa6c32cf9482, type: 2}
+  - _transitionTemplate: {fileID: 5276914992623515724, guid: 616d511151a6c554caddf1c754e4f91d,
+      type: 3}
+  - _transition: {fileID: 11400000, guid: b0126e1e0c6c2a04895d564bd230dfb9, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

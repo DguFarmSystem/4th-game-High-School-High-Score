@@ -627,6 +627,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skinData: {fileID: 11400000, guid: 265bc1b58e3e8034081efa6c32cf9482, type: 2}
+  _transitionTemplate: {fileID: 5276914992623515724, guid: 616d511151a6c554caddf1c754e4f91d,
+    type: 3}
+  _transition: {fileID: 11400000, guid: b0126e1e0c6c2a04895d564bd230dfb9, type: 2}
 --- !u!4 &45355808
 Transform:
   m_ObjectHideFlags: 0
@@ -2264,6 +2267,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b372007930aa204889dd484ccd53fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tapAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  _pressAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  _positionAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  _dragAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!4 &515484725
 Transform:
   m_ObjectHideFlags: 0
@@ -4796,7 +4835,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

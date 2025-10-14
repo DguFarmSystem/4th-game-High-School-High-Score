@@ -61,13 +61,13 @@ public class DialogueManager : MonoBehaviour
     {
         if(conversationData == null || currentIndex >= conversationData.conversation.Count)
         {
-            //���⼭ ���� ������ �ѱ�� �ɵ�?
+            //���⼭ ���� ������ �ѱ��? �ɵ�?
             return;
         }
 
         if (isTyping)
         {
-            // Ÿ���� ���̸� ��� ��ü ���� ǥ��
+            // Ÿ���� ���̸� ���? ��ü ���� ǥ��
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
             dialogueText.text = currentLineFullText;
             isTyping = false;
@@ -80,11 +80,11 @@ public class DialogueManager : MonoBehaviour
 
             if (line.texts != null && currentTextIndex < line.texts.Count)
             {
-                typingCoroutine = StartCoroutine(TypeLine(line)); // ���� ���� ���
+                typingCoroutine = StartCoroutine(TypeLine(line)); // ���� ���� ���?
             }
             else
             {
-                // ���� ȭ�� ��� ���� �Ϸ� �� ���� ���
+                // ���� ȭ�� ���? ���� �Ϸ� �� ���� ���?
                 currentIndex++;
                 currentTextIndex = 0;
                 ShowLine();
@@ -128,10 +128,10 @@ public class DialogueManager : MonoBehaviour
 
     /*
      characterImage
-    -1 : �ƹ� �̹����� ����� �ʴ´�.
+    -1 : �ƹ� �̹����� �����? �ʴ´�.
     0 : ���ΰ� ȥ�� ��ȭâ�� ����, ��ġ �ٲٰ� �迭 3��
     1 : ù ���� - ü���� ��ȭ ����, left element 2, right element 1
-    2 : ���ΰ��� ü���� �� ��鿡. ���ΰ� ���� ȿ��. left element 0, right element 3
+    2 : ���ΰ��� ü���� �� ���?. ���ΰ� ���� ȿ��. left element 0, right element 3
     3 : ü�� ���� ȿ��.
      */
     void ShowLine()
@@ -207,7 +207,7 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
 
-        // texts�� ������ ���� ���常 ���
+        // texts�� ������ ���� ���常 ���?
         if (line.texts != null && currentTextIndex < line.texts.Count)
         {
             currentLineFullText = line.texts[currentTextIndex];
@@ -236,12 +236,26 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    //����׿� �Լ�
+    //����׿�? �Լ�
     private void EndDialogue()
     {
         Debug.Log("��ȭ ����");
         speakerText.text = "";
         dialogueText.text = "";
+
+        // TEST CODE
+        StageManager.Instance.Initialize(
+            new List<string> {
+                SceneNames.FindSeat,
+                SceneNames.FindSeat,
+                SceneNames.FindSeat,
+                SceneNames.SnackThrowing,
+            },
+            "tutorial"
+            ,
+            StageManager.GameMode.Tutorial
+        );
+        StageManager.Instance.LoadNextStage();
     }
 
     //Skip ��ư�� �޼���

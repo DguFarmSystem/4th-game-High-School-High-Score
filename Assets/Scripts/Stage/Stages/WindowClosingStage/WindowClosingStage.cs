@@ -190,6 +190,7 @@ public class WindowClosingStage : StageNormal
 
     public void OnDisable()
     {
+        if (!InputManager.Instance) return;
         InputManager.Instance.OnStageTapPerformed -= StageGimmikTap;
         OnStageEnded -= OnStageEndedGimmik;
     }

@@ -63,6 +63,8 @@ public class LoadingSceneController : MonoBehaviour
 
     private string mLoadSceneName;
 
+    public bool IsSceneLoaded { get; private set; } = false;
+
     Action mOnSceneLoadAction;
 
     public void LoadScene(string sceneName, Action action = null)
@@ -97,7 +99,7 @@ public class LoadingSceneController : MonoBehaviour
     {
         //mProgressBar.fillAmount = 0.0f;
         float fadeTimer = 0.0f;
-        float fadeDuration = 1.0f;
+        float fadeDuration = 2.0f;
 
         //코루틴 안에서 yield return으로 코루틴을 실행하면.. 해당 코루틴이 끝날때까지 대기한다
         yield return StartCoroutine(Fade(true));
@@ -140,6 +142,7 @@ public class LoadingSceneController : MonoBehaviour
         if (arg0.name == mLoadSceneName)
         {
             StartCoroutine(Fade(false));
+            IsSceneLoaded = true;
             SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
@@ -169,5 +172,10 @@ public class LoadingSceneController : MonoBehaviour
 
         if (!isFadeIn)
             gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        IsSceneLoaded = false;
     }
 }

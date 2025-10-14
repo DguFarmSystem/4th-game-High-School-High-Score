@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SnackThrowingStage.unity
     guid: 9f84d2632c8e6154790d8d722c752f0f
+  - enabled: 1
+    path: Assets/Scenes/Conversation.unity
+    guid: e0e0090473e6a9c46aa243fdd5b62d7f
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}

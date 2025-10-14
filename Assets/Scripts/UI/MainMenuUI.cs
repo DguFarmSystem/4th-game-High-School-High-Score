@@ -22,17 +22,22 @@ public class MainMenuUI : MonoBehaviour
             PopUpEnterNameWindow(true);
             return;
         }
-        //LoadingSceneController.Instance.LoadScene(SceneNames.WindowClosing); // 추후 세이브 데이터와 연계하도록 변경
+
+        LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvBefore); // 추후 세이브 데이터와 연계하도록 변경
+        /*
         StageManager.Instance.Initialize(
             new List<string> {
                 SceneNames.FindSeat,
-                SceneNames.WindowClosing,
+                SceneNames.FindSeat,
                 SceneNames.FindSeat,
                 SceneNames.SnackThrowing,
             },
             "tutorial"
+            ,
+            StageManager.GameMode.Tutorial
         );
         StageManager.Instance.LoadNextStage();
+        */
     }
 
     public void PopUpSettings()
