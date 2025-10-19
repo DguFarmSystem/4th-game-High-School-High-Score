@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 8340f774f662c514797a231cb39963ac
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _goldenSpongeSprite: {fileID: 21300000, guid: 7ce51adf7ef6c634e957455689a0680c,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

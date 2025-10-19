@@ -219,7 +219,7 @@ public class StageManager : Singleton<StageManager>
     {
         _sceneIndex = 0;
         _difficulty = 1;
-        _hp = 4;
+        _hp = 1;
         _sceneNames.Clear();
         _gameMode = GameMode.Normal;
         if (_ui != null) Destroy(_ui);
