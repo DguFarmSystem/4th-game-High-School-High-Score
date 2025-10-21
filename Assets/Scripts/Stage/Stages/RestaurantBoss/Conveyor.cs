@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 public class Conveyor : MonoBehaviour
 {
@@ -21,6 +22,13 @@ public class Conveyor : MonoBehaviour
     [SerializeField] private GameObject _cupPrefab;
     [SerializeField] private GameObject _goldenSpongePrefab;
     [SerializeField] private GameObject _timerPrefab;
+
+    [Space(10)]
+
+    [Header("Item Icons")]
+    [SerializeField] private GameObject _cakeIcon;
+    [SerializeField] private GameObject _cupIcon;
+
 
     [Space(10)]
 
@@ -102,15 +110,15 @@ public class Conveyor : MonoBehaviour
             items[i].transform.position = _conveyorPositions[i];
         }
 
-        // 황금수세미가 남아있다면
-        if (GoldenSpongeItem.SpongeCount > 0)
+        if (_itemSpawnIndex != 0 && _itemSpawnIndex % 50 == 0) // 타이머 추가
         {
-            ConveyorQueue.Enqueue(SpawnItem(_goldenSpongePrefab, _conveyorEndPosition));
-            yield break;
+            _itemSpawnList.Add(_timerPrefab);
         }
 
+        // 아이템 스폰 프로세스 
+
         // 콤보 시 황금수세미 스폰
-        if (LeftRightBtn.Combo > 0 && (LeftRightBtn.Combo - 10) % 20 == 0)
+        if (LeftRightBtn.Combo >= 30 && (LeftRightBtn.Combo % 20 == 10))
         {
             GameObject initialSponge = SpawnItem(_goldenSpongePrefab, _conveyorEndPosition);
 
@@ -133,34 +141,44 @@ public class Conveyor : MonoBehaviour
             yield break;
         }
 
-        if (_itemSpawnIndex != 0 && _itemSpawnIndex % 50 == 0) // 타이머 추가
-        {
-            _itemSpawnList.Add(_timerPrefab);
-        }
-
         // 맨 앞에 새로운 아이템 추가
         if (_itemSpawnIndex == 30) // 케이크 추가
         {
-            ConveyorQueue.Enqueue(SpawnItem(_cakePrefab, _conveyorEndPosition));
+            GameObject cakeItem = SpawnItem(_cakePrefab, _conveyorEndPosition);
+            if (GoldenSpongeItem.SpongeCount > 0)
+                cakeItem.GetComponent<ConveyorItem>().SwitchToGoldenSponge();
+            ConveyorQueue.Enqueue(cakeItem);
             _itemSpawnList.Add(_cakePrefab);
-        }
-        else if (_itemSpawnIndex == 60) // 컵 추가
-        {
-            ConveyorQueue.Enqueue(SpawnItem(_cupPrefab, _conveyorEndPosition));
-            _itemSpawnList.Add(_cupPrefab);
-        }
-        else
-        {
-            GameObject randomItem = _itemSpawnList[Random.Range(0, _itemSpawnList.Count)];
+            _cakeIcon.GetComponent<Image>().enabled = true;
 
-            if (randomItem == _timerPrefab)
-            {
-                _itemSpawnList.Remove(_timerPrefab); // 타이머는 한 번만 추가
-            }
-            
-            ConveyorQueue.Enqueue(SpawnItem(randomItem, _conveyorEndPosition));
+            yield break;
         }
-    }
+
+        if (_itemSpawnIndex == 60) // 컵 추가
+        {
+            GameObject cupItem = SpawnItem(_cupPrefab, _conveyorEndPosition);
+            if (GoldenSpongeItem.SpongeCount > 0)
+                cupItem.GetComponent<ConveyorItem>().SwitchToGoldenSponge();
+            ConveyorQueue.Enqueue(cupItem);
+            _itemSpawnList.Add(_cupPrefab);
+            _cupIcon.GetComponent<Image>().enabled = true;
+
+            yield break;
+        }
+
+        GameObject randomItem = _itemSpawnList[Random.Range(0, _itemSpawnList.Count)];
+
+        if (randomItem == _timerPrefab)
+        {
+            _itemSpawnList.Remove(_timerPrefab); // 타이머는 한 번만 추가
+        }
+
+        GameObject item = SpawnItem(randomItem, _conveyorEndPosition);
+
+        if (GoldenSpongeItem.SpongeCount > 0)
+            item.GetComponent<ConveyorItem>().SwitchToGoldenSponge();
+        ConveyorQueue.Enqueue(item);
+}
 
     private void InitializeConveyor()
     {
@@ -199,10 +217,5 @@ public class Conveyor : MonoBehaviour
     void Start()
     {
         InitializeConveyor();
-    }
-
-    void Update()
-    {
-
     }
 }
