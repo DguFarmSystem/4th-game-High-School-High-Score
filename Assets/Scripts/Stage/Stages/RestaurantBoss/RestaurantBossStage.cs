@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Stage;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,8 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
     [SerializeField] private Button _leftButton;
     [SerializeField] private Button _rightButton;
     [SerializeField] private GameObject _timerBarNGoal;
+
+    [SerializeField] public int ClearItemCount { get; private set; }= 150;
 
     public float StageTimeLimit { get; private set; } = 30f; // 30초
 
@@ -55,29 +58,34 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
         yield return new WaitForSeconds(2f);
 
         if (isStageCleared)
-        {
+        {   
             //TEST CODE
             Debug.Log("Stage cleared!");
 
-            //StageManager.Instance.StageClear(true);
+            StageManager.Instance.StageClear(true);
         }
         else
         {
             //TEST CODE
             Debug.Log("Stage failed!");
 
-            //StageManager.Instance.StageClear(false);
+            StageManager.Instance.StageClear(false);
         }
     }
 
     private IEnumerator DelayedStart()
     {
         yield return new WaitForSeconds(2.3f); // 2.3초 대기
-        // 스테이지 시작
-        OnStageStart();
+        
         _leftButton.interactable = true;
         _rightButton.interactable = true;
+
+        TextMeshProUGUI _timerText = _timerBarNGoal.GetComponentInChildren<TextMeshProUGUI>(true);
+        _timerText.text = $"목표까지 {ClearItemCount} 개";
         _timerBarNGoal.SetActive(true);
+
+        // 스테이지 시작
+        OnStageStart();
     }
 
     public void GetExtraTime(float extraTime)
@@ -104,11 +112,11 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
 
     void Update()
     {
-        StageTimeLimit -= Time.deltaTime;
-        
         if (CurrentStageState != StageState.Playing) return;
+        
+        StageTimeLimit -= Time.deltaTime;
 
-        if (CurrentStageState == StageState.Playing && LeftRightBtn.CorrectInputCount >= 150)
+        if (CurrentStageState == StageState.Playing && LeftRightBtn.CorrectInputCount >= ClearItemCount)
         {
             SetStageClear();
         }

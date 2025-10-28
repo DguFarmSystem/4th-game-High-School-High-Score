@@ -10,8 +10,8 @@ using EasyTransition;
 public class StageManager : Singleton<StageManager>
 {
     [SerializeField] private StageIntervalSkin _skinData;
-    [SerializeField] private GameObject _transitionTemplate;
-    [SerializeField] private TransitionSettings _transition;
+    //[SerializeField] private GameObject _transitionTemplate;
+    //[SerializeField] private TransitionSettings _transition;
 
 
     private GameObject _ui;
@@ -81,6 +81,7 @@ public class StageManager : Singleton<StageManager>
     private IEnumerator GameExitFade()
     {
         SpeedInitialize();
+        /*
         GameObject template = Instantiate(_transitionTemplate) as GameObject;
         template.GetComponent<Transition>().transitionSettings = _transition;
 
@@ -89,7 +90,9 @@ public class StageManager : Singleton<StageManager>
             transitionTime = transitionTime / _transition.transitionSpeed;
 
         yield return new WaitForSecondsRealtime(transitionTime);
+        */
         _uiController.Hide();
+        yield return null;
     }
 
     private IEnumerator WaitForTap()
@@ -113,7 +116,7 @@ public class StageManager : Singleton<StageManager>
         yield return GameExitFade();
         LoadingSceneController.Instance.LoadScene(sceneName);
         yield return new WaitUntil(() => LoadingSceneController.Instance.IsSceneLoaded);
-        yield return new WaitForSecondsRealtime(_transition.destroyTime);
+        //yield return new WaitForSecondsRealtime(_transition.destroyTime);
 
         gameObject.SetActive(false);
     }
@@ -219,7 +222,7 @@ public class StageManager : Singleton<StageManager>
     {
         _sceneIndex = 0;
         _difficulty = 1;
-        _hp = 1;
+        _hp = 4;
         _sceneNames.Clear();
         _gameMode = GameMode.Normal;
         if (_ui != null) Destroy(_ui);

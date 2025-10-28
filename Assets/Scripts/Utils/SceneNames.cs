@@ -13,6 +13,7 @@ public static class SceneNames
     public const string FindSeat = "FindSeatStage";
     public const string WindowClosing = "WindowClosingStage";
     public const string SnackThrowing = "SnackThrowingStage";
+    public const string RestaurantBoss = "RestaurantBossStage";
 
 
     // 기타 스테이지 추가 필요

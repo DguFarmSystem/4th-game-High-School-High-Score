@@ -118,7 +118,7 @@ public class Conveyor : MonoBehaviour
         // 아이템 스폰 프로세스 
 
         // 콤보 시 황금수세미 스폰
-        if (LeftRightBtn.Combo >= 30 && (LeftRightBtn.Combo % 20 == 10))
+        if (LeftRightBtn.Combo == 30 || LeftRightBtn.Combo == 70 || LeftRightBtn.Combo == 120)
         {
             GameObject initialSponge = SpawnItem(_goldenSpongePrefab, _conveyorEndPosition);
 

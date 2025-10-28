@@ -249,7 +249,7 @@ public class DialogueManager : MonoBehaviour
                 SceneNames.WindowClosing,
                 SceneNames.FindSeat,
                 SceneNames.FindSeat,
-                SceneNames.SnackThrowing,
+                SceneNames.RestaurantBoss,
             },
             "tutorial"
             ,

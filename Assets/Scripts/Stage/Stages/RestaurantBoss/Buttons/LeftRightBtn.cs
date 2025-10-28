@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,13 +8,29 @@ public class LeftRightBtn : MonoBehaviour
 {
     [SerializeField] protected Button selfButton;
     [SerializeField] protected Button otherButton;
+    [SerializeField] protected TextMeshProUGUI goalLeftText;
+    [SerializeField] protected ParticleSystem criticalEffect;
+    [SerializeField] protected Image criticalImage;
+    [SerializeField] protected GameObject comboNotifier;
 
     protected Conveyor Conveyor;
+    protected RestaurantBossStage RestaurantBossStage;
+    protected static float criticalTimer = 1f;
+    protected static float criticalDuration = 1f;
 
     protected static bool isFailedInput = false;
 
     public static int CorrectInputCount { get; protected set; } = 0;
     public static int Combo { get; protected set; } = 0;
+
+    protected int RemainingItemCount 
+    {
+        get
+        {
+            int diff = RestaurantBossStage.ClearItemCount - CorrectInputCount;
+            return diff > 0 ? diff : 0;
+        }
+    }
 
     protected IEnumerator DisableButtonsTemporarily()
     {
@@ -29,6 +45,7 @@ public class LeftRightBtn : MonoBehaviour
 
     protected void OnDisable()
     {
+        criticalTimer = 1f;
         CorrectInputCount = 0;
         Combo = 0;
         isFailedInput = false;
@@ -37,5 +54,19 @@ public class LeftRightBtn : MonoBehaviour
     protected void Start()
     {
         Conveyor = FindObjectOfType<Conveyor>();
+        RestaurantBossStage = FindObjectOfType<RestaurantBossStage>();
+    }
+
+    protected void Update()
+    {
+        if (criticalTimer >= 0f)
+        {
+            var count = FindObjectsOfType<LeftRightBtn>().Length;
+            criticalTimer -= Time.deltaTime / count;
+        }
+        else
+        {
+            criticalImage.enabled = false;
+        }
     }
 }

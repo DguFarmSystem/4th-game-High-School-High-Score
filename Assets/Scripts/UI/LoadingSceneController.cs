@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System;
+using EasyTransition;
 
 /*
 참고: https://bonnate.tistory.com/303 [나의 개발일지:티스토리]
@@ -57,9 +58,9 @@ public class LoadingSceneController : MonoBehaviour
     }
 
     [SerializeField] private CanvasGroup mCanvasGroup;
-    // [SerializeField] private Image mProgressBar;
-    // [SerializeField] private TextMeshProUGUI mToolTipLabel;
-    [SerializeField][TextArea] string[] mToolTips;
+
+    [SerializeField] private GameObject _transitionTemplate;
+    [SerializeField] private TransitionSettings _transition;
 
     private string mLoadSceneName;
 
@@ -100,6 +101,15 @@ public class LoadingSceneController : MonoBehaviour
         //mProgressBar.fillAmount = 0.0f;
         float fadeTimer = 0.0f;
         float fadeDuration = 2.0f;
+
+        GameObject template = Instantiate(_transitionTemplate) as GameObject;
+        template.GetComponent<Transition>().transitionSettings = _transition;
+
+        float transitionTime = _transition.transitionTime;
+        if (_transition.autoAdjustTransitionTime)
+            transitionTime = transitionTime / _transition.transitionSpeed;
+
+        yield return new WaitForSeconds(transitionTime);
 
         //코루틴 안에서 yield return으로 코루틴을 실행하면.. 해당 코루틴이 끝날때까지 대기한다
         yield return StartCoroutine(Fade(true));
@@ -171,11 +181,15 @@ public class LoadingSceneController : MonoBehaviour
         }
 
         if (!isFadeIn)
+        {
             gameObject.SetActive(false);
+            yield return new WaitForSeconds(_transition.destroyTime);
+        }
     }
 
     private void OnEnable()
     {
         IsSceneLoaded = false;
+        mCanvasGroup.alpha = 0f;
     }
 }
