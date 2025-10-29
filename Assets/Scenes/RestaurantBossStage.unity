@@ -762,7 +762,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBAA9\uD45C\uAE4C\uC9C0 ??? \uAC1C"
+  m_text: "\uBAA9\uD45C\uAE4C\uC9C0 ???\uAC1C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 403f9006e4407334685a07c31f6b593a, type: 2}
   m_sharedMaterial: {fileID: -5577106157778986813, guid: 403f9006e4407334685a07c31f6b593a,
@@ -1163,7 +1163,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 6.75
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0

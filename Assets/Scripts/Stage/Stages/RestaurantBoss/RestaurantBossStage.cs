@@ -55,12 +55,12 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
 
     private IEnumerator StageEndedGimmik(bool isStageCleared)
     {
-        yield return new WaitForSeconds(2f);
-
         if (isStageCleared)
-        {   
+        {
             //TEST CODE
             Debug.Log("Stage cleared!");
+
+            yield return new WaitUntil(() => StageTimeLimit <= 0f);
 
             StageManager.Instance.StageClear(true);
         }
@@ -68,6 +68,8 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
         {
             //TEST CODE
             Debug.Log("Stage failed!");
+
+            yield return new WaitForSeconds(2f);
 
             StageManager.Instance.StageClear(false);
         }

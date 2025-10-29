@@ -13,7 +13,6 @@ public class StageManager : Singleton<StageManager>
     //[SerializeField] private GameObject _transitionTemplate;
     //[SerializeField] private TransitionSettings _transition;
 
-
     private GameObject _ui;
     private StageIntervalCSController _uiController;
     private bool _showCompleted = false;

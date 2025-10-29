@@ -5,7 +5,7 @@ using UnityEngine;
 public static class SceneNames
 {
     // 스테이지 외 씬들
-    //public const string Boot = "BootScene";
+    public const string Boot = "BootScene";
     public const string TutorialConvBefore = "Conversation";
 
     // 스테이지 씬들
