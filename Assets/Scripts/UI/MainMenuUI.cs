@@ -24,6 +24,7 @@ public class MainMenuUI : MonoBehaviour
         }
 
         LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvBefore); // 추후 세이브 데이터와 연계하도록 변경
+        
         /*
         StageManager.Instance.Initialize(
             new List<string> {

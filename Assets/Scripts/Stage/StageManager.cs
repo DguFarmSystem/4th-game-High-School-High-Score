@@ -80,6 +80,7 @@ public class StageManager : Singleton<StageManager>
 
     private IEnumerator GameExitFade()
     {
+        yield return new WaitForSeconds(1.3f);
         SpeedInitialize();
         /*
         GameObject template = Instantiate(_transitionTemplate) as GameObject;
@@ -113,8 +114,8 @@ public class StageManager : Singleton<StageManager>
     {
         yield return new WaitUntil(() => _showCompleted);
         yield return WaitForTap();
-        yield return GameExitFade();
         LoadingSceneController.Instance.LoadScene(sceneName);
+        yield return GameExitFade();
         yield return new WaitUntil(() => LoadingSceneController.Instance.IsSceneLoaded);
         //yield return new WaitForSecondsRealtime(_transition.destroyTime);
 
