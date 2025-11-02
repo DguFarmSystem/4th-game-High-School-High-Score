@@ -64,6 +64,7 @@ public class BlackBoardStage : StageNormal
     {
         //if (stageEnded) return;
         //spawnPoint 월드좌표 기준(0,0)에 배치 
+        stageLevel = StageManager.Instance.GetDifficulty() - 1;
         eraseObject = Instantiate(erasePrefabs[stageLevel], spawnParent);
         eraseObject.transform.localPosition = Vector3.zero;
         OnStageStart();

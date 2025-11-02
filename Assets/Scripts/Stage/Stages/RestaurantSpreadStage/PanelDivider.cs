@@ -131,7 +131,7 @@ public class PanelDivider : MonoBehaviour
 
     void Start()
     {
-        CalculateSubRects();
+        //CalculateSubRects();
     }
 
     // Update is called once per frame
