@@ -12,6 +12,7 @@ public class Student : MonoBehaviour
     [SerializeField] private Collider2D _rightHandCollider; // 오른쪽 손 콜라이더
 
     private Animator _animator;
+    private FindSeatStage _stage;
 
     private enum StudentState { Idle, Tackling }
     private StudentState _currentState = StudentState.Idle;
@@ -100,6 +101,7 @@ public class Student : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
+        _stage = FindObjectOfType<FindSeatStage>();
 
         rng = new System.Random(Guid.NewGuid().GetHashCode());
 
@@ -120,6 +122,8 @@ public class Student : MonoBehaviour
     }
     void Update()
     {
+        if (_stage.stageClearFlag) return;
+        
         switch (_currentState)
         {
             case StudentState.Idle:

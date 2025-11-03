@@ -34,7 +34,6 @@ public class FindSeatStage : StageNormal
 
     private void OnStageEndedGimmik(bool isStageCleared)
     {
-
         if (isStageCleared)
         {
             Debug.Log("Stage cleared!");

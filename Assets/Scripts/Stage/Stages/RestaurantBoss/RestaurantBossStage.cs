@@ -82,8 +82,8 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
         _leftButton.interactable = true;
         _rightButton.interactable = true;
 
-        TextMeshProUGUI _timerText = _timerBarNGoal.GetComponentInChildren<TextMeshProUGUI>(true);
-        _timerText.text = $"목표까지 {ClearItemCount} 개";
+        TextMeshProUGUI[] _timerTexts = _timerBarNGoal.GetComponentsInChildren<TextMeshProUGUI>(true);
+        _timerTexts[1].text = ClearItemCount.ToString();
         _timerBarNGoal.SetActive(true);
 
         // 스테이지 시작

@@ -40,7 +40,7 @@ public class LeftBtn : LeftRightBtn, IPointerDownHandler, IPointerUpHandler
                 comboNotifier.GetComponentInChildren<TextMeshProUGUI>().text = $"{Combo}";
                 comboNotifier.SetActive(true);
 
-                goalLeftText.text = $"목표까지 {RemainingItemCount}개";
+                goalLeftText.text = RemainingItemCount.ToString();
             }
 
         }
