@@ -158,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -444, y: 42}
-  m_SizeDelta: {x: 600, y: 1090}
+  m_AnchoredPosition: {x: -550, y: -70}
+  m_SizeDelta: {x: 650, y: 1300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &98381107
 MonoBehaviour:
@@ -451,8 +451,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 499, y: 59}
-  m_SizeDelta: {x: 600, y: 1090}
+  m_AnchoredPosition: {x: 550, y: -70}
+  m_SizeDelta: {x: 650, y: 1300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1078065511
 MonoBehaviour:
@@ -757,6 +757,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b372007930aa204889dd484ccd53fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _tapAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  _pressAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  _positionAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  _dragAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!4 &1560173292
 Transform:
   m_ObjectHideFlags: 0
@@ -1185,7 +1221,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 200}
+  m_AnchoredPosition: {x: 0, y: 230}
   m_SizeDelta: {x: 2532, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2110573858
