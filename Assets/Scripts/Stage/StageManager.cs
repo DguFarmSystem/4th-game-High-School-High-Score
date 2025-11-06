@@ -4,10 +4,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using EasyTransition;
 
 public class StageManager : Singleton<StageManager>
 {
     [SerializeField] private StageIntervalSkin _skinData;
+    //[SerializeField] private GameObject _transitionTemplate;
+    //[SerializeField] private TransitionSettings _transition;
 
     private GameObject _ui;
     private StageIntervalCSController _uiController;
@@ -19,17 +23,17 @@ public class StageManager : Singleton<StageManager>
     private bool _isStageCleared = false;
     private List<string> _sceneNames = new List<string>();
 
-    private enum GameMode { Normal, Infinite }
+    public enum GameMode { Tutorial, Normal, Infinite }
     private GameMode _gameMode = GameMode.Normal;
 
-    public void Initialize(List<string> sceneNames, string skin, bool gameMode = false)
+    public void Initialize(List<string> sceneNames, string skin, GameMode gameMode = GameMode.Normal)
     {
         _sceneNames = sceneNames;
         _ui = Instantiate(_skinData.GetDictionary()[skin]);
         _ui.transform.SetParent(transform);
         gameObject.SetActive(true);
 
-        _gameMode = gameMode ? GameMode.Infinite : GameMode.Normal;
+        _gameMode = gameMode;
     }
 
     public void StageClear(bool clear)
@@ -40,6 +44,7 @@ public class StageManager : Singleton<StageManager>
         {
             switch (_gameMode)
             {
+                case GameMode.Tutorial:
                 case GameMode.Normal:
                     if ((_sceneIndex + 1) % 3 == 0) _difficulty++;
 
@@ -58,17 +63,65 @@ public class StageManager : Singleton<StageManager>
         LoadNextStage();
     }
 
-    public void ExitGame()
+    private void SpeedUp(float speed)
     {
-        StartCoroutine(ExitGameCoroutine());
-
-        IEnumerator ExitGameCoroutine()
-        {
-            yield return new WaitForSeconds(1f);
-            gameObject.SetActive(false);
-        }
+        Time.timeScale = speed;
+        //AudioSource audioSource = GetComponent<AudioSource>(); // 예시
+        //audioSource.pitch = speed; // 배속
     }
 
+    private void SpeedInitialize()
+    {
+        Time.timeScale = 1f;
+        //AudioSource audioSource = GetComponent<AudioSource>(); // 예시
+        //audioSource.pitch = 1f; // 원래 속도로 재생
+    }
+
+    private IEnumerator GameExitFade()
+    {
+        yield return new WaitForSeconds(1.3f);
+        SpeedInitialize();
+        /*
+        GameObject template = Instantiate(_transitionTemplate) as GameObject;
+        template.GetComponent<Transition>().transitionSettings = _transition;
+
+        float transitionTime = _transition.transitionTime;
+        if (_transition.autoAdjustTransitionTime)
+            transitionTime = transitionTime / _transition.transitionSpeed;
+
+        yield return new WaitForSecondsRealtime(transitionTime);
+        */
+        _uiController.Hide();
+        yield return null;
+    }
+
+    private IEnumerator WaitForTap()
+    {
+        bool tapFlag = false;
+
+        Action<InputAction.CallbackContext> handler = null;
+        handler = (context) => {
+            tapFlag = true;
+            InputManager.Instance._tapAction.performed -= handler;
+        };
+        InputManager.Instance._tapAction.performed += handler;
+
+        yield return new WaitUntil(() => tapFlag);
+    }
+
+    private IEnumerator ExitToScene(string sceneName)
+    {
+        yield return new WaitUntil(() => _showCompleted);
+        yield return WaitForTap();
+        LoadingSceneController.Instance.LoadScene(sceneName);
+        yield return GameExitFade();
+        yield return new WaitUntil(() => LoadingSceneController.Instance.IsSceneLoaded);
+        //yield return new WaitForSecondsRealtime(_transition.destroyTime);
+
+        gameObject.SetActive(false);
+    }
+
+    public GameMode GetGameMode() => _gameMode;
     public int GetCurrentStage() => _sceneIndex;
     public int GetDifficulty() => _difficulty;
 
@@ -82,7 +135,8 @@ public class StageManager : Singleton<StageManager>
 
     /* =========== Scene Loading Process =========== */
 
-    void EnsureUI() {
+    void EnsureUI()
+    {
         if (_uiController != null) return;
         _uiController = gameObject.GetComponentInChildren<StageIntervalCSController>();
     }
@@ -94,33 +148,55 @@ public class StageManager : Singleton<StageManager>
         _showCompleted = false;
     }
 
-    public void LoadNextStage() {
+    public void LoadNextStage()
+    {
         StartCoroutine(LoadSceneCoroutine());
     }
 
-    IEnumerator LoadSceneCoroutine() {
+    IEnumerator LoadSceneCoroutine()
+    {
         Show();
         AsyncOperation op = null;
-        switch (_gameMode)
+
+        if (_hp > 0)
         {
-            case GameMode.Normal:
-                if (_sceneIndex > 9)
-                {
-                    yield return new WaitForSeconds(3f);
-                    ExitGame();
-                    LoadingSceneController.Instance.LoadScene(SceneNames.Main); // 일단 메인으로!!
-                    yield break;
-                }
+            switch (_gameMode)
+            {
+                case GameMode.Tutorial:
+                    if (_sceneIndex > 9)
+                    {
+                        yield return ExitToScene(SceneNames.Main); // 튜토리얼 끝나면 메인으로
+                        yield break;
+                    }
 
-                if (_sceneIndex < 9) op = SceneManager.LoadSceneAsync(_sceneNames[_sceneIndex % 3]); // 일반
-                else op = SceneManager.LoadSceneAsync(_sceneNames[3]); // 보스
+                    if (_sceneIndex < 9) op = SceneManager.LoadSceneAsync(_sceneNames[_sceneIndex % 3]); // 일반
+                    else op = SceneManager.LoadSceneAsync(_sceneNames[3]); // 보스
 
-                break;
+                    break;
 
-            case GameMode.Infinite:
-                
-                break;
+                case GameMode.Normal:
+                    if (_sceneIndex > 12)
+                    {
+                        yield return ExitToScene(SceneNames.Main); // 일반 모드 끝나면 메인으로
+                        yield break;
+                    }
+
+                    if (_sceneIndex < 12) op = SceneManager.LoadSceneAsync(_sceneNames[_sceneIndex % 3]); // 일반
+                    else op = SceneManager.LoadSceneAsync(_sceneNames[3]); // 보스
+
+                    break;
+
+                case GameMode.Infinite:
+
+                    break;
+            }
         }
+        else
+        {
+            yield return ExitToScene(SceneNames.Main); // 일단 메인으로!!
+            yield break;
+        }
+
         op.allowSceneActivation = false;
         
         while (op.progress < 0.9f)
