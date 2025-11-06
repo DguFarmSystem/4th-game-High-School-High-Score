@@ -12,9 +12,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: a4f2682670237b54e87fa6e035343984
   - enabled: 1
-    path: Assets/Scenes/WindowClosingStage.unity
-    guid: 2fb67fd00b69a4a4eaa96a1cb437a5e8
-  - enabled: 1
     path: Assets/Scenes/FindSeatStage.unity
     guid: 59e465b21eaadba4a8d9ee43e83b3754
   - enabled: 1
@@ -26,6 +23,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RestaurantBossStage.unity
     guid: 75780bc517f3c0b488abd09f2661499e
+  - enabled: 1
+    path: Assets/Scenes/Restaurant_Spread.unity
+    guid: 67b7190f44c4fe54f90ead4e7cc20519
+  - enabled: 1
+    path: Assets/Scenes/RestaurantFindStage.unity
+    guid: 7a594496d8989724b80157b63a8fe5d1
+  - enabled: 1
+    path: Assets/Scenes/CakeFireScene.unity
+    guid: 8269a807485114cb7b463aed149cd0c9
+  - enabled: 1
+    path: Assets/Scenes/Fruit Slicing Stage.unity
+    guid: 2fb67fd00b69a4a4eaa96a1cb437a5e8
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}

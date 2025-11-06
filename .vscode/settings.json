@@ -53,5 +53,5 @@
         "Temp/": true
     },
     "dotnet.preferCSharpExtension": true,
-    "dotnet.defaultSolution": "4th-game-High-School-High-Score.sln"
+    "dotnet.defaultSolution": "High School-High Score.sln"
 }

@@ -71,7 +71,7 @@ public class RestaurantFindStage : StageNormal
     // 레벨에 따라 접시 개수, 섞기 횟수, 섞기 속도 설정 (1~4)
     private void InitializeLevelSettings()
     {
-        int stageLevel = StageManager.currentLevel;
+        int stageLevel = StageManager.Instance.GetDifficulty();
         
         switch (stageLevel)
         {
@@ -142,10 +142,12 @@ public class RestaurantFindStage : StageNormal
         if (isStageCleared) // 성공 기믹 (아직까진 로그에)
         {
             Debug.Log("성공!");
+            StageManager.Instance.StageClear(true);
         }
         else // 실패 기믹
         {
             Debug.Log("실패!");
+            StageManager.Instance.StageClear(false);
         }
     }
     
@@ -188,9 +190,9 @@ public class RestaurantFindStage : StageNormal
         
         // 접시 위치 계산
         Vector3[] positions = CalculatePlatePositions(n);
-        
+
         // 현재 레벨 확인
-        int currentLevel = StageManager.currentLevel;
+        int currentLevel = StageManager.Instance.GetDifficulty();
         
         // 접시 n개 소환
         for (int i = 0; i < n; i++)

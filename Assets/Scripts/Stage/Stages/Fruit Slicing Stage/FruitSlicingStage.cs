@@ -12,12 +12,10 @@ public class FruitSlicingStage : StageNormal
     int OpCount;
     int CurrentCount=0;
     float time;
-    float consttime=1;
+    float consttime=0.73f;
 
     [SerializeField]
     GameObject[] Fruits;
-    [SerializeField]
-    InputManager InputManager;
     [SerializeField]
     GameObject[] Checks;
     [SerializeField]
@@ -110,7 +108,7 @@ public class FruitSlicingStage : StageNormal
 
     private void OnStageEndedGimmik(bool isStageCleared)
     {
-        InputManager.OnStageTapPerformed -= StageGimmik;
+        InputManager.Instance.OnStageTapPerformed -= StageGimmik;
         if (isStageCleared)
         {
             Debug.Log("Cleared");
@@ -124,23 +122,24 @@ public class FruitSlicingStage : StageNormal
     }
     public void OnEnable()
     {
-        InputManager.OnStageTapPerformed += StageGimmik;
+        InputManager.Instance.OnStageTapPerformed += StageGimmik;
         OnStageEnded += OnStageEndedGimmik;
     }
     public void OnDisable()
     {
-        InputManager.OnStageTapPerformed -= StageGimmik;
+        InputManager.Instance.OnStageTapPerformed -= StageGimmik;
         OnStageEnded -= OnStageEndedGimmik;
     }
 
     private void StageGimmik()
     {
-        if (InputManager.TouchedCollider != null)
+        Debug.Log(InputManager.Instance.TouchWorldPos);
+        if (InputManager.Instance.TouchedCollider != null)
         {
-            if (InputManager.TouchedCollider.gameObject.tag == "Fruit")
+            if (InputManager.Instance.TouchedCollider.gameObject.tag == "Fruit")
             {
-                Instantiate(Effect, InputManager.TouchWorldPos, Effect.transform.rotation);
-                InputManager.TouchedCollider.gameObject.tag = "Untagged";
+                //Instantiate(Effect, InputManager.Instance.TouchWorldPos, Effect.transform.rotation);
+                InputManager.Instance.TouchedCollider.gameObject.tag = "Untagged";
                 GreenChecks[SliceCount].SetActive(true);
                 SliceCount++;
             }

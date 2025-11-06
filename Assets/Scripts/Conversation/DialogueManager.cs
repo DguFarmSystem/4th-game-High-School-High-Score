@@ -246,14 +246,15 @@ public class DialogueManager : MonoBehaviour
         // TEST CODE
         StageManager.Instance.Initialize(
             new List<string> {
-                SceneNames.FindSeat,
-                SceneNames.FindSeat,
-                SceneNames.FindSeat,
-                SceneNames.SnackThrowing,
+                SceneNames.RestaurantFruit,
+                SceneNames.RestaurantSpread,
+                SceneNames.RestaurantFind,
+                SceneNames.RestaurantCakeFire,
+                SceneNames.RestaurantBoss,
             },
             "tutorial"
             ,
-            StageManager.GameMode.Tutorial
+            StageManager.GameMode.Normal
         );
         StageManager.Instance.LoadNextStage();
     }

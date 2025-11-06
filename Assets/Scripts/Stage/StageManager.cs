@@ -45,8 +45,14 @@ public class StageManager : Singleton<StageManager>
             switch (_gameMode)
             {
                 case GameMode.Tutorial:
+                if ((_sceneIndex + 1) % 3 == 0) _difficulty++;
+
+                    _sceneIndex++;
+
+                    break;
+
                 case GameMode.Normal:
-                    if ((_sceneIndex + 1) % 3 == 0) _difficulty++;
+                    if ((_sceneIndex + 1) % 4 == 0) _difficulty++;
 
                     _sceneIndex++;
 
@@ -181,8 +187,8 @@ public class StageManager : Singleton<StageManager>
                         yield break;
                     }
 
-                    if (_sceneIndex < 12) op = SceneManager.LoadSceneAsync(_sceneNames[_sceneIndex % 3]); // 일반
-                    else op = SceneManager.LoadSceneAsync(_sceneNames[3]); // 보스
+                    if (_sceneIndex < 12) op = SceneManager.LoadSceneAsync(_sceneNames[_sceneIndex % 4]); // 일반
+                    else op = SceneManager.LoadSceneAsync(_sceneNames[4]); // 보스
 
                     break;
 

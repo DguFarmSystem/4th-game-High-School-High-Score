@@ -21,8 +21,8 @@ public class RestaurantSpreadStage : StageNormal
     private Sprite[] SauceSprites;
 
 
-    private bool StageClearFlag = false; //½ºÅ×ÀÌÁö Å¬¸®¾î ¿©ºÎ
-    private static int stageLevel = 3; //½ºÅ×ÀÌÁö ·¹º§ °è»ê
+    private bool StageClearFlag = false; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    private static int stageLevel = 0; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     public override void OnStageStart()
     {
         base.OnStageStart();
@@ -69,12 +69,12 @@ public class RestaurantSpreadStage : StageNormal
     // Start is called before the first frame update
     void Start()
     {
-        //stageLevel = StageManager.Instance.GetDifficulty() - 1;
+        stageLevel = StageManager.Instance.GetDifficulty() - 1;
         backgroundImage.sprite = Backgrounds[stageLevel];
         foodImage.sprite = FoodSprites[stageLevel];
         sauceImage.sprite = SauceSprites[stageLevel];
-        //Panels[stageLevel].SetActive(true); //Ä¥ÇØ¾ßÇÏ´Â ¿µ¿ª È®ÀÎ¿ë, ³ªÁß¿¡ ÁÖ¼® Ã³¸®
-        //activeµÈ panelÀ» panelDividerÀÇ Å¸°ÙÀÌ µÇµµ·Ï ¼³Á¤
+        //Panels[stageLevel].SetActive(true); //Ä¥ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½Î¿ï¿½, ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½Ö¼ï¿½ Ã³ï¿½ï¿½
+        //activeï¿½ï¿½ panelï¿½ï¿½ panelDividerï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         panelDivider.targetPanel = Panels[stageLevel].GetComponent<RectTransform>();
         panelDivider.CalculateSubRects();
         Debug.Log("Stage Started!! Level : " + stageLevel);

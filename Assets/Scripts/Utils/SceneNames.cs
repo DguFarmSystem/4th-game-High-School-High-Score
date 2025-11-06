@@ -9,11 +9,18 @@ public static class SceneNames
     public const string TutorialConvBefore = "Conversation";
 
     // 스테이지 씬들
+    // tutorial
     public const string Main = "MainMenu";
     public const string FindSeat = "FindSeatStage";
     public const string WindowClosing = "WindowClosingStage";
     public const string SnackThrowing = "SnackThrowingStage";
+
+    // restaurant
     public const string RestaurantBoss = "RestaurantBossStage";
+    public const string RestaurantFind = "RestaurantFindStage";
+    public const string RestaurantSpread = "Restaurant_Spread";
+    public const string RestaurantFruit = "Fruit Slicing Stage";
+    public const string RestaurantCakeFire = "CakeFireScene";
 
 
     // 기타 스테이지 추가 필요
