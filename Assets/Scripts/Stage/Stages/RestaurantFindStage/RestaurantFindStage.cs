@@ -2,13 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Stage;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RestaurantFindStage : StageNormal
 {
-    [Header("레벨")]
-    [SerializeField] private int level = 1; // 레벨 1~4
-    
     private int n; // 접시 개수 (레벨에 따라 자동 설정)
     private int shuffleCount; // 섞기 횟수 (레벨에 따라 자동 설정)
     private float totalShuffleDuration = 2f; // 전체 섞기 시간 (모든 레벨 공통 2초)
@@ -18,19 +14,15 @@ public class RestaurantFindStage : StageNormal
     [SerializeField] private GameObject omuricePrefab;
     [SerializeField] private GameObject parfaitPrefab;
     [SerializeField] private GameObject sushiPrefab;
-    [SerializeField] private GameObject eggplatePrefab4;
-    [SerializeField] private GameObject omuricePrefab4;
-    [SerializeField] private GameObject parfaitPrefab4;
-    [SerializeField] private GameObject sushiPrefab4;
     
-    [Header("UI")]
-    [SerializeField] private Transform platesContainer; // Canvas 안의 접시 컨테이너
-    [SerializeField] private Image wantedPosterFood; // Wanted 포스터 Image
+    [Header("접시, 포스터 위치")]
+    [SerializeField] private Transform platesContainer; // 접시 컨테이너
+    [SerializeField] private SpriteRenderer wantedPosterFood; // Wanted 포스터
     
-    [Header("접시 배치 설정")]
-    [SerializeField] private Vector2[] platePositions_2; // n=2일 때 위치
-    [SerializeField] private Vector2[] platePositions_3; // n=3일 때 위치
-    [SerializeField] private Vector2[] platePositions_4; // n=4일 때 위치
+    [Header("접시 위치 설정")]
+    [SerializeField] private Vector3[] platePositions_2; // 레벨2 위치
+    [SerializeField] private Vector3[] platePositions_3; // 레벨3 위치
+    [SerializeField] private Vector3[] platePositions_4; // 레벨4 위치
     
     [Header("포스터")]
     [SerializeField] private Sprite eggPlateWantedSprite; // eggplate 포스터
@@ -39,9 +31,14 @@ public class RestaurantFindStage : StageNormal
     [SerializeField] private Sprite sushiWantedSprite; // sushi 포스터
     
     [Header("애니메이션 속도")]
-    [SerializeField] private float showFoodDuration = 2f;
-    [SerializeField] private float lidCloseDuration = 1f;
+    [SerializeField] private float showFoodDuration = 2f; // 처음 음식 공개 시간
+    [SerializeField] private float lidCloseDuration = 0.5f; // 뚜껑 닫기 시간
     private float swapDuration; // 각 섞기당 걸리는 시간 (레벨에 따라 자동 계산)
+    
+    [Header("화면 비율 대응")]
+    [SerializeField] private float plateScaleMultiplier = 3f; // 접시 크기 조정 배율 (레벨 1-3)
+    [SerializeField] private float plateScaleMultiplier_Level4 = 1f; // 접시 크기 조정 배율 (레벨 4)
+    [SerializeField] private float posterScaleMultiplier = 0.5f; // 포스터 크기 조정 배율
     
     public float LidCloseDuration => lidCloseDuration; // PlateController에서 참조 가능하도록
     
@@ -71,10 +68,12 @@ public class RestaurantFindStage : StageNormal
         InitializeLevelSettings();
     }
     
-    // 레벨에 따라 접시 개수, 섞기 횟수, 섞기 속도 설정
+    // 레벨에 따라 접시 개수, 섞기 횟수, 섞기 속도 설정 (1~4)
     private void InitializeLevelSettings()
     {
-        switch (level)
+        int stageLevel = StageManager.currentLevel;
+        
+        switch (stageLevel)
         {
             case 1:
                 n = 2;
@@ -91,11 +90,6 @@ public class RestaurantFindStage : StageNormal
             case 4:
                 n = 4;
                 shuffleCount = 4;
-                break;
-            default:
-                Debug.LogWarning($"레벨 {level}은 지원하지 않습니다. 레벨 1로 설정합니다.");
-                n = 2;
-                shuffleCount = 1;
                 break;
         }
         
@@ -116,7 +110,7 @@ public class RestaurantFindStage : StageNormal
         }
     }
     
-    // 타임 오버 시 정답 접시를 보여주는 코루틴
+    // 타임 오버 시 정답 접시 공개
     private IEnumerator ShowCorrectPlateOnTimeout()
     {
         canSelectPlate = false;
@@ -142,17 +136,16 @@ public class RestaurantFindStage : StageNormal
         base.OnStageClear();
     }
     
-    // 위 두개가 끝나고 OnStageEnded에서 발생
     // 일단은 디버그 로그에만 출력
     private void OnStageEndedGimmik(bool isStageCleared)
     {
-        if (isStageCleared)
+        if (isStageCleared) // 성공 기믹 (아직까진 로그에)
         {
-            Debug.Log("성공!성공!성공!성공!성공!성공!성공!성공!성공!성공!성공!성공!");
+            Debug.Log("성공!");
         }
-        else
+        else // 실패 기믹
         {
-            Debug.Log("실패!실패!실패!실패!실패!실패!실패!실패!실패!실패!실패!실패!");
+            Debug.Log("실패!");
         }
     }
     
@@ -181,30 +174,23 @@ public class RestaurantFindStage : StageNormal
     private void SpawnPlatesWithTarget(int n) // 접시 개수
     {
         GameObject[] allPrefabs;
-        if (n != 4)
-        {
-            allPrefabs = new GameObject[] { eggplatePrefab, omuricePrefab, parfaitPrefab, sushiPrefab };
-        }
-        else // 접시 4개는 프리팹 크기가 다릅니다
-        {
-            allPrefabs = new GameObject[] { eggplatePrefab4, omuricePrefab4, parfaitPrefab4, sushiPrefab4 };
-        }
+        allPrefabs = new GameObject[] { eggplatePrefab, omuricePrefab, parfaitPrefab, sushiPrefab };
         Sprite[] allWantedSprites = { eggPlateWantedSprite, omuriceWantedSprite, parfaitWantedSprite, sushiWantedSprite };
         
         // 포스터 랜덤 선택
         targetFoodIndex = Random.Range(0, 4);
         
         // Wanted 포스터 표시
-        if (wantedPosterFood != null)
-        {
-            wantedPosterFood.sprite = allWantedSprites[targetFoodIndex];
-        }
+        wantedPosterFood.sprite = allWantedSprites[targetFoodIndex];
         
         // 접시 n개 선택
         List<int> selectedIndices = SelectThreePlatesWithTarget(targetFoodIndex);
         
         // 접시 위치 계산
-        Vector2[] positions = CalculatePlatePositions(n);
+        Vector3[] positions = CalculatePlatePositions(n);
+        
+        // 현재 레벨 확인
+        int currentLevel = StageManager.currentLevel;
         
         // 접시 n개 소환
         for (int i = 0; i < n; i++)
@@ -215,11 +201,15 @@ public class RestaurantFindStage : StageNormal
             // 프리팹 인스턴스화
             GameObject plateObj = Instantiate(prefab, platesContainer);
             
-            // 위치 설정 (RectTransform)
-            RectTransform rectTransform = plateObj.GetComponent<RectTransform>();
-            if (rectTransform != null)
+            // 위치 설정 (Transform - World Space)
+            Transform plateTransform = plateObj.transform;
+            if (plateTransform != null)
             {
-                rectTransform.anchoredPosition = positions[i];
+                plateTransform.localPosition = positions[i];
+                
+                // 레벨에 따라 다른 스케일 적용
+                float scaleMultiplier = (currentLevel == 4) ? plateScaleMultiplier_Level4 : plateScaleMultiplier;
+                plateTransform.localScale = Vector3.one * scaleMultiplier;
             }
             
             // PlateController 설정
@@ -234,7 +224,7 @@ public class RestaurantFindStage : StageNormal
     }
     
     // 접시 개수(n)에 따라 위치를 동적으로 계산
-    private Vector2[] CalculatePlatePositions(int count)
+    private Vector3[] CalculatePlatePositions(int count)
     {
         switch (count)
         {
@@ -322,11 +312,11 @@ public class RestaurantFindStage : StageNormal
         PlateController plate1 = spawnedPlates[index1];
         PlateController plate2 = spawnedPlates[index2];
         
-        RectTransform rect1 = plate1.GetComponent<RectTransform>();
-        RectTransform rect2 = plate2.GetComponent<RectTransform>();
+        Transform transform1 = plate1.transform;
+        Transform transform2 = plate2.transform;
         
-        Vector2 startPos1 = rect1.anchoredPosition;
-        Vector2 startPos2 = rect2.anchoredPosition;
+        Vector3 startPos1 = transform1.localPosition;
+        Vector3 startPos2 = transform2.localPosition;
         
         float elapsed = 0f;
         
@@ -337,15 +327,15 @@ public class RestaurantFindStage : StageNormal
             float t = elapsed / swapDuration;
             float smoothT = t < 0.5f ? 2f * t * t : 1f - Mathf.Pow(-2f * t + 2f, 2f) / 2f;
             
-            rect1.anchoredPosition = Vector2.Lerp(startPos1, startPos2, smoothT);
-            rect2.anchoredPosition = Vector2.Lerp(startPos2, startPos1, smoothT);
+            transform1.localPosition = Vector3.Lerp(startPos1, startPos2, smoothT);
+            transform2.localPosition = Vector3.Lerp(startPos2, startPos1, smoothT);
             
             yield return null;
         }
         
         // 최종 위치 정확하게 설정
-        rect1.anchoredPosition = startPos2;
-        rect2.anchoredPosition = startPos1;
+        transform1.localPosition = startPos2;
+        transform2.localPosition = startPos1;
         
         // 리스트에서도 순서 교환
         spawnedPlates[index1] = plate2;
@@ -406,6 +396,20 @@ public class RestaurantFindStage : StageNormal
     void Start()
     {
         OnStageStart();
+        AdjustPosterScale(); // 포스터 크기도 조정
         StartCoroutine(GameSequence(n));
+    }
+    
+    // 포스터 크기를 화면 비율에 맞춰 조정
+    private void AdjustPosterScale()
+    {
+        if (wantedPosterFood != null)
+        {
+            Transform posterTransform = wantedPosterFood.transform;
+            if (posterTransform != null)
+            {
+                posterTransform.localScale = Vector3.one * posterScaleMultiplier;
+            }
+        }
     }
 }
