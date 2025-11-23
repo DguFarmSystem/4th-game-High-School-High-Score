@@ -548,7 +548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -796,37 +796,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testObject: {fileID: 0}
   _tapAction:
-    m_Name: 
+    m_Name: Tap
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: 433701ac-c761-4536-9b2c-755ceddaa160
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
   _pressAction:
-    m_Name: 
+    m_Name: Press
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: daa1a83f-bbcf-41ef-ae46-84da6b364c29
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
   _positionAction:
-    m_Name: 
+    m_Name: Position
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: ed1d4dc5-586e-41e7-a8c4-f8d9edc6a9c4
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
   _dragAction:
-    m_Name: 
+    m_Name: Drag
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: a90b08d4-9e35-472a-9dce-c35d6454404c
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -1094,7 +1094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1204,7 +1204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
