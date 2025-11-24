@@ -1,4 +1,5 @@
 // Assets/Scripts/Stage/Stages/CakeFireStage/CakeFireStage.cs
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,15 +12,12 @@ namespace Stage
         [System.Serializable]
         public class LevelEntry
         {
-            public GameObject root;          // Cake_Lv1, Lv2...
+            public GameObject root;          // Cake_Lv1, Lv2…
             public SpriteRenderer dimmer;    // CakeDimmer (SpriteRenderer)
         }
 
         [Header("Levels (난이도별 케이크)")]
         [SerializeField] List<LevelEntry> levels = new List<LevelEntry>();
-
-        [Header("Stage Rule")]
-        [SerializeField] float timeLimit = 10f;
 
         [Header("Dimmer Settings")]
         [Range(0f, 1f)] [SerializeField] float maxDarkAlpha = 0.95f;
@@ -30,13 +28,13 @@ namespace Stage
         [SerializeField] bool useMaskVisibleInside = true;
 
         [Header("Clear Delay")]
-        [Tooltip("마지막 초에 불 붙고 다음 레벨/스테이지로 넘어가기 전 연출 대기 시간")]
+        [Tooltip("마지막 점화 후 연출 대기")]
         [SerializeField] float clearDelayAfterLastLit = 0.6f;
 
         [Header("Dimmer Smoothing")]
         [SerializeField] float dimmerSmoothTime = 0.25f;
         [SerializeField] float dimmerMaxSpeed  = 10f;
-        float _alphaVel;   
+        float _alphaVel;
 
         int _activeIndex = -1;
         LevelEntry _active;
@@ -48,10 +46,9 @@ namespace Stage
         float _currentAlpha;
         float _targetAlpha;
 
-        bool _clearPending;                  // 마지막 점화 후 지연 중 플래그
-        Coroutine _levelTimerCo;             // 내부 레벨 타이머 핸들
+        bool _clearPending;
+        bool _reportedToStageManager = false; // 중복 보고 방지
 
-        // ─────────────────────────────────────────────────────────────
         void OnEnable()  => OnStageEnded += OnStageEndedGimmick;
         void OnDisable() => OnStageEnded -= OnStageEndedGimmick;
 
@@ -63,6 +60,8 @@ namespace Stage
 
         public override void OnStageStart()
         {
+            _reportedToStageManager = false;
+
             int diff = 1;
             if (StageManager.Instance != null)
                 diff = Mathf.Max(1, StageManager.Instance.GetDifficulty());
@@ -70,12 +69,12 @@ namespace Stage
             _activeIndex = Mathf.Clamp(diff - 1, 0, Mathf.Max(0, levels.Count - 1));
 
             StopAllCoroutines();
-            _levelTimerCo = null;
             _clearPending = false;
             CurrentStageState = StageState.Playing;
 
             SetupLevel(_activeIndex);
-            _levelTimerCo = StartCoroutine(LevelTimer(timeLimit));
+
+            base.OnStageStart();
         }
 
         protected override void OnStageEnd()
@@ -89,19 +88,14 @@ namespace Stage
             if (!Mathf.Approximately(_currentAlpha, _targetAlpha))
             {
                 _currentAlpha = Mathf.SmoothDamp(
-                    _currentAlpha,
-                    _targetAlpha,
-                    ref _alphaVel,
+                    _currentAlpha, _targetAlpha, ref _alphaVel,
                     dimmerSmoothTime,
                     dimmerMaxSpeed <= 0f ? Mathf.Infinity : dimmerMaxSpeed,
                     Time.deltaTime
                 );
-
                 ApplyDimmerImmediate(_currentAlpha);
             }
         }
-
-        // 내부 레벨
 
         void SetupLevel(int index)
         {
@@ -127,57 +121,27 @@ namespace Stage
             ApplyDimmerImmediate(_targetAlpha, ensureEnabled: true);
         }
 
+        // 내부 레벨 자동 전환 로직 (일단 남겨만 뒀습니다)
         void GoToNextInternalLevel()
         {
             if (_activeIndex + 1 < levels.Count)
             {
-                _activeIndex++;
-                Debug.Log($"[CakeFireStage] ► Next Level: Lv{_activeIndex + 1}");
-
-                StopAllCoroutines();
-                _levelTimerCo = null;
-                _clearPending = false;
-                CurrentStageState = StageState.Playing;
-
-                SetupLevel(_activeIndex);
-                _levelTimerCo = StartCoroutine(LevelTimer(timeLimit));
+                Debug.Log($"[CakeFireStage] ► Next Level would be Lv{_activeIndex + 2} (auto-advance disabled)");
                 return;
             }
-
-            // 마지막 레벨 완료 → 스테이지 클리어
-            Debug.Log("[CakeFireStage] ★ Stage Cleared (all internal levels)!");
-            CurrentStageState = StageState.Clear;
-
-            StopAllCoroutines();
-            StartCoroutine(EndAfter(0.25f));
+            Debug.Log("[CakeFireStage] ► Stage Cleared (all internal levels)!");
         }
 
-        System.Collections.IEnumerator EndAfter(float t)
+        IEnumerator EndAfter(float t)
         {
             yield return new WaitForSeconds(t);
             OnStageEnd();
-        }
-
-        System.Collections.IEnumerator LevelTimer(float seconds)
-        {
-            float t = seconds;
-            while (t > 0f && CurrentStageState == StageState.Playing && !_clearPending)
-            {
-                t -= Time.deltaTime;
-                yield return null;
-            }
-            if (CurrentStageState == StageState.Playing && !_clearPending)
-            {
-                CurrentStageState = StageState.Over;
-                OnStageEnd();
-            }
         }
 
         // 점화/밝기
         void HandleIgnite(CandleFire _)
         {
             RefreshCounts();
-
             UpdateTargetAlpha();
 
             Debug.Log($"[CakeFireStage] ignite handled: {_litCount}/{_needCount}");
@@ -185,32 +149,29 @@ namespace Stage
             if (_needCount > 0 && _litCount >= _needCount)
             {
                 Debug.Log($"[CakeFireStage] ✓ Level {(_activeIndex + 1)} Cleared!");
-                BeginClearSequence(); // ★ 마지막 점화 후 연출 대기 → 다음 레벨/스테이지
+                BeginClearSequence(); // 마지막 점화 후 약간의 연출 대기
             }
-        }[SerializeField] float igniteDistance = 0.12f;
+        }
+
+        [SerializeField] float igniteDistance = 0.12f;
 
         void BeginClearSequence()
         {
             if (_clearPending) return;
             _clearPending = true;
 
-            // 타이머 정지(FAIL 방지)
-            if (_levelTimerCo != null) { StopCoroutine(_levelTimerCo); _levelTimerCo = null; }
-
-            // 밝기가 목표치까지 따라붙도록 약간 기다린 뒤 전환
             StartCoroutine(ClearAfterDelay(clearDelayAfterLastLit));
         }
 
-        System.Collections.IEnumerator ClearAfterDelay(float delay)
+        IEnumerator ClearAfterDelay(float delay)
         {
             float t = delay;
-            while (t > 0f)
-            {
-                t -= Time.deltaTime;
-                yield return null;
-            }
+            while (t > 0f) { t -= Time.deltaTime; yield return null; }
+
             _clearPending = false;
-            GoToNextInternalLevel();
+
+            // 상태만 Clear로 바꿔둠
+            CurrentStageState = StageState.Clear;
         }
 
         void RefreshCounts()
@@ -265,6 +226,9 @@ namespace Stage
 
         void OnStageEndedGimmick(bool isCleared)
         {
+            if (_reportedToStageManager) return;
+            _reportedToStageManager = true;
+
             Debug.Log(isCleared ? "[CakeFireStage] ► StageEnd: CLEARED" : "[CakeFireStage] ► StageEnd: FAILED");
 
             var sm = StageManager.Instance;
