@@ -814,7 +814,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &995877983
 RectTransform:
@@ -1617,7 +1617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e608f475f3ac04847827ad30b5785784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerTime: 7
+  timerTime: 5
   panelDivider: {fileID: 1065629794}
   backgroundImage: {fileID: 1301343916}
   foodImage: {fileID: 247030139}
