@@ -37,6 +37,7 @@ public class RightBtn : LeftRightBtn, IPointerDownHandler, IPointerUpHandler
             {
                 CorrectInputCount++;
                 Combo++;
+                failImage.enabled = false;
                 comboNotifier.GetComponentInChildren<TextMeshProUGUI>().text = $"{Combo}";
                 comboNotifier.SetActive(true);
 
@@ -48,6 +49,20 @@ public class RightBtn : LeftRightBtn, IPointerDownHandler, IPointerUpHandler
             // 잘못된 아이템을 선택했을 때의 처리 (예: 효과음 재생, 점수 차감 등)
             Combo = 0;
             comboNotifier.SetActive(false);
+            failTimer = failDuration;
+            if (failImage.enabled == false)
+            {
+                Vector2 anchoredPos;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    failImage.transform.parent as RectTransform, // 부모 UI의 RectTransform
+                    Camera.main.WorldToScreenPoint(item.transform.position + Vector3.up),  // 3D 오브젝트의 World 좌표를 Screen 좌표로 변환
+                    null,                               // 사용 중인 카메라
+                    out anchoredPos                            // 변환된 UI 로컬 좌표
+                );
+                failImage.rectTransform.anchoredPosition = anchoredPos;
+
+                failImage.enabled = true;
+            }
             criticalTimer = 0f;
             StartCoroutine(DisableButtonsTemporarily());
         }

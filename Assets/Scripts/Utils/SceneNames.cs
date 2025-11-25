@@ -6,11 +6,13 @@ public static class SceneNames
 {
     // 스테이지 외 씬들
     public const string Boot = "BootScene";
-    public const string TutorialConvBefore = "Conversation";
+    public const string Main = "MainMenu";
+    public const string ConvScene = "Conversation";
+    public const string Map = "Map";
 
     // 스테이지 씬들
     // tutorial
-    public const string Main = "MainMenu";
+    public const string BoardErasing = "BoardErasingStage";
     public const string FindSeat = "FindSeatStage";
     public const string WindowClosing = "WindowClosingStage";
     public const string SnackThrowing = "SnackThrowingStage";
@@ -22,6 +24,7 @@ public static class SceneNames
     public const string RestaurantFruit = "Fruit Slicing Stage";
     public const string RestaurantCakeFire = "CakeFireScene";
 
-
-    // 기타 스테이지 추가 필요
+    // music
+    public const string MusicPlay = "MusicPlayStage_LV4";
+    public const string MusicDance = "MusicDanceStage";
 }

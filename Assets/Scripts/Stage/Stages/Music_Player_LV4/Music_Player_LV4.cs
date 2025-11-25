@@ -35,12 +35,12 @@ public class Music_Player_LV4 : StageNormal
         if (isStageCleared)
         {
             Debug.Log("Stage cleared!");
-            //StageManager.Instance.StageClear(true);
+            StageManager.Instance.StageClear(true);
         }
         else
         {
             Debug.Log("Stage failed!");
-            //StageManager.Instance.StageClear(false);
+            StageManager.Instance.StageClear(false);
         }
     }
 
@@ -106,6 +106,5 @@ public class Music_Player_LV4 : StageNormal
         {
             OnStageClear(); // 모든 조건이 완료되면 스테이지 클리어 처리
         }
-        
     }
 }
