@@ -17,9 +17,7 @@ public class BeatStageManager : StageNormal
     public GameObject Snare;
     [Header("hi, snare 히트박스")]
     public GameObject Hihitbox;
-    public GameObject NoHihitbox;
     public GameObject Snarehitbox;
-    public GameObject NoSnarehitbox;
     
     [Header("오차범위")]
     public float Ocha = 0.3f;
@@ -49,9 +47,6 @@ public class BeatStageManager : StageNormal
     void Start()
     {
         // Level = StageManager.Instance.GetDifficulty(); 테스트 끝나면
-
-        Hihitbox.SetActive(false);
-        Snarehitbox.SetActive(false);
 
         foreach(GameObject song in Songs)
             song.SetActive(false);

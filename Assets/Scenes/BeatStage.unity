@@ -569,9 +569,7 @@ MonoBehaviour:
   Hi: {fileID: 7332638748655842965, guid: 80e4f5dc66e41e34396cd7561b93eaff, type: 3}
   Snare: {fileID: 7265278456443298927, guid: dabcdb6495f4d584f8bf769f3469f6fc, type: 3}
   Hihitbox: {fileID: 2753613522606429742}
-  NoHihitbox: {fileID: 544937508}
   Snarehitbox: {fileID: 3797612360096595536}
-  NoSnarehitbox: {fileID: 951300127}
   Ocha: 0.1
   songA:
   - 0
@@ -1701,7 +1699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b97af9c992aa8488245144177a786e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 1
   disappearX: 10
 --- !u!1 &2753613522606429742
 GameObject:
