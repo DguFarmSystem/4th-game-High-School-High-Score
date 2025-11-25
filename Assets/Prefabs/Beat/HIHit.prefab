@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7332638748655831402}
   - component: {fileID: 7332638748655831400}
   - component: {fileID: 7332638748655831403}
-  - component: {fileID: 1641155357892904066}
   m_Layer: 0
   m_Name: HIHit
   m_TagString: Untagged
@@ -74,8 +73,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 68b383b360103ad4eb05fc919c5fb8f4, type: 3}
+  m_SortingOrder: 999
+  m_Sprite: {fileID: 21300000, guid: 9ab7882c8ed135b4fab5519b84edb0f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,15 +101,3 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 19, y: 9.5}
   m_Direction: 1
---- !u!114 &1641155357892904066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7332638748655842965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9aeb7bf685ed9464382e998d86e98e09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
