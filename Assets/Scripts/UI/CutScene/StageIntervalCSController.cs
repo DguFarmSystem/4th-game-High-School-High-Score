@@ -31,11 +31,11 @@ public abstract class StageIntervalCSController : MonoBehaviour
                 case StageManager.GameMode.Tutorial:
                     return 9;
                 case StageManager.GameMode.Normal:
-                    return 12;
+                    return 16;
                 case StageManager.GameMode.Infinite:
                     return int.MaxValue;
                 default:
-                    return 12;
+                    return 16;
             }
         }
     }
@@ -76,11 +76,6 @@ public abstract class StageIntervalCSController : MonoBehaviour
                         _HPGameObjects[i].GetComponent<Animator>().Play("HP_4");
                         break;
                 }
-
-                RectTransform rt = _HPGameObjects[i].GetComponent<RectTransform>();
-                Vector2 pos = rt.anchoredPosition;
-                pos.y += -45f; // 위치 조정
-                rt.anchoredPosition = pos;
             }
 
             _HPGameObjects[i].GetComponent<Image>().enabled = true; 

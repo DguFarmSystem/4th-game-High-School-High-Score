@@ -2264,6 +2264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b372007930aa204889dd484ccd53fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testObject: {fileID: 0}
   _tapAction:
     m_Name: 
     m_Type: 0

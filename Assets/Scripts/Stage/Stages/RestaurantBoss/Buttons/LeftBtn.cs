@@ -75,4 +75,11 @@ public class LeftBtn : LeftRightBtn, IPointerDownHandler, IPointerUpHandler
 
         otherButton.interactable = true; // 다시 활성화
     }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (RestaurantBossStage.StageTimeLimit <= 0f) selfButton.interactable = false;
+    }
 }

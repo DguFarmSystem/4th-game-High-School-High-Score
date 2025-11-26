@@ -62,7 +62,7 @@ public class LeftRightBtn : MonoBehaviour
         RestaurantBossStage = FindObjectOfType<RestaurantBossStage>();
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         if (criticalTimer >= 0f)
         {
