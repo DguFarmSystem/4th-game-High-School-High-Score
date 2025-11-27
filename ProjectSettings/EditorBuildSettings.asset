@@ -6,35 +6,44 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/BootScene.unity
+    path: Assets/Scenes/NoneStageScene/BootScene.unity
     guid: 8966f465628fd234088cf4deab0594c6
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Scenes/NoneStageScene/MainMenu.unity
     guid: a4f2682670237b54e87fa6e035343984
   - enabled: 1
-    path: Assets/Scenes/FindSeatStage.unity
+    path: Assets/Scenes/TutorialStage/FindSeatStage.unity
     guid: 59e465b21eaadba4a8d9ee43e83b3754
   - enabled: 1
-    path: Assets/Scenes/SnackThrowingStage.unity
+    path: Assets/Scenes/TutorialStage/SnackThrowingStage.unity
     guid: 9f84d2632c8e6154790d8d722c752f0f
   - enabled: 1
-    path: Assets/Scenes/Conversation.unity
+    path: Assets/Scenes/NoneStageScene/Conversation.unity
     guid: e0e0090473e6a9c46aa243fdd5b62d7f
   - enabled: 1
-    path: Assets/Scenes/RestaurantBossStage.unity
+    path: Assets/Scenes/RestaurantStage/RestaurantBossStage.unity
     guid: 75780bc517f3c0b488abd09f2661499e
   - enabled: 1
-    path: Assets/Scenes/Restaurant_Spread.unity
+    path: Assets/Scenes/RestaurantStage/Restaurant_Spread.unity
     guid: 67b7190f44c4fe54f90ead4e7cc20519
   - enabled: 1
-    path: Assets/Scenes/RestaurantFindStage.unity
+    path: Assets/Scenes/RestaurantStage/RestaurantFindStage.unity
     guid: 7a594496d8989724b80157b63a8fe5d1
   - enabled: 1
-    path: Assets/Scenes/CakeFireScene.unity
+    path: Assets/Scenes/RestaurantStage/CakeFireScene.unity
     guid: 8269a807485114cb7b463aed149cd0c9
   - enabled: 1
-    path: Assets/Scenes/Fruit Slicing Stage.unity
+    path: Assets/Scenes/RestaurantStage/Fruit Slicing Stage.unity
     guid: 2fb67fd00b69a4a4eaa96a1cb437a5e8
+  - enabled: 1
+    path: Assets/Scenes/MusicStage/MusicPlayStage_LV4.unity
+    guid: fa6b4f922bd56404790584b8656f4089
+  - enabled: 1
+    path: Assets/Scenes/MusicStage/MusicDanceStage.unity
+    guid: 2268dec193c738f4c8a8aa45e38105f1
+  - enabled: 1
+    path: Assets/Scenes/MusicStage/BeatStage.unity
+    guid: 06ce8fad850c9e0488033e86ac85c780
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}

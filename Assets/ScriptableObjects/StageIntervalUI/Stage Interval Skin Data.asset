@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Stage Interval Skin Data
   m_EditorClassIdentifier: 
   NameAndGameObjectPairs:
-  - key: tutorial
+  - key: TutorialCS
     value: {fileID: 683027219147417711, guid: 0046b8bafab358d4fa7593887ebd2f45, type: 3}
+  - key: MusicCS
+    value: {fileID: 683027219147417711, guid: cd64efda7b635f2498cf0e0bd8b3c75d, type: 3}

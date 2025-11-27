@@ -181,13 +181,13 @@ public class StageManager : Singleton<StageManager>
                     break;
 
                 case GameMode.Normal:
-                    if (_sceneIndex > 12)
+                    if (_sceneIndex > 16)
                     {
                         yield return ExitToScene(SceneNames.Main); // 일반 모드 끝나면 메인으로
                         yield break;
                     }
 
-                    if (_sceneIndex < 12) op = SceneManager.LoadSceneAsync(_sceneNames[_sceneIndex % 4]); // 일반
+                    if (_sceneIndex < 16) op = SceneManager.LoadSceneAsync(_sceneNames[_sceneIndex % 4]); // 일반
                     else op = SceneManager.LoadSceneAsync(_sceneNames[4]); // 보스
 
                     break;
