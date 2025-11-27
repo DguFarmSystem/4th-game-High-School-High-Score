@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapController : MonoBehaviour
+public class ToggleController : MonoBehaviour
 {
-    public string[] SceneNames;
+    [SerializeField]
+    private GameObject NextUI;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,8 +17,9 @@ public class MapController : MonoBehaviour
     {
         
     }
-    public void LoadGameScene()
+
+    public void OnToggleChanged(bool isOn)
     {
-        Debug.Log("Let's play 1-A class");
+        NextUI.SetActive(isOn);
     }
 }

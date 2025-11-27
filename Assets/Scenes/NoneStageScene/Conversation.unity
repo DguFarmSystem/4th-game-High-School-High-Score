@@ -757,38 +757,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b372007930aa204889dd484ccd53fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testObject: {fileID: 0}
   _tapAction:
-    m_Name: 
+    m_Name: Tap
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: 95ee5c29-70dc-4cc1-b01f-c3bccef8f425
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
   _pressAction:
-    m_Name: 
+    m_Name: Press
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: 915bf29a-9c31-42b6-885c-c294f5bc8b84
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
   _positionAction:
-    m_Name: 
+    m_Name: Position
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: ca2e42b1-ae74-43e0-8850-32eecc064cd1
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
   _dragAction:
-    m_Name: 
+    m_Name: Drag
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: 0041dd8b-e9bb-4168-8cc7-feaeb8b5ab4f
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
