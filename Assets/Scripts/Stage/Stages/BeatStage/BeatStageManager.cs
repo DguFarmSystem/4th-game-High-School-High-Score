@@ -11,7 +11,7 @@ public class BeatStageManager : MonoBehaviour, IStageBase
     public float NoteSpeed = 5.0f; 
 
     [Header("기본 설정")]
-    public float StartDelay = 3.3f;  
+    public float StartDelay = 2.3f;  
     public float FailDuration = 1.0f;
     
     [Header("오브젝트 연결")]
@@ -99,7 +99,7 @@ public class BeatStageManager : MonoBehaviour, IStageBase
 
     IEnumerator StageRoutine()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(StartDelay);
 
         Debug.Log("레벨 1 시작");
         
@@ -124,7 +124,7 @@ public class BeatStageManager : MonoBehaviour, IStageBase
             yield break;
         }
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(StartDelay);
 
         Debug.Log("레벨 2 시작");
         
