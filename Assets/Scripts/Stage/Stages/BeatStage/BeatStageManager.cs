@@ -99,7 +99,7 @@ public class BeatStageManager : MonoBehaviour, IStageBase
 
     IEnumerator StageRoutine()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.3f);
 
         Debug.Log("레벨 1 시작");
         
@@ -124,7 +124,7 @@ public class BeatStageManager : MonoBehaviour, IStageBase
             yield break;
         }
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(2.3f);
 
         Debug.Log("레벨 2 시작");
         

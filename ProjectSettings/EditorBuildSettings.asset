@@ -41,6 +41,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MusicStage/MusicDanceStage.unity
     guid: 2268dec193c738f4c8a8aa45e38105f1
+  - enabled: 1
+    path: Assets/Scenes/MusicStage/BeatStage.unity
+    guid: 06ce8fad850c9e0488033e86ac85c780
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}

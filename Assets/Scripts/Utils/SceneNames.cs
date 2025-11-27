@@ -25,6 +25,7 @@ public static class SceneNames
     public const string RestaurantCakeFire = "CakeFireScene";
 
     // music
-    public const string MusicPlay = "MusicPlayStage_LV4";
+    public const string MusicPlay = "MusicPlayStage_LV4"; // 스테이지 합체 필요
     public const string MusicDance = "MusicDanceStage";
+    public const string MusicBeat = "BeatStage";
 }
