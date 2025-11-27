@@ -15,6 +15,7 @@ TagManager:
   - Desk
   - Goal Indicator
   - Fruit
+  - Bar
   layers:
   - Default
   - TransparentFX

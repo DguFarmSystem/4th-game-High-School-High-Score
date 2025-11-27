@@ -3,325 +3,322 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Stage;
+using System.Linq;
 
-public class BeatStageManager : StageNormal
+public class BeatStageManager : MonoBehaviour, IStageBase
 {
-    [Header("설정")]
-    public float Ocha = 0.3f; // 판정 범위 (+- 0.3초)
-    public float StartDelay = 3.3f; // 시작 딜레이
+    [Header("속도")]
+    public float NoteSpeed = 5.0f; 
 
-    [Header("오브젝트 연결")]
-    public GameObject HiHitEffect;    // 하이햇 이펙트 (초록)
-    public GameObject SnareHitEffect; // 스네어 이펙트 (주황)
-    public GameObject HiFailArt;      // 하이햇 Fail 이미지
-    public GameObject SnareFailArt;   // 스네어 Fail 이미지
+    [Header("기본 설정")]
+    public float StartDelay = 3.3f;  
+    public float FailDuration = 1.0f;
     
-    [Header("히트박스")]
+    [Header("오브젝트 연결")]
+    public GameObject ScanLineBar;
+    
+    [Header("레벨 1 설정")]
+    public GameObject Level1_Sheet;   
+    public GameObject Level1_Parent;  
+    public Transform Level1_EndPoint; 
+
+    [Header("레벨 2 설정")]
+    public GameObject Level2_Sheet;  
+    public GameObject Level2_Parent;  
+    public Transform Level2_EndPoint;  
+
+    [Header("이펙트 & 사운드")]
+    public GameObject HiHitEffect;    
+    public GameObject SnareHitEffect; 
+    public GameObject HiFailArt;      
+    public GameObject SnareFailArt;   
+    
     public Collider2D Hihitbox;
     public Collider2D Snarehitbox;
 
-    [Header("라운드 데이터")]
-    // 각 라운드 별 노트 시간 데이터 (Inspector에서 입력)
-    public List<float> Round1_Hi = new();
-    public List<float> Round1_Snare = new();
-    
-    public List<float> Round2_Hi = new();
-    public List<float> Round2_Snare = new();
-
-    [Header("노트 오브젝트 그룹 (활성/비활성용)")]
-    public GameObject Round1_Objects;
-    public GameObject Round2_Objects;
-
-    [Header("사운드")]
     public AudioClip hiClip;
     public AudioClip snareClip;
     private AudioSource audioSource;
 
-    // 내부 상태 변수
-    private List<float> currentHiList;
-    private List<float> currentSnareList;
-    
-    private int hiIndex = 0;
-    private int snareIndex = 0;
-    
-    private bool isRoundFail = false; // 현재 라운드에서 하나라도 틀렸는지
+    // === 내부 변수 ===
     private bool isGameRunning = false;
-    private float gameStartTime; // 게임(라운드) 시작 시간
+    private bool isRoundFail = false; 
+    private Vector3 barStartPos; 
+
+    private Queue<RhythmNote> hittableHiNotes = new();
+    private Queue<RhythmNote> hittableSnareNotes = new();
+
+    private Coroutine hiFailRoutine;
+    private Coroutine snareFailRoutine;
+    
+    private GameObject hiEffectInstance;
+    private GameObject snareEffectInstance;
+
+    // Interface
+    public StageState CurrentState => CurrentStageState;
+    protected StageState CurrentStageState = StageState.NotStart;
+    public Action<bool> OnStageEnded { get; protected set; }
+    public float StageTimeLimit { get; private set; } = 0f; 
+
+    public void OnEnable() => OnStageEnded += OnStageEndedGimmick;
+    public void OnDisable() => OnStageEnded -= OnStageEndedGimmick;
 
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null) audioSource = gameObject.AddComponent<AudioSource>();
         
-        // 초기화
         if(HiFailArt) HiFailArt.SetActive(false);
         if(SnareFailArt) SnareFailArt.SetActive(false);
+
+        if (HiHitEffect && Hihitbox) {
+            hiEffectInstance = Instantiate(HiHitEffect, Hihitbox.transform.position, Quaternion.identity);
+            hiEffectInstance.SetActive(false);
+        }
+        if (SnareHitEffect && Snarehitbox) {
+            snareEffectInstance = Instantiate(SnareHitEffect, Snarehitbox.transform.position, Quaternion.identity);
+            snareEffectInstance.SetActive(false);
+        }
+
+        if (ScanLineBar) 
+        {
+            barStartPos = ScanLineBar.transform.position;
+            ScanLineBar.SetActive(false);
+        }
+        
+        if(Level1_Parent) Level1_Parent.SetActive(false);
+        if(Level2_Parent) Level2_Parent.SetActive(false);
+        if(Level1_Sheet) Level1_Sheet.SetActive(false);
+        if(Level2_Sheet) Level2_Sheet.SetActive(false);
     }
 
     void Start()
     {
-        // RestaurantBossStage와 유사한 딜레이 스타트 패턴 적용
-        StartCoroutine(DelayedStart());
+        StartCoroutine(StageRoutine());
     }
 
-    private IEnumerator DelayedStart()
+    IEnumerator StageRoutine()
     {
-        yield return new WaitForSeconds(StartDelay);
-        OnStageStart();
-    }
+        yield return new WaitForSeconds(1.0f);
 
-    public override void OnStageStart()
-    {
-        CurrentStageState = StageState.Playing;
-        StartCoroutine(StageFlowRoutine());
-    }
-
-    // 전체 스테이지 흐름 관리 (1라운드 -> 2라운드)
-    IEnumerator StageFlowRoutine()
-    {
-        // === 1라운드 시작 ===
-        Debug.Log("1라운드 시작");
-        if(Round1_Objects) Round1_Objects.SetActive(true);
-        if(Round2_Objects) Round2_Objects.SetActive(false);
+        Debug.Log("레벨 1 시작");
         
-        yield return StartCoroutine(PlayRound(Round1_Hi, Round1_Snare));
+        if(ScanLineBar) ScanLineBar.SetActive(true);
+        if(Level1_Sheet) Level1_Sheet.SetActive(true);
 
-        // 1라운드 종료 후 처리
-        if (Round1_Objects) Round1_Objects.SetActive(false);
+        yield return StartCoroutine(PlayRound(Level1_Parent, Level1_EndPoint));
 
+        // [레벨 1] 정리
+        if(ScanLineBar) ScanLineBar.SetActive(false);
+        if(Level1_Parent) Level1_Parent.SetActive(false);
+        if(Level1_Sheet) Level1_Sheet.SetActive(false);
+        
+        hittableHiNotes.Clear();
+        hittableSnareNotes.Clear();
+
+        // [레벨 1] 결과 판정
         if (isRoundFail)
         {
-            Debug.Log("1라운드 실패 -> 스테이지 종료");
-            OnStageFail();
-            yield break; // 2라운드 안 감
+            Debug.Log("레벨 1 실패 -> 게임 오버");
+            SetStageFailed();
+            yield break;
+        }
+
+        yield return new WaitForSeconds(2.0f);
+
+        Debug.Log("레벨 2 시작");
+        
+        if(ScanLineBar) ScanLineBar.SetActive(true);
+        if(Level2_Sheet) Level2_Sheet.SetActive(true);
+
+        yield return StartCoroutine(PlayRound(Level2_Parent, Level2_EndPoint));
+
+        // [레벨 2] 정리
+        if(ScanLineBar) ScanLineBar.SetActive(false);
+        if(Level2_Parent) Level2_Parent.SetActive(false);
+        if(Level2_Sheet) Level2_Sheet.SetActive(false);
+
+        // [레벨 2] 결과 판정
+        if (isRoundFail)
+        {
+            Debug.Log("레벨 2 실패 -> 게임 오버");
+            SetStageFailed();
         }
         else
         {
-            Debug.Log("다음 레벨(라운드) 조건 달성: 1라운드 클리어, 2라운드로 이동합니다.");
-        }
-
-        yield return new WaitForSeconds(1f); // 라운드 사이 잠시 대기
-
-        // === 2라운드 시작 ===
-        Debug.Log("2라운드 시작");
-        if(Round2_Objects) Round2_Objects.SetActive(true);
-
-        yield return StartCoroutine(PlayRound(Round2_Hi, Round2_Snare));
-
-        if (Round2_Objects) Round2_Objects.SetActive(false);
-
-        if (isRoundFail)
-        {
-            Debug.Log("2라운드 실패 -> 스테이지 종료");
-            OnStageFail();
-        }
-        else
-        {
-            Debug.Log("ALL CLEAR: 스테이지 클리어 조건 달성");
-            OnStageClear();
+            Debug.Log("모든 스테이지 클리어");
+            SetStageClear();
         }
     }
 
-    // 개별 라운드 플레이 로직
-    IEnumerator PlayRound(List<float> hiData, List<float> snareData)
+    IEnumerator PlayRound(GameObject levelParent, Transform endPoint)
     {
-        // 데이터 세팅
-        currentHiList = new List<float>(hiData); // 복사해서 사용
-        currentSnareList = new List<float>(snareData);
-        
-        // 딜레이 적용
-        for(int i=0; i<currentHiList.Count; i++) currentHiList[i] += StartDelay;
-        for(int i=0; i<currentSnareList.Count; i++) currentSnareList[i] += StartDelay;
+        if (levelParent == null || endPoint == null)
+        {
+            Debug.LogError("레벨 부모 혹은 EndPoint 연결 안됨");
+            yield break;
+        }
 
-        hiIndex = 0;
-        snareIndex = 0;
-        isRoundFail = false;
+        levelParent.SetActive(true);
+        if(ScanLineBar) ScanLineBar.transform.position = barStartPos; 
         
-        gameStartTime = Time.time;
+        isRoundFail = false; 
         isGameRunning = true;
-
-        // 마지막 노트가 끝날 때까지 대기 (마지막 시간 + 여유시간)
-        float lastTime = 0f;
-        if(currentHiList.Count > 0) lastTime = Mathf.Max(lastTime, currentHiList[currentHiList.Count - 1]);
-        if(currentSnareList.Count > 0) lastTime = Mathf.Max(lastTime, currentSnareList[currentSnareList.Count - 1]);
         
-        float endTime = gameStartTime + lastTime + StartDelay + 1f;
+        SetupPreplacedNotes(levelParent);
+        OnStageStart(); 
 
-        while (Time.time < endTime)
+        while (ScanLineBar.transform.position.x < endPoint.position.x)
         {
-            // 라운드 진행 중 업데이트
-            // 코루틴 내에서 실행하므로 Update() 대신 여기서 처리하거나
-            // Update()에서 isGameRunning 플래그를 보고 처리하게 할 수 있음.
-            // 여기서는 Update() 함수와직 역할을 분담하기 위해 yield return null 사용.
-            yield return null; 
+            if (CurrentStageState != StageState.Playing) yield break;
+            yield return null;
         }
 
         isGameRunning = false;
     }
 
+    void SetupPreplacedNotes(GameObject parent)
+    {
+        RhythmNote[] notes = parent.GetComponentsInChildren<RhythmNote>();
+        foreach (var note in notes)
+        {
+            note.manager = this;
+            note.gameObject.SetActive(true);
+        }
+    }
+
+    public void OnStageStart()
+    {
+        CurrentStageState = StageState.Playing;
+        isGameRunning = true;
+    }
+
     void Update()
     {
-        if (!isGameRunning) return;
         if (CurrentStageState != StageState.Playing) return;
+        if (!isGameRunning) return;
 
-        float currentTime = Time.time - gameStartTime; // (필요시 상대 시간 사용, 여기선 Time.time 절대시간 기준 유지)
+        if (ScanLineBar)
+        {
+            ScanLineBar.transform.position += Vector3.right * NoteSpeed * Time.deltaTime;
+        }
 
-        // 1. 입력 처리 (터치 시 이펙트 & 판정)
         HandleInput();
+    }
 
-        // 2. 놓침(Miss) 처리 (시간 경과 확인)
-        CheckMiss();
+    public void RegisterHittableNote(RhythmNote note)
+    {
+        if (note.type == NoteType.Hi) hittableHiNotes.Enqueue(note);
+        else hittableSnareNotes.Enqueue(note);
+    }
+
+    public void UnregisterNote(RhythmNote note, bool isMiss)
+    {
+        if (note.type == NoteType.Hi)
+        {
+            if (hittableHiNotes.Count > 0 && hittableHiNotes.Peek() == note)
+            {
+                hittableHiNotes.Dequeue();
+                if (isMiss) 
+                {
+                    Debug.Log("Miss (Hi)");
+                    ShowFailArt(true);
+                    isRoundFail = true; 
+                }
+            }
+        }
+        else
+        {
+            if (hittableSnareNotes.Count > 0 && hittableSnareNotes.Peek() == note)
+            {
+                hittableSnareNotes.Dequeue();
+                if (isMiss) 
+                {
+                    Debug.Log("Miss (Snare)");
+                    ShowFailArt(false);
+                    isRoundFail = true; 
+                }
+            }
+        }
     }
 
     void HandleInput()
     {
+        bool isHiActive = false;
+        bool isSnareActive = false;
+
         for (int i = 0; i < Input.touchCount; i++)
         {
             Touch touch = Input.GetTouch(i);
+            Vector3 wp = Camera.main.ScreenToWorldPoint(touch.position);
+            wp.z = 0;
+
+            if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)
+            {
+                if (Hihitbox.OverlapPoint(wp)) isHiActive = true;
+                if (Snarehitbox.OverlapPoint(wp)) isSnareActive = true;
+            }
+
             if (touch.phase == TouchPhase.Began)
             {
-                Vector3 worldPos = Camera.main.ScreenToWorldPoint(touch.position);
-                worldPos.z = 0;
-
-                // 하이햇 터치
-                if (Hihitbox.OverlapPoint(worldPos))
+                if (Hihitbox.OverlapPoint(wp))
                 {
-                    ShowEffect(HiHitEffect, Hihitbox.transform.position); // 무조건 이펙트 표시
                     PlayHi();
-                    
-                    if (CheckTiming(currentHiList, ref hiIndex))
+                    if (hittableHiNotes.Count > 0)
                     {
-                        Debug.Log("하이햇 성공!");
+                        RhythmNote note = hittableHiNotes.Dequeue();
+                        note.OnHit();
+                        Debug.Log("Hi Hit Success!");
                     }
                     else
                     {
-                        Debug.Log("하이햇 타이밍/순서 틀림 (Fail)");
-                        ShowFailArt(true); // 하이햇 쪽에 Fail
-                        isRoundFail = true;
+                        Debug.Log("Hi Fail (허공)");
+                        ShowFailArt(true);
+                        isRoundFail = true; 
                     }
                 }
-                // 스네어 터치
-                else if (Snarehitbox.OverlapPoint(worldPos))
+                else if (Snarehitbox.OverlapPoint(wp))
                 {
-                    ShowEffect(SnareHitEffect, Snarehitbox.transform.position); // 무조건 이펙트 표시
                     PlaySnare();
-
-                    if (CheckTiming(currentSnareList, ref snareIndex))
+                    if (hittableSnareNotes.Count > 0)
                     {
-                        Debug.Log("스네어 성공!");
+                        RhythmNote note = hittableSnareNotes.Dequeue();
+                        note.OnHit();
+                        Debug.Log("Snare Hit Success!");
                     }
                     else
                     {
-                        Debug.Log("스네어 타이밍/순서 틀림 (Fail)");
-                        ShowFailArt(false); // 스네어 쪽에 Fail
-                        isRoundFail = true;
+                        Debug.Log("Snare Fail (허공)");
+                        ShowFailArt(false);
+                        isRoundFail = true; 
                     }
                 }
             }
         }
+
+        if (hiEffectInstance) hiEffectInstance.SetActive(isHiActive);
+        if (snareEffectInstance) snareEffectInstance.SetActive(isSnareActive);
     }
 
-    // 판정 함수: 현재 인덱스의 노트가 범위 안에 있는지 확인
-    bool CheckTiming(List<float> noteList, ref int index)
+    void ShowFailArt(bool isHi) 
     {
-        if (index >= noteList.Count) return false; // 남은 노트 없음
-
-        float targetTime = gameStartTime + noteList[index]; // 절대 시간으로 변환이 필요하면 여기서 보정
-        // 위 PlayRound에서 이미 StartDelay를 더했으므로 Time.time과 비교 시 주의.
-        // PlayRound에서 리스트 값 자체를 Time.time 기준으로 변환하는 것이 복잡하면
-        // 차라리 StartTime을 0으로 잡고 로직을 짤 수도 있으나, 기존 구조를 살려 비교합니다.
+        GameObject target = isHi ? HiFailArt : SnareFailArt;
+        if(target == null) return;
         
-        // 주의: PlayRound에서 리스트값에 StartDelay를 더했지만, 기준점(gameStartTime)이 Time.time임.
-        // 리스트의 값들이 "시작 후 n초"라면: targetTime = gameStartTime + List[i]
-        // 리스트의 값들이 "절대 시간"이라면 그대로 사용.
-        // 기존 코드 로직을 따라 "리스트 값" 자체가 시간이라고 가정하고 비교합니다.
-        
-        float noteTime = noteList[index]; // PlayRound에서 이미 값이 조정됨(가정)
-
-        if (Time.time >= noteTime - Ocha && Time.time <= noteTime + Ocha)
-        {
-            index++; // 다음 노트로 넘어감
-            return true;
-        }
-        return false;
+        if(isHi) { if(hiFailRoutine != null) StopCoroutine(hiFailRoutine); hiFailRoutine = StartCoroutine(FailRoutine(target)); }
+        else { if(snareFailRoutine != null) StopCoroutine(snareFailRoutine); snareFailRoutine = StartCoroutine(FailRoutine(target)); }
     }
 
-    void CheckMiss()
-    {
-        // 하이햇 놓침 체크
-        if (hiIndex < currentHiList.Count)
-        {
-            if (Time.time > currentHiList[hiIndex] + Ocha)
-            {
-                Debug.Log("하이햇 놓침! (Fail)");
-                ShowFailArt(true);
-                isRoundFail = true;
-                hiIndex++; // 다음 노트로 강제 이동
-            }
-        }
-
-        // 스네어 놓침 체크
-        if (snareIndex < currentSnareList.Count)
-        {
-            if (Time.time > currentSnareList[snareIndex] + Ocha)
-            {
-                Debug.Log("스네어 놓침! (Fail)");
-                ShowFailArt(false);
-                isRoundFail = true;
-                snareIndex++; // 다음 노트로 강제 이동
-            }
-        }
-    }
-
-    // 이펙트 표시 헬퍼
-    void ShowEffect(GameObject effectPrefab, Vector3 pos)
-    {
-        if(effectPrefab)
-        {
-            GameObject obj = Instantiate(effectPrefab, pos, Quaternion.identity);
-            Destroy(obj, 0.5f);
-        }
-    }
-
-    // Fail 아트 표시 코루틴
-    void ShowFailArt(bool isHi)
-    {
-        StartCoroutine(FailArtRoutine(isHi ? HiFailArt : SnareFailArt));
-    }
-
-    IEnumerator FailArtRoutine(GameObject artObj)
-    {
-        if (artObj == null) yield break;
-        
-        artObj.SetActive(true);
-        yield return new WaitForSeconds(1.0f); // 1초간 표시
-        artObj.SetActive(false);
+    IEnumerator FailRoutine(GameObject obj) 
+    { 
+        obj.SetActive(true); 
+        yield return new WaitForSeconds(FailDuration); 
+        obj.SetActive(false); 
     }
     
-    // ... OnStageEnd, OnStageClear 구현 (기존 유지 혹은 부모 호출) ...
-    protected override void OnStageEnd()
-    {
-        // 실패 시 HP 깎는 로직 등
-        Debug.Log("OnStageEnd: 스테이지 실패 핸들러 호출");
-        base.OnStageEnd(); 
-        StageManager.Instance.StageClear(false);
-    }
-
-    protected override void OnStageClear()
-    {
-        Debug.Log("OnStageClear: 스테이지 클리어 핸들러 호출");
-        base.OnStageClear();
-        StageManager.Instance.StageClear(true);
-    }
-    
-    private void OnStageFail()
-    {
-        Debug.Log("OnStageFail: 스테이지 실패 상태로 전환");
-        CurrentStageState = StageState.Over;
-        OnStageEnd();
-    }
-    
-    // PlayHi, PlaySnare 등 유지
     public void PlayHi() { if(audioSource) audioSource.PlayOneShot(hiClip); }
     public void PlaySnare() { if(audioSource) audioSource.PlayOneShot(snareClip); }
+    private void OnStageEndedGimmick(bool isClear) { StageManager.Instance.StageClear(isClear); }
+    public void SetStageClear() { CurrentStageState = StageState.Clear; OnStageEnded?.Invoke(true); }
+    public void SetStageFailed() { CurrentStageState = StageState.Over; OnStageEnded?.Invoke(false); }
 }
