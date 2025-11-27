@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using InputSystem = UnityEngine.InputSystem;
+using System.Linq;
 
 // 접시 이동 관련 (World Space)
 public class PlateController : MonoBehaviour
@@ -14,6 +16,7 @@ public class PlateController : MonoBehaviour
     [SerializeField] private Vector3 lidStartOffset = new Vector3(0, 2f, 0); // 뚜껑 시작 오프셋 (위쪽)
 
     private RestaurantFindStage _stage;
+    private Collider2D _collider2D;
     private bool isCorrectPlate = false;
     private Transform lidTransform;
     private Vector3 lidOriginalPos; // 뚜껑의 원래 위치 (프리팹에서 설정한 위치)
@@ -112,18 +115,86 @@ public class PlateController : MonoBehaviour
         if (selectedPlateSprite != null) selectedPlateSprite.gameObject.SetActive(true);
     }
 
-    // 마우스 클릭 이벤트
-    private void OnMouseDown()
+    // InputManager 기반 Plate 선택 처리
+    private void OnEnable()
     {
-        if (_stage != null)
+        InputManager.Instance.OnStageTapPerformed += OnTapPerformed;
+    }
+
+    private void OnDisable()
+    {
+        if (InputManager.Instance != null)
+            InputManager.Instance.OnStageTapPerformed -= OnTapPerformed;
+    }
+
+    private void OnTapPerformed()
+    {
+        if (_stage == null || _collider2D == null || InputManager.Instance == null)
+            return;
+
+        // InputManager의 TappedCollider가 비어있을 수 있으니, TouchWorldPos로 직접 판정
+        Vector3 touchWorld = InputManager.Instance.TouchWorldPos;
+
+        Collider2D top = GetTopColliderAtPoint(touchWorld);
+
+        if (top == _collider2D)
         {
             _stage.OnPlateSelected(this);
         }
     }
 
+    // 터치 지점에서 top Collider2D를 가져오는 보조 함수 (자식 SpriteRenderer 고려, 반경 보정)
+    private Collider2D GetTopColliderAtPoint(Vector3 worldPos)
+    {
+        Collider2D[] hits = Physics2D.OverlapPointAll(worldPos);
+        if (hits != null && hits.Length > 0)
+        {
+            var rendered = hits
+                .Select(h => new { col = h, rend = h.GetComponent<SpriteRenderer>() ?? h.GetComponentInChildren<SpriteRenderer>() })
+                .Where(x => x.rend != null)
+                .OrderBy(x => x.rend.sortingOrder)
+                .Select(x => x.col)
+                .ToArray();
+
+            if (rendered.Length > 0)
+            {
+                return rendered.Last();
+            }
+
+            // 여기에 도달하면 hits는 존재하지만 SpriteRenderer 기반 필터에 걸리지 않음
+            // 가장 가까운 콜라이더를 폴백으로 반환
+            var nearest = hits.OrderBy(h => Vector2.Distance(h.bounds.ClosestPoint(worldPos), worldPos)).FirstOrDefault();
+            if (nearest != null) return nearest;
+        }
+
+        // point로 못 잡으면 작은 반경으로 보정
+        float radius = 0.1f;
+        Collider2D[] circleHits = Physics2D.OverlapCircleAll(worldPos, radius);
+        if (circleHits != null && circleHits.Length > 0)
+        {
+            var rendered = circleHits
+                .Select(h => new { col = h, rend = h.GetComponent<SpriteRenderer>() ?? h.GetComponentInChildren<SpriteRenderer>() })
+                .Where(x => x.rend != null)
+                .OrderBy(x => x.rend.sortingOrder)
+                .Select(x => x.col)
+                .ToArray();
+
+            if (rendered.Length > 0)
+            {
+                return rendered.Last();
+            }
+
+            var nearest = circleHits.OrderBy(h => Vector2.Distance(h.bounds.ClosestPoint(worldPos), worldPos)).FirstOrDefault();
+            return nearest;
+        }
+
+        return null;
+    }
+
     void Awake()
     {
         _stage = FindObjectOfType<RestaurantFindStage>();
+        _collider2D = GetComponent<Collider2D>();
 
         // Lid 스프라이트의 Transform 가져오기
         if (lidSprite != null)
