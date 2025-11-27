@@ -992,7 +992,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NoteSpeed: 1.5
   StartDelay: 2.3
-  FailDuration: 1
+  FailDuration: 0.3
   ScanLineBar: {fileID: 1603340560}
   Level1_Sheet: {fileID: 1395590004}
   Level1_Parent: {fileID: 1282840652}
