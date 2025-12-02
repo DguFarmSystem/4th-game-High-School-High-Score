@@ -9,8 +9,6 @@ public class TurnMusicOnStage : StageNormal
 {
 
     [SerializeField]
-    InputManager InputManager;
-    [SerializeField]
     AudioSource TheAudio;
     [SerializeField]
     Scrollbar TheScroll;
@@ -24,10 +22,12 @@ public class TurnMusicOnStage : StageNormal
     {
         StageGimmik();
         TheAudio.volume = TheScroll.value;
-        if (TimerTime<=0&&TheScroll.value>0.77f&&TheScroll.value<0.86)
+        if (TheScroll.value>0.77f&&TheScroll.value<0.86)
         {
             OnStageClear();
         }
+        else CurrentStageState = StageState.Playing;
+        
         print(TheScroll.value);
     }
 
@@ -46,17 +46,17 @@ public class TurnMusicOnStage : StageNormal
 
     public void OnEnable()
     {
-        InputManager.OnStageTapPerformed += StageGimmik;
+        InputManager.Instance.OnStageTapPerformed += StageGimmik;
         OnStageEnded += OnStageEndedGimmik;
     }
     public void OnDisable()
     {
-        InputManager.OnStageTapPerformed -= StageGimmik;
+        InputManager.Instance.OnStageTapPerformed -= StageGimmik;
         OnStageEnded -= OnStageEndedGimmik;
     }
     private void OnStageEndedGimmik(bool isStageCleared)
     {
-        InputManager.OnStageTapPerformed -= StageGimmik;
+        InputManager.Instance.OnStageTapPerformed -= StageGimmik;
         if (isStageCleared)
         {
             Debug.Log("Cleared");

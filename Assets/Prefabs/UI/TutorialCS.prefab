@@ -159,11 +159,11 @@ MonoBehaviour:
   _backgroundFailure: {fileID: 9024326003314970035}
   _bgAllClear: {fileID: 21300000, guid: 0fd90a6728a95304ba4e82f1145eaad3, type: 3}
   _character: {fileID: 7944514711995021222}
-  _characterDefaultSprite: {fileID: 21300000, guid: 420a53d091bf1e44eb375b0635523151,
+  _characterDefaultSprite: {fileID: 21300000, guid: 6bd85bdb184ccdd46a93247ebfe4d450,
     type: 3}
-  _characterSuccessSprite: {fileID: 21300000, guid: 45dc55c857ce90f4bb8ea3219df63997,
+  _characterSuccessSprite: {fileID: 21300000, guid: 38c20f4067bb4df4880aa6de8ed067ba,
     type: 3}
-  _characterFailureSprite: {fileID: 21300000, guid: a7f05efeb26b8d84e91f85cd12ebb09f,
+  _characterFailureSprite: {fileID: 21300000, guid: c48718766a99e774e8e071fd46670e05,
     type: 3}
 --- !u!1 &1270195178972591714
 GameObject:
@@ -459,7 +459,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 420a53d091bf1e44eb375b0635523151, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6bd85bdb184ccdd46a93247ebfe4d450, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

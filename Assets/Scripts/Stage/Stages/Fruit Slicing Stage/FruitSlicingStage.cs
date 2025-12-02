@@ -140,7 +140,7 @@ public class FruitSlicingStage : StageNormal
             {
                 //Instantiate(Effect, InputManager.Instance.TouchWorldPos, Effect.transform.rotation);
                 InputManager.Instance.TouchedCollider.gameObject.tag = "Untagged";
-                GreenChecks[SliceCount].SetActive(true);
+                if (SliceCount < GreenChecks.Length) GreenChecks[SliceCount].SetActive(true);
                 SliceCount++;
             }
         }

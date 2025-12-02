@@ -246,10 +246,10 @@ public class DialogueManager : MonoBehaviour
         // TEST CODE
         StageManager.Instance.Initialize(
             new List<string> {
+                SceneNames.MusicPlay,
                 SceneNames.MusicDance,
                 SceneNames.RestaurantSpread,
-                SceneNames.RestaurantSpread,
-                SceneNames.RestaurantSpread,
+                SceneNames.RestaurantFruit,
                 SceneNames.MusicBeat,
             },
             "MusicCS",
