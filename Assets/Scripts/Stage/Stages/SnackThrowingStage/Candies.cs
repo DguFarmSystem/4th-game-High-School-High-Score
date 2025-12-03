@@ -37,7 +37,7 @@ public class Candies : MonoBehaviour
                 elapsedTime += Time.deltaTime;
                 float t = elapsedTime / duration;
 
-                candy.transform.position = Vector3.Slerp(startPosition, student.transform.position, t);
+                candy.transform.position = Vector3.Lerp(startPosition, student.transform.position, t);
 
                 yield return null; // 다음 프레임까지 대기
             }

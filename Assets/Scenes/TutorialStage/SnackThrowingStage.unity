@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1717,37 +1717,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   testObject: {fileID: 0}
   _tapAction:
-    m_Name: 
+    m_Name: Tap
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: d225c7c8-0e95-420d-8313-e406992bd936
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
   _pressAction:
-    m_Name: 
+    m_Name: Press
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: 0495cd6e-d84a-4067-b4a9-5b9330cac91c
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
   _positionAction:
-    m_Name: 
+    m_Name: Position
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: e0a82e3e-30ef-4097-b02b-0a6e55fb8a9a
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
   _dragAction:
-    m_Name: 
+    m_Name: Drag
     m_Type: 0
     m_ExpectedControlType: 
-    m_Id: 
+    m_Id: 9fd9257c-7464-48ca-8fa5-ccf9f23528f3
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
