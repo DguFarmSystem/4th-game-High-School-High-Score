@@ -21,10 +21,10 @@ public class PianoStage : StageNormal
     Sprite[] BackgroundSprite;
     [SerializeField]
     SpriteRenderer Background;
-    int i=-1;
+    int i = -1;
 
-    bool Teaching=true;
-    float TeachingTerm=0.5f;
+    bool Teaching = true;
+    float TeachingTerm = 0.5f;
     [SerializeField]
     Question[] Questions;
     [SerializeField]
@@ -33,12 +33,15 @@ public class PianoStage : StageNormal
     [SerializeField]
     Sprite[] KeySprite;
     [SerializeField]
+    GameObject Effect;
+    GameObject TheEffect;
+    [SerializeField]
     SpriteRenderer Key;
     [SerializeField]
     Sprite DefaultKey;
     int answercount = 0;
     bool Pressed;
-    float Presstime=0.5f;
+    float Presstime = 0.5f;
     [SerializeField]
     GameObject PlayCommand;
 
@@ -49,7 +52,8 @@ public class PianoStage : StageNormal
     {
         time = 5;
         StageLevel = StageManager.Instance.GetDifficulty();
-        Background.sprite=BackgroundSprite[StageLevel-1];
+        Background.sprite = BackgroundSprite[StageLevel - 1];
+        Effect = GameObject.Find("Effets");
     }
 
     void Update()
@@ -61,7 +65,7 @@ public class PianoStage : StageNormal
             {
                 for (int j = 0; j < 4; j++)
                 {
-                    if (Questions[StageLevel-1].index[j] != Answer[j])
+                    if (Questions[StageLevel - 1].index[j] != Answer[j])
                     {
                         IsDifferent = true;
                     }
@@ -76,20 +80,28 @@ public class PianoStage : StageNormal
                 StageGimmik();
                 if (Pressed)
                 {
-                    Presstime-= Time.deltaTime;
-                    if (Presstime <= 0) {Key.sprite = DefaultKey;Pressed = false;Presstime = 0.5f;  }
+                    Presstime -= Time.deltaTime;
+                    if (Presstime <= 0)
+                    {
+                        Key.sprite = DefaultKey;
+                        Pressed = false; Presstime = 0.5f;
+                        TheEffect.SetActive(false);//눌렀다가 올라왔을때
+                    }
                 }
             }
         }
         else
         {
-            TeachingTerm-= Time.deltaTime;
-            if(TeachingTerm < 0)
+            TeachingTerm -= Time.deltaTime;
+            if (TeachingTerm < 0)
             {
                 if (i == 3) i++;
                 if (i > 3)
                 {
-                    Teaching = false; OnStageStart(); PlayCommand.SetActive(true); Key.sprite = DefaultKey;
+                    Teaching = false;
+                    OnStageStart();
+                    PlayCommand.SetActive(true);
+                    Key.sprite = DefaultKey;
                 }
                 if (i < 3)
                 {
@@ -97,8 +109,8 @@ public class PianoStage : StageNormal
                     Key.sprite = KeySprite[Questions[StageLevel - 1].index[i] - 1];
                     TeachingTerm = 0.5f;
                 }
-                }
             }
+        }
     }
 
     public override void OnStageStart()
@@ -141,29 +153,35 @@ public class PianoStage : StageNormal
 
     private void StageGimmik()
     {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
         if (InputManager.TouchedCollider != null)
         {
-            if(InputManager.TouchedCollider.gameObject.tag == "Key")
-            OnPianoHit(int.Parse(InputManager.TouchedCollider.gameObject.name));
-        }
-        if(Input.GetMouseButtonDown(0))
+            if (InputManager.TouchedCollider.gameObject.tag == "Key")
+                OnPianoHit(int.Parse(InputManager.TouchedCollider.gameObject.name));
+        }//인풋시스템으로 했을때 - 작동이 안되요,
+        //콜라이더가 null로 찍힙니다.
+        if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if(hit.transform.gameObject.tag == "Key")
+                if (hit.transform.gameObject.tag == "Key")
                 {
                     OnPianoHit(int.Parse(hit.transform.gameObject.name));
                 }
             }
-        }
+        }//임시로 레이캐스트로 대체한거,
+        //인풋시스템 되면 겟마우스버튼 if문 지우고 레이캐스트 관련 선언한거
+        //지우시면 됩니다.
     }
 
     private void OnPianoHit(int n)
     {
-        Key.sprite = KeySprite[n-1];
-        Answer[answercount] = n;answercount++;
+        Key.sprite = KeySprite[n - 1];
+        Answer[answercount] = n; answercount++;
+        TheEffect = Effect.transform.GetChild(n - 1).gameObject;
+        TheEffect.SetActive(true);
         Pressed = true;
     }
 }
