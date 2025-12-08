@@ -62,7 +62,6 @@ public class FruitSlicingStage : StageNormal
     // Update is called once per frame
     void Update()
     {
-        StageGimmik();
         if (CurrentCount == OpCount)
         {
             if (SliceCount >= GoalCount)
@@ -133,7 +132,6 @@ public class FruitSlicingStage : StageNormal
 
     private void StageGimmik()
     {
-        Debug.Log(InputManager.Instance.TouchWorldPos);
         if (InputManager.Instance.TouchedCollider != null)
         {
             if (InputManager.Instance.TouchedCollider.gameObject.tag == "Fruit")

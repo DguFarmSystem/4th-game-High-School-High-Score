@@ -22,7 +22,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 {
                     GameObject container = new GameObject(typeof(T).Name);
                     _instance = container.AddComponent<T>();
-                    DontDestroyOnLoad(_instance);
+                    DontDestroyOnLoad(container);
                 }
             }
             return _instance;
@@ -39,9 +39,9 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         if (_instance == null)
         {
             _instance = this as T;
-            DontDestroyOnLoad(gameObject);
         }
-        else
+
+        if (_instance != this)
         {
             Destroy(gameObject);
         }
