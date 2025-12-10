@@ -1,153 +1,104 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class OutlineExtractor : MonoBehaviour
+public class OutlineExtractor
 {
-    public Sprite sprite;
-    public float alphaThreshold = 0.1f; // Transparent cutoff
-    public float simplifyTolerance = 2f; // Point reduction
+    private readonly Color32[] pixels;
+    private readonly int width;
+    private readonly int height;
 
-    public List<Vector2> OutlinePoints = new List<Vector2>();
+    private readonly float alphaThreshold;
 
-    void Start()
+    public OutlineExtractor(Texture2D texture, float alphaThreshold = 0.1f)
     {
-        sprite = GetComponent<Image>().sprite;
-        if (sprite == null)
+        this.width = texture.width;
+        this.height = texture.height;
+        this.pixels = texture.GetPixels32();
+        this.alphaThreshold = alphaThreshold;
+    }
+
+    private bool IsSolid(int x, int y)
+    {
+        int index = y * width + x;
+        return pixels[index].a / 255f >= alphaThreshold;
+    }
+
+    private bool IsOutlinePixel(int x, int y)
+    {
+        if (!IsSolid(x, y)) return false;
+
+        int[] dirx = { 1, -1, 0, 0 };
+        int[] diry = { 0, 0, 1, -1 };
+
+        for (int i = 0; i < 4; i++)
         {
-            Debug.LogError("No sprite assigned.");
-            return;
+            int nx = x + dirx[i];
+            int ny = y + diry[i];
+
+            if (nx < 0 || nx >= width || ny < 0 || ny >= height)
+                return true;
+
+            if (!IsSolid(nx, ny))
+                return true;
         }
 
-        GenerateOutline();
+        return false;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public List<Vector2> ExtractOutline()
     {
-
-    }
-
-    void GenerateOutline()
-    {
-        Texture2D tex = sprite.texture;
-
-        int width = tex.width;
-        int height = tex.height;
-
-        List<Vector2> rawPoints = new List<Vector2>();
+        List<Vector2> outlinePixels = new List<Vector2>();
 
         for (int y = 1; y < height - 1; y++)
         {
             for (int x = 1; x < width - 1; x++)
             {
-                Color c = tex.GetPixel(x, y);
-
-                // Skip empty pixels
-                if (c.a < alphaThreshold)
-                    continue;
-
-                // Check if this pixel touches transparency
-                bool isEdge =
-                    tex.GetPixel(x - 1, y).a < alphaThreshold ||
-                    tex.GetPixel(x + 1, y).a < alphaThreshold ||
-                    tex.GetPixel(x, y - 1).a < alphaThreshold ||
-                    tex.GetPixel(x, y + 1).a < alphaThreshold;
-
-                if (isEdge)
+                if (IsOutlinePixel(x, y))
                 {
-                    // Convert texture pixel to LOCAL sprite space
-                    Vector2 p = PixelToLocalPoint(x, y, width, height);
-                    rawPoints.Add(p);
+                    outlinePixels.Add(new Vector2(x, y));
                 }
             }
         }
 
-        // Optional: simplify
-        OutlinePoints = DouglasPeuckerReduction(rawPoints, simplifyTolerance);
-
-        Debug.Log($"Generated outline: {OutlinePoints.Count} points");
+        // 가공된 외곽선(픽셀 순서가 섞여 있음) → 순차적 경로로 변환
+        return SortOutlinePoints(outlinePixels);
     }
 
-    Vector2 PixelToLocalPoint(int x, int y, int w, int h)
+    private List<Vector2> SortOutlinePoints(List<Vector2> points)
     {
-        // Convert to 0–1 UV
-        float px = (float)x / w;
-        float py = (float)y / h;
-
-        // Convert UV → local sprite bounds
-        Vector2 local = new Vector2(
-            Mathf.Lerp(sprite.bounds.min.x, sprite.bounds.max.x, px),
-            Mathf.Lerp(sprite.bounds.min.y, sprite.bounds.max.y, py)
-        );
-
-        return local;
-    }
-
-
-    // ================================
-    // Simplification (Ramer–Douglas–Peucker)
-    // ================================
-
-    public static List<Vector2> DouglasPeuckerReduction(List<Vector2> points, float tolerance)
-    {
-        if (points == null || points.Count < 3)
+        if (points.Count == 0)
             return points;
 
-        int firstPoint = 0;
-        int lastPoint = points.Count - 1;
+        List<Vector2> sorted = new List<Vector2>();
+        HashSet<Vector2> used = new HashSet<Vector2>();
 
-        List<int> pointIndexsToKeep = new List<int>();
+        Vector2 current = points[0];
+        sorted.Add(current);
+        used.Add(current);
 
-        // Add first and last index
-        pointIndexsToKeep.Add(firstPoint);
-        pointIndexsToKeep.Add(lastPoint);
-
-        // Recursively find points
-        DouglasPeucker(points, firstPoint, lastPoint, tolerance, ref pointIndexsToKeep);
-
-        // Sort and return simplified list
-        pointIndexsToKeep.Sort();
-        List<Vector2> finalPoints = new List<Vector2>();
-        foreach (int idx in pointIndexsToKeep)
-            finalPoints.Add(points[idx]);
-
-        return finalPoints;
-    }
-
-    static void DouglasPeucker(List<Vector2> points, int firstPoint, int lastPoint, float tolerance, ref List<int> keep)
-    {
-        float maxDistance = 0;
-        int indexFarthest = 0;
-
-        for (int i = firstPoint + 1; i < lastPoint; i++)
+        for (int i = 1; i < points.Count; i++)
         {
-            float dist = PerpendicularDistance(points[firstPoint], points[lastPoint], points[i]);
-            if (dist > maxDistance)
+            float minDist = float.MaxValue;
+            Vector2 next = current;
+
+            foreach (var p in points)
             {
-                maxDistance = dist;
-                indexFarthest = i;
+                if (used.Contains(p)) continue;
+
+                float dist = Vector2.SqrMagnitude(p - current);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    next = p;
+                }
             }
+
+            sorted.Add(next);
+            used.Add(next);
+            current = next;
         }
 
-        if (maxDistance > tolerance)
-        {
-            keep.Add(indexFarthest);
-
-            // Recursive
-            DouglasPeucker(points, firstPoint, indexFarthest, tolerance, ref keep);
-            DouglasPeucker(points, indexFarthest, lastPoint, tolerance, ref keep);
-        }
-    }
-
-    static float PerpendicularDistance(Vector2 start, Vector2 end, Vector2 p)
-    {
-        float area = Mathf.Abs(
-            (start.x * end.y + end.x * p.y + p.x * start.y)
-            - (start.y * end.x + end.y * p.x + p.y * start.x)
-        );
-        float bottom = Vector2.Distance(start, end);
-        return area / bottom * 2;
+        return sorted;
     }
 }
