@@ -12,10 +12,6 @@ public class SnackThrowingStage : MonoBehaviour, IStageBase
     public StageState CurrentState => CurrentStageState;
 
     private int _numberOfStudents = 0;
-
-    // TEST CODE
-    [SerializeField] private GameObject _greenSphere;
-    [SerializeField] private GameObject _redSphere;
     
     public void OnStageStart()
     {
@@ -55,14 +51,12 @@ public class SnackThrowingStage : MonoBehaviour, IStageBase
 
         if (isStageCleared)
         {
-            //TEST CODE
             Debug.Log("Stage cleared!");
 
             StageManager.Instance.StageClear(true);
         }
         else
         {
-            //TEST CODE
             Debug.Log("Stage failed!");
             StageManager.Instance.StageClear(false);
         }

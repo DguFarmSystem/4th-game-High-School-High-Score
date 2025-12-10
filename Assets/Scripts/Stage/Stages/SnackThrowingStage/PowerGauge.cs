@@ -50,11 +50,12 @@ public class PowerGauge : MonoBehaviour
                     Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
                     gauge.GetComponent<RectTransform>().position = screenPos;
                     gauge.SetActive(true);
+                    _student.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = true;
                     break;
 
                 case State.Released:
                     _throwingCoroutine = StartCoroutine(WaitSnackArrival(0.5f));
-                    _student = null;
+                    //_student = null;
                     break;
             }
         }
@@ -117,6 +118,8 @@ public class PowerGauge : MonoBehaviour
     {
         yield return new WaitForSeconds(delay); // 약간의 딜레이 후에 스낵이 도착했다고 가정
         gauge.SetActive(false);
+        _student.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        _student = null;
 
         setGaugeColor(Color.white);
 

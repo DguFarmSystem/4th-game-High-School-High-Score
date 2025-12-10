@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42e23720398f0bb4db7b6acccc87e068, type: 3}
-  m_Name: Stage Interval Skin Data
+  m_Name: CutSceneSkinData
   m_EditorClassIdentifier: 
   NameAndGameObjectPairs:
   - key: TutorialCS
     value: {fileID: 683027219147417711, guid: 0046b8bafab358d4fa7593887ebd2f45, type: 3}
   - key: MusicCS
     value: {fileID: 683027219147417711, guid: cd64efda7b635f2498cf0e0bd8b3c75d, type: 3}
+  - key: RestaurantCS
+    value: {fileID: 683027219147417711, guid: 38df37649e9814447b3e2c204d8dd4fe, type: 3}

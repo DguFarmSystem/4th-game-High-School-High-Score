@@ -4,7 +4,7 @@ using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class StageIntervalCSController : MonoBehaviour
+public abstract class CutSceneController : MonoBehaviour
 {
     [Header("HP")]
     [SerializeField] protected List<GameObject> _HPGameObjects;
@@ -18,7 +18,7 @@ public abstract class StageIntervalCSController : MonoBehaviour
     [SerializeField] protected Sprite _gameOverSprite;
     [SerializeField] protected Sprite _speedUpSprite;
 
-    protected abstract IEnumerator StageIntervalCutscene();
+    protected abstract IEnumerator StartCutScene();
 
     protected int _previousHP;
     protected int _stageIndex => StageManager.Instance.GetCurrentStage();
@@ -124,7 +124,7 @@ public abstract class StageIntervalCSController : MonoBehaviour
     }
     protected virtual void OnEnable()
     {
-        StartCoroutine(StageIntervalCutscene());
+        StartCoroutine(StartCutScene());
     }
 
     protected abstract void OnDisable();

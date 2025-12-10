@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
@@ -9,12 +8,10 @@ using EasyTransition;
 
 public class StageManager : Singleton<StageManager>
 {
-    [SerializeField] private StageIntervalSkin _skinData;
-    //[SerializeField] private GameObject _transitionTemplate;
-    //[SerializeField] private TransitionSettings _transition;
+    [SerializeField] private CutSceneSkin _skinData;
 
     private GameObject _ui;
-    private StageIntervalCSController _uiController;
+    private CutSceneController _uiController;
     private bool _showCompleted = false;
 
     private int _sceneIndex = 0;
@@ -87,16 +84,7 @@ public class StageManager : Singleton<StageManager>
     {
         yield return new WaitForSeconds(1.3f);
         SpeedInitialize();
-        /*
-        GameObject template = Instantiate(_transitionTemplate) as GameObject;
-        template.GetComponent<Transition>().transitionSettings = _transition;
 
-        float transitionTime = _transition.transitionTime;
-        if (_transition.autoAdjustTransitionTime)
-            transitionTime = transitionTime / _transition.transitionSpeed;
-
-        yield return new WaitForSecondsRealtime(transitionTime);
-        */
         _uiController.Hide();
         yield return null;
     }
@@ -144,7 +132,7 @@ public class StageManager : Singleton<StageManager>
     void EnsureUI()
     {
         if (_uiController != null) return;
-        _uiController = gameObject.GetComponentInChildren<StageIntervalCSController>();
+        _uiController = gameObject.GetComponentInChildren<CutSceneController>();
     }
 
     void Show()

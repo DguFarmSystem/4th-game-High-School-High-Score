@@ -61,13 +61,13 @@ public class DialogueManager : MonoBehaviour
     {
         if(conversationData == null || currentIndex >= conversationData.conversation.Count)
         {
-            //���⼭ ���� ������ �ѱ��? �ɵ�?
+            //���⼭ ���� ������ �ѱ��?? �ɵ�?
             return;
         }
 
         if (isTyping)
         {
-            // Ÿ���� ���̸� ���? ��ü ���� ǥ��
+            // Ÿ���� ���̸� ���?? ��ü ���� ǥ��
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
             dialogueText.text = currentLineFullText;
             isTyping = false;
@@ -80,11 +80,11 @@ public class DialogueManager : MonoBehaviour
 
             if (line.texts != null && currentTextIndex < line.texts.Count)
             {
-                typingCoroutine = StartCoroutine(TypeLine(line)); // ���� ���� ���?
+                typingCoroutine = StartCoroutine(TypeLine(line)); // ���� ���� ���??
             }
             else
             {
-                // ���� ȭ�� ���? ���� �Ϸ� �� ���� ���?
+                // ���� ȭ�� ���?? ���� �Ϸ� �� ���� ���??
                 currentIndex++;
                 currentTextIndex = 0;
                 ShowLine();
@@ -114,6 +114,7 @@ public class DialogueManager : MonoBehaviour
     void LoadConversation()
     {
         string filePath = Path.Combine(Application.dataPath, "Texts", jsonFileName);
+        Debug.Log("Loading conversation from: " + filePath);
 
         if (File.Exists(filePath))
         {
@@ -128,10 +129,10 @@ public class DialogueManager : MonoBehaviour
 
     /*
      characterImage
-    -1 : �ƹ� �̹����� �����? �ʴ´�.
+    -1 : �ƹ� �̹����� �����?? �ʴ´�.
     0 : ���ΰ� ȥ�� ��ȭâ�� ����, ��ġ �ٲٰ� �迭 3��
     1 : ù ���� - ü���� ��ȭ ����, left element 2, right element 1
-    2 : ���ΰ��� ü���� �� ���?. ���ΰ� ���� ȿ��. left element 0, right element 3
+    2 : ���ΰ��� ü���� �� ���??. ���ΰ� ���� ȿ��. left element 0, right element 3
     3 : ü�� ���� ȿ��.
      */
     void ShowLine()
@@ -207,7 +208,7 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
 
-        // texts�� ������ ���� ���常 ���?
+        // texts�� ������ ���� ���常 ���??
         if (line.texts != null && currentTextIndex < line.texts.Count)
         {
             currentLineFullText = line.texts[currentTextIndex];
@@ -236,7 +237,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    //����׿�? �Լ�
+    //����׿�?? �Լ�
     private void EndDialogue()
     {
         Debug.Log("��ȭ ����");
@@ -249,11 +250,10 @@ public class DialogueManager : MonoBehaviour
                 SceneNames.MusicPlay,
                 SceneNames.MusicDance,
                 SceneNames.RestaurantSpread,
-                SceneNames.RestaurantFruit,
-                SceneNames.MusicBeat,
+                SceneNames.SnackThrowing,
             },
-            "MusicCS",
-            StageManager.GameMode.Normal
+            "RestaurantCS",
+            StageManager.GameMode.Tutorial
         );
         StageManager.Instance.LoadNextStage();
     }

@@ -114,7 +114,7 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
 
     void Update()
     {
-        if (CurrentStageState != StageState.Playing) return;
+        if (CurrentStageState != StageState.Playing && CurrentStageState != StageState.Clear) return;
         
         StageTimeLimit -= Time.deltaTime;
 

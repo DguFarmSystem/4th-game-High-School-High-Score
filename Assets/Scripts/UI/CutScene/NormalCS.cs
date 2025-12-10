@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class musicCS : StageIntervalCSController
+public class NormalCS : CutSceneController
 {
     [Header("Background")]
     [SerializeField] private Image _backgroundSuccess;
@@ -18,7 +18,7 @@ public class musicCS : StageIntervalCSController
 
     private bool _startFlag = true;
 
-    protected override IEnumerator StageIntervalCutscene()
+    protected override IEnumerator StartCutScene()
     {
         // HP 출력
         ShowHP();
