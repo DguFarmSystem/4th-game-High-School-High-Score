@@ -12,8 +12,8 @@ namespace Stage
         [System.Serializable]
         public class LevelEntry
         {
-            public GameObject root;          // Cake_Lv1, Lv2…
-            public SpriteRenderer dimmer;    // CakeDimmer (SpriteRenderer)
+            public GameObject root;
+            public SpriteRenderer dimmer;
         }
 
         [Header("Levels (난이도별 케이크)")]
@@ -36,6 +36,12 @@ namespace Stage
         [SerializeField] float dimmerMaxSpeed  = 10f;
         float _alphaVel;
 
+        [Header("Sound")]
+        [SerializeField] AudioSource bgmSource;
+        [SerializeField] AudioSource sfxSource;
+        [SerializeField] AudioClip igniteSfxClip;
+        [SerializeField] AudioClip allLitSfxClip;
+
         int _activeIndex = -1;
         LevelEntry _active;
         readonly List<CandleFire> _candles = new();
@@ -47,7 +53,8 @@ namespace Stage
         float _targetAlpha;
 
         bool _clearPending;
-        bool _reportedToStageManager = false; // 중복 보고 방지
+        bool _reportedToStageManager = false;
+        bool _allLitSfxPlayed = false;
 
         void OnEnable()  => OnStageEnded += OnStageEndedGimmick;
         void OnDisable() => OnStageEnded -= OnStageEndedGimmick;
@@ -61,6 +68,7 @@ namespace Stage
         public override void OnStageStart()
         {
             _reportedToStageManager = false;
+            _allLitSfxPlayed = false;
 
             int diff = 1;
             if (StageManager.Instance != null)
@@ -74,12 +82,19 @@ namespace Stage
 
             SetupLevel(_activeIndex);
 
+            if (bgmSource && !bgmSource.isPlaying)
+                bgmSource.Play();
+
             base.OnStageStart();
         }
 
         protected override void OnStageEnd()
         {
             foreach (var c in _candles) c.OnIgnited -= HandleIgnite;
+
+            if (bgmSource && bgmSource.isPlaying)
+                bgmSource.Stop();
+
             base.OnStageEnd();
         }
 
@@ -121,35 +136,27 @@ namespace Stage
             ApplyDimmerImmediate(_targetAlpha, ensureEnabled: true);
         }
 
-        // 내부 레벨 자동 전환 로직 (일단 남겨만 뒀습니다)
-        void GoToNextInternalLevel()
-        {
-            if (_activeIndex + 1 < levels.Count)
-            {
-                Debug.Log($"[CakeFireStage] ► Next Level would be Lv{_activeIndex + 2} (auto-advance disabled)");
-                return;
-            }
-            Debug.Log("[CakeFireStage] ► Stage Cleared (all internal levels)!");
-        }
-
         IEnumerator EndAfter(float t)
         {
             yield return new WaitForSeconds(t);
             OnStageEnd();
         }
 
-        // 점화/밝기
         void HandleIgnite(CandleFire _)
         {
+            if (igniteSfxClip && sfxSource)
+                sfxSource.PlayOneShot(igniteSfxClip);
+
             RefreshCounts();
             UpdateTargetAlpha();
 
-            Debug.Log($"[CakeFireStage] ignite handled: {_litCount}/{_needCount}");
-
-            if (_needCount > 0 && _litCount >= _needCount)
+            if (!_allLitSfxPlayed && _needCount > 0 && _litCount >= _needCount)
             {
-                Debug.Log($"[CakeFireStage] ✓ Level {(_activeIndex + 1)} Cleared!");
-                BeginClearSequence(); // 마지막 점화 후 약간의 연출 대기
+                _allLitSfxPlayed = true;
+                if (allLitSfxClip && sfxSource)
+                    sfxSource.PlayOneShot(allLitSfxClip);
+
+                BeginClearSequence();
             }
         }
 
@@ -169,8 +176,6 @@ namespace Stage
             while (t > 0f) { t -= Time.deltaTime; yield return null; }
 
             _clearPending = false;
-
-            // 상태만 Clear로 바꿔둠
             CurrentStageState = StageState.Clear;
         }
 
