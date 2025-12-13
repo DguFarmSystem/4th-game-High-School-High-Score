@@ -42,7 +42,7 @@ public class RestaurantFindStage : StageNormal
     
     public float LidCloseDuration => lidCloseDuration; // PlateController에서 참조 가능하도록
     
-    private List<PlateController> spawnedPlates = new List<PlateController>(); // 화면에 생성된 접시 리스트
+    private List<PlateController> spawnedPlates = new(); // 화면에 생성된 접시 리스트
     private int targetFoodIndex; // 0:egg, 1:omurice, 2:parfait, 3:sushi
     
     private bool canSelectPlate = false; // 현재 선택 가능한지
