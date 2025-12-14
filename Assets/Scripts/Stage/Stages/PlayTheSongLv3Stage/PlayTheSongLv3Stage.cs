@@ -21,10 +21,13 @@ namespace Stage
         [SerializeField] AudioSource bgmSource;
         [SerializeField] AudioSource sfxSource;
         [SerializeField] AudioClip fourButtonSfxClip;
+        [SerializeField] AudioSource clearBgmSource;
+        [SerializeField] AudioClip clearBgmClip;
 
         int  _currentCount = 0;
         bool _screenBroken = false;
         bool _isCleared    = false;
+        bool _clearBgmPlayed = false;
 
         void OnEnable()  => OnStageEnded += OnStageEndedGimmick;
         void OnDisable() => OnStageEnded -= OnStageEndedGimmick;
@@ -42,6 +45,7 @@ namespace Stage
             _currentCount = 0;
             _screenBroken = false;
             _isCleared    = false;
+            _clearBgmPlayed = false;
 
             // 노이즈 화면 끄기
             if (monitorGlitchObject)
@@ -53,6 +57,9 @@ namespace Stage
 
             if (bgmSource && !bgmSource.isPlaying)
                 bgmSource.Play();
+
+            if (clearBgmSource)
+                clearBgmSource.Stop();
         }
 
         public void OnNumberButtonPressed(int number)
@@ -90,6 +97,18 @@ namespace Stage
             if (_currentCount >= requiredPressCount) {
                 _isCleared = true;
 
+                if (!_clearBgmPlayed)
+                {
+                    _clearBgmPlayed = true;
+
+                    if (clearBgmSource && clearBgmClip)
+                    {
+                        clearBgmSource.clip = clearBgmClip;
+                        clearBgmSource.loop = false;
+                        clearBgmSource.Play();
+                    }
+                }
+
                 // 4444를 모두 입력 시 클리어 조건 달성
                 Debug.Log("[PlayTheSongLv3Stage] CLEAR 조건 달성");
             }
@@ -99,6 +118,9 @@ namespace Stage
         {
             if (bgmSource && bgmSource.isPlaying)
                 bgmSource.Stop();
+
+            if (clearBgmSource && clearBgmSource.isPlaying)
+                clearBgmSource.Stop();
 
             if (_isCleared)
             {
