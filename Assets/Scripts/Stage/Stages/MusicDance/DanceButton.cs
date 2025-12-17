@@ -13,10 +13,13 @@ public class DanceButton : MonoBehaviour
 
     public void SetCorrect() => isCorrectBtn = true;
 
+    [SerializeField] private AudioClip _tapSFX;
+
     public void OnTap(InputAction.CallbackContext context)
     {
         if (InputManager.Instance.TouchedCollider.gameObject == this.gameObject && !isTapped)
         {
+            SoundManager.Instance.PlaySFX(_tapSFX);
             isTapped = true;
             selectedFX.enabled = true;
             if (isCorrectBtn) _musicDanceStage.SetStageClear();

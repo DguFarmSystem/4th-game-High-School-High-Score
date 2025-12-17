@@ -45,6 +45,10 @@ public class WindowClosingStage : StageNormal
     [SerializeField] private GameObject _bugPrefab;
     [SerializeField] private GameObject _windowBrokenPrefab;
     [SerializeField] private GameObject _blindPrefab;
+
+    [SerializeField] private AudioClip _BGMClip;
+    [SerializeField] private AudioClip _windowCloseSfx;
+
     //TEST CODE
     [SerializeField] private GameObject _greenSphere;
     [SerializeField] private GameObject _redSphere;
@@ -197,7 +201,7 @@ public class WindowClosingStage : StageNormal
 
     void Start()
     {
-        stageLevel = StageManager.Instance.GetDifficulty();
+        stageLevel = 3;
 
         for (int i = 0; i < stageLevel; i++)
         {
@@ -249,6 +253,7 @@ public class WindowClosingStage : StageNormal
 
         // 스테이지 시작
         OnStageStart();
+        SoundManager.Instance.PlayBGM(_BGMClip);
     }
 
     void Update()
@@ -294,6 +299,7 @@ public class WindowClosingStage : StageNormal
                             if (_windowBounds.max.x >= _windowMovingRange.max.x)
                             {
                                 _stageClearConditions.Pop(); // 조건 완료 처리
+                                SoundManager.Instance.PlaySFX(_windowCloseSfx);
                             }
                         }
 

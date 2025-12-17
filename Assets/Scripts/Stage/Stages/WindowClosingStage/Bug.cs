@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bug : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 0.8f; // 벌레 이동 속도
+    [SerializeField] private AudioClip _bugCatchSfx;
 
     public static int _bugInStage = 0; // 벌레가 스테이지에 있는 개수
     public bool IsAlive => currentState != BugState.Dead; // 벌레가 살아있는지 여부
@@ -52,6 +53,7 @@ public class Bug : MonoBehaviour
                 break;
             case BugState.Dead:
                 _animator.SetBool("isDead", true); // 죽은 애니메이션 설정
+                SoundManager.Instance.PlaySFX(_bugCatchSfx);
                 transform.rotation = Quaternion.identity;
                 _animator.speed = 1f;
                 rb.constraints &= ~RigidbodyConstraints2D.FreezePositionY; // 죽어서 떨어지는 연출을 위해 Rigidbody2D 활성화

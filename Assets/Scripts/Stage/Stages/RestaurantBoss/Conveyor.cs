@@ -29,6 +29,11 @@ public class Conveyor : MonoBehaviour
     [SerializeField] private GameObject _cakeIcon;
     [SerializeField] private GameObject _cupIcon;
 
+    [Space(10)]
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip _normalItemSFX;
+    [SerializeField] private AudioClip _timerSFX;
 
     [Space(10)]
 
@@ -57,9 +62,11 @@ public class Conveyor : MonoBehaviour
 
         if (item.GetComponent<ConveyorItem>() is TimerItem) // 타이머는 이미 파괴됨
         {
+            SoundManager.Instance.PlaySFX(_timerSFX);
             yield break;
         }
 
+        SoundManager.Instance.PlaySFX(_normalItemSFX);
         // 아이템 옆으로 밀어냄
         float elapsedTime = 0f;
         float duration = 3f;

@@ -5,6 +5,8 @@ using UnityEngine;
 public class Teacher : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _sparkle;
+    [SerializeField] private AudioClip _turningSfx;
+
     private Animator _animator;
 
     private enum State { Idle, Turning }
@@ -30,6 +32,7 @@ public class Teacher : MonoBehaviour
                 _stateTimer = _turningTime;
                 _animator.SetBool("IsTurning", true);
                 _animator.speed = 1f; // 애니메이션 속도 복원
+                SoundManager.Instance.PlaySFX(_turningSfx);
 
                 break;
         }

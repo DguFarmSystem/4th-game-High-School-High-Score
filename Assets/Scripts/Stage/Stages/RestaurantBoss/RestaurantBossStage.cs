@@ -14,6 +14,8 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
 
     [SerializeField] public int ClearItemCount { get; private set; }= 150;
 
+    [SerializeField] private AudioClip _stageBGM;
+
     public float StageTimeLimit { get; private set; } = 30f; // 30초
 
     public Action<bool> OnStageEnded { get; protected set; }
@@ -77,6 +79,7 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
 
     private IEnumerator DelayedStart()
     {
+        SoundManager.Instance.PlayBGM(_stageBGM);
         yield return new WaitForSeconds(2.3f); // 2.3초 대기
         
         _leftButton.interactable = true;

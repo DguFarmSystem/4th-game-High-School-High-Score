@@ -130,7 +130,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 683027219147417711}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8acb96fc34009d4faddcb63f8979728, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c2d91a630851e142b5fa5310e2df704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _HPGameObjects:
@@ -140,31 +140,35 @@ MonoBehaviour:
   - {fileID: 4149516049808079088}
   _currentStageImage: {fileID: 3504995751487559401}
   _stageCountSprites:
-  - {fileID: 21300000, guid: d35137990b4546e4fa0297e274588f36, type: 3}
-  - {fileID: 21300000, guid: d4cdfb0c4f2e7ad4185fc01d5d9e603b, type: 3}
-  - {fileID: 21300000, guid: a4e6b8cce796a3f4cb98975f01001476, type: 3}
-  - {fileID: 21300000, guid: a29222b50c77ad443a5bd71da52dd67b, type: 3}
-  - {fileID: 21300000, guid: e54c0e5ac38b10d4f87c8c82f494f059, type: 3}
-  - {fileID: 21300000, guid: e840913a4a026e74f902910f2aa23dd3, type: 3}
-  - {fileID: 21300000, guid: 4b818c70c3f6ed942af06d8c26a1b8a2, type: 3}
-  - {fileID: 21300000, guid: 1ec44a7ac01e98f4e962ee0dc5aa39bf, type: 3}
-  - {fileID: 21300000, guid: 8505e50e47ed2864fb2daa7d3dc0c63b, type: 3}
-  - {fileID: 21300000, guid: f6355e01298860c4ebddcacc31b8d221, type: 3}
-  - {fileID: 21300000, guid: 1f7d2085281bae648bbe493c818fad84, type: 3}
-  - {fileID: 21300000, guid: 0defdffb2baa4d348a5396c23d97fd95, type: 3}
-  - {fileID: 21300000, guid: 841fdc7149970cb4ab4f79658452ed48, type: 3}
-  - {fileID: 21300000, guid: cf94089abe386e84c9be6f233de5a1c1, type: 3}
-  - {fileID: 21300000, guid: 7b0863d96ce2a464bb47abbd21d5e397, type: 3}
-  - {fileID: 21300000, guid: ec29d1658b09f8142b4431cc1050e266, type: 3}
-  - {fileID: 21300000, guid: 80d0ed8d5b153ba4b9322ff2445873c0, type: 3}
+  - {fileID: 21300000, guid: fd9f59684bcb13a44887bd551bc66190, type: 3}
+  - {fileID: 21300000, guid: 4316f53d7be745743979ac953f453e03, type: 3}
+  - {fileID: 21300000, guid: d82802bc9aa12e546a6f5bab79cb324a, type: 3}
+  - {fileID: 21300000, guid: de1ddf5cffacab449bde642faae87d05, type: 3}
+  - {fileID: 21300000, guid: 55521605f4082f640bffdbca4197fcfb, type: 3}
+  - {fileID: 21300000, guid: a46621be25dbed94886f869cb8d2f423, type: 3}
+  - {fileID: 21300000, guid: dc0f11e10262dac4dba776577c787fdd, type: 3}
+  - {fileID: 21300000, guid: 573eb790a49fe6a4a97db582b5fa7775, type: 3}
+  - {fileID: 21300000, guid: bdd137abc038c08459360394e182d4cc, type: 3}
+  - {fileID: 21300000, guid: b653884700de56d4091dacfe5e7ccac0, type: 3}
+  - {fileID: 21300000, guid: 8e0a5903c1e36e94f808a5ccb9f6a30a, type: 3}
+  - {fileID: 21300000, guid: 6451a326b24226c489581e01b661df6d, type: 3}
+  - {fileID: 21300000, guid: c759d04e78e303648abeb9373b247fe7, type: 3}
+  - {fileID: 21300000, guid: 34b85707f8753cf43b53106d8829e48d, type: 3}
+  - {fileID: 21300000, guid: b30aacf99e9c4a848b9745c2361059b2, type: 3}
+  - {fileID: 21300000, guid: 6e1b3337c3b08f940a4dfee78afd55e7, type: 3}
+  - {fileID: 21300000, guid: 9b8f5e26219899b43ada26926c1a3250, type: 3}
   _notificationImage: {fileID: 6805212384412453230}
   _bossStageSprite: {fileID: 21300000, guid: 68eca8111e163244fae4140ef143bee7, type: 3}
   _gameClearSprite: {fileID: 21300000, guid: 543ba0ed1a878094ba21ca4e3527aad9, type: 3}
   _gameOverSprite: {fileID: 21300000, guid: b737a615821fcd24790e3ef402902000, type: 3}
   _speedUpSprite: {fileID: 21300000, guid: 5f3cab1a74db47641bc58a18267f890c, type: 3}
+  _bgaudioClip: {fileID: 8300000, guid: 61cb60d759c121d429de2e0f0b1a7543, type: 3}
+  _bossAudioClip: {fileID: 8300000, guid: 075928c481ca2044495c7eb18a66a3b5, type: 3}
+  _allClearAudioClip: {fileID: 8300000, guid: c9381ee1f9ba80d4d93497c24c6adfe0, type: 3}
+  _gameOverAudioClip: {fileID: 8300000, guid: 4967f2cb2efbd934e8e5eaa9b5ef3500, type: 3}
   _backgroundSuccess: {fileID: 2668156969591960228}
   _backgroundFailure: {fileID: 9024326003314970035}
-  _bgAllClear: {fileID: 21300000, guid: 0fd90a6728a95304ba4e82f1145eaad3, type: 3}
+  _bgAllClear: {fileID: 21300000, guid: 543ba0ed1a878094ba21ca4e3527aad9, type: 3}
   _character: {fileID: 7944514711995021222}
   _characterDefaultSprite: {fileID: 21300000, guid: c75cdcfd01db4034bbaaecbe3640ffc5,
     type: 3}

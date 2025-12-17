@@ -249,8 +249,8 @@ public class DialogueManager : MonoBehaviour
             new List<string> {
                 SceneNames.MusicPlay,
                 SceneNames.MusicDance,
-                SceneNames.RestaurantSpread,
-                SceneNames.SnackThrowing,
+                SceneNames.FindSeat,
+                SceneNames.RestaurantBoss,
             },
             "RestaurantCS",
             StageManager.GameMode.Tutorial

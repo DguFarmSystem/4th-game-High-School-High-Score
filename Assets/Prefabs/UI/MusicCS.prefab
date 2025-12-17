@@ -162,6 +162,10 @@ MonoBehaviour:
   _gameClearSprite: {fileID: 21300000, guid: 543ba0ed1a878094ba21ca4e3527aad9, type: 3}
   _gameOverSprite: {fileID: 21300000, guid: b737a615821fcd24790e3ef402902000, type: 3}
   _speedUpSprite: {fileID: 21300000, guid: 5f3cab1a74db47641bc58a18267f890c, type: 3}
+  _bgaudioClip: {fileID: 8300000, guid: bbe7f771898f052488ecee7c1464537e, type: 3}
+  _bossAudioClip: {fileID: 8300000, guid: 075928c481ca2044495c7eb18a66a3b5, type: 3}
+  _allClearAudioClip: {fileID: 8300000, guid: c9381ee1f9ba80d4d93497c24c6adfe0, type: 3}
+  _gameOverAudioClip: {fileID: 8300000, guid: 4967f2cb2efbd934e8e5eaa9b5ef3500, type: 3}
   _backgroundSuccess: {fileID: 2668156969591960228}
   _backgroundFailure: {fileID: 9024326003314970035}
   _bgAllClear: {fileID: 21300000, guid: 0fd90a6728a95304ba4e82f1145eaad3, type: 3}

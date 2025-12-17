@@ -18,6 +18,11 @@ public class LPPlayer : MonoBehaviour
     [SerializeField] private Sprite _lpInsertedSprite;
     [SerializeField] private Sprite _lpActivatedSprite;
 
+    [Header("Sound Settings")]
+    [SerializeField] private AudioClip _lpInsertSFX;
+    [SerializeField] private AudioClip _lpActivateSFX;
+    [SerializeField] private AudioClip _stageBGM;
+
     private SpriteRenderer _spriteRenderer;
 
     private Music_Player_LV4 _stage;
@@ -34,6 +39,8 @@ public class LPPlayer : MonoBehaviour
                     _stage.ClearConditionsQ.Dequeue();
                     _lpPlayerIndicator1.enabled = false;
                     _spriteRenderer.sprite = _lpInsertedSprite;
+
+                    SoundManager.Instance.PlaySFX(_lpInsertSFX);
                 }
                 break;
 
@@ -45,6 +52,9 @@ public class LPPlayer : MonoBehaviour
                     _lpPlayerIndicator2.enabled = false;
 
                     InputManager.Instance._tapAction.performed -= OnTap;
+
+                    SoundManager.Instance.PlaySFX(_lpActivateSFX);
+                    SoundManager.Instance.PlayBGM(_stageBGM);
                 }
                 break;
         }

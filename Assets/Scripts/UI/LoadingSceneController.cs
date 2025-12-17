@@ -62,6 +62,8 @@ public class LoadingSceneController : MonoBehaviour
     [SerializeField] private GameObject _transitionTemplate;
     [SerializeField] private TransitionSettings _transition;
 
+    [SerializeField] private AudioClip _loadingSFX;
+
     private string mLoadSceneName;
 
     public bool IsSceneLoaded { get; private set; } = false;
@@ -169,8 +171,11 @@ public class LoadingSceneController : MonoBehaviour
     {
         float process = 0f;
 
-        if (!isFadeIn)
+        if (!isFadeIn) 
+        {
+            SoundManager.Instance.PlaySFX(_loadingSFX);
             StartCoroutine(CoLateStart());
+        }
 
         while (process < 0.7f)
         {

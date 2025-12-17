@@ -14,6 +14,8 @@ public class FindSeatStage : StageNormal
     public bool stageClearFlag = false;
     public StageState CurrentState => CurrentStageState;
 
+    [SerializeField] private AudioClip _stageBGM;
+
     // TEST CODE
     [SerializeField] private GameObject _greenSphere;
     [SerializeField] private GameObject _redSphere;
@@ -75,6 +77,7 @@ public class FindSeatStage : StageNormal
 
         // 스테이지 시작
         OnStageStart();
+        SoundManager.Instance.PlayBGM(_stageBGM);
     }
 
     

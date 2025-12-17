@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class tutorialCS : CutSceneController
+public class tutorialCS : CutScene
 {
     [Header("Background")]
     [SerializeField] private Image _backgroundSuccess;
@@ -20,6 +20,8 @@ public class tutorialCS : CutSceneController
 
     protected override IEnumerator StartCutScene()
     {
+        SoundManager.Instance.PlayBGM(_bgaudioClip);
+
         // HP 출력
         ShowHP();
 
@@ -46,6 +48,7 @@ public class tutorialCS : CutSceneController
             if (_stageIndex > _maxStageIndex)
             {
                 _notificationImage.sprite = _gameClearSprite;
+                SoundManager.Instance.PlaySFX(_allClearAudioClip);
                 _notificationImage.enabled = true;
                 yield return new WaitForSeconds(2.5f);
                 StageManager.Instance.ShowComplete();
@@ -55,6 +58,7 @@ public class tutorialCS : CutSceneController
             if (StageManager.Instance.GetHP() <= 0)
             {
                 _notificationImage.sprite = _gameOverSprite;
+                SoundManager.Instance.PlaySFX(_gameOverAudioClip);
                 _notificationImage.enabled = true;
                 yield return new WaitForSeconds(2.5f);
                 StageManager.Instance.ShowComplete();
@@ -78,25 +82,10 @@ public class tutorialCS : CutSceneController
         yield return ShowStageInfo();
         
         _startFlag = false;
+
+        SoundManager.Instance.StopBGM();
+
         StageManager.Instance.ShowComplete(); // 다 출력했다고 알림
-    }
-
-    private IEnumerator ShowStageInfo()
-    {
-        if (_stageIndex < _stageCountSprites.Count)
-        {
-            _currentStageImage.sprite = _stageCountSprites[_stageIndex];
-            _currentStageImage.enabled = true;
-        }
-
-        yield return new WaitForSeconds(1.5f);
-
-        if (_stageIndex == _stageCountSprites.Count - 1) // 보스 스테이지 알림
-        {
-            _notificationImage.sprite = _bossStageSprite;
-            _notificationImage.enabled = true;
-            yield return new WaitForSeconds(2.5f);
-        }
     }
 
     /* =========== Lifecycle Methods =========== */

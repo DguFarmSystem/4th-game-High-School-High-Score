@@ -11,7 +11,7 @@ public class StageManager : Singleton<StageManager>
     [SerializeField] private CutSceneSkin _skinData;
 
     private GameObject _ui;
-    private CutSceneController _uiController;
+    private CutScene _uiController;
     private bool _showCompleted = false;
 
     private int _sceneIndex = 0;
@@ -132,7 +132,7 @@ public class StageManager : Singleton<StageManager>
     void EnsureUI()
     {
         if (_uiController != null) return;
-        _uiController = gameObject.GetComponentInChildren<CutSceneController>();
+        _uiController = gameObject.GetComponentInChildren<CutScene>();
     }
 
     void Show()

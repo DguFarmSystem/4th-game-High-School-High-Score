@@ -7,6 +7,9 @@ public class Candies : MonoBehaviour
     [SerializeField] private GameObject _purpleCandy;
     [SerializeField] private GameObject _redCandy;
     [SerializeField] private GameObject _yellowCandy;
+
+    [SerializeField] private AudioClip _throwSfx;
+    [SerializeField] private AudioClip _arriveSfx;
     private int _sortingOrderIndex = 6;
 
     private Stack<GameObject> _candiesStack = new Stack<GameObject>();
@@ -22,6 +25,10 @@ public class Candies : MonoBehaviour
 
     public IEnumerator ThrowCandy(Collider2D student)
     {
+        yield return null;
+        
+        SoundManager.Instance.PlaySFX(_throwSfx);
+
         float duration = 0.5f; // 이동 시간
 
         if (_candiesStack.Count > 0)
@@ -37,12 +44,19 @@ public class Candies : MonoBehaviour
                 elapsedTime += Time.deltaTime;
                 float t = elapsedTime / duration;
 
-                candy.transform.position = Vector3.Lerp(startPosition, student.transform.position, t);
+                candy.transform.position = student.GetComponent<SnackDetector>().Distance switch
+                {
+                    1 => Vector3.Lerp(startPosition, student.transform.position + new Vector3(0, 3f, 0), t),
+                    2 => Vector3.Lerp(startPosition, student.transform.position + new Vector3(0, 2f, 0), t),
+                    3 => Vector3.Lerp(startPosition, student.transform.position + new Vector3(0, 1f, 0), t),
+                    _ => startPosition
+                };
 
                 yield return null; // 다음 프레임까지 대기
             }
             candy.transform.SetParent(student.transform);
             candy.transform.localPosition = new Vector3(0, 5f, 0);
+            SoundManager.Instance.PlaySFX(_arriveSfx);
 
             student.GetComponent<SnackDetector>().GetCandy();
 

@@ -17,6 +17,8 @@ public class SnackDetector : MonoBehaviour
 
     public bool SnackArrived { get; private set; } = false;
 
+    [SerializeField] private AudioClip _throwSfx;
+
     public void Ready2Catch()
     {
         _isPressing = true;
@@ -64,6 +66,8 @@ public class SnackDetector : MonoBehaviour
             {
                 FindObjectOfType<SnackThrowingStage>().SetStageFailed();
                 gauge.setGaugeColor(new Color(255f / 255f, 127f / 255f, 127f / 255f, 1f)); // 빨간색
+                SoundManager.Instance.StopStoppableSFX();
+                SoundManager.Instance.PlaySFX(_throwSfx);
                 _pressedTime = 0f;
                 return;
             }
@@ -73,6 +77,8 @@ public class SnackDetector : MonoBehaviour
                 if (gauge.transform.GetChild(0).gameObject.activeSelf)
                 {
                     gauge.setGaugeColor(new Color(127f / 255f, 255f / 255f, 127f / 255f, 1f)); // 초록색
+                    SoundManager.Instance.StopStoppableSFX();
+                    SoundManager.Instance.PlaySFX(_throwSfx);
 
                     Candies candies = FindObjectOfType<Candies>();
                     if (candies)
@@ -86,6 +92,8 @@ public class SnackDetector : MonoBehaviour
             else if (!Mathf.Approximately(_pressedTime, 0f) && gauge.transform.GetChild(0).gameObject.activeSelf)
             {
                 gauge.setGaugeColor(new Color(255f / 255f, 127f / 255f, 127f / 255f, 1f)); // 빨간색
+                SoundManager.Instance.StopStoppableSFX();
+                SoundManager.Instance.PlaySFX(_throwSfx);
             }
             
 

@@ -43,33 +43,6 @@ public class MainMenuUI : MonoBehaviour
 
     public void PopUpSettings()
     {
-        Toggle[] BGMToggles = SettingsPopUp.transform.Find("BGMSet").GetComponentsInChildren<Toggle>();
-        Toggle[] VibFXToggles = SettingsPopUp.transform.Find("VibFXSet").GetComponentsInChildren<Toggle>();
-        Toggle[] ScriptSpeedToggles = SettingsPopUp.transform.Find("ScriptSpeedSet").GetComponentsInChildren<Toggle>();
-
-        if (DataManager.Instance.Settings.GetBGMSetting()) BGMToggles[0].isOn = true;
-        else BGMToggles[1].isOn = true;
-
-        if (DataManager.Instance.Settings.GetVibFXSetting()) VibFXToggles[0].isOn = true;
-        else VibFXToggles[1].isOn = true;
-
-        switch (DataManager.Instance.Settings.GetScriptSpeed())
-        {
-            case ScriptSpeedState.Slow:
-                ScriptSpeedToggles[0].isOn = true;
-                break;
-            case ScriptSpeedState.Normal:
-                ScriptSpeedToggles[1].isOn = true;
-                break;
-            case ScriptSpeedState.Fast:
-                ScriptSpeedToggles[2].isOn = true;
-                break;
-        }
-        if (DataManager.Instance.Player != null)
-        {
-            PlayerName.text = DataManager.Instance.Player.GetName();
-        }
-
         SettingsPopUp.SetActive(true);
         
     }

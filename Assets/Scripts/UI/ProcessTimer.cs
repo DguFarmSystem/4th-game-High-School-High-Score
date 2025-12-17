@@ -7,20 +7,27 @@ using Stage;
 public class ProcessTimer : MonoBehaviour
 {
     [Header("Image Settings")]
-    public Image targetImage; // Å¸ÀÌ¸Ó¿¡ Ç¥½ÃÇÒ Image
-    public Sprite[] timerSprites; // Å¸ÀÌ¸Ó ´Ü°èº° ÀÌ¹ÌÁö (6Àå)
+    public Image targetImage; // Å¸ï¿½Ì¸Ó¿ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ Image
+    public Sprite[] timerSprites; // Å¸ï¿½Ì¸ï¿½ ï¿½Ü°èº° ï¿½Ì¹ï¿½ï¿½ï¿½ (6ï¿½ï¿½)
 
     private float totalTime;
     private float elapsedTime = 0f;
     private int currentIndex = 0;
     private bool isRunning = false;
+    private StageNormal manager;
+
+    private bool audioFlag = false;
+    private AudioClip normalClip;
+    private AudioClip fastClip;
     // Start is called before the first frame update
     void Start()
     {
-        //½ºÅ×ÀÌÁö ¸Å´ÏÀú¿¡¼­ ½Ã°£À» °¡Á®¿È
-        StageNormal manager = FindObjectOfType<StageNormal>();
+        normalClip = Resources.Load<AudioClip>("Timer/Timer_5-3");
+        fastClip = Resources.Load<AudioClip>("Timer/Timer_2-1");
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        manager = FindObjectOfType<StageNormal>();
         totalTime = manager.TimerTime;
-        // ½ÃÀÛ ½Ã ÃÊ±â ÀÌ¹ÌÁö ¼³Á¤
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê±ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (timerSprites.Length > 0 && targetImage != null)
             targetImage.sprite = timerSprites[0];
         StartTimer();
@@ -31,13 +38,13 @@ public class ProcessTimer : MonoBehaviour
     {
         if (!isRunning) return;
 
-        elapsedTime += Time.deltaTime;
+        elapsedTime = 5 - manager.TimerTime;
         float ratio = elapsedTime / totalTime;
 
-        // ÇöÀç ÀÎµ¦½º °è»ê (0 ~ sprites.Length-1)
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (0 ~ sprites.Length-1)
         int index = Mathf.FloorToInt(ratio * timerSprites.Length);
 
-        // ÀÎµ¦½º°¡ ¹üÀ§¸¦ ³Ñ¾î°¡Áö ¾Êµµ·Ï º¸Á¤
+        // ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°¡ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         index = Mathf.Clamp(index, 0, timerSprites.Length - 1);
 
         if (index != currentIndex)
@@ -46,11 +53,33 @@ public class ProcessTimer : MonoBehaviour
             targetImage.sprite = timerSprites[currentIndex];
         }
 
-        // ½Ã°£ÀÌ ´Ù µÇ¾úÀ» ¶§ Å¸ÀÌ¸Ó Á¤Áö
+        // ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½ Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (elapsedTime >= totalTime)
         {
             isRunning = false;
         }
+
+        if (!audioFlag && manager.TimerTime > 4f && manager.TimerTime < 5f)
+            {
+                SoundManager.Instance.PlayGaugeSound(normalClip);
+                audioFlag = true;
+            }
+
+            if (manager.TimerTime < 4f && manager.TimerTime > 3f)
+            {
+                audioFlag = false;
+            }
+
+            if (!audioFlag && manager.TimerTime <= 3f)
+            {
+                SoundManager.Instance.PlayGaugeSound(fastClip);
+                audioFlag = true;
+            }
+
+            if (manager.TimerTime <= 0f)
+            {
+                SoundManager.Instance.StopGaugeSound();
+            }
     }
 
     public void StartTimer()

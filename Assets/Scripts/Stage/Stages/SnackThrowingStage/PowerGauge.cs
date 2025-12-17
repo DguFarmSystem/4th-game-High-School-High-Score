@@ -12,6 +12,9 @@ public class PowerGauge : MonoBehaviour
     [SerializeField] private Sprite gauge_lv2;
     [SerializeField] private Sprite gauge_lv3;
 
+    [SerializeField] private AudioClip _pressSfx;
+    [SerializeField] private AudioClip _throwSfx;
+
     private enum State { Idle, Pressed, Released }
     private State _currentState = State.Idle;
 
@@ -46,6 +49,7 @@ public class PowerGauge : MonoBehaviour
                             yOffset = 2.5f;
                             break;
                     }
+                    SoundManager.Instance.PlayStoppableSFX(_pressSfx);
                     Vector3 worldPos = _student.transform.position + Vector3.up * yOffset;
                     Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
                     gauge.GetComponent<RectTransform>().position = screenPos;
@@ -54,6 +58,8 @@ public class PowerGauge : MonoBehaviour
                     break;
 
                 case State.Released:
+                    //SoundManager.Instance.StopStoppableSFX();
+                    //SoundManager.Instance.PlaySFX(_throwSfx);
                     _throwingCoroutine = StartCoroutine(WaitSnackArrival(0.5f));
                     //_student = null;
                     break;

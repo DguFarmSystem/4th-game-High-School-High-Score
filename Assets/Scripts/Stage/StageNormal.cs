@@ -32,9 +32,21 @@ namespace Stage
 
         private IEnumerator SetStageTimer(float time)
         {
-            yield return new WaitForSeconds(time);
+            //yield return new WaitForSeconds(time);
+            while (time > 0)
+            {
+                yield return null;
+                time -= Time.deltaTime;
+                timerTime = time;
+            }
+            
             if (CurrentStageState != StageState.Clear) CurrentStageState = StageState.Over;
             OnStageEnd();
+        }
+
+        void Update()
+        {
+            
         }
     }
 }

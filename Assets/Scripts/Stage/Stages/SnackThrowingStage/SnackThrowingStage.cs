@@ -6,6 +6,8 @@ using System.Collections;
 
 public class SnackThrowingStage : MonoBehaviour, IStageBase
 {
+    [SerializeField] private AudioClip _BGMClip;
+
     public Action<bool> OnStageEnded { get; protected set; }
 
     protected StageState CurrentStageState = StageState.NotStart;
@@ -90,6 +92,7 @@ public class SnackThrowingStage : MonoBehaviour, IStageBase
 
         // 스테이지 시작
         OnStageStart();
+        SoundManager.Instance.PlayBGM(_BGMClip);
     }
 
     void Update()
