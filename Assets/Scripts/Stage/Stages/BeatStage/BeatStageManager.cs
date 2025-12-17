@@ -36,8 +36,11 @@ public class BeatStageManager : MonoBehaviour, IStageBase
     public Collider2D Hihitbox;
     public Collider2D Snarehitbox;
 
+    [Header("오디오 클립")]
     public AudioClip hiClip;
     public AudioClip snareClip;
+    public AudioClip bassClip;
+    
     private AudioSource audioSource;
 
     // === 내부 변수 ===
@@ -208,12 +211,16 @@ public class BeatStageManager : MonoBehaviour, IStageBase
 
     public void RegisterHittableNote(RhythmNote note)
     {
+        // Bass는 자동 재생이므로 큐에 넣지 않습니다.
         if (note.type == NoteType.Hi) hittableHiNotes.Enqueue(note);
-        else hittableSnareNotes.Enqueue(note);
+        else if (note.type == NoteType.Snare) hittableSnareNotes.Enqueue(note);
     }
 
     public void UnregisterNote(RhythmNote note, bool isMiss)
     {
+        // Bass는 Miss 판정이 없으므로 무시
+        if (note.type == NoteType.Bass) return;
+
         if (note.type == NoteType.Hi)
         {
             if (hittableHiNotes.Count > 0 && hittableHiNotes.Peek() == note)
@@ -227,7 +234,7 @@ public class BeatStageManager : MonoBehaviour, IStageBase
                 }
             }
         }
-        else
+        else if (note.type == NoteType.Snare)
         {
             if (hittableSnareNotes.Count > 0 && hittableSnareNotes.Peek() == note)
             {
@@ -316,8 +323,11 @@ public class BeatStageManager : MonoBehaviour, IStageBase
         obj.SetActive(false); 
     }
     
+    // === 사운드 재생 함수 ===
     public void PlayHi() { if(audioSource) audioSource.PlayOneShot(hiClip); }
     public void PlaySnare() { if(audioSource) audioSource.PlayOneShot(snareClip); }
+    public void PlayBass() { if(audioSource && bassClip) audioSource.PlayOneShot(bassClip); }
+
     private void OnStageEndedGimmick(bool isClear) { StageManager.Instance.StageClear(isClear); }
     public void SetStageClear() { CurrentStageState = StageState.Clear; OnStageEnded?.Invoke(true); }
     public void SetStageFailed() { CurrentStageState = StageState.Over; OnStageEnded?.Invoke(false); }
