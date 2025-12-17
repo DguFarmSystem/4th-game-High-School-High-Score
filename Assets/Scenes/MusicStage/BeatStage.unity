@@ -1101,8 +1101,8 @@ MonoBehaviour:
   SnareFailArt: {fileID: 83175356}
   Hihitbox: {fileID: 2753613522606434768}
   Snarehitbox: {fileID: 3797612360096595538}
-  hiClip: {fileID: 0}
-  snareClip: {fileID: 0}
+  hiClip: {fileID: 8300000, guid: 3581135c557e5a245b06cb6b25c147ac, type: 3}
+  snareClip: {fileID: 8300000, guid: 23eadbc48abdb41428a917ce4b7a9fa8, type: 3}
 --- !u!82 &878228978
 AudioSource:
   m_ObjectHideFlags: 0
