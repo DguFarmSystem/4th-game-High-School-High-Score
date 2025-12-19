@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Stage;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class FruitSlicingStage : StageNormal
 {
@@ -22,10 +23,16 @@ public class FruitSlicingStage : StageNormal
     GameObject[] GreenChecks;
     [SerializeField]
     GameObject Effect;
+    [SerializeField]
+    AudioClip audio;
+    AudioSource theaudio;
 
     int LorR;
     int Fruitnum;
     float SpawnY;
+
+    [SerializeField]
+    InputManager InputManager;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +40,7 @@ public class FruitSlicingStage : StageNormal
         time = consttime;
         CurrentCount = 0;
         int stagelevel = StageManager.Instance.GetDifficulty();
+        theaudio = GetComponent<AudioSource>();
         switch (stagelevel)
         {
             case 1:
@@ -133,13 +141,14 @@ public class FruitSlicingStage : StageNormal
 
     private void StageGimmik()
     {
-        Debug.Log(InputManager.Instance.TouchWorldPos);
-        if (InputManager.Instance.TouchedCollider != null)
+        Debug.Log(InputManager.TouchWorldPos);
+        if(Input.GetMouseButtonDown(0)) theaudio.PlayOneShot(audio);
+        if (InputManager.TouchedCollider != null)
         {
-            if (InputManager.Instance.TouchedCollider.gameObject.tag == "Fruit")
+            if (InputManager.TouchedCollider.gameObject.tag == "Fruit")
             {
                 //Instantiate(Effect, InputManager.Instance.TouchWorldPos, Effect.transform.rotation);
-                InputManager.Instance.TouchedCollider.gameObject.tag = "Untagged";
+                InputManager.TouchedCollider.gameObject.tag = "Untagged";
                 GreenChecks[SliceCount].SetActive(true);
                 SliceCount++;
             }

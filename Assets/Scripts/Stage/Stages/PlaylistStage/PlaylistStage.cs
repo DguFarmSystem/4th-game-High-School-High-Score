@@ -13,8 +13,12 @@ public class PlaylistStage : StageNormal
     [SerializeField]
     Sprite[] Covers;
     [SerializeField]
-    AudioClip[] Audioes;//음악 소스 나오면 기획서 순서대로 음악 대입해주면 됨.
+    AudioClip Audioes;//음악 소스 나오면 기획서 순서대로 음악 대입해주면 됨.
     AudioSource theaudio;
+    [SerializeField]
+    AudioSource musicaudio;
+    [SerializeField]
+    AudioClip Ef;
 
     float ArrowTime = 1f;
     [SerializeField]
@@ -23,6 +27,8 @@ public class PlaylistStage : StageNormal
     GameObject[] ArrowPostion;
 
     float time=5f;
+
+    bool on = false;
 
     // Start is called before the first frame update
     void Start()
@@ -71,6 +77,20 @@ public class PlaylistStage : StageNormal
         else
         {
             Arrow.SetActive(false);
+        }
+        if (currentmusic == 3)
+        {
+            if (!on)
+            {
+                musicaudio.PlayOneShot(Audioes);
+                on = true;
+            }
+
+        }
+        else
+        {
+            on = false;
+            musicaudio.Stop();
         }
     }
 
@@ -123,6 +143,8 @@ public class PlaylistStage : StageNormal
         if(currentmusic==6)currentmusic = 0;
         //theaudio.clip = Audioes[currentmusic];//나중에 음악 추가했으면 주석표시 지우기
         CoverImage.sprite = Covers[currentmusic];
+        theaudio.PlayOneShot(Ef);
+        
     }
     public void OnClickPrevious()
     {
@@ -130,5 +152,6 @@ public class PlaylistStage : StageNormal
         if (currentmusic == -1) currentmusic = 5;
         //theaudio.clip = Audioes[currentmusic];//나중에 음악 추가했으면 주석표시 지우기
         CoverImage.sprite = Covers[currentmusic];
+        theaudio.PlayOneShot(Ef);
     }
 }

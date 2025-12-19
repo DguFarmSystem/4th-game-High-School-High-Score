@@ -15,6 +15,8 @@ public class TurnMusicOnStage : StageNormal
     [SerializeField]
     Scrollbar TheScroll;
 
+    float t = 5;
+
     void Start()
     {
         OnStageStart();
@@ -22,9 +24,10 @@ public class TurnMusicOnStage : StageNormal
 
     void Update()
     {
+        t -= Time.deltaTime;
         StageGimmik();
         TheAudio.volume = TheScroll.value;
-        if (TimerTime<=0&&TheScroll.value>0.77f&&TheScroll.value<0.86)
+        if (t<=0&&TheScroll.value>0.77f&&TheScroll.value<0.86)
         {
             OnStageClear();
         }
