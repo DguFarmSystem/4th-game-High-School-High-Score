@@ -17,11 +17,14 @@ public class MainMenuUI : MonoBehaviour
 
     public void GameStart()
     {
+        // ============== 전시회 임시 조치, 나중에 삭제 ==============
+        /*
         if (DataManager.Instance.Player == null)
         {
             PopUpEnterNameWindow(true);
             return;
         }
+        */
 
         LoadingSceneController.Instance.LoadScene(SceneNames.ConvScene); // 추후 세이브 데이터와 연계하도록 변경
         

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using Stage;
 
 public class DanceButton : MonoBehaviour
 {
@@ -17,7 +19,11 @@ public class DanceButton : MonoBehaviour
 
     public void OnTap(InputAction.CallbackContext context)
     {
-        if (InputManager.Instance.TouchedCollider.gameObject == this.gameObject && !isTapped)
+        if (_musicDanceStage.TimerTime <= 0f) return;
+
+        if (InputManager.Instance.TouchedCollider != null && 
+            InputManager.Instance.TouchedCollider.gameObject == this.gameObject &&
+            !isTapped)
         {
             SoundManager.Instance.PlaySFX(_tapSFX);
             isTapped = true;

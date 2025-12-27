@@ -53,6 +53,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MusicStage/MusicPlayStage.unity
     guid: 40304bf0ea84e8644a366d8cc32d8bbf
+  - enabled: 1
+    path: Assets/Scenes/NoneStageScene/Map.unity
+    guid: 038420b5d4edb9145876f491735a5a96
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}

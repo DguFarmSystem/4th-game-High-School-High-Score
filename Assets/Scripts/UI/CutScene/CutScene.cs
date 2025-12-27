@@ -23,6 +23,7 @@ public abstract class CutScene : MonoBehaviour
     [SerializeField] protected AudioClip _bossAudioClip;
     [SerializeField] protected AudioClip _allClearAudioClip;
     [SerializeField] protected AudioClip _gameOverAudioClip;
+    [SerializeField] protected AudioClip _hpDecreaseAudioClip;
 
     protected abstract IEnumerator StartCutScene();
 
@@ -60,6 +61,7 @@ public abstract class CutScene : MonoBehaviour
             for (int i = _previousHP - 1; i >= currentHP; i--)
             {
                 StartCoroutine(HPDecreaseCoroutine(i));
+                SoundManager.Instance.PlaySFX(_hpDecreaseAudioClip);
             }
         }
 

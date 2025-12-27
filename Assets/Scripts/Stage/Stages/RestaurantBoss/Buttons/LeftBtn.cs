@@ -49,6 +49,7 @@ public class LeftBtn : LeftRightBtn, IPointerDownHandler, IPointerUpHandler
         {
             // 잘못된 아이템을 선택했을 때의 처리 (예: 효과음 재생, 점수 차감 등)
             Combo = 0;
+            SoundManager.Instance.PlaySFX(failedInputSFX);
             comboNotifier.SetActive(false);
             failTimer = failDuration;
             if (failImage.enabled == false)

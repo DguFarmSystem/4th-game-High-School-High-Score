@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
-using EasyTransition;
 
 public class StageManager : Singleton<StageManager>
 {
@@ -23,14 +22,27 @@ public class StageManager : Singleton<StageManager>
     public enum GameMode { Tutorial, Normal, Infinite }
     private GameMode _gameMode = GameMode.Normal;
 
-    public void Initialize(List<string> sceneNames, string skin, GameMode gameMode = GameMode.Normal)
+    public bool isTutorialCleared { get; private set; } = false;
+    public bool isRestaurantCleared { get; private set; } = false;
+    public bool isMusicCleared { get; private set; } = false;
+
+    public void SetTutorialCleared(bool cleared) => isTutorialCleared = cleared;
+    public void SetRestaurantCleared(bool cleared) => isRestaurantCleared = cleared;
+    public void SetMusicCleared(bool cleared) => isMusicCleared = cleared;
+
+    private string prevConvScene = null;
+    private string nextConvScene = null;
+
+    public void Initialize(List<string> sceneNames, string CutSceneSkin, GameMode gameMode = GameMode.Normal, string prevConvScene = null)
     {
         _sceneNames = sceneNames;
-        _ui = Instantiate(_skinData.GetDictionary()[skin]);
+        _ui = Instantiate(_skinData.GetDictionary()[CutSceneSkin]);
         _ui.transform.SetParent(transform);
         gameObject.SetActive(true);
 
         _gameMode = gameMode;
+
+        this.prevConvScene = prevConvScene;
     }
 
     public void StageClear(bool clear)
@@ -159,7 +171,8 @@ public class StageManager : Singleton<StageManager>
                 case GameMode.Tutorial:
                     if (_sceneIndex > 9)
                     {
-                        yield return ExitToScene(SceneNames.Main); // 튜토리얼 끝나면 메인으로
+                        SetTutorialCleared(true);
+                        yield return ExitToScene(SceneNames.Map); // nextConvScene
                         yield break;
                     }
 
@@ -171,7 +184,24 @@ public class StageManager : Singleton<StageManager>
                 case GameMode.Normal:
                     if (_sceneIndex > 16)
                     {
-                        yield return ExitToScene(SceneNames.Main); // 일반 모드 끝나면 메인으로
+                        /*
+                        switch (prevConvScene)
+                        {
+                            case SceneNames.Conversation_Tutorial_1:
+                                SetTutorialCleared(true);
+                                nextConvScene = SceneNames.Map;
+                                break;
+                            case SceneNames.Conversation_Restaurant_1:
+                                SetRestaurantCleared(true);
+                                nextConvScene = SceneNames.Map;
+                                break;
+                            case SceneNames.Conversation_Music_1:
+                                SetMusicCleared(true);
+                                nextConvScene = SceneNames.Map;
+                                break;
+                        }
+                        */
+                        yield return ExitToScene(SceneNames.Map); // nextConvScene
                         yield break;
                     }
 
@@ -187,7 +217,7 @@ public class StageManager : Singleton<StageManager>
         }
         else
         {
-            yield return ExitToScene(SceneNames.Main); // 일단 메인으로!!
+            yield return ExitToScene(SceneNames.Map); // 일단 메인으로!!
             yield break;
         }
 
@@ -219,6 +249,8 @@ public class StageManager : Singleton<StageManager>
         _hp = 4;
         _sceneNames.Clear();
         _gameMode = GameMode.Normal;
+        prevConvScene = null;
+        nextConvScene = null;
         if (_ui != null) Destroy(_ui);
     }
 

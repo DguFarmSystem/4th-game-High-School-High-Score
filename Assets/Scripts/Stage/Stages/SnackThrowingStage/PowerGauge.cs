@@ -49,7 +49,7 @@ public class PowerGauge : MonoBehaviour
                             yOffset = 2.5f;
                             break;
                     }
-                    SoundManager.Instance.PlayStoppableSFX(_pressSfx);
+                    SoundManager.Instance.PlayStoppableSFX(_pressSfx, 0.08f);
                     Vector3 worldPos = _student.transform.position + Vector3.up * yOffset;
                     Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
                     gauge.GetComponent<RectTransform>().position = screenPos;

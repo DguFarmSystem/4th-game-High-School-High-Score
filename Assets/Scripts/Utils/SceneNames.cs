@@ -28,5 +28,5 @@ public static class SceneNames
     public const string MusicPlay = "MusicPlayStage";
     public const string MusicDance = "MusicDanceStage";
     public const string MusicBeat = "BeatStage";
-    public const string MusicNotTracing = "MusicRoom_NoteTracing";
+    public const string MusicNoteTracing = "MusicRoom_NoteTracing";
 }

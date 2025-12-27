@@ -201,7 +201,7 @@ public class WindowClosingStage : StageNormal
 
     void Start()
     {
-        stageLevel = 3;
+        stageLevel = StageManager.Instance.GetDifficulty();
 
         for (int i = 0; i < stageLevel; i++)
         {

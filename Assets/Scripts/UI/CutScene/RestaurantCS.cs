@@ -20,8 +20,6 @@ public class RestaurantCS : CutScene
 
     protected override IEnumerator StartCutScene()
     {
-        SoundManager.Instance.PlayBGM(_bgaudioClip);
-
         // HP 출력
         ShowHP();
 
@@ -40,8 +38,16 @@ public class RestaurantCS : CutScene
             else _backgroundFailure.enabled = true;
 
             // 캐릭터 출력 
-            if (StageManager.Instance.GetStageCleared()) _character.sprite = _characterSuccessSprite;
-            else _character.sprite = _characterFailureSprite;
+            if (StageManager.Instance.GetStageCleared()) 
+            {
+                SoundManager.Instance.PlayBGM(_bgaudioClip);
+                _character.sprite = _characterSuccessSprite;
+            }
+            else 
+            {
+                SoundManager.Instance.StopBGM();
+                _character.sprite = _characterFailureSprite;
+            }
 
             yield return new WaitForSeconds(2.5f);
 
@@ -67,6 +73,7 @@ public class RestaurantCS : CutScene
         }
 
         /* ============ 기본 출력 ============ */
+        if (!SoundManager.Instance.BGMSource.isPlaying) SoundManager.Instance.PlayBGM(_bgaudioClip);
 
         foreach (var hp in _HPGameObjects)
         {
@@ -102,6 +109,7 @@ public class RestaurantCS : CutScene
             for (int i = _previousHP - 1; i >= currentHP; i--)
             {
                 StartCoroutine(HPDecreaseCoroutine(i));
+                SoundManager.Instance.PlaySFX(_hpDecreaseAudioClip);
             }
         }
 

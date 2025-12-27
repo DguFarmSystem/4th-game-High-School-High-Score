@@ -50,7 +50,7 @@ public class DragLineDrawer : MonoBehaviour
         _points.Clear();
         _isDragging = true;
         AddPoint(startPos);
-        SoundManager.Instance.PlayStoppableSFX(_drawLineSfx);
+        //SoundManager.Instance.PlayStoppableSFX(_drawLineSfx);
     }
 
     private void UpdateLine(Vector3 newPos)
@@ -89,7 +89,7 @@ public class DragLineDrawer : MonoBehaviour
         if (!_isDragging) return;
 
         _isDragging = false;
-        SoundManager.Instance.StopStoppableSFX();
+        //SoundManager.Instance.StopStoppableSFX();
         Destroy(_currentLine.gameObject);
     }
 
@@ -110,7 +110,7 @@ public class DragLineDrawer : MonoBehaviour
         {
             if (_idleTime > 0.2f)
             {
-                SoundManager.Instance.StopStoppableSFX();
+                //SoundManager.Instance.StopStoppableSFX();
                 break;
             }
             _idleTime += Time.deltaTime;
@@ -153,7 +153,7 @@ public class DragLineDrawer : MonoBehaviour
         if (_classRoomStage && (_classRoomStage.CurrentState == StageState.Clear
                              || _classRoomStage.CurrentState == StageState.Over))
         {
-            SoundManager.Instance.StopStoppableSFX();
+            //SoundManager.Instance.StopStoppableSFX();
             gameObject.SetActive(false);
         }
     }

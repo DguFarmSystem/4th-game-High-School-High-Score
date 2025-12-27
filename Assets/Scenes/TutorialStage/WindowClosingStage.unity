@@ -922,7 +922,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1018,7 +1018,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1114,7 +1114,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2318,15 +2318,55 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2688457857521709373, guid: fc6eb2ec8c263fa4fbe95e4fc61e747a,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2688457857521709373, guid: fc6eb2ec8c263fa4fbe95e4fc61e747a,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906239475267152002, guid: fc6eb2ec8c263fa4fbe95e4fc61e747a,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 3.7787285
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906239475267152002, guid: fc6eb2ec8c263fa4fbe95e4fc61e747a,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: -0.0000009756712
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906239475267152002, guid: fc6eb2ec8c263fa4fbe95e4fc61e747a,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.91183996
+      objectReference: {fileID: 0}
     - target: {fileID: 8291945201260440829, guid: fc6eb2ec8c263fa4fbe95e4fc61e747a,
         type: 3}
       propertyPath: m_Name
       value: Blind
       objectReference: {fileID: 0}
+    - target: {fileID: 8291945201260440829, guid: fc6eb2ec8c263fa4fbe95e4fc61e747a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8291945201260440830, guid: fc6eb2ec8c263fa4fbe95e4fc61e747a,
         type: 3}
       propertyPath: m_RootOrder
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291945201260440830, guid: fc6eb2ec8c263fa4fbe95e4fc61e747a,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291945201260440830, guid: fc6eb2ec8c263fa4fbe95e4fc61e747a,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 8291945201260440830, guid: fc6eb2ec8c263fa4fbe95e4fc61e747a,
         type: 3}
@@ -2399,13 +2439,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8857897181355217067, guid: 150145d58c5c2744dafd18577969ef54,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8857897181355217067, guid: 150145d58c5c2744dafd18577969ef54,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8857897181355217067, guid: 150145d58c5c2744dafd18577969ef54,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.93
+      value: -2.81
       objectReference: {fileID: 0}
     - target: {fileID: 8857897181355217067, guid: 150145d58c5c2744dafd18577969ef54,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.98
+      value: 0.53
       objectReference: {fileID: 0}
     - target: {fileID: 8857897181355217067, guid: 150145d58c5c2744dafd18577969ef54,
         type: 3}
@@ -2446,6 +2496,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8857897181366824580, guid: 150145d58c5c2744dafd18577969ef54,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 5.991964
+      objectReference: {fileID: 0}
+    - target: {fileID: 8857897181366824580, guid: 150145d58c5c2744dafd18577969ef54,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.679795
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 150145d58c5c2744dafd18577969ef54, type: 3}

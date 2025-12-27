@@ -173,7 +173,7 @@ public class LoadingSceneController : MonoBehaviour
 
         if (!isFadeIn) 
         {
-            SoundManager.Instance.PlaySFX(_loadingSFX);
+            //SoundManager.Instance.PlaySFX(_loadingSFX);
             StartCoroutine(CoLateStart());
         }
 
@@ -183,6 +183,11 @@ public class LoadingSceneController : MonoBehaviour
             mCanvasGroup.alpha = isFadeIn ? Mathf.Lerp(0.0f, 1f, process / 0.7f) : Mathf.Lerp(1.0f, 0.0f, process / 0.7f);
 
             yield return null;
+        }
+
+        if (isFadeIn)
+        {
+            if (FindObjectOfType<SoundManager>() != null) SoundManager.Instance.StopBGM();
         }
 
         if (!isFadeIn)

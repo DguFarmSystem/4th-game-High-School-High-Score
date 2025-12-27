@@ -10,7 +10,7 @@ public class Candies : MonoBehaviour
 
     [SerializeField] private AudioClip _throwSfx;
     [SerializeField] private AudioClip _arriveSfx;
-    private int _sortingOrderIndex = 6;
+    private int _sortingOrderIndex = 11;
 
     private Stack<GameObject> _candiesStack = new Stack<GameObject>();
 

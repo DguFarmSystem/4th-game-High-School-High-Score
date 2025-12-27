@@ -366,7 +366,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -462,7 +462,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -558,7 +558,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1061,6 +1061,9 @@ MonoBehaviour:
   _lpPlayerCollider2: {fileID: 289930680}
   _lpInsertedSprite: {fileID: 21300000, guid: e7801605db7ca254f830f138366286e7, type: 3}
   _lpActivatedSprite: {fileID: 21300000, guid: f667f9c003a6a2248a2b4958d21c6c4c, type: 3}
+  _lpInsertSFX: {fileID: 0}
+  _lpActivateSFX: {fileID: 0}
+  _stageBGM: {fileID: 0}
 --- !u!1 &721892393
 GameObject:
   m_ObjectHideFlags: 0
