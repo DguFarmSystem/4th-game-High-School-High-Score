@@ -16,6 +16,7 @@ TagManager:
   - Goal Indicator
   - Fruit
   - Bar
+  - Key
   layers:
   - Default
   - TransparentFX
