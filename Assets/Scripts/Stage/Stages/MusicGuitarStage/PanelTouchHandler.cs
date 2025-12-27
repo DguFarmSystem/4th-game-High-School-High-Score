@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,27 +9,88 @@ public class PanelTouchHandler : MonoBehaviour,
     IPointerDownHandler,
     IPointerUpHandler
 {
+    public enum AudioPlayState
+    {
+        NotPlayed,
+        Playing,
+        Paused
+    }
+
+    [SerializeField]
+    private AudioSource SoundSource;
+    [SerializeField] 
+    private AudioClip GuitarClip;
+    [SerializeField]
+    private float playDuration = 1.0f;
     private int GuitarPlayCount = 0;
+
+    private Coroutine pauseCoroutine;
+    private AudioPlayState audioState = AudioPlayState.NotPlayed;
+
+    void Start()
+    {
+        //ìŒì› ì´ˆê¸° ì„¸íŒ…
+        SoundSource.clip = GuitarClip;
+        SoundSource.time = 52.0f;
+        SoundSource.volume = 0.7f;
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("ÅÍÄ¡°¡ ÆĞ³Î ¿µ¿ª¿¡ ÁøÀÔ");
+        Debug.Log("í„°ì¹˜ê°€ íŒ¨ë„ ì˜ì—­ì— ì§„ì…");
         ++GuitarPlayCount;
+        PlayOrResume();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("ÅÍÄ¡°¡ ÆĞ³Î ¿µ¿ª¿¡¼­ ÀÌÅ»");
+        Debug.Log("í„°ì¹˜ê°€ íŒ¨ë„ ì˜ì—­ì—ì„œ ì´íƒˆ");
         ++GuitarPlayCount;
+        PlayOrResume();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log("ÆĞ³Î À§¿¡¼­ ÅÍÄ¡ ½ÃÀÛ");
+        Debug.Log("íŒ¨ë„ ìœ„ì—ì„œ í„°ì¹˜ ì‹œì‘");
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log("ÆĞ³Î À§¿¡¼­ ÅÍÄ¡ Á¾·á");
+        Debug.Log("íŒ¨ë„ ìœ„ì—ì„œ í„°ì¹˜ ì¢…ë£Œ");
+    }
+
+    private void PlayOrResume()
+    {
+        switch (audioState)
+        {
+            case AudioPlayState.NotPlayed:
+                SoundSource.Play();
+                audioState = AudioPlayState.Playing;
+                break;
+
+            case AudioPlayState.Paused:
+                SoundSource.UnPause();
+                audioState = AudioPlayState.Playing;
+                break;
+
+            case AudioPlayState.Playing:
+                // ì´ë¯¸ ì¬ìƒ ì¤‘ì´ë©´ ì•„ë¬´ ê²ƒë„ í•˜ì§€ ì•ŠìŒ
+                break;
+        }
+
+        // Pause íƒ€ì´ë¨¸ ê°±ì‹ 
+        if (pauseCoroutine != null)
+            StopCoroutine(pauseCoroutine);
+
+        pauseCoroutine = StartCoroutine(PauseAfterDelay());
+    }
+
+    private IEnumerator PauseAfterDelay()
+    {
+        yield return new WaitForSeconds(playDuration);
+        SoundSource.Pause();
+        audioState = AudioPlayState.Paused;
+        pauseCoroutine = null;
     }
 
     public int GetPlayCount()

@@ -13,6 +13,10 @@ public class MusicGuitarStage : StageNormal
     [SerializeField]
     private List<Sprite> CrowdSprite;
     [SerializeField]
+    private AudioSource CrowdAudio;
+    [SerializeField]
+    private AudioClip CrowdSource;
+    [SerializeField]
     private List<int> Goal;
 
     private int CurrentCount = 0;
@@ -67,6 +71,7 @@ public class MusicGuitarStage : StageNormal
     {
         stageLevel = StageManager.Instance.GetDifficulty() - 1;
         CrowdImage.sprite = CrowdSprite[0];
+        CrowdAudio.clip = CrowdSource;
         OnStageStart();
     }
 
@@ -89,6 +94,7 @@ public class MusicGuitarStage : StageNormal
     void ChangeCrowdImage()
     {
         float ClearRatio = (float)CurrentCount / Goal[stageLevel];
+        float volumeSize = 0.0f;
 
         Debug.Log($"[ChangeCrowdImage] CurrentCount: {CurrentCount}, Goal: {Goal[stageLevel]}, ClearRatio: {ClearRatio:F2}");
 
@@ -101,16 +107,33 @@ public class MusicGuitarStage : StageNormal
         {
             //Debug.Log("[ChangeCrowdImage] Range: 0.25 ~ 0.5 (Sprite 1)");
             CrowdImage.sprite = CrowdSprite[1];
+            volumeSize = 0.4f;
+            HandleCrowdSound(volumeSize);
+
         }
         else if (ClearRatio > 0.5f && ClearRatio <= 0.75f)
         {
             //Debug.Log("[ChangeCrowdImage] Range: 0.5 ~ 0.75 (Sprite 2)");
             CrowdImage.sprite = CrowdSprite[2];
+            volumeSize = 0.7f;
+            HandleCrowdSound(volumeSize);
         }
         else
         {
             //Debug.Log("[ChangeCrowdImage] Range: > 0.75 (Sprite 3)");
             CrowdImage.sprite = CrowdSprite[3];
+            volumeSize = 1.0f;
+            HandleCrowdSound(volumeSize);
+        }
+    }
+
+    void HandleCrowdSound(float volumeRatio)
+    {
+        if (!CrowdAudio.isPlaying)
+            CrowdAudio.Play();
+        else
+        {
+            CrowdAudio.volume = volumeRatio;
         }
     }
 }
