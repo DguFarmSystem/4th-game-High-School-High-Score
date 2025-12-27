@@ -14,6 +14,8 @@ public class PlaylistStage : StageNormal
     Sprite[] Covers;
     [SerializeField]
     AudioClip[] Audioes;//음악 소스 나오면 기획서 순서대로 음악 대입해주면 됨.
+    [SerializeField]
+    AudioClip buttonSFX;
     AudioSource theaudio;
 
     float ArrowTime = 1f;
@@ -33,7 +35,9 @@ public class PlaylistStage : StageNormal
         OnStageStart();
         currentmusic = Random.Range(0, 3);
         CoverImage.sprite=Covers[currentmusic];
-        //theaudio.clip=Audioes[currentmusic];//음악 클립 추가했으면 주석 처리 취소
+        theaudio.clip=Audioes[currentmusic];//음악 클립 추가했으면 주석 처리 취소
+        theaudio.time = 2f;
+        theaudio.Play();
     }
 
     void Update()
@@ -90,6 +94,7 @@ public class PlaylistStage : StageNormal
     private void OnStageEndedGimmik(bool isStageCleared)
     {
         InputManager.Instance.OnStageTapPerformed -= StageGimmik;
+        theaudio.Stop();
         if (isStageCleared)
         {
             Debug.Log("Cleared");
@@ -121,14 +126,20 @@ public class PlaylistStage : StageNormal
     {
         currentmusic++;
         if(currentmusic==6)currentmusic = 0;
-        //theaudio.clip = Audioes[currentmusic];//나중에 음악 추가했으면 주석표시 지우기
+        theaudio.clip = Audioes[currentmusic];//나중에 음악 추가했으면 주석표시 지우기
         CoverImage.sprite = Covers[currentmusic];
+        theaudio.time = 2f;
+        theaudio.Play();
+        theaudio.PlayOneShot(buttonSFX);
     }
     public void OnClickPrevious()
     {
         currentmusic--;
         if (currentmusic == -1) currentmusic = 5;
-        //theaudio.clip = Audioes[currentmusic];//나중에 음악 추가했으면 주석표시 지우기
+        theaudio.clip = Audioes[currentmusic];//나중에 음악 추가했으면 주석표시 지우기
         CoverImage.sprite = Covers[currentmusic];
+        theaudio.time = 2f;
+        theaudio.Play();
+        theaudio.PlayOneShot(buttonSFX);
     }
 }

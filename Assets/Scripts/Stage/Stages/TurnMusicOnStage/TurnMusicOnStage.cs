@@ -21,7 +21,7 @@ public class TurnMusicOnStage : StageNormal
     void Update()
     {
         StageGimmik();
-        TheAudio.volume = TheScroll.value;
+        TheAudio.volume = TheScroll.value * 0.15f;
         if (TheScroll.value>0.77f&&TheScroll.value<0.86)
         {
             OnStageClear();
@@ -57,6 +57,8 @@ public class TurnMusicOnStage : StageNormal
     private void OnStageEndedGimmik(bool isStageCleared)
     {
         InputManager.Instance.OnStageTapPerformed -= StageGimmik;
+        TheAudio.Stop();
+
         if (isStageCleared)
         {
             Debug.Log("Cleared");

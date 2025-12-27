@@ -38,7 +38,7 @@ public class ProcessTimer : MonoBehaviour
     {
         if (!isRunning) return;
 
-        elapsedTime = 5 - manager.TimerTime;
+        elapsedTime = totalTime - manager.TimerTime;
         float ratio = elapsedTime / totalTime;
 
         // ���� �ε��� ��� (0 ~ sprites.Length-1)

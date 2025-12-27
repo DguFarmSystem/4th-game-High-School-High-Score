@@ -32,6 +32,7 @@ public class Music_Player_LV4 : StageNormal
 
     private void OnStageEndedGimmik(bool isStageCleared)
     {
+        SoundManager.Instance.StopBGM();
         if (isStageCleared)
         {
             Debug.Log("Stage cleared!");
