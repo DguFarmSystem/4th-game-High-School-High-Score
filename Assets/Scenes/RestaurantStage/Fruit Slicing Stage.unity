@@ -1256,6 +1256,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1362,6 +1363,15 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!45 &963194230
+Skybox:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 2100000, guid: 871768045f3732049bc343962124e86a, type: 2}
 --- !u!1 &1152832660
 GameObject:
   m_ObjectHideFlags: 0
@@ -1825,7 +1835,7 @@ MonoBehaviour:
   - {fileID: 871234494}
   - {fileID: 860081378}
   Effect: {fileID: 6389406066330802589, guid: 5ef8d476ac4025a4e85cc5e7c5004889, type: 3}
-  audio: {fileID: 8300000, guid: 69670d2b543768446b828d1b4f9d239a, type: 3}
+  audioClip: {fileID: 0}
   InputManager: {fileID: 121199601}
 --- !u!82 &1329453961
 AudioSource:
