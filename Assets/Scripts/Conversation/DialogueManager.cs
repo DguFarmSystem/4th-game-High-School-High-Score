@@ -11,6 +11,9 @@ public class ConversationLine
     public int characterImage;
     public string speaker;
     public List<string> texts;
+
+    //selection part
+    public int specificSoundIndex = -1;
 }
 
 [System.Serializable]
@@ -21,6 +24,11 @@ public class ConversationData
 
 public class DialogueManager : MonoBehaviour
 {
+    [Header("Audio Source")]
+    public AudioSource TypingSound;
+    public AudioSource EventSound = null;
+    public List<AudioClip> EffectSounds;
+
     [Header("UI Components")]
     public Text speakerText;
     public Text dialogueText;
@@ -29,7 +37,7 @@ public class DialogueManager : MonoBehaviour
     public List<Sprite> ImageList;
 
     [Header("JSON Settings")]
-    public string jsonFileName = "Tutorial.json";
+    public string jsonFileName = null;
 
     [Header("Typing Settings")]
     public float typingSpeed = 0.05f;
@@ -71,6 +79,9 @@ public class DialogueManager : MonoBehaviour
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
             dialogueText.text = currentLineFullText;
             isTyping = false;
+            //타이핑 소리 중단
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+            TypingSound.Stop();
         }
         else
         {
@@ -208,17 +219,46 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
 
-        // texts�� ������ ���� ���常 ���??
         if (line.texts != null && currentTextIndex < line.texts.Count)
         {
             currentLineFullText = line.texts[currentTextIndex];
             dialogueText.text = "";
+
+            //이벤트 사운드 플레이
+            if (line.specificSoundIndex < 0)
+            {
+                if (EventSound.isPlaying) EventSound.Stop();
+                EventSound.clip = null;
+            }
+            else
+            {
+                EventSound.clip = EffectSounds[line.specificSoundIndex];
+                EventSound.Play();
+            }
+
+            ////타이핑 사운드 플레이
+            //if (!TypingSound.isPlaying)
+            //{
+            //    TypingSound.clip = EffectSounds[0];
+            //    TypingSound.loop = true;
+            //    TypingSound.Play();
+            //}
+
+            TypingSound.Stop();
+            TypingSound.clip = EffectSounds[0];
+            TypingSound.loop = true;
+            TypingSound.Play();
+
 
             foreach (char c in currentLineFullText)
             {
                 dialogueText.text += c;
                 yield return new WaitForSeconds(typingSpeed);
             }
+
+            // 문장 출력 완료 → 사운드 정지
+            TypingSound.Stop();
+            TypingSound.loop = false;
         }
 
         isTyping = false;
@@ -265,5 +305,11 @@ public class DialogueManager : MonoBehaviour
 
         currentIndex = conversationData.conversation.Count; // ��ȭ �ε����� ������ �̵�
         EndDialogue();
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            isTyping = false;
+            TypingSound.Stop();
+        }
     }
 }

@@ -20,6 +20,9 @@ public class ToggleController : MonoBehaviour
 
     public void OnToggleChanged(bool isOn)
     {
-        NextUI.SetActive(isOn);
+        //스테이지 다양화 되면 필요, 지금은 일단 필요없다.
+        //NextUI.SetActive(isOn);
+
+        //바로 대화 씬으로 넘어갈 수 있도록
     }
 }

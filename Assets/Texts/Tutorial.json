@@ -2,7 +2,7 @@
     "conversation": [
         {
             "id": 1,
-            "characterImage": 0,
+            "characterImage": -1,
             "speaker": "나",
             "texts": [
                 "(오늘부터 새로운 학교에서의 생활이 시작된다. 아직 모든 게 낯설다. 말 한 마디 꺼내는 것도 쉽지 않다.)",
@@ -21,7 +21,7 @@
         },
         {
             "id": 3,
-            "characterImage": 0,
+            "characterImage": -1,
             "speaker": "나",
             "texts": [
                 "(학생들이 이상하게 나만 쳐다보는 것 같다. 착각일 거야.)",
@@ -38,7 +38,7 @@
         },
         {
             "id": 5,
-            "characterImage": 0,
+            "characterImage": -1,
             "speaker": "나",
             "texts": [
                 "(뭐지? 왠지 강렬한 시선이 느껴진다.)"
@@ -46,7 +46,7 @@
         },
         {
             "id": 6,
-            "characterImage": 1,
+            "characterImage": 0,
             "speaker": "???",
             "texts": [
                 "네가 그 소문의 전학생이구나. 일반 고등학교에서 전학 왔지?",
@@ -56,7 +56,7 @@
         },
         {
             "id": 7,
-            "characterImage": 2,
+            "characterImage": -1,
             "speaker": "나",
             "texts": [
                 "(그러고 보니, 전학 온 이유가 기억나지 않는다.)",
@@ -65,7 +65,7 @@
         },
         {
             "id": 8,
-            "characterImage": 3,
+            "characterImage": 1,
             "speaker": "???",
             "texts": [
                 "기억 못 한다는 표정이네.",
@@ -76,7 +76,7 @@
         },
         {
             "id": 9,
-            "characterImage": 2,
+            "characterImage": -1,
             "speaker": "나",
             "texts": [
                 "(무슨 이딴 학교가 다 있지?)",
@@ -86,7 +86,7 @@
         },
         {
             "id": 10,
-            "characterImage": 3,
+            "characterImage": -1,
             "speaker": "???",
             "texts": [
                 "아아~ 그런 타입?",

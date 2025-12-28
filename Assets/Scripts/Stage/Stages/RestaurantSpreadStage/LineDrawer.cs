@@ -9,6 +9,8 @@ public class LineDrawer : MonoBehaviour
     [SerializeField] private PanelDivider sectionCheck;
     [SerializeField] private Camera mainCam;
     [SerializeField] private RectTransform sauceImage;
+    [SerializeField] private AudioSource EffectAudio;
+    [SerializeField] private AudioClip EffectSound;
 
     private LineRenderer currentLine;
     private List<Vector3> points = new();
@@ -43,6 +45,8 @@ public class LineDrawer : MonoBehaviour
         isDragging = true;
         //Debug.Log(isDragging);
         AddPoint(startPos);
+        //오디오 재생
+        EffectAudio.Play();
     }
 
     public void UpdateLine(Vector3 newPos)
@@ -96,6 +100,7 @@ public class LineDrawer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EffectAudio.clip = EffectSound;
     }
 
     private void OnEnable()
