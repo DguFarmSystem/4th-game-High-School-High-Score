@@ -48,7 +48,7 @@ EditorBuildSettings:
     path: Assets/Scenes/TutorialStage/WindowClosingStage.unity
     guid: 5dd7e34fd70f51141a6fd8d751539bf2
   - enabled: 1
-    path: Assets/Scenes/MusicStage/MusicRoom_NoteTracing.unity
+    path: Assets/Scenes/MusicStage/MusicRoom_NoteTracing_Delayed.unity
     guid: 3189bc28c613acf428ff37021ecd039b
   - enabled: 1
     path: Assets/Scenes/MusicStage/MusicPlayStage.unity
