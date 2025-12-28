@@ -1,15 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
+public enum StageType
+{
+    Tutorial,
+    Restaurant,
+    MusicRoom,
+    Gym,
+    HealthRoom
+}
 
 public class ToggleController : MonoBehaviour
 {
     [SerializeField]
     private GameObject NextUI;
+    [SerializeField]
+    private GameObject GymLocked;
+    [SerializeField]
+    private GameObject MusicRoomLocked;
+    [SerializeField]
+    private GameObject HealthRoomLocked;
+    [SerializeField]
+    private StageType RoomType;
+
+    private Toggle MyToggle;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        //임시 세팅
+        //StageManager.Instance.SetTutorialCleared(true);
+        //StageManager.Instance.SetRestaurantCleared(true);
+
+        //Lock 세팅
+        MusicRoomLocked.SetActive(!StageManager.Instance.isRestaurantCleared);
+        GymLocked.SetActive(true);
+        HealthRoomLocked.SetActive(true);
+
+        //내 토글 읽어오기
+        MyToggle = GetComponent<Toggle>();
+        MyToggle.interactable = CheckUnlock();
     }
 
     // Update is called once per frame
@@ -18,11 +50,44 @@ public class ToggleController : MonoBehaviour
         
     }
 
-    public void OnToggleChanged(bool isOn)
+    bool CheckUnlock()
     {
-        //스테이지 다양화 되면 필요, 지금은 일단 필요없다.
-        //NextUI.SetActive(isOn);
-
-        //바로 대화 씬으로 넘어갈 수 있도록
+        switch (RoomType)
+        {
+            case StageType.Tutorial:
+                return true;
+            case StageType.Restaurant:
+                return StageManager.Instance.isTutorialCleared;
+            case StageType.MusicRoom:
+                return StageManager.Instance.isRestaurantCleared;
+            case StageType.Gym:
+                return false;
+            case StageType.HealthRoom:
+                return false;
+        }
+        return false;
     }
+
+    //public void CheckMusicToggle(bool isOn)
+    //{
+    //    //이전 스테이지인 레스토랑이 클리어되지 않았다면 클릭 안되게
+    //    if(!StageManager.Instance.isRestaurantCleared)
+    //    {
+    //        MyToggle.isOn = !isOn;
+    //        return;
+    //    }
+    //    //isRestaurantCleared가 true라면 정상작동하도록
+    //}
+
+    //public void CheckGymToggle(bool isOn)
+    //{
+    //    //아직 해금 조건 없으므로 막아두기
+    //    MyToggle.isOn = !isOn;
+    //}
+
+    //public void CheckHealthRoomToggle(bool isOn)
+    //{
+    //    //아직 해금 조건 없으므로 막아두기
+    //    MyToggle.isOn = !isOn;
+    //}
 }
