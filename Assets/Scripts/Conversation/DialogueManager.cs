@@ -161,10 +161,10 @@ public class DialogueManager : MonoBehaviour
     public IEnumerator LoadConversationRoutine()
     {
         string jsonData = "";
-
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Texts", jsonFileName);
+        
     #if UNITY_EDITOR || UNITY_STANDALONE
         // --- PC 에디터 또는 PC 빌드 환경 ---
-        string filePath = Path.Combine(Application.dataPath, "Texts", jsonFileName);
 
         Debug.Log("PC/Editor 로드 경로: " + filePath);
 
@@ -178,11 +178,9 @@ public class DialogueManager : MonoBehaviour
         }
 
     #elif UNITY_ANDROID
-        // --- 안드로이드 빌드 환경 ---
-        string filePath = Path.Combine(Application.streamingAssetsPath, "Texts", jsonFileName);
-        
-        // 안드로이드는 URL 형식을 선호하므로 Path.Combine 결과가 이상하다면 직접 조합
-        if (!filePath.Contains("://")) filePath = "file://" + filePath;
+        // --- Android 빌드 환경 ---
+
+        Debug.Log("Android 로드 시도 경로: " + filePath);
 
         using (UnityWebRequest www = UnityWebRequest.Get(filePath))
         {
@@ -194,9 +192,8 @@ public class DialogueManager : MonoBehaviour
             }
             else
             {
-                // 더 구체적인 에러 로그 출력
-                Debug.LogError($"로드 실패 경로: {filePath}");
-                Debug.LogError($"에러 내용: {www.error}");
+                // 상세 에러와 경로를 함께 출력해 대소문자 오타 확인
+                Debug.LogError($"[Load Error] 경로: {filePath} | 에러: {www.error}");
             }
         }
 
