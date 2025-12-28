@@ -44,22 +44,30 @@ public class PianoStage : StageNormal
     float Presstime = 0.5f;
     [SerializeField]
     GameObject PlayCommand;
+    [SerializeField]
+    AudioClip[] sounds;
+    AudioSource theaudio;
+
+    [SerializeField]
+    ProcessTimer ProcessTimer;
 
     [SerializeField]
     InputManager InputManager;
-
     void Start()
     {
         time = 5;
         StageLevel = StageManager.Instance.GetDifficulty();
         Background.sprite = BackgroundSprite[StageLevel - 1];
-        Effect = GameObject.Find("Effets");
+        Effect = GameObject.Find("Effects");
+        theaudio=GetComponent<AudioSource>();
+        ProcessTimer.enabled = false;
     }
 
     void Update()
     {
         if (!Teaching)
         {
+            ProcessTimer.enabled=true;
             time -= Time.deltaTime;
             if (time < 0)
             {
@@ -85,7 +93,7 @@ public class PianoStage : StageNormal
                     {
                         Key.sprite = DefaultKey;
                         Pressed = false; Presstime = 0.5f;
-                        TheEffect.SetActive(false);//눌렀다가 올라왔을때
+                        TheEffect.GetComponent<SpriteRenderer>().enabled = false;//눌렀다가 올라왔을때
                     }
                 }
             }
@@ -107,6 +115,7 @@ public class PianoStage : StageNormal
                 {
                     i++;
                     Key.sprite = KeySprite[Questions[StageLevel - 1].index[i] - 1];
+                    theaudio.PlayOneShot(sounds[Questions[StageLevel - 1].index[i] - 1]);
                     TeachingTerm = 0.5f;
                 }
             }
@@ -178,10 +187,14 @@ public class PianoStage : StageNormal
 
     private void OnPianoHit(int n)
     {
+        if(TheEffect!=null)TheEffect.GetComponent<SpriteRenderer>().enabled = false;
         Key.sprite = KeySprite[n - 1];
         Answer[answercount] = n; answercount++;
         TheEffect = Effect.transform.GetChild(n - 1).gameObject;
-        TheEffect.SetActive(true);
+        print(TheEffect.name);
+        TheEffect.GetComponent<SpriteRenderer>().enabled = true;
+        theaudio.PlayOneShot(sounds[n - 1]);
+
         Pressed = true;
     }
 }
