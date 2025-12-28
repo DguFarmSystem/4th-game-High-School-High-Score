@@ -24,7 +24,7 @@ public class FruitSlicingStage : StageNormal
     [SerializeField]
     GameObject Effect;
     [SerializeField]
-    AudioClip audio;
+    AudioClip audioClip;
     AudioSource theaudio;
 
     int LorR;
@@ -142,7 +142,7 @@ public class FruitSlicingStage : StageNormal
     private void StageGimmik()
     {
         Debug.Log(InputManager.TouchWorldPos);
-        if(Input.GetMouseButtonDown(0)) theaudio.PlayOneShot(audio);
+        if(Input.GetMouseButtonDown(0)) theaudio.PlayOneShot(audioClip);
         if (InputManager.TouchedCollider != null)
         {
             if (InputManager.TouchedCollider.gameObject.tag == "Fruit")
