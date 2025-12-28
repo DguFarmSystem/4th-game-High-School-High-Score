@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -428,6 +428,7 @@ MonoBehaviour:
   Eraser: {fileID: 2068833211}
   erasePrefabs:
   - {fileID: 7594895995051142273, guid: ee8fb746a397a524f8f4312827bdd73d, type: 3}
+  - {fileID: 2890047266602959167, guid: 99e7784b374838c4f9d3cb91bde4fa58, type: 3}
   - {fileID: 2890047266602959167, guid: 99e7784b374838c4f9d3cb91bde4fa58, type: 3}
   spawnParent: {fileID: 74208637}
   clearThreshold: 0.8

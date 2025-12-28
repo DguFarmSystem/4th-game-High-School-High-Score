@@ -80,7 +80,7 @@ public class BlackBoardStage : StageNormal
         //if (stageEnded) return;
         //spawnPoint ������ǥ ����(0,0)�� ��ġ 
         stageLevel = StageManager.Instance.GetDifficulty() - 1;
-        //stageLevel = 2;
+        //stageLevel = 1;
         //���, ���찳 ������Ʈ ����
         image.sprite = backgrounds[stageLevel];
         SpriteRenderer EraseRenderer = Eraser.GetComponent<SpriteRenderer>();
