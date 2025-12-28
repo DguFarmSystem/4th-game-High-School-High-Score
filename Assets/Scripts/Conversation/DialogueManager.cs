@@ -24,6 +24,14 @@ public class ConversationData
 
 public class DialogueManager : MonoBehaviour
 {
+    [Header("Next Stage Settings")]
+    [SerializeField]
+    private List<string> nextScenes;
+    [SerializeField]
+    private string stageKey;
+    [SerializeField]
+    private StageManager.GameMode gameMode;
+
     [Header("Audio Source")]
     public AudioSource TypingSound;
     public AudioSource EventSound = null;
@@ -286,16 +294,23 @@ public class DialogueManager : MonoBehaviour
 
         // TEST CODE
         StageManager.Instance.Initialize(
-            new List<string> {
-                SceneNames.MusicPlay,
-                SceneNames.MusicDance,
-                SceneNames.FindSeat,
-                SceneNames.RestaurantBoss,
-            },
-            "RestaurantCS",
-            StageManager.GameMode.Tutorial
+            nextScenes,
+            stageKey,
+            gameMode
         );
         StageManager.Instance.LoadNextStage();
+
+        //StageManager.Instance.Initialize(
+        //    new List<string> {
+        //        SceneNames.MusicPlay,
+        //        SceneNames.MusicDance,
+        //        SceneNames.FindSeat,
+        //        SceneNames.RestaurantBoss,
+        //    },
+        //    "RestaurantCS",
+        //    StageManager.GameMode.Tutorial
+        //);
+        //StageManager.Instance.LoadNextStage();
     }
 
     //Skip ��ư�� �޼���

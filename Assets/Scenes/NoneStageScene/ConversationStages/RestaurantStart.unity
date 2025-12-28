@@ -781,7 +781,6 @@ MonoBehaviour:
   EventSound: {fileID: 1704460350}
   EffectSounds:
   - {fileID: 8300000, guid: d6ddb68c6b33a2343a81da24c24dab4d, type: 3}
-  - {fileID: 8300000, guid: 00ff6df416a4d97408f6daf407068f0e, type: 3}
   speakerText: {fileID: 1962083036}
   dialogueText: {fileID: 1510772930}
   Character1: {fileID: 98381105}
@@ -1020,7 +1019,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b372007930aa204889dd484ccd53fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testObject: {fileID: 0}
   _tapAction:
     m_Name: Tap
     m_Type: 0
