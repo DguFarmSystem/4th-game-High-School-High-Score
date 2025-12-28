@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
 [System.Serializable]
 public class ConversationLine
@@ -50,7 +51,7 @@ public class DialogueManager : MonoBehaviour
     public List<Sprite> ImageList;
 
     [Header("JSON Settings")]
-    public string jsonFileName = null;
+    public string jsonFileName;
 
     [Header("Typing Settings")]
     public float typingSpeed = 0.05f;
@@ -130,8 +131,9 @@ public class DialogueManager : MonoBehaviour
         c.a = 0;
         Character1Img.color = c;
         Character2Img.color = c;
-        LoadConversation();
-        ShowLine();
+        //LoadConversation();
+        //ShowLine();
+        StartCoroutine(LoadConversationRoutine());
     }
 
     // Update is called once per frame
@@ -153,6 +155,61 @@ public class DialogueManager : MonoBehaviour
         else
         {
             Debug.LogError("JSON ������ ã�� �� �����ϴ�: " + filePath);
+        }
+    }
+
+    public IEnumerator LoadConversationRoutine()
+    {
+        string jsonData = "";
+
+    #if UNITY_EDITOR || UNITY_STANDALONE
+        // --- PC 에디터 또는 PC 빌드 환경 ---
+        string filePath = Path.Combine(Application.dataPath, "Texts", jsonFileName);
+
+        Debug.Log("PC/Editor 로드 경로: " + filePath);
+
+        if (File.Exists(filePath))
+        {
+            jsonData = File.ReadAllText(filePath);
+        }
+        else
+        {
+            Debug.LogError("파일을 찾을 수 없습니다: " + filePath);
+        }
+
+    #elif UNITY_ANDROID
+        // --- 안드로이드 빌드 환경 ---
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Texts", jsonFileName);
+        
+        // 안드로이드는 URL 형식을 선호하므로 Path.Combine 결과가 이상하다면 직접 조합
+        if (!filePath.Contains("://")) filePath = "file://" + filePath;
+
+        using (UnityWebRequest www = UnityWebRequest.Get(filePath))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                jsonData = www.downloadHandler.text;
+            }
+            else
+            {
+                // 더 구체적인 에러 로그 출력
+                Debug.LogError($"로드 실패 경로: {filePath}");
+                Debug.LogError($"에러 내용: {www.error}");
+            }
+        }
+
+    #endif
+
+        // 데이터 할당 (공통)
+        if (!string.IsNullOrEmpty(jsonData))
+        {
+            conversationData = JsonUtility.FromJson<ConversationData>(jsonData);
+            Debug.Log("JSON 파싱 완료");
+
+            yield return null;
+            ShowLine();
         }
     }
 

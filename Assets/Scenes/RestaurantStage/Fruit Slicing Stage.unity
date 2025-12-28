@@ -1835,7 +1835,7 @@ MonoBehaviour:
   - {fileID: 871234494}
   - {fileID: 860081378}
   Effect: {fileID: 6389406066330802589, guid: 5ef8d476ac4025a4e85cc5e7c5004889, type: 3}
-  audioClip: {fileID: 0}
+  audioClip: {fileID: 8300000, guid: 48e165b6ded88e7428490f3f99ec4a45, type: 3}
   InputManager: {fileID: 121199601}
 --- !u!82 &1329453961
 AudioSource:

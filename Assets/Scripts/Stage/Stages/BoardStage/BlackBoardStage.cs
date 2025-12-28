@@ -5,31 +5,32 @@ using UnityEngine.UI;
 using Stage;
 
 /*
- * ½ºÅ×ÀÌÁö ¼³°è
- * º¯¼ö ¼±¾ð : ½ºÅ×ÀÌÁö º¯¼ö, ½ºÅ×ÀÌÁö Áö¼Ó ½Ã°£ È®ÀÎ º¯¼ö
- * ½ºÅ×ÀÌÁö ½ÃÀÛ : Áö¿ö¾ßÇÒ °ÔÀÓ¿ÀºêÁ§Æ®¿¡ ½ºÅ×ÀÌÁö¿¡ ¸Â´Â ÀÌ¹ÌÁö ºÎ¿©
- * ½ºÅ×ÀÌÁö µµÁß : Áö¿ö¾ßÇÒ °ÔÀÓ¿ÀºêÁ§Æ®°¡ ¾ó¸¶³ª Áö¿öÁ³´ÂÁö È®ÀÎ
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ó¸¶³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
  */
 public class BlackBoardStage : StageNormal
 {
     [Header("Audio Setting")]
     [SerializeField] private AudioSource EffectAudio;
     [SerializeField] private AudioClip[] EffectSound;
+    [SerializeField] private AudioSource BGM_Audio;
 
     [Header("Stage Resource")]
-    //³­ÀÌµµº° ½ºÅ×ÀÌÁö¿¡¼­ ÇÊ¿äÇÑ ¸®¼Ò½º¸¦ ÁöÁ¤ÇÏ´Â ÄÚµå
-    public Sprite[] backgrounds;                   //¹è°æ ÀÌ¹ÌÁö ¼³Á¤
-    public Sprite[] Erasers;                       //Áö¿ì°³ ÀÌ¹ÌÁö ¼³Á¤
-    [SerializeField] private Image image;          //¼±ÅÃÇÑ ¹è°æ ÀÌ¹ÌÁö¸¦ ³ÖÀ» ÀÌ¹ÌÁö ¿ÀºêÁ§Æ®
-    [SerializeField] private GameObject Eraser;    //Áö¿ì°³ ÀÌ¹ÌÁö ÁöÁ¤
+    //ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Úµï¿½
+    public Sprite[] backgrounds;                   //ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public Sprite[] Erasers;                       //ï¿½ï¿½ï¿½ì°³ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    [SerializeField] private Image image;          //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    [SerializeField] private GameObject Eraser;    //ï¿½ï¿½ï¿½ì°³ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     [Header("Prefab & Stage Config")]
-    public EraseTexture[] erasePrefabs;   // ÇÁ¸®ÆÕ (Áö¿ï ÀÌ¹ÌÁö)
-    public Transform spawnParent;      // ½ºÆùÇÒ ºÎ¸ð ¿ÀºêÁ§Æ® (¿¹: Canvas³ª Æ¯Á¤ À§Ä¡)
-    public float clearThreshold = 0.8f; // Å¬¸®¾î ¸ñÇ¥ (0~1 »çÀÌ °ª)
-    private static int stageLevel = 0;  // ³ªÁß¿¡ StageManager¿¡¼­ stageLevelÀ» ³Ñ°ÜÁÖ´Â ¹æ½ÄÀ¸·Î ¸®¼Ò½º ÁöÁ¤
+    public EraseTexture[] erasePrefabs;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½)
+    public Transform spawnParent;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® (ï¿½ï¿½: Canvasï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½ï¿½Ä¡)
+    public float clearThreshold = 0.8f; // Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ (0~1 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)
+    private static int stageLevel = 0;  // ï¿½ï¿½ï¿½ß¿ï¿½ StageManagerï¿½ï¿½ï¿½ï¿½ stageLevelï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-    private EraseTexture eraseObject;  // ½ºÆùµÈ EraseTexture ÀÎ½ºÅÏ½º
+    private EraseTexture eraseObject;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ EraseTexture ï¿½Î½ï¿½ï¿½Ï½ï¿½
     private float timer;
     //private bool stageEnded = false;
 
@@ -50,15 +51,17 @@ public class BlackBoardStage : StageNormal
 
     private void StageDistinction(bool cleared)
     {
+        BGM_Audio.Stop();
+        
         if (cleared)
         {
             Debug.Log("Stage Cleared.");
-            //Å¬¸®¾î ¿¬Ãâ, ½ºÅ×ÀÌÁö °£ Áß°£ ·¹º§·Î ÀÌµ¿
+            StageManager.Instance.StageClear(true);
         }
         else
         {
             Debug.Log("Stage Failed.");
-            //½ÇÆÐ ¿¬Ãâ, ½ºÅ×ÀÌÁö °£ Áß°£ ·¹º§·Î ÀÌµ¿
+            StageManager.Instance.StageClear(false);
         }
     }
 
@@ -75,18 +78,18 @@ public class BlackBoardStage : StageNormal
     void Start()
     {
         //if (stageEnded) return;
-        //spawnPoint ¿ùµåÁÂÇ¥ ±âÁØ(0,0)¿¡ ¹èÄ¡ 
+        //spawnPoint ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½(0,0)ï¿½ï¿½ ï¿½ï¿½Ä¡ 
         stageLevel = StageManager.Instance.GetDifficulty() - 1;
         //stageLevel = 2;
-        //¹è°æ, Áö¿ì°³ ¿ÀºêÁ§Æ® ¼³Á¤
+        //ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ì°³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         image.sprite = backgrounds[stageLevel];
         SpriteRenderer EraseRenderer = Eraser.GetComponent<SpriteRenderer>();
         EraseRenderer.sprite = Erasers[stageLevel];
 
-        //¼Ò¸® ¼³Á¤
+        //ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½ï¿½
         EffectAudio.clip = EffectSound[stageLevel];
 
-        //Áö¿ï ¿ÀºêÁ§Æ® »ý¼º
+        //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
         eraseObject = Instantiate(erasePrefabs[stageLevel], spawnParent);
         eraseObject.transform.localPosition = Vector3.zero;
         OnStageStart();
@@ -94,14 +97,14 @@ public class BlackBoardStage : StageNormal
 
     void Update()
     {
-        //ÅÍÄ¡°¡ ÀÔ·ÂµÇ°í ÀÖ´Â ¼ø°£¿¡¸¸ À§Ä¡ º¯È­
+        //ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ô·ÂµÇ°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½È­
         if(InputManager.Instance.IsPressing)
         {
             Debug.Log("Board Erasing");
-            //¸Å Æ½ Áö¿ì°³ÀÇ À§Ä¡ º¯È­
+            //ï¿½ï¿½ Æ½ ï¿½ï¿½ï¿½ì°³ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½È­
             Eraser.transform.position = InputManager.Instance.TouchWorldPos - new Vector3(1.0f, 0.0f, 0.0f);
             
-            // ¼Ò¸®°¡ Àç»ý ÁßÀÌ ¾Æ´Ò ¶§¸¸ Play
+            // ï¿½Ò¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ Play
             if (!EffectAudio.isPlaying)
             {
                 EffectAudio.Play();
@@ -109,7 +112,7 @@ public class BlackBoardStage : StageNormal
         }
         else
         {
-            // ÅÍÄ¡¸¦ ¶¼¾úÀ» ¶§¸¸ Stop
+            // ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Stop
             if (EffectAudio.isPlaying)
             {
                 EffectAudio.Stop();
@@ -119,7 +122,7 @@ public class BlackBoardStage : StageNormal
 
         float erasedRatio = eraseObject.ErasedRatio;
 
-        // µð¹ö±× Ãâ·Â
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         //Debug.Log($"Erased Ratio: {erasedRatio * 100f:0.00}%");
 
         if (erasedRatio >= clearThreshold)
