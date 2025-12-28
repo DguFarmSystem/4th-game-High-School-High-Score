@@ -171,8 +171,9 @@ public class StageManager : Singleton<StageManager>
                 case GameMode.Tutorial:
                     if (_sceneIndex > 9)
                     {
-                        SetTutorialCleared(true);
-                        yield return ExitToScene(SceneNames.Map); // nextConvScene
+                        //SetTutorialCleared(true);
+                        nextConvScene = SceneNames.TutorialConvEnd;
+                        yield return ExitToScene(SceneNames.Map);
                         yield break;
                     }
 
@@ -184,24 +185,19 @@ public class StageManager : Singleton<StageManager>
                 case GameMode.Normal:
                     if (_sceneIndex > 16)
                     {
-                        /*
                         switch (prevConvScene)
                         {
-                            case SceneNames.Conversation_Tutorial_1:
-                                SetTutorialCleared(true);
-                                nextConvScene = SceneNames.Map;
+                            case SceneNames.RestaurantConvStart:
+                                //SetRestaurantCleared(true);
+                                nextConvScene = SceneNames.RestaurantConvEnd;
                                 break;
-                            case SceneNames.Conversation_Restaurant_1:
-                                SetRestaurantCleared(true);
-                                nextConvScene = SceneNames.Map;
-                                break;
-                            case SceneNames.Conversation_Music_1:
-                                SetMusicCleared(true);
-                                nextConvScene = SceneNames.Map;
+                            case SceneNames.MusicConvStart:
+                                //SetMusicCleared(true);
+                                nextConvScene = SceneNames.MusicConvEnd;
                                 break;
                         }
-                        */
-                        yield return ExitToScene(SceneNames.Map); // nextConvScene
+                        
+                        yield return ExitToScene(nextConvScene);
                         yield break;
                     }
 
@@ -217,7 +213,7 @@ public class StageManager : Singleton<StageManager>
         }
         else
         {
-            yield return ExitToScene(SceneNames.Map); // 일단 메인으로!!
+            yield return ExitToScene(SceneNames.Map);
             yield break;
         }
 

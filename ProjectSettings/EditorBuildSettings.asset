@@ -35,7 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RestaurantStage/Fruit Slicing Stage.unity
     guid: 2fb67fd00b69a4a4eaa96a1cb437a5e8
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MusicStage/MusicPlayStage_LV4.unity
     guid: fa6b4f922bd56404790584b8656f4089
   - enabled: 1
@@ -56,6 +56,30 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NoneStageScene/Map.unity
     guid: 038420b5d4edb9145876f491735a5a96
+  - enabled: 1
+    path: Assets/Scenes/NoneStageScene/ConversationStages/MusicRoomEnd.unity
+    guid: ff2b9cb7fc8c1494faa452c7e62f35fb
+  - enabled: 1
+    path: Assets/Scenes/NoneStageScene/ConversationStages/MusicRoomStart.unity
+    guid: fe55ca8f793faf6439d5d8645bb36b5b
+  - enabled: 1
+    path: Assets/Scenes/NoneStageScene/ConversationStages/RestaurantEnd.unity
+    guid: bb0a0ac97730d32468bc87081c1303b5
+  - enabled: 1
+    path: Assets/Scenes/NoneStageScene/ConversationStages/RestaurantStart.unity
+    guid: aa0cffc920831ae4db321f6c02096c55
+  - enabled: 1
+    path: Assets/Scenes/NoneStageScene/ConversationStages/TutorialStart.unity
+    guid: a5f9631d5838f714799fda0b441651b4
+  - enabled: 1
+    path: Assets/Scenes/MusicStage/MusicGuitarStage.unity
+    guid: f81c8f82e01f3b04ea08b02715bced51
+  - enabled: 1
+    path: Assets/Scenes/MusicStage/PianoStage.unity
+    guid: 8952a728e23218d4a9c6fcd9aedf4514
+  - enabled: 1
+    path: Assets/Scenes/TutorialStage/BoardErasingStage.unity
+    guid: c850ee8c3b14cc8459e7e186857cf567
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}

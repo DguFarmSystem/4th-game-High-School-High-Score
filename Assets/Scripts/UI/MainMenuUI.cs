@@ -26,7 +26,7 @@ public class MainMenuUI : MonoBehaviour
         }
         */
 
-        LoadingSceneController.Instance.LoadScene(SceneNames.ConvScene); // 추후 세이브 데이터와 연계하도록 변경
+        LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvStart); // 추후 세이브 데이터와 연계하도록 변경
         
         /*
         StageManager.Instance.Initialize(
@@ -93,7 +93,7 @@ public class MainMenuUI : MonoBehaviour
         if (DataManager.Instance.Player == null)
         {
             DataManager.Instance.CreateNewGame(name);
-            LoadingSceneController.Instance.LoadScene(SceneNames.ConvScene); // 추후 튜토리얼 화면으로 넘어가도록 변경
+            LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvStart); // 추후 튜토리얼 화면으로 넘어가도록 변경
         }
         else
         {

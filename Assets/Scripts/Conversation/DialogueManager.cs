@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class ConversationLine
@@ -31,6 +32,10 @@ public class DialogueManager : MonoBehaviour
     private string stageKey;
     [SerializeField]
     private StageManager.GameMode gameMode;
+    private string prevScene;
+
+    [SerializeField]
+    private bool isEndConv;
 
     [Header("Audio Source")]
     public AudioSource TypingSound;
@@ -49,6 +54,9 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Typing Settings")]
     public float typingSpeed = 0.05f;
+
+    [Header("BGM Settings")]
+    public AudioSource BGMSource;
 
     private ConversationData conversationData;
     private int currentIndex = 0;
@@ -114,6 +122,8 @@ public class DialogueManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        prevScene = SceneManager.GetActiveScene().name;
+
         Character1Img = Character1.GetComponent<Image>();
         Character2Img = Character2.GetComponent<Image>();
         Color c = Character1Img.color;
@@ -291,26 +301,20 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("��ȭ ����");
         speakerText.text = "";
         dialogueText.text = "";
+        BGMSource.Stop();
 
-        // TEST CODE
-        StageManager.Instance.Initialize(
-            nextScenes,
-            stageKey,
-            gameMode
-        );
-        StageManager.Instance.LoadNextStage();
 
-        //StageManager.Instance.Initialize(
-        //    new List<string> {
-        //        SceneNames.MusicPlay,
-        //        SceneNames.MusicDance,
-        //        SceneNames.FindSeat,
-        //        SceneNames.RestaurantBoss,
-        //    },
-        //    "RestaurantCS",
-        //    StageManager.GameMode.Tutorial
-        //);
-        //StageManager.Instance.LoadNextStage();
+        if (!isEndConv) 
+        {
+            StageManager.Instance.Initialize(
+                nextScenes,
+                stageKey,
+                gameMode,
+                prevScene
+            );
+            StageManager.Instance.LoadNextStage();
+        }
+        else LoadingSceneController.Instance.LoadScene(SceneNames.Map);
     }
 
     //Skip ��ư�� �޼���

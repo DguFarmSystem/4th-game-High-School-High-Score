@@ -7,8 +7,15 @@ public static class SceneNames
     // 스테이지 외 씬들
     public const string Boot = "BootScene";
     public const string Main = "MainMenu";
-    public const string ConvScene = "Conversation";
     public const string Map = "Map";
+
+    // 대화 씬들
+    public const string TutorialConvStart = "TutorialStart";
+    public const string TutorialConvEnd = "TutorialEnd";
+    public const string RestaurantConvStart = "RestaurantStart";
+    public const string RestaurantConvEnd = "RestaurantEnd";
+    public const string MusicConvStart = "MusicRoomStart";
+    public const string MusicConvEnd = "MusicRoomEnd";
 
     // 스테이지 씬들
     // tutorial
@@ -28,5 +35,7 @@ public static class SceneNames
     public const string MusicPlay = "MusicPlayStage";
     public const string MusicDance = "MusicDanceStage";
     public const string MusicBeat = "BeatStage";
-    public const string MusicNoteTracing = "MusicRoom_NoteTracing";
+    public const string MusicGuitar = "MusicGuitarStage";
+    //public const string MusicNoteTracing = "MusicRoom_NoteTracing_Delayed";
+    public const string MusicPiano = "PianoStage";
 }

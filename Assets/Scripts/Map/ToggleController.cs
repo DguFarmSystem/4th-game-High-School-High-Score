@@ -30,16 +30,16 @@ public class ToggleController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //ÀÓ½Ã ¼¼ÆÃ
+        //ï¿½Ó½ï¿½ ï¿½ï¿½ï¿½ï¿½
         //StageManager.Instance.SetTutorialCleared(true);
         //StageManager.Instance.SetRestaurantCleared(true);
 
-        //Lock ¼¼ÆÃ
+        //Lock ï¿½ï¿½ï¿½ï¿½
         MusicRoomLocked.SetActive(!StageManager.Instance.isRestaurantCleared);
         GymLocked.SetActive(true);
         HealthRoomLocked.SetActive(true);
 
-        //³» Åä±Û ÀÐ¾î¿À±â
+        //ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½
         MyToggle = GetComponent<Toggle>();
         MyToggle.interactable = CheckUnlock();
     }
@@ -70,16 +70,19 @@ public class ToggleController : MonoBehaviour
 
     public void TutorialButtonAction(bool isOn)
     {
-        //¹öÆ° ´­·µÀ»¶§ ÇÒ ¾×¼Ç
+        //ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½×¼ï¿½
+        LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvStart);
     }
 
     public void RestaurantButtonAction(bool isOn)
     {
-        //¹öÆ° ´­·µÀ»¶§ ÇÒ ¾×¼Ç
+        //ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½×¼ï¿½
+        LoadingSceneController.Instance.LoadScene(SceneNames.RestaurantConvStart);
     }
 
     public void MusicRoomButtonAction(bool isOn)
     {
-        //¹öÆ° ´­·µÀ»¶§ ÇÒ ¾×¼Ç
+        //ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½×¼ï¿½
+        LoadingSceneController.Instance.LoadScene(SceneNames.MusicConvStart);
     }
 }
