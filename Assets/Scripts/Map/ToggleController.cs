@@ -68,26 +68,18 @@ public class ToggleController : MonoBehaviour
         return false;
     }
 
-    //public void CheckMusicToggle(bool isOn)
-    //{
-    //    //이전 스테이지인 레스토랑이 클리어되지 않았다면 클릭 안되게
-    //    if(!StageManager.Instance.isRestaurantCleared)
-    //    {
-    //        MyToggle.isOn = !isOn;
-    //        return;
-    //    }
-    //    //isRestaurantCleared가 true라면 정상작동하도록
-    //}
+    public void TutorialButtonAction(bool isOn)
+    {
+        //버튼 눌럿을때 할 액션
+    }
 
-    //public void CheckGymToggle(bool isOn)
-    //{
-    //    //아직 해금 조건 없으므로 막아두기
-    //    MyToggle.isOn = !isOn;
-    //}
+    public void RestaurantButtonAction(bool isOn)
+    {
+        //버튼 눌럿을때 할 액션
+    }
 
-    //public void CheckHealthRoomToggle(bool isOn)
-    //{
-    //    //아직 해금 조건 없으므로 막아두기
-    //    MyToggle.isOn = !isOn;
-    //}
+    public void MusicRoomButtonAction(bool isOn)
+    {
+        //버튼 눌럿을때 할 액션
+    }
 }
