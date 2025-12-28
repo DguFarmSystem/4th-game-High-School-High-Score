@@ -21,7 +21,7 @@ public class TurnMusicOnStage : StageNormal
     void Update()
     {
         StageGimmik();
-        TheAudio.volume = TheScroll.value * 0.15f;
+        TheAudio.volume = TheScroll.value * 0.5f;
         if (TimerTime<=0&&TheScroll.value>0.77f&&TheScroll.value<0.86)
         {
             OnStageClear();

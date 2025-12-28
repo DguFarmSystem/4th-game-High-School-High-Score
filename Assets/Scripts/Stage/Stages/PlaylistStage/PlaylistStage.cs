@@ -13,7 +13,7 @@ public class PlaylistStage : StageNormal
     [SerializeField]
     Sprite[] Covers;
     [SerializeField]
-    AudioClip Audioes;//���� �ҽ� ������ ��ȹ�� ������� ���� �������ָ� ��.
+    AudioClip Audioes;//���� �ҽ� ������ ��ȹ�� �������? ���� �������ָ� ��.
     AudioSource theaudio;
     [SerializeField]
     AudioSource musicaudio;
@@ -39,7 +39,7 @@ public class PlaylistStage : StageNormal
         OnStageStart();
         currentmusic = Random.Range(0, 3);
         CoverImage.sprite=Covers[currentmusic];
-        //theaudio.clip=Audioes[currentmusic];//���� Ŭ�� �߰������� �ּ� ó�� ���
+        //theaudio.clip=Audioes[currentmusic];//���� Ŭ�� �߰������� �ּ� ó�� ���?
     }
 
     void Update()
@@ -84,7 +84,7 @@ public class PlaylistStage : StageNormal
             {
                 musicaudio.clip = Audioes;
                 musicaudio.time = 2f;
-                musicaudio.Play(Audioes);
+                musicaudio.Play();
                 on = true;
             }
 
@@ -144,7 +144,7 @@ public class PlaylistStage : StageNormal
     {
         currentmusic++;
         if(currentmusic==6)currentmusic = 0;
-        //theaudio.clip = Audioes[currentmusic];//���߿� ���� �߰������� �ּ�ǥ�� �����
+        //theaudio.clip = Audioes[currentmusic];//���߿� ���� �߰������� �ּ�ǥ�� �����?
         CoverImage.sprite = Covers[currentmusic];
         theaudio.PlayOneShot(Ef);
         
@@ -153,7 +153,7 @@ public class PlaylistStage : StageNormal
     {
         currentmusic--;
         if (currentmusic == -1) currentmusic = 5;
-        //theaudio.clip = Audioes[currentmusic];//���߿� ���� �߰������� �ּ�ǥ�� �����
+        //theaudio.clip = Audioes[currentmusic];//���߿� ���� �߰������� �ּ�ǥ�� �����?
         CoverImage.sprite = Covers[currentmusic];
         theaudio.PlayOneShot(Ef);
     }

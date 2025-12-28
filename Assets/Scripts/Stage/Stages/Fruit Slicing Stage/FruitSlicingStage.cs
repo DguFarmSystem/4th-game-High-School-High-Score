@@ -116,6 +116,7 @@ public class FruitSlicingStage : StageNormal
     private void OnStageEndedGimmik(bool isStageCleared)
     {
         InputManager.Instance.OnStageTapPerformed -= StageGimmik;
+        theaudio.Stop();
         if (isStageCleared)
         {
             Debug.Log("Cleared");
