@@ -173,7 +173,8 @@ public class StageManager : Singleton<StageManager>
                     {
                         //SetTutorialCleared(true);
                         nextConvScene = SceneNames.TutorialConvEnd;
-                        yield return ExitToScene(SceneNames.Map);
+
+                        yield return ExitToScene(nextConvScene);
                         yield break;
                     }
 
