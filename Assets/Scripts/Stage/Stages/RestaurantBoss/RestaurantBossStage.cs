@@ -12,7 +12,8 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
     [SerializeField] private Button _rightButton;
     [SerializeField] private GameObject _timerBarNGoal;
 
-    [SerializeField] public int ClearItemCount { get; private set; }= 150;
+    [SerializeField] private int _clearItemCount = 150;
+    public int ClearItemCount => _clearItemCount;
 
     [SerializeField] private AudioClip _stageBGM;
 
