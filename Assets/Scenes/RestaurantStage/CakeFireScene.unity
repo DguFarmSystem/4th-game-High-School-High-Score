@@ -3030,12 +3030,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63206c1a7dbad467db6c6b1eb7fb05c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerTime: 5
+  timerTime: 10
   levels:
   - root: {fileID: 1005497512}
     dimmer: {fileID: 358357549}
   - root: {fileID: 2066078406}
-    dimmer: {fileID: 0}
+    dimmer: {fileID: 1249035067}
   - root: {fileID: 580581153}
     dimmer: {fileID: 1609826859}
   - root: {fileID: 1709733081}
