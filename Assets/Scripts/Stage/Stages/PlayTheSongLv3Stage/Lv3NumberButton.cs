@@ -9,7 +9,7 @@ public class Lv3NumberButton : MonoBehaviour
 
     void Reset()
     {
-        stage = FindObjectOfType<PlayTheSongLv3Stage>();
+        stage = FindFirstObjectByType<PlayTheSongLv3Stage>();
     }
 
     void OnMouseDown()

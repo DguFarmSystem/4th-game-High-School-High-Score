@@ -14,6 +14,6 @@ public class TimerItem : ConveyorItem
 
     protected void Start()
     {
-        stage = FindObjectOfType<RestaurantBossStage>();
+        stage = FindFirstObjectByType<RestaurantBossStage>();
     }
 }

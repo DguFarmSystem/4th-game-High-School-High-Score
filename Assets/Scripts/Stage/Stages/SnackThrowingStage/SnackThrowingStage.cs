@@ -88,7 +88,7 @@ public class SnackThrowingStage : MonoBehaviour, IStageBase
 
     void Start()
     {
-        _numberOfStudents = FindObjectsOfType<SnackDetector>().Length;
+        _numberOfStudents = FindObjectsByType<SnackDetector>(FindObjectsSortMode.None).Length;
 
         // 스테이지 시작
         OnStageStart();

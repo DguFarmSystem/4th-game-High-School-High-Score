@@ -59,12 +59,12 @@ public class SnackDetector : MonoBehaviour
         }
         else
         {
-            PowerGauge gauge = FindObjectOfType<PowerGauge>();
-            Teacher teacher = FindObjectOfType<Teacher>();
+            PowerGauge gauge = FindFirstObjectByType<PowerGauge>();
+            Teacher teacher = FindFirstObjectByType<Teacher>();
 
             if (_pressedTime > 0f && teacher.IsTurning)
             {
-                FindObjectOfType<SnackThrowingStage>().SetStageFailed();
+                FindFirstObjectByType<SnackThrowingStage>().SetStageFailed();
                 gauge.setGaugeColor(new Color(255f / 255f, 127f / 255f, 127f / 255f, 1f)); // 빨간색
                 SoundManager.Instance.StopStoppableSFX();
                 SoundManager.Instance.PlaySFX(_throwSfx);
@@ -80,7 +80,7 @@ public class SnackDetector : MonoBehaviour
                     SoundManager.Instance.StopStoppableSFX();
                     SoundManager.Instance.PlaySFX(_throwSfx);
 
-                    Candies candies = FindObjectOfType<Candies>();
+                    Candies candies = FindFirstObjectByType<Candies>();
                     if (candies)
                     {
                         StartCoroutine(candies.ThrowCandy(this.GetComponent<Collider2D>()));
@@ -112,7 +112,7 @@ public class SnackDetector : MonoBehaviour
 
     void Awake()
     {
-        _stage = FindObjectOfType<SnackThrowingStage>();
+        _stage = FindFirstObjectByType<SnackThrowingStage>();
         if (!_stage)
         {
             Debug.LogError("SnackThrowingStage not found in the scene.");

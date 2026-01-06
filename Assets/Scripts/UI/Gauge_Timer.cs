@@ -14,7 +14,7 @@ public class Gauge_Timer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StageNormal manager = FindObjectOfType<StageNormal>();
+        StageNormal manager = FindFirstObjectByType<StageNormal>();
         duration = manager.TimerTime;
         timeLeft = duration;
         gaugeImage.fillAmount = 1f;

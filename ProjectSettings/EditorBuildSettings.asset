@@ -81,6 +81,8 @@ EditorBuildSettings:
     path: Assets/Scenes/TutorialStage/BoardErasingStage.unity
     guid: c850ee8c3b14cc8459e7e186857cf567
   m_configObjects:
+    com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: 35c730ca27db3404fb44d6ea9671d4de,
+      type: 2}
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 64c8b62c28046554d8e00855712e6738,
@@ -93,3 +95,4 @@ EditorBuildSettings:
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 176b8d3c96bcda9478d089e15ef64829,
       type: 2}
+  m_UseUCBPForAssetBundles: 0

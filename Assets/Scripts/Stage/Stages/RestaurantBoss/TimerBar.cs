@@ -11,7 +11,7 @@ public class TimerBar : MonoBehaviour
 
     private void Start()
     {
-        stage = FindObjectOfType<RestaurantBossStage>();
+        stage = FindFirstObjectByType<RestaurantBossStage>();
     }
     private void Update()
     {

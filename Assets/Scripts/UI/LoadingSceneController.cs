@@ -22,7 +22,7 @@ public class LoadingSceneController : MonoBehaviour
         {
             if (instance == null)
             {
-                LoadingSceneController sceneController = FindObjectOfType<LoadingSceneController>();
+                LoadingSceneController sceneController = FindFirstObjectByType<LoadingSceneController>();
                 if (sceneController != null)
                 {
                     instance = sceneController;
@@ -187,7 +187,7 @@ public class LoadingSceneController : MonoBehaviour
 
         if (isFadeIn)
         {
-            if (FindObjectOfType<SoundManager>() != null) SoundManager.Instance.StopBGM();
+            if (FindFirstObjectByType<SoundManager>() != null) SoundManager.Instance.StopBGM();
         }
 
         if (!isFadeIn)

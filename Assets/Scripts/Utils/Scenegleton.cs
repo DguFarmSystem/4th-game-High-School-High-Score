@@ -15,7 +15,7 @@ public abstract class Scenegleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             if (instance == null)
             {
-                instance = (T)FindObjectOfType(typeof(T));
+                instance = (T)FindFirstObjectByType(typeof(T));
 
                 if (instance == null)
                     Debug.LogError("No object of " + typeof(T).Name + " is no found");

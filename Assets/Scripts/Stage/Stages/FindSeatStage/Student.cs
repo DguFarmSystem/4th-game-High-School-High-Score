@@ -101,7 +101,7 @@ public class Student : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
-        _stage = FindObjectOfType<FindSeatStage>();
+        _stage = FindFirstObjectByType<FindSeatStage>();
 
         rng = new System.Random(Guid.NewGuid().GetHashCode());
 

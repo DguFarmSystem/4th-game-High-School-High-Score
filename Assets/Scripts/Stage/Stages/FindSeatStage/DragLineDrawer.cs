@@ -123,8 +123,8 @@ public class DragLineDrawer : MonoBehaviour
 
     void Awake()
     {
-        _ipManager = FindObjectOfType<InputManager>();
-        _classRoomStage = FindObjectOfType<FindSeatStage>();
+        _ipManager = FindFirstObjectByType<InputManager>();
+        _classRoomStage = FindFirstObjectByType<FindSeatStage>();
     }
 
     void Start()

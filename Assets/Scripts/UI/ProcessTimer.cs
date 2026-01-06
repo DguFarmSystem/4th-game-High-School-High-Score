@@ -25,7 +25,7 @@ public class ProcessTimer : MonoBehaviour
         normalClip = Resources.Load<AudioClip>("Timer/Timer_5-3");
         fastClip = Resources.Load<AudioClip>("Timer/Timer_2-1");
         //�������� �Ŵ������� �ð��� ������
-        manager = FindObjectOfType<StageNormal>();
+        manager = FindFirstObjectByType<StageNormal>();
         totalTime = manager.TimerTime;
         // ���� �� �ʱ� �̹��� ����
         if (timerSprites.Length > 0 && targetImage != null)

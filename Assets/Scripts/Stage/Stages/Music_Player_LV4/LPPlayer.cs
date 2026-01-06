@@ -62,7 +62,7 @@ public class LPPlayer : MonoBehaviour
 
     void Start()
     {
-        _stage = FindObjectOfType<Music_Player_LV4>();
+        _stage = FindFirstObjectByType<Music_Player_LV4>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         if (InputManager.Instance != null)

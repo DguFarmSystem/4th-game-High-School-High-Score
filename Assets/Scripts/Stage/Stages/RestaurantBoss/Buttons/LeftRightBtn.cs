@@ -60,8 +60,8 @@ public class LeftRightBtn : MonoBehaviour
 
     protected void Start()
     {
-        Conveyor = FindObjectOfType<Conveyor>();
-        RestaurantBossStage = FindObjectOfType<RestaurantBossStage>();
+        Conveyor = FindFirstObjectByType<Conveyor>();
+        RestaurantBossStage = FindFirstObjectByType<RestaurantBossStage>();
     }
 
     protected virtual void Update()

@@ -80,7 +80,8 @@ public class Lighter : MonoBehaviour
             {
                 // 포인터 월드 좌표 → 해당 위치의 2D 콜라이더들 중 내 콜라이더가 있는지 검사
                 Vector2 wp = PointerWorldXY();
-                int n = Physics2D.OverlapPointNonAlloc(wp, _overlapBuf, pickableLayers);
+                var filter = new ContactFilter2D() { layerMask = pickableLayers };
+                int n = Physics2D.OverlapPoint(wp, filter, _overlapBuf);
                 bool onMe = false;
                 for (int i = 0; i < n; i++)
                 {

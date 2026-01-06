@@ -193,7 +193,7 @@ public class PlateController : MonoBehaviour
 
     void Awake()
     {
-        _stage = FindObjectOfType<RestaurantFindStage>();
+        _stage = FindFirstObjectByType<RestaurantFindStage>();
         _collider2D = GetComponent<Collider2D>();
 
         // Lid 스프라이트의 Transform 가져오기

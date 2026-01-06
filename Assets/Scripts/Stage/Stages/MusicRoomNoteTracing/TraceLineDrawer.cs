@@ -49,7 +49,7 @@ public class TraceLineDrawer : MonoBehaviour
         if (!isDragging) return;
         //Debug.Log(isDragging);
 
-        // ³Ê¹« °¡±î¿î ÁöÁ¡Àº ¹«½Ã
+        // ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (points.Count == 0 || Vector3.Distance(points[^1/*points.Count - 1*/], newPos) > 0.05f)
         {
             AddPoint(newPos);
@@ -63,7 +63,7 @@ public class TraceLineDrawer : MonoBehaviour
         points.Clear();
     }
 
-    //LineRenderer¿¡ Á¡ À§Ä¡ Ãß°¡
+    //LineRendererï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ß°ï¿½
     private void AddPoint(Vector3 point)
     {
         points.Add(point);
@@ -74,7 +74,7 @@ public class TraceLineDrawer : MonoBehaviour
     void Awake()
     {
         //restaurantStage = FindObjectOfType<RestaurantSpreadStage>();
-        inputManager = FindObjectOfType<InputManager>();
+        inputManager = FindFirstObjectByType<InputManager>();
     }
     // Start is called before the first frame update
     void Start()

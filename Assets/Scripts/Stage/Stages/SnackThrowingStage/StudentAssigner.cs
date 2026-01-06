@@ -88,7 +88,7 @@ public class StudentAssigner : MonoBehaviour
     // ============ Lifecycle methods ============ //
     void Awake()
     {
-        SnackThrowingStage stage = FindObjectOfType<SnackThrowingStage>();
+        SnackThrowingStage stage = FindFirstObjectByType<SnackThrowingStage>();
 
         if (stage)
         {

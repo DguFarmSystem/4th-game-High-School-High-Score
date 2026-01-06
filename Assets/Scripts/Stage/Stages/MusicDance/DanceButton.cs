@@ -31,7 +31,7 @@ public class DanceButton : MonoBehaviour
             if (isCorrectBtn) _musicDanceStage.SetStageClear();
             else {};
 
-            DanceButton[] allButtons = FindObjectsOfType<DanceButton>();
+            DanceButton[] allButtons = FindObjectsByType<DanceButton>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             foreach (DanceButton button in allButtons)
             {
                 InputManager.Instance._tapAction.performed -= button.OnTap;
@@ -43,7 +43,7 @@ public class DanceButton : MonoBehaviour
 
     void Awake()
     {
-        _musicDanceStage = FindObjectOfType<MusicDanceStage>();
+        _musicDanceStage = FindFirstObjectByType<MusicDanceStage>();
 
         selectedFX = transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>();
     }

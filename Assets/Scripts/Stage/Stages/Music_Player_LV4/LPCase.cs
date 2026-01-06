@@ -42,7 +42,7 @@ public class LPCase : MonoBehaviour
 
     void Start()
     {
-        _stage = FindObjectOfType<Music_Player_LV4>();
+        _stage = FindFirstObjectByType<Music_Player_LV4>();
 
         if (InputManager.Instance != null)
         {

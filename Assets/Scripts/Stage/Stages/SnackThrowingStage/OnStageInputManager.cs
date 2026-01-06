@@ -43,8 +43,8 @@ public class OnStageInputManager : MonoBehaviour
     // ============ Lifecycle methods ============ //
     void Awake()
     {
-        _ipManager = FindObjectOfType<InputManager>();
-        _snackThrowingStage = FindObjectOfType<SnackThrowingStage>();
+        _ipManager = FindFirstObjectByType<InputManager>();
+        _snackThrowingStage = FindFirstObjectByType<SnackThrowingStage>();
     }
 
     void Start()

@@ -16,7 +16,7 @@ namespace Stage
         [SerializeField] GameObject fireObject;     // 켜고/끄기용 오브젝트
         [SerializeField] ParticleSystem particle;   // 옵션
 
-        [SerializeField] float igniteDistance = 0.12f; // 원하는 근접 거리
+        //[SerializeField] float igniteDistance = 0.12f; // 원하는 근접 거리
 
         public bool IsLit { get; private set; }
         public event Action<CandleFire> OnIgnited;

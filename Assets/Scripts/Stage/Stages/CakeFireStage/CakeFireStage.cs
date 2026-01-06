@@ -21,7 +21,7 @@ namespace Stage
 
         [Header("Dimmer Settings")]
         [Range(0f, 1f)] [SerializeField] float maxDarkAlpha = 0.95f;
-        [SerializeField] float dimmerLerpSpeed = 6f;
+        //[SerializeField] float dimmerLerpSpeed = 6f;
 
         [Header("Render Safety")]
         [SerializeField] int  dimmerSortingOrderMin = 2000;
@@ -160,7 +160,7 @@ namespace Stage
             }
         }
 
-        [SerializeField] float igniteDistance = 0.12f;
+        //[SerializeField] float igniteDistance = 0.12f;
 
         void BeginClearSequence()
         {

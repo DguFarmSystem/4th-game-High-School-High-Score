@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Stage;
 using System.Linq;
-using UnityEditor.Rendering;
 
 public class FindSeatStage : StageNormal
 {
@@ -61,7 +60,7 @@ public class FindSeatStage : StageNormal
 
     void Start()
     {
-        _allSeats = FindObjectsOfType<Student>(true);
+        _allSeats = FindObjectsByType<Student>(FindObjectsInactive.Include, FindObjectsSortMode.None);
         _noneOccupiedSeats = _allSeats.Where(seat => !seat.gameObject.activeSelf).ToArray();
         Student TargetSeat = _noneOccupiedSeats[Random.Range(0, _noneOccupiedSeats.Length)];
 

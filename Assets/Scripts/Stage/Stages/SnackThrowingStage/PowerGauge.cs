@@ -28,7 +28,7 @@ public class PowerGauge : MonoBehaviour
     {
         _currentState = newState;
         
-        if (FindObjectOfType<SnackThrowingStage>().CurrentState == StageState.Playing)
+        if (FindFirstObjectByType<SnackThrowingStage>().CurrentState == StageState.Playing)
         {
             switch (newState)
             {
