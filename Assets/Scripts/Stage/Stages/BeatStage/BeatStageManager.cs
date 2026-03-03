@@ -231,11 +231,11 @@ public class BeatStageManager : MonoBehaviour, IStageBase
         // 각 타입별 "가상 노트(VirtualNote)" 메모리 상에 생성
         if (pattern.HiTimes != null)
         {
-            foreach (float t in pattern.HiTimes) CreateVirtualNote(t - 0.1f, NoteType.Hi);
+            foreach (float t in pattern.HiTimes) CreateVirtualNote(t, NoteType.Hi);
         }
         if (pattern.SnareTimes != null)
         {
-            foreach (float t in pattern.SnareTimes) CreateVirtualNote(t - 0.1f, NoteType.Snare);
+            foreach (float t in pattern.SnareTimes) CreateVirtualNote(t, NoteType.Snare);
         }
 
         // 베이스 타이밍은 넘어온 override 배열을 최우선으로 적용합니다. (레벨 1과 통일)
