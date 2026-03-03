@@ -2440,7 +2440,7 @@ MonoBehaviour:
   sfxSource: {fileID: 570798007}
   igniteSfxClip: {fileID: 8300000, guid: b56d6f74ffdd940d3bc9be6511b9ba3a, type: 3}
   allLitSfxClip: {fileID: 8300000, guid: ef345f91beb6e4303ac8d945cbf681cb, type: 3}
-  debugForceDifficulty: 1
+  debugForceDifficulty: 0
   debugDifficulty: 3
   igniteDistance: 0.12
 --- !u!4 &570798005
@@ -5697,7 +5697,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1483820897
 MonoBehaviour:
   m_ObjectHideFlags: 0
