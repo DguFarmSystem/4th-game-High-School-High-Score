@@ -80,6 +80,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TutorialStage/BoardErasingStage.unity
     guid: c850ee8c3b14cc8459e7e186857cf567
+  - enabled: 1
+    path: Assets/Scenes/NoneStageScene/StageInitScene.unity
+    guid: fe1331db15c2d584885fb80c7fd1be96
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}

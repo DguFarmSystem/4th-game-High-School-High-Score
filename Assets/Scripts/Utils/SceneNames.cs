@@ -8,6 +8,7 @@ public static class SceneNames
     public const string Boot = "BootScene";
     public const string Main = "MainMenu";
     public const string Map = "Map";
+    public const string StageInitScene = "StageInitScene";
 
     // 대화 씬들
     public const string TutorialConvStart = "TutorialStart";

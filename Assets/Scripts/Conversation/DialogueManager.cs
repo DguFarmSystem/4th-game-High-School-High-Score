@@ -223,7 +223,7 @@ public class DialogueManager : MonoBehaviour
         if (conversationData != null && currentIndex < conversationData.conversation.Count)
         {
             ConversationLine line = conversationData.conversation[currentIndex];
-            speakerText.text = line.speaker;
+            speakerText.text = ResolveSpeakerName(line.speaker);
 
             if(line.characterImage == -1)
             {
@@ -336,6 +336,24 @@ public class DialogueManager : MonoBehaviour
         isTyping = false;
     }
 
+    private string ResolveSpeakerName(string speaker)
+    {
+        if (string.IsNullOrEmpty(speaker)) return speaker;
+        if (speaker == "나") return GetPlayerNameOrDefault();
+        return speaker;
+    }
+
+    private string GetPlayerNameOrDefault()
+    {
+        if (DataManager.Instance == null || DataManager.Instance.Player == null)
+        {
+            return "나";
+        }
+
+        string playerName = DataManager.Instance.Player.GetName();
+        return string.IsNullOrEmpty(playerName) ? "나" : playerName;
+    }
+
     public void NextLine()
     {
         currentIndex++;
@@ -357,7 +375,6 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
         BGMSource.Stop();
 
-
         if (!isEndConv) 
         {
             StageManager.Instance.Initialize(
@@ -366,7 +383,7 @@ public class DialogueManager : MonoBehaviour
                 gameMode,
                 prevScene
             );
-            StageManager.Instance.LoadNextStage();
+            LoadingSceneController.Instance.LoadScene(SceneNames.StageInitScene, StageManager.Instance.LoadNextStage);
         }
         else LoadingSceneController.Instance.LoadScene(SceneNames.Map);
     }

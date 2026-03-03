@@ -35,7 +35,7 @@ public class ToggleController : MonoBehaviour
         //StageManager.Instance.SetRestaurantCleared(true);
 
         //Lock ����
-        MusicRoomLocked.SetActive(!StageManager.Instance.isRestaurantCleared);
+        MusicRoomLocked.SetActive(!DataManager.Instance.Player.GetRestaurantCleared());
         GymLocked.SetActive(true);
         HealthRoomLocked.SetActive(true);
 
@@ -57,9 +57,9 @@ public class ToggleController : MonoBehaviour
             case StageType.Tutorial:
                 return true;
             case StageType.Restaurant:
-                return StageManager.Instance.isTutorialCleared;
+                return DataManager.Instance.Player.GetRestaurantCleared();
             case StageType.MusicRoom:
-                return StageManager.Instance.isRestaurantCleared;
+                return DataManager.Instance.Player.GetMusicCleared();
             case StageType.Gym:
                 return false;
             case StageType.HealthRoom:

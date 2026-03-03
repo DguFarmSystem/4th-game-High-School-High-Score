@@ -9,17 +9,25 @@ public enum ScriptSpeedState { Slow, Normal, Fast }
 public class GameData
 {
     [SerializeField] private string Name;
-    [SerializeField] private bool TutorialCompleted = false;
+    [SerializeField] private bool isTutorialCleared = false;
+    [SerializeField] private bool isRestaurantCleared = false;
+    [SerializeField] private bool isMusicCleared = false;
 
     // 생성자
     public GameData(string name)
     {
-        Name = string.IsNullOrEmpty(name) ? "나고점" : name;
+        Name = string.IsNullOrEmpty(name) ? "나" : name;
     }
 
     // ======= Methods ======= //
     public string GetName() => Name;
-    public bool GetTutorialCompleted() => TutorialCompleted;
+    public bool GetTutorialCleared() => isTutorialCleared;
+    public bool GetRestaurantCleared() => isRestaurantCleared;
+    public bool GetMusicCleared() => isMusicCleared;
+
+    public void SetTutorialCleared(bool cleared) => isTutorialCleared = cleared;
+    public void SetRestaurantCleared(bool cleared) => isRestaurantCleared = cleared;
+    public void SetMusicCleared(bool cleared) => isMusicCleared = cleared;
 
     public void UpdatePlayerName(string newName)
     {
