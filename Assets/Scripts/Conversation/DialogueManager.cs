@@ -58,16 +58,16 @@ public class DialogueManager : MonoBehaviour
     [Header("BGM Settings")]
     public AudioSource BGMSource;
 
-    private ConversationData conversationData;
-    private int currentIndex = 0;
-
-    private Image Character1Img;
-    private Image Character2Img;
-
-    private Coroutine typingCoroutine;
-    private bool isTyping = false;
-    private string currentLineFullText;
-    private int currentTextIndex = 0; // texts �迭 �� ���� ���� �ε���
+    protected ConversationData conversationData;
+    protected int currentIndex = 0;
+     
+    protected Image Character1Img;
+    protected Image Character2Img;
+     
+    protected Coroutine typingCoroutine;
+    protected bool isTyping = false;
+    protected string currentLineFullText;
+    protected int currentTextIndex = 0; // texts �迭 �� ���� ���� �ε���
 
     void OnEnable()
     {
@@ -156,16 +156,12 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    /*
-     characterImage
-    -1 : �ƹ� �̹����� �����?? �ʴ´�.
-    0 : ���ΰ� ȥ�� ��ȭâ�� ����, ��ġ �ٲٰ� �迭 3��
-    1 : ù ���� - ü���� ��ȭ ����, left element 2, right element 1
-    2 : ���ΰ��� ü���� �� ���??. ���ΰ� ���� ȿ��. left element 0, right element 3
-    3 : ü�� ���� ȿ��.
-     */
-    void ShowLine()
+    public virtual void ShowLine()
     {
+        //Settings for clearing image
+        Color c = Character2Img.color;
+        c.a = 0;
+
         if (conversationData != null && currentIndex < conversationData.conversation.Count)
         {
             ConversationLine line = conversationData.conversation[currentIndex];
@@ -173,35 +169,69 @@ public class DialogueManager : MonoBehaviour
 
             if(line.characterImage == -1)
             {
-                Color c = Character2Img.color;
-                c.a = 0;
                 Character1Img.color = c;
                 Character2Img.color = c;
             }
             else if(line.characterImage == 0)
             {
-                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
-                StartCoroutine(FadeIn(Character2Img, 1f));
-                Character2Img.sprite = ImageList[3];
+                //Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
+                //StartCoroutine(FadeIn(Character2Img, 1f));
+                //Character2Img.sprite = ImageList[3];
+
+                Character2Img.color = c;
+                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
+                if(Character1Img.color.a == 0)
+                {
+                    StartCoroutine(FadeIn(Character1Img, 1f));
+                }
+                Character1Img.sprite = ImageList[2];
             }
             else if(line.characterImage == 1)
             {
-                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-444, 42);
-                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(499, 59);
-                StartCoroutine(FadeIn(Character1Img, 1f));
-                StartCoroutine(FadeIn(Character2Img, 1f));
-                Character1Img.sprite = ImageList[2];
-                Character2Img.sprite = ImageList[1];
+                //Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-444, 42);
+                //Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(499, 59);
+                //StartCoroutine(FadeIn(Character1Img, 1f));
+                //StartCoroutine(FadeIn(Character2Img, 1f));
+                //Character1Img.sprite = ImageList[2];
+                //Character2Img.sprite = ImageList[1];
+
+                Character1Img.color = c;
+                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
+                if(Character2Img.color.a == 0)
+                {
+                    StartCoroutine(FadeIn(Character2Img, 1f));
+                }
+                Character2Img.sprite = ImageList[3];
             }
             else if(line.characterImage == 2)
             {
-                Character1Img.sprite = ImageList[0];
-                Character2Img.sprite = ImageList[3];
+                //Character1Img.sprite = ImageList[0];
+                //Character2Img.sprite = ImageList[3];
+
+                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-550, -10);
+                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(550, 10);
+                if(Character1Img.color.a == 0 || Character2Img.color.a == 0)
+                {
+                    StartCoroutine(FadeIn(Character1Img, 1f));
+                    StartCoroutine(FadeIn(Character2Img, 1f));
+                }
+                Character1Img.sprite = ImageList[2];
+                Character2Img.sprite = ImageList[1];
             }
             else if(line.characterImage == 3)
             {
-                Character1Img.sprite = ImageList[2];
-                Character2Img.sprite = ImageList[1];
+                //Character1Img.sprite = ImageList[2];
+                //Character2Img.sprite = ImageList[1];
+
+                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-550, -10);
+                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(550, -10);
+                if (Character1Img.color.a == 0 || Character2Img.color.a == 0)
+                {
+                    StartCoroutine(FadeIn(Character1Img, 1f));
+                    StartCoroutine(FadeIn(Character2Img, 1f));
+                }
+                Character1Img.sprite = ImageList[0];
+                Character2Img.sprite = ImageList[3];
             }
 
             // coroutine���� Ÿ���� ȿ�� ����

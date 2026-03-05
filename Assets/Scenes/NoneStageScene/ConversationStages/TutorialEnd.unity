@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -919,10 +919,10 @@ MonoBehaviour:
   Character1: {fileID: 98381105}
   Character2: {fileID: 1078065509}
   ImageList:
-  - {fileID: 21300000, guid: cff3948cb58718f42877386fba57cb71, type: 3}
   - {fileID: 21300000, guid: cdde6c2711d75e249b860da518090396, type: 3}
-  - {fileID: 21300000, guid: b2b121b03a4e8514baa5046b6c791c73, type: 3}
+  - {fileID: 21300000, guid: cff3948cb58718f42877386fba57cb71, type: 3}
   - {fileID: 21300000, guid: 55128fdcaeafa2746b820294cbc49a52, type: 3}
+  - {fileID: 21300000, guid: b2b121b03a4e8514baa5046b6c791c73, type: 3}
   jsonFileName: TutorialEnd.json
   typingSpeed: 0.05
   BGMSource: {fileID: 554996346}
@@ -1081,7 +1081,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
+    m_LineSpacing: 1.5
   m_Text: "\uC548\uB155\uD558\uC138\uC694, \uC774\uAC83\uC740 \uD14C\uC2A4\uD2B8
     \uBB38\uC7A5\uC785\uB2C8\uB2E4."
 --- !u!222 &1510772931
@@ -1252,10 +1252,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 3040, y: 1440}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1594,7 +1594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
