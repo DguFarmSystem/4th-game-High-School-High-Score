@@ -3,7 +3,7 @@
         {
             "id": 1,
             "characterImage": 0,
-            "speaker": "나",
+            "speaker": "<PLAYER_NAME>",
             "texts": [
                 "(맛있는 냄새가 난다.)",
                 "(저쪽에 짝꿍이 보인다. 옆에 가서 줄을 서자)"
@@ -21,7 +21,7 @@
         {
             "id": 3,
             "characterImage": 0,
-            "speaker": "나",
+            "speaker": "<PLAYER_NAME>",
             "texts": [
                 "(점수가 없으면 밥 먹는 것 하나도 힘들다니 가혹한 세계다.)",
                 "(맨끝으로 가서 다시 줄을 서자.)",

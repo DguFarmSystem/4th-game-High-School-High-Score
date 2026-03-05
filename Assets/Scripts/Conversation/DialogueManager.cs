@@ -53,8 +53,16 @@ public class DialogueManager : MonoBehaviour
     [Header("JSON Settings")]
     public string jsonFileName;
 
-    [Header("Typing Settings")]
-    public float typingSpeed = 0.05f;
+    //[Header("Typing Settings")]
+    public float typingSpeed => DataManager.Instance != null && DataManager.Instance.Settings != null
+        ? DataManager.Instance.Settings.GetScriptSpeed() switch
+        {
+            ScriptSpeedState.Slow => 0.1f,
+            ScriptSpeedState.Normal => 0.05f,
+            ScriptSpeedState.Fast => 0.02f,
+            _ => 0.05f,
+        }
+        : 0.05f; // Default to Normal if settings are unavailable
 
     [Header("BGM Settings")]
     public AudioSource BGMSource;
@@ -94,7 +102,7 @@ public class DialogueManager : MonoBehaviour
         {
             // Ÿ���� ���̸� ���?? ��ü ���� ǥ��
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-            dialogueText.text = currentLineFullText;
+            dialogueText.text = currentLineFullText; // ISSUE: 치환된 <PLAYER_NAME> 토큰이 포함된 전체 텍스트를 즉시 표시해야함!
             isTyping = false;
             //타이핑 소리 중단
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
@@ -293,7 +301,10 @@ public class DialogueManager : MonoBehaviour
 
         if (line.texts != null && currentTextIndex < line.texts.Count)
         {
+            // 원본 텍스트에서 모든 <PLAYER_NAME> 토큰을 미리 치환
             currentLineFullText = line.texts[currentTextIndex];
+            currentLineFullText = currentLineFullText.Replace("<PLAYER_NAME>", GetPlayerNameOrDefault());
+
             dialogueText.text = "";
 
             //이벤트 사운드 플레이
@@ -308,23 +319,15 @@ public class DialogueManager : MonoBehaviour
                 EventSound.Play();
             }
 
-            ////타이핑 사운드 플레이
-            //if (!TypingSound.isPlaying)
-            //{
-            //    TypingSound.clip = EffectSounds[0];
-            //    TypingSound.loop = true;
-            //    TypingSound.Play();
-            //}
-
             TypingSound.Stop();
             TypingSound.clip = EffectSounds[0];
             TypingSound.loop = true;
             TypingSound.Play();
 
-
-            foreach (char c in currentLineFullText)
+            // 치환된 텍스트를 글자별로 출력
+            for (int i = 0; i < currentLineFullText.Length; i++)
             {
-                dialogueText.text += c;
+                dialogueText.text += currentLineFullText[i];
                 yield return new WaitForSeconds(typingSpeed);
             }
 
@@ -339,7 +342,7 @@ public class DialogueManager : MonoBehaviour
     private string ResolveSpeakerName(string speaker)
     {
         if (string.IsNullOrEmpty(speaker)) return speaker;
-        if (speaker == "나") return GetPlayerNameOrDefault();
+        if (speaker == "<PLAYER_NAME>") return GetPlayerNameOrDefault();
         return speaker;
     }
 
@@ -347,11 +350,11 @@ public class DialogueManager : MonoBehaviour
     {
         if (DataManager.Instance == null || DataManager.Instance.Player == null)
         {
-            return "나";
+            return "나학생";
         }
 
         string playerName = DataManager.Instance.Player.GetName();
-        return string.IsNullOrEmpty(playerName) ? "나" : playerName;
+        return string.IsNullOrEmpty(playerName) ? "나학생" : playerName;
     }
 
     public void NextLine()

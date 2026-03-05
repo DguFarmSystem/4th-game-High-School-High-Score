@@ -57,9 +57,9 @@ public class ToggleController : MonoBehaviour
             case StageType.Tutorial:
                 return true;
             case StageType.Restaurant:
-                return DataManager.Instance.Player.GetRestaurantCleared();
+                return DataManager.Instance.Player.GetTutorialCleared();
             case StageType.MusicRoom:
-                return DataManager.Instance.Player.GetMusicCleared();
+                return DataManager.Instance.Player.GetRestaurantCleared();
             case StageType.Gym:
                 return false;
             case StageType.HealthRoom:

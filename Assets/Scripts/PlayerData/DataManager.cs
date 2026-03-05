@@ -16,7 +16,7 @@ public class GameData
     // 생성자
     public GameData(string name)
     {
-        Name = string.IsNullOrEmpty(name) ? "나" : name;
+        Name = string.IsNullOrEmpty(name) ? "나학생" : name;
     }
 
     // ======= Methods ======= //
@@ -25,9 +25,23 @@ public class GameData
     public bool GetRestaurantCleared() => isRestaurantCleared;
     public bool GetMusicCleared() => isMusicCleared;
 
-    public void SetTutorialCleared(bool cleared) => isTutorialCleared = cleared;
-    public void SetRestaurantCleared(bool cleared) => isRestaurantCleared = cleared;
-    public void SetMusicCleared(bool cleared) => isMusicCleared = cleared;
+    public void SetTutorialCleared(bool cleared)
+    {
+        isTutorialCleared = cleared;
+        DataManager.Instance.SaveGameData();
+    }
+
+    public void SetRestaurantCleared(bool cleared)
+    {
+        isRestaurantCleared = cleared;
+        DataManager.Instance.SaveGameData();
+    }
+    
+    public void SetMusicCleared(bool cleared)
+    {
+        isMusicCleared = cleared;
+        DataManager.Instance.SaveGameData();
+    }
 
     public void UpdatePlayerName(string newName)
     {
@@ -75,9 +89,20 @@ public class DataManager : Singleton<DataManager>
     public string SaveFile { get; private set; } = "Save.json";
     public string SettingsFile { get; private set; } = "Settings.json";
 
-    public string Path { get; private set; }
-    public string savePath => Path + SaveFile;
-    public string settingsPath => Path + SettingsFile;
+    public string path { get; private set; }
+    
+//#if UNITY_ANDROID
+    // Android: persistentDataPath 사용 (쓰기 가능)
+    // Application.streamingAssetsPath는 읽기 전용이므로, Android에서는 persistentDataPath를 사용하여 저장합니다.
+    public string savePath => Path.Combine(Application.persistentDataPath, "Data", SaveFile);
+    public string settingsPath => Path.Combine(Application.persistentDataPath, "Data", SettingsFile);
+/*
+#else
+    // PC/에디터: 개발 편의성을 위해 streamingAssets 또는 persistentDataPath 사용
+    public string savePath => Path.Combine(Application.persistentDataPath, "Data", SaveFile);
+    public string settingsPath => Path.Combine(Application.persistentDataPath, "Data", SettingsFile);
+#endif
+*/
 
     // ========= Game Data Management ========= //
     public void CreateNewGame(string playerName)
@@ -90,6 +115,13 @@ public class DataManager : Singleton<DataManager>
     {
         // 현재 데이터를 JSON으로 직렬화
         string currentData = JsonUtility.ToJson(Player);
+
+        // 저장 폴더 확인
+        string directory = Path.GetDirectoryName(savePath);
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
 
         // 데이터 저장
         File.WriteAllText(savePath, currentData);
@@ -138,6 +170,13 @@ public class DataManager : Singleton<DataManager>
         if (existingData == currentData) return; // 변경 사항이 없으면 저장하지 않음
         */
 
+        // 저장 폴더 확인
+        string directory = Path.GetDirectoryName(settingsPath);
+        if (!Directory.Exists(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
         // 데이터 저장
         File.WriteAllText(settingsPath, currentData);
         Debug.Log("Saving Settings Data: " + currentData);
@@ -171,13 +210,21 @@ public class DataManager : Singleton<DataManager>
     {
         base.Awake();
 
-        Path = Application.persistentDataPath + "/Data/"; // Save 폴더 경로 초기화
+//#if UNITY_ANDROID
+        // Android: persistentDataPath 사용 (쓰기 가능)
+        path = Path.Combine(Application.persistentDataPath, "Data");
+/*
+#else
+        // PC/에디터: streamingAssets 또는 persistentDataPath
+        path = Path.Combine(Application.persistentDataPath, "Data");
+#endif
+*/
 
         // Save 폴더가 없으면 생성
-        if (!Directory.Exists(Path))
+        if (!Directory.Exists(path))
         {
-            Directory.CreateDirectory(Path);
-            Debug.Log("Save folder created at: " + Path);
+            Directory.CreateDirectory(path);
+            Debug.Log("Save folder created at: " + path);
         }
 
         if (File.Exists(settingsPath)) LoadSettingsData();
