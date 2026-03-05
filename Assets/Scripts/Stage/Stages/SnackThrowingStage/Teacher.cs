@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Stage;
 
 public class Teacher : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Teacher : MonoBehaviour
 
     private Animator _animator;
 
+    private SnackThrowingStage _stage;
     private enum State { Idle, Turning }
     private State _currentState = State.Idle;
     private float _stateTimer = 0f;
@@ -19,6 +21,8 @@ public class Teacher : MonoBehaviour
     private void TransitionToState(State newState)
     {
         _currentState = newState;
+
+        if(_stage.CurrentState != StageState.Playing) return; // 스테이지가 진행 중이 아닐 때는 상태 전환하지 않음
 
         switch (newState)
         {
@@ -79,6 +83,7 @@ public class Teacher : MonoBehaviour
     void Start()
     {
         _animator = GetComponent<Animator>();
+        _stage = FindObjectOfType<SnackThrowingStage>();
 
         _stateTimer = Random.Range(3f, 6f);
     }
