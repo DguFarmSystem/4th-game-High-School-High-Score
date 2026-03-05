@@ -16,7 +16,7 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
 
     [SerializeField] private AudioClip _stageBGM;
 
-    public float StageTimeLimit { get; private set; } = 30f; // 30초
+    public float StageTimeLimit { get; private set; } = 40f; // 40초
 
     public Action<bool> OnStageEnded { get; protected set; }
 
@@ -108,6 +108,13 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
     public void OnDisable()
     {
         OnStageEnded -= OnStageEndedGimmik;
+    }
+
+    void Awake()
+    {
+        // 컨베이어 아이템에 대한 정렬 방식 설정
+        Camera.main.transparencySortMode = TransparencySortMode.CustomAxis;
+        Camera.main.transparencySortAxis = new Vector3(0, 1, 1);
     }
 
     void Start()

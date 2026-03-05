@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -927,8 +927,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _HowManyConveyorPositions: 5
-  _conveyorStartPosition: {x: 0, y: -2.6, z: 0}
-  _conveyorEndPosition: {x: 0, y: 5, z: 0}
+  _conveyorStartPosition: {x: 0, y: -2.6, z: 9.9}
+  _conveyorEndPosition: {x: 0, y: 5, z: 9.9}
   _puddingPrefab: {fileID: 4392566086039860480, guid: 4490451d2546bac4fa5a67ea3eeb03f3,
     type: 3}
   _spoonSetPrefab: {fileID: 471463059390123574, guid: 9630a8516b218a249b41b0c061dae269,
