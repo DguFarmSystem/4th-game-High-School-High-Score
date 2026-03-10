@@ -7,7 +7,7 @@ public class BallMoving : MonoBehaviour
 {
     //경로 상의 모든 볼 이미지
     public Image[] TraceLine;
-    public float deltaBallMoving = 0.5f;
+    public float deltaBallMoving = 1.1f;
     public int BallNum = 0;
 
     //현재 몇번 볼이 켜져 있는지
@@ -56,6 +56,7 @@ public class BallMoving : MonoBehaviour
             }
 
             Tempdelta =  deltaBallMoving;
+            Debug.Log(deltaBallMoving);
         }
         else
         {

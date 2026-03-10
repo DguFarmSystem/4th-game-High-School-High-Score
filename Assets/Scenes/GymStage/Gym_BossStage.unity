@@ -1515,6 +1515,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 109561aa21be5394d8653292a709df78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Outer: {fileID: 2033116328}
+  Inner: {fileID: 1131249633}
 --- !u!1 &1000953455
 GameObject:
   m_ObjectHideFlags: 0
@@ -1777,7 +1779,7 @@ MonoBehaviour:
   - {fileID: 100845004}
   - {fileID: 1334846193}
   - {fileID: 1493837571}
-  deltaBallMoving: 0.5
+  deltaBallMoving: 1.1
   BallNum: 8
 --- !u!1 &1163793866
 GameObject:
@@ -3050,7 +3052,7 @@ MonoBehaviour:
   - {fileID: 764598125}
   - {fileID: 1426804945}
   - {fileID: 1000953457}
-  deltaBallMoving: 0.5
+  deltaBallMoving: 1.1
   BallNum: 11
 --- !u!1 &2079679535
 GameObject:
