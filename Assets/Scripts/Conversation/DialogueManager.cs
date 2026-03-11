@@ -387,8 +387,9 @@ public class DialogueManager : MonoBehaviour
                 gameMode,
                 prevScene
             );
-            LoadingSceneController.Instance.LoadScene(SceneNames.StageInitScene, StageManager.Instance.LoadNextStage);
             */
+            LoadingSceneController.Instance.LoadScene(SceneNames.StageInitScene, StageManager.Instance.LoadNextStage);
+            
         }
         else LoadingSceneController.Instance.LoadScene(SceneNames.Map);
     }
