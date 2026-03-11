@@ -165,7 +165,7 @@ public class StageManager : Singleton<StageManager>
                     if (_sceneIndex > 9)
                     {
                         //SetTutorialCleared(true);
-                        if (prevConvScene != SceneNames.TutorialConvStart)
+                        if (prevConvScene == SceneNames.TutorialConvStart)
                             nextConvScene = SceneNames.TutorialConvEnd;
                         
                         if (nextConvScene != null)
@@ -174,7 +174,7 @@ public class StageManager : Singleton<StageManager>
                         }
                         else
                         {
-                            LoadingSceneController.Instance.LoadScene(SceneNames.Map);
+                            yield return ExitToScene(SceneNames.Map);
                         }
                         yield break;
                     }
@@ -208,7 +208,7 @@ public class StageManager : Singleton<StageManager>
                         }
                         else
                         {
-                            LoadingSceneController.Instance.LoadScene(SceneNames.Map);
+                            yield return ExitToScene(SceneNames.Map);
                         }
                         yield break;
                     }
