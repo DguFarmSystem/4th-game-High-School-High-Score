@@ -98,6 +98,18 @@ public class MainMenuUI : MonoBehaviour
         if (DataManager.Instance.Player == null)
         {
             DataManager.Instance.CreateNewGame(name);
+            StageManager.Instance.Initialize(
+                new List<string>()
+                {
+                    SceneNames.BoardErasing,
+                    SceneNames.FindSeat,
+                    SceneNames.WindowClosing,
+                    SceneNames.SnackThrowing
+                },
+                "TutorialCS",
+                StageManager.GameMode.Tutorial,
+                SceneNames.TutorialConvStart
+            );
             LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvStart); // 추후 튜토리얼 화면으로 넘어가도록 변경
         }
         else
