@@ -3,7 +3,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class AttachableObject : MonoBehaviour
 {
-    [Header("이 물체가 붙을 자석 슬롯 번호")]
+    [Header("물체가 붙을 자석 슬롯 번호")]
     [SerializeField] private int preferredSlotIndex = 0;
 
     [Header("물체 내부에서 자석에 닿는 기준점")]
@@ -41,7 +41,7 @@ public class AttachableObject : MonoBehaviour
         }
 
         transform.SetParent(targetSlot, true);
-        transform.rotation = worldRot;   // <- 현재 월드 회전 유지
+        transform.rotation = worldRot;   // 현재 월드 회전 유지
 
         if (disableColliderOnAttach)
         {
