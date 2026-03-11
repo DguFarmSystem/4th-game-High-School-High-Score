@@ -26,6 +26,19 @@ public class MainMenuUI : MonoBehaviour
 
         if (!DataManager.Instance.Player.GetTutorialCleared())
         {
+            StageManager.Instance.Initialize(
+                new List<string>()
+                {
+                    SceneNames.BoardErasing,
+                    SceneNames.FindSeat,
+                    SceneNames.WindowClosing,
+                    SceneNames.SnackThrowing
+                },
+                "TutorialCS",
+                StageManager.GameMode.Tutorial,
+                SceneNames.TutorialConvStart
+            );
+
             // 플레이어 데이터가 있지만 튜토리얼을 클리어하지 않은 경우, 튜토리얼로 이동
             LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvStart);
         }
