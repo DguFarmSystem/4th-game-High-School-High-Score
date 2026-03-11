@@ -165,9 +165,17 @@ public class StageManager : Singleton<StageManager>
                     if (_sceneIndex > 9)
                     {
                         //SetTutorialCleared(true);
-                        nextConvScene = SceneNames.TutorialConvEnd;
-
-                        yield return ExitToScene(nextConvScene);
+                        if (prevConvScene != SceneNames.TutorialConvStart)
+                            nextConvScene = SceneNames.TutorialConvEnd;
+                        
+                        if (nextConvScene != null)
+                        {
+                            yield return ExitToScene(nextConvScene);
+                        }
+                        else
+                        {
+                            LoadingSceneController.Instance.LoadScene(SceneNames.Map);
+                        }
                         yield break;
                     }
 
@@ -189,9 +197,19 @@ public class StageManager : Singleton<StageManager>
                                 //SetMusicCleared(true);
                                 nextConvScene = SceneNames.MusicConvEnd;
                                 break;
+                            default:
+                                nextConvScene = null;
+                                break;
                         }
-                        
-                        yield return ExitToScene(nextConvScene);
+
+                        if (nextConvScene != null)
+                        {
+                            yield return ExitToScene(nextConvScene);
+                        }
+                        else
+                        {
+                            LoadingSceneController.Instance.LoadScene(SceneNames.Map);
+                        }
                         yield break;
                     }
 

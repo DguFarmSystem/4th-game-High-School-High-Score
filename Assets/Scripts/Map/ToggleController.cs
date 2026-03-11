@@ -71,18 +71,115 @@ public class ToggleController : MonoBehaviour
     public void TutorialButtonAction(bool isOn)
     {
         //��ư �������� �� �׼�
-        LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvStart);
+        if (!DataManager.Instance.Player.GetTutorialCleared())
+        {
+            StageManager.Instance.Initialize(
+                new List<string>()
+                {
+                    SceneNames.BoardErasing,
+                    SceneNames.FindSeat,
+                    SceneNames.WindowClosing,
+                    SceneNames.SnackThrowing
+                },
+                "TutorialCS",
+                StageManager.GameMode.Tutorial,
+                SceneNames.TutorialConvStart
+            );
+            LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvStart);
+        }
+        else
+        {
+            StageManager.Instance.Initialize(
+                new List<string>()
+                {
+                    SceneNames.BoardErasing,
+                    SceneNames.FindSeat,
+                    SceneNames.WindowClosing,
+                    SceneNames.SnackThrowing
+                },
+                "TutorialCS",
+                StageManager.GameMode.Tutorial,
+                null
+            );
+            LoadingSceneController.Instance.LoadScene(SceneNames.StageInitScene, StageManager.Instance.LoadNextStage);
+        }
     }
 
     public void RestaurantButtonAction(bool isOn)
     {
         //��ư �������� �� �׼�
-        LoadingSceneController.Instance.LoadScene(SceneNames.RestaurantConvStart);
+        if (!DataManager.Instance.Player.GetRestaurantCleared())
+        {
+            StageManager.Instance.Initialize(
+                new List<string>()
+                {
+                    SceneNames.RestaurantSpread,
+                    SceneNames.RestaurantCakeFire,
+                    SceneNames.RestaurantFruit,
+                    SceneNames.RestaurantFind,
+                    SceneNames.RestaurantBoss
+                },
+                "RestaurantCS",
+                StageManager.GameMode.Normal,
+                SceneNames.RestaurantConvStart
+            );
+            LoadingSceneController.Instance.LoadScene(SceneNames.RestaurantConvStart);
+        }
+        else
+        {
+            StageManager.Instance.Initialize(
+                new List<string>()
+                {
+                    SceneNames.RestaurantSpread,
+                    SceneNames.RestaurantCakeFire,
+                    SceneNames.RestaurantFruit,
+                    SceneNames.RestaurantFind,
+                    SceneNames.RestaurantBoss
+                },
+                "RestaurantCS",
+                StageManager.GameMode.Normal,
+                null
+            );
+            LoadingSceneController.Instance.LoadScene(SceneNames.StageInitScene, StageManager.Instance.LoadNextStage);
+        }
     }
 
     public void MusicRoomButtonAction(bool isOn)
     {
         //��ư �������� �� �׼�
-        LoadingSceneController.Instance.LoadScene(SceneNames.MusicConvStart);
+        if (!DataManager.Instance.Player.GetMusicRoomCleared())
+        {
+            StageManager.Instance.Initialize(
+            new List<string>()
+                {
+                    SceneNames.MusicGuitar,
+                    SceneNames.MusicPlay,
+                    SceneNames.MusicPiano,
+                    SceneNames.MusicDance,
+                    SceneNames.MusicBeat
+                },
+                "MusicCS",
+                StageManager.GameMode.Normal,
+                SceneNames.MusicConvStart
+            );
+            LoadingSceneController.Instance.LoadScene(SceneNames.MusicConvStart);
+        }
+        else
+        {
+            StageManager.Instance.Initialize(
+                new List<string>()
+                {
+                    SceneNames.MusicGuitar,
+                    SceneNames.MusicPlay,
+                    SceneNames.MusicPiano,
+                    SceneNames.MusicDance,
+                    SceneNames.MusicBeat
+                },
+                "MusicCS",
+                StageManager.GameMode.Normal,
+                null
+            );
+            LoadingSceneController.Instance.LoadScene(SceneNames.StageInitScene, StageManager.Instance.LoadNextStage);
+        }
     }
 }

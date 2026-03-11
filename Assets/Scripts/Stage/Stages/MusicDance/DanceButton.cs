@@ -11,7 +11,7 @@ public class DanceButton : MonoBehaviour
 
     private SpriteRenderer selectedFX;
     private bool isCorrectBtn = false;
-    private static bool isTapped = false;
+    //private static bool isTapped = false;
 
     private MusicDanceStage _musicDanceStage;
 
@@ -69,7 +69,7 @@ public class DanceButton : MonoBehaviour
             InputManager.Instance._tapAction.performed += OnTap;
         }
 
-        isTapped = false;
+        //isTapped = false;
     }
 
     void OnDisable()

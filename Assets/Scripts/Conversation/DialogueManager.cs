@@ -33,7 +33,7 @@ public class DialogueManager : MonoBehaviour
     private string stageKey;
     [SerializeField]
     private StageManager.GameMode gameMode;
-    private string prevScene;
+    //private string prevScene;
 
     [SerializeField]
     private bool isEndConv;
@@ -131,7 +131,7 @@ public class DialogueManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        prevScene = SceneManager.GetActiveScene().name;
+        //prevScene = SceneManager.GetActiveScene().name;
 
         Character1Img = Character1.GetComponent<Image>();
         Character2Img = Character2.GetComponent<Image>();
@@ -380,6 +380,7 @@ public class DialogueManager : MonoBehaviour
 
         if (!isEndConv) 
         {
+            /*
             StageManager.Instance.Initialize(
                 nextScenes,
                 stageKey,
@@ -387,6 +388,7 @@ public class DialogueManager : MonoBehaviour
                 prevScene
             );
             LoadingSceneController.Instance.LoadScene(SceneNames.StageInitScene, StageManager.Instance.LoadNextStage);
+            */
         }
         else LoadingSceneController.Instance.LoadScene(SceneNames.Map);
     }

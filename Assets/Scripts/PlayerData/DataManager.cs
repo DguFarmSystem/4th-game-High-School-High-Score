@@ -23,7 +23,7 @@ public class GameData
     public string GetName() => Name;
     public bool GetTutorialCleared() => isTutorialCleared;
     public bool GetRestaurantCleared() => isRestaurantCleared;
-    public bool GetMusicCleared() => isMusicCleared;
+    public bool GetMusicRoomCleared() => isMusicCleared;
 
     public void SetTutorialCleared(bool cleared)
     {
