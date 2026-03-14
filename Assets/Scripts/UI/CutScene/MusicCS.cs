@@ -73,7 +73,7 @@ public class MusicCS : CutScene
         }
 
         /* ============ 기본 출력 ============ */
-        if (!SoundManager.Instance.BGMSource.isPlaying) SoundManager.Instance.PlayBGM(_bgaudioClip);
+        if (!SoundManager.Instance.BGMSource.isPlaying || _startFlag) SoundManager.Instance.PlayBGM(_bgaudioClip);
 
         foreach (var hp in _HPGameObjects)
         {

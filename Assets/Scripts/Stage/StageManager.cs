@@ -135,6 +135,7 @@ public class StageManager : Singleton<StageManager>
 
     void EnsureUI()
     {
+        _ui.SetActive(true);
         if (_uiController != null) return;
         _uiController = gameObject.GetComponentInChildren<CutScene>();
     }
