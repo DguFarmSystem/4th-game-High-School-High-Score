@@ -44,7 +44,7 @@ public class InputManager : Singleton<InputManager>
 
         _tapAction.performed += tapPerformed;
 
-        _pressAction.performed += pressPerformed;
+        _pressAction.started += pressStarted;
         _pressAction.canceled += pressCanceled;
 
         _positionAction.performed += getTouchPosition;
@@ -52,6 +52,13 @@ public class InputManager : Singleton<InputManager>
 
         _dragAction.performed += getDragDelta;
         _dragAction.canceled += initDragDelta;
+
+        /*
+        _tapAction.Enable();
+        _pressAction.Enable();
+        _positionAction.Enable();
+        _dragAction.Enable();
+        */
     }
     private void OnDisable()
     {
@@ -59,7 +66,7 @@ public class InputManager : Singleton<InputManager>
 
         _tapAction.performed -= tapPerformed;
 
-        _pressAction.performed -= pressPerformed;
+        _pressAction.started -= pressStarted;
         _pressAction.canceled -= pressCanceled;
 
         _positionAction.performed -= getTouchPosition;
@@ -67,6 +74,13 @@ public class InputManager : Singleton<InputManager>
 
         _dragAction.performed -= getDragDelta;
         _dragAction.canceled -= initDragDelta;
+
+        /*
+        _tapAction.Disable();
+        _pressAction.Disable();
+        _positionAction.Disable();
+        _dragAction.Disable();
+        */
     }
 
     private void tapPerformed(InputAction.CallbackContext context)
@@ -77,7 +91,7 @@ public class InputManager : Singleton<InputManager>
         OnStageTapPerformed?.Invoke(); // 탭이 발생했을 때 이벤트 호출
     }
 
-    private void pressPerformed(InputAction.CallbackContext context)
+    private void pressStarted(InputAction.CallbackContext context)
     {
         _isPressing = true; // 터치 상태를 true로 설정
         _pressedCollider = GetTouchedCollider2D(_touchWorldPos); // 현재 터치한 콜라이더를 선택된 콜라이더로 설정
@@ -166,22 +180,6 @@ public class InputManager : Singleton<InputManager>
     public override void Awake()
     {
         base.Awake();
-
-        /*
-        #if UNITY_EDITOR
-
-        // Touchscreen 디바이스를 설정
-        var touchscreen = InputSystem.GetDevice<Touchscreen>();
-            if (touchscreen != null)
-            {
-                Debug.Log("Touchscreen 디바이스가 설정되었습니다.");
-            }
-            else
-            {
-                Debug.LogWarning("Touchscreen 디바이스를 찾을 수 없습니다.");
-            }
-        #endif
-        */
 
         if (TryGetComponent<PlayerInput>(out var playerInput))
         {
