@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Stage;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 public class PutAwayStage : StageNormal
 {
@@ -32,7 +34,8 @@ public class PutAwayStage : StageNormal
     public StageState CurrentState => CurrentStageState;
 
     private GameObject _currentBall = null;
-    private List<GameObject> _allBalls;
+    private List<GameObject> _ballSpawnPools;
+    private List<GameObject> _ballInstances = new List<GameObject>();
 
     private GameObject _activeBasket;
 
@@ -56,9 +59,28 @@ public class PutAwayStage : StageNormal
 
     private void StartTouch()
     {
-        if (_currentBall != basket_LowLevel && _currentBall != basket_HighLevel)
+        _currentBall = InputManager.Instance.PressedCollider?.gameObject;
+
+        if (_currentBall != null && _currentBall != basket_LowLevel && _currentBall != basket_HighLevel)
         {
-            _currentBall = InputManager.Instance.PressedCollider?.gameObject;
+            SpriteRenderer sr = _currentBall.GetComponent<SpriteRenderer>();
+            
+            if (sr != null)
+            {
+                foreach (var ball in _ballInstances)
+                {
+                    if (ball != _currentBall && ball.GetComponent<SpriteRenderer>().sortingOrder > sr.sortingOrder)
+                    {
+                        ball.GetComponent<SpriteRenderer>().sortingOrder--;
+                    }
+                }
+
+                sr.sortingOrder = _ballInstances.Count + 1; // 가장 위에 오도록 설정
+            }
+        }
+        else
+        {
+            _currentBall = null; // 바구니는 드래그할 수 없도록 설정
         }
     }
 
@@ -67,6 +89,10 @@ public class PutAwayStage : StageNormal
         if (_currentBall != null)
         {
             _currentBall.transform.position = newPos;
+
+            PlayGroundBall ballScript = _currentBall.GetComponent<PlayGroundBall>();
+
+            ballScript.SetInBasket(ballScript.IsFullyInside(_activeBasket.GetComponent<Collider2D>()));
         }
     }
 
@@ -90,9 +116,15 @@ public class PutAwayStage : StageNormal
         }
     }
 
+    public void SetStageClear(bool isCleared)
+    {
+        if (isCleared) OnStageClear();
+        else CurrentStageState = StageState.Playing;
+    }
+
     void SpawnBalls(int count)
     {
-        if (_allBalls.Count == 0) return;
+        if (_ballSpawnPools.Count == 0) return;
 
         Camera cam = Camera.main;
         float dist = Mathf.Abs(cam.transform.position.z);
@@ -100,8 +132,9 @@ public class PutAwayStage : StageNormal
         Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, dist));
         Vector3 topright = cam.ViewportToWorldPoint(new Vector3(1, 1, dist));
 
-        foreach (var ball in _allBalls)
+        foreach (var ball in _ballSpawnPools)
         {
+            int idx = _ballSpawnPools.IndexOf(ball);
             Vector3 spawnPos;
             while(true)
             {
@@ -117,7 +150,9 @@ public class PutAwayStage : StageNormal
                     break;
             }
 
-            Instantiate(ball, spawnPos, Quaternion.Euler(0, 0, Random.Range(0f, 360f)));
+            GameObject ballInstance = Instantiate(ball, spawnPos, Quaternion.Euler(0, 0, Random.Range(0f, 360f)));
+            ballInstance.GetComponent<SpriteRenderer>().sortingOrder = idx + 2; // 바구니보다 위에 오도록 설정
+            _ballInstances.Add(ballInstance);
         }
     }
 
@@ -141,7 +176,7 @@ public class PutAwayStage : StageNormal
     void Awake()
     {
         int level = StageManager.Instance.GetDifficulty();
-        _allBalls = level switch
+        _ballSpawnPools = level switch
         {
             1 => new List<GameObject> { basketball_Prefab, basketball_Prefab, basketball_Prefab }, //3
             2 => new List<GameObject> { soccerBall_Prefab, soccerBall_Prefab, waterMelon_Prefab, globe_Prefab }, //4
@@ -171,7 +206,7 @@ public class PutAwayStage : StageNormal
                 Debug.LogError("Invalid stage level: " + level);
                 break;
         }
-        SpawnBalls(_allBalls.Count);
+        SpawnBalls(_ballSpawnPools.Count);
     }
 
     void Start()
@@ -184,11 +219,26 @@ public class PutAwayStage : StageNormal
     
     void Update()
     {   
-        /*
-        if (CurrentStageState == StageState.Playing)
+        foreach (var ball in _ballInstances)
         {
-            OnStageClear(); // 모든 조건이 완료되면 스테이지 클리어 처리
+            PlayGroundBall ballScript = ball.GetComponent<PlayGroundBall>();
+
+            if (!ballScript.IsRealBall() && ballScript.IsInBasket())
+            {
+                SetStageClear(false);
+                Debug.Log("Fail Condition");
+                return;
+            }
+
+            if (ballScript.IsRealBall() && !ballScript.IsInBasket())
+            {
+                SetStageClear(false);
+                Debug.Log("Fail Condition");
+                return;
+            }
         }
-        */
+
+        SetStageClear(true);
+        Debug.Log("Clear Condition");
     }
 }

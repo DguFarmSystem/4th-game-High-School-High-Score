@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7891385293261660086}
   - component: {fileID: 7891385293261660087}
   - component: {fileID: 7891385293261660080}
+  - component: {fileID: 7167640210813659978}
   m_Layer: 0
   m_Name: BasketBall
   m_TagString: Untagged
@@ -101,3 +102,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 3.7950006
+--- !u!114 &7167640210813659978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7891385293261660081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8d9335452bb71346bc7b467f79b645d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isRealBall: 1

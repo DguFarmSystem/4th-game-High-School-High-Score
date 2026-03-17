@@ -7,24 +7,46 @@ public class PlayGroundBall : MonoBehaviour
 {
     [SerializeField] private bool isRealBall;
 
-    public bool IsRealBall() => isRealBall;
+    private bool isInBasket = false;
 
-    public bool IsFullyInside(Collider2D a, Collider2D b)
+    public bool IsRealBall() => isRealBall;
+    public bool IsInBasket() => isInBasket;
+    public void SetInBasket(bool value) => isInBasket = value;
+
+    public bool IsFullyInside(Collider2D target)
     {
         /*
         if (a is PolygonCollider2D poly)
             return PolygonInside(poly, b);
-        */
+        
 
         if (a is BoxCollider2D box)
             return IsBoxInside(box, b);
 
         if (a is CircleCollider2D circle)
             return IsCircleInside(circle, b);
+        */
+        Vector2 center = GetComponent<CircleCollider2D>().transform.TransformPoint(GetComponent<CircleCollider2D>().offset);
+        float radius = GetComponent<CircleCollider2D>().radius * GetComponent<CircleCollider2D>().transform.lossyScale.x;
 
-        return false;
+        int sample = 16; // 샘플링 포인트 수
+
+        for (int i = 0; i < sample; i++)
+        {
+            float angle = i * Mathf.PI * 2 / sample;
+
+            Vector2 point = center + new Vector2(
+                Mathf.Cos(angle),
+                Mathf.Sin(angle)
+            ) * radius;
+
+            if (!target.OverlapPoint(point)) return false;
+        }
+
+        return true;
     }
 
+    /*
     bool IsPolygonInside(Collider2D a, Collider2D b)
     {
         PolygonCollider2D poly = a as PolygonCollider2D;
@@ -85,4 +107,5 @@ public class PlayGroundBall : MonoBehaviour
 
         return true;
     }
+    */
 }
