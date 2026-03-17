@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4718252736507538758}
   - component: {fileID: 8525167040229243133}
   - component: {fileID: 8518929488810803899}
+  - component: {fileID: -6624071708244272031}
   m_Layer: 0
   m_Name: Slice_PearA
   m_TagString: Untagged
@@ -117,9 +118,21 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.6681621, y: -1.8765409}
   serializedVersion: 2
   m_Radius: 5.2017837
+--- !u!114 &-6624071708244272031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2565388116672613624}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fea4ad3adb0ee44db8abb3a2f6f163a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

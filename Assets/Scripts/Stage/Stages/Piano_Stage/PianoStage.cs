@@ -36,7 +36,7 @@ public class PianoStage : StageNormal
     GameObject Effect;
     GameObject TheEffect;
     [SerializeField]
-    SpriteRenderer Key;
+    Image Key;
     [SerializeField]
     Sprite DefaultKey;
     int answercount = 0;
@@ -53,6 +53,9 @@ public class PianoStage : StageNormal
 
     [SerializeField]
     InputManager InputManager;
+
+    [SerializeField]
+    GameObject K;
     void Start()
     {
         time = 5;
@@ -191,10 +194,14 @@ public class PianoStage : StageNormal
         Key.sprite = KeySprite[n - 1];
         Answer[answercount] = n; answercount++;
         TheEffect = Effect.transform.GetChild(n - 1).gameObject;
-        print(TheEffect.name);
         TheEffect.GetComponent<SpriteRenderer>().enabled = true;
         theaudio.PlayOneShot(sounds[n - 1]);
 
         Pressed = true;
+    }
+    public void HIT(int a)
+    {
+        if(!Teaching&&time>0)
+        OnPianoHit(a);
     }
 }

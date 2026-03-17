@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.30692166, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -591,8 +591,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 092e2b3b17acc6c43a02a112d8fc3d36,
     type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
+  m_NotificationBehavior: 3
+  m_UIInputModule: {fileID: 1715734115}
   m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -602,12 +602,36 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7b8ad407-8f10-4a0c-a579-bbfc1eb9acba
+    m_ActionName: User/Tap[/Device Simulator Touchscreen/primaryTouch/tap]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: edebfc6e-8156-4de5-920d-d7f144839b26
+    m_ActionName: User/Press[/Device Simulator Touchscreen/press]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3d7334b6-20c6-4531-8a1c-83856394c043
+    m_ActionName: User/TouchPosition[/Device Simulator Touchscreen/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: da5caab0-839e-4d08-ba9d-73f286657d9a
+    m_ActionName: User/Drag[/Device Simulator Touchscreen/delta]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a9932732-0e1d-44ce-8b17-24f354801f36
+    m_ActionName: UI/Point[/Device Simulator Touchscreen/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 780000f5-84d7-48ac-8b1f-ff5f095385f9
+    m_ActionName: UI/Click[/Device Simulator Touchscreen/press]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: User
   m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 963194227}
 --- !u!114 &121199601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1488,7 +1512,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 100, y: 250}
+  m_AnchoredPosition: {x: 100, y: 351.42}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1201230038
@@ -1849,7 +1873,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1503f8458578c4840b216caba336b850, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0
