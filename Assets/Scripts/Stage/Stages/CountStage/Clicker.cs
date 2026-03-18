@@ -16,6 +16,6 @@ public class Clicker : MonoBehaviour
     public void CountUp()
     {
         countNum++;
-        countText.text = countNum.ToString();
+        countText.text = countNum.ToString("D5");
     }
 }

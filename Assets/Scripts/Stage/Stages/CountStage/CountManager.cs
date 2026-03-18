@@ -88,7 +88,7 @@ public class CountManager : StageNormal
         if (clicker != null)
         {
             clicker.countNum = 0;
-            if (clicker.countText != null) clicker.countText.text = "0";
+            if (clicker.countText != null) clicker.countText.text = clicker.countNum.ToString("D5");
             // 게임 시작 전(카운트다운 중)에는 클릭 방지
             if (clicker.myButton != null) clicker.myButton.interactable = false;
         }
