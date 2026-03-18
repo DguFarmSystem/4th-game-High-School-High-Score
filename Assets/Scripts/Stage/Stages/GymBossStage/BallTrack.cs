@@ -48,6 +48,11 @@ public class BallTrack : MonoBehaviour
         return Fallen;
     }
 
+    public void SetdeltaBallMoving(float BallSpeed)
+    {
+        deltaBallMoving = BallSpeed;
+    }
+
     public void AddBall(int index, bool Rightward)
     {
         Ball NewBall = new Ball(index, Rightward);

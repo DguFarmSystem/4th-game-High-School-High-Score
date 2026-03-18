@@ -64,14 +64,20 @@ public class GymBossStage : StageNormal
         if (remainTime == 24)
         {
             Outer.AddBall(6, RandomWay);
+            Outer.SetdeltaBallMoving(0.7f);
+            Inner.SetdeltaBallMoving(0.7f);
         }
         else if (remainTime == 18)
         {
             Inner.AddBall(5, RandomWay);
+            Outer.SetdeltaBallMoving(0.5f);
+            Inner.SetdeltaBallMoving(0.5f);
         }
         else if (remainTime == 8)
         {
             Outer.AddBall(2, RandomWay);
+            Outer.SetdeltaBallMoving(0.4f);
+            Inner.SetdeltaBallMoving(0.4f);
         }
     }
 
