@@ -215,6 +215,12 @@ public class CountManager : StageNormal
                 rect.anchoredPosition = Vector2.zero;
                 rect.localScale = Vector3.one;
             }
+
+            // 귀여운 대각선 뒤틀림 애니메이션 추가
+            if (spawnedAnimal.GetComponent<AnimalWiggle>() == null)
+            {
+                spawnedAnimal.AddComponent<AnimalWiggle>();
+            }
         }
 
         var rb = spawnedAnimal.GetComponent<Rigidbody2D>();
