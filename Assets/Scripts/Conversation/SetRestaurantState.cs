@@ -7,6 +7,6 @@ public class SetRestaurantState : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StageManager.Instance.SetRestaurantCleared(true);
+        DataManager.Instance.Player.SetRestaurantCleared(true);
     }
 }

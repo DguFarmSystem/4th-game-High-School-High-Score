@@ -71,7 +71,7 @@ public class Conveyor : MonoBehaviour
         float elapsedTime = 0f;
         float duration = 3f;
         float speed = 6.2f;
-        Vector3 offset = direction ? Vector3.right : Vector3.left;
+        Vector3 offset = direction ? new Vector3(1, 0, 0.1f) : new Vector3(-1, 0, 0.1f);
 
         while (elapsedTime < duration)
         {

@@ -17,7 +17,7 @@ public class TimerBar : MonoBehaviour
     {
         if (stage != null)
         {
-            float fillAmount = Mathf.Clamp01(stage.StageTimeLimit / 30f); // 최대 시간이 30초라고 가정
+            float fillAmount = Mathf.Clamp01(stage.StageTimeLimit / 40f); // 최대 시간이 40초라고 가정
             _timerFillImage.fillAmount = fillAmount;
         }
     }

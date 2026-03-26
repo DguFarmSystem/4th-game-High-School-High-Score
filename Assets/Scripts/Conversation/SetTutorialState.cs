@@ -7,6 +7,6 @@ public class SetTutorialState : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StageManager.Instance.SetTutorialCleared(true);
+        DataManager.Instance.Player.SetTutorialCleared(true);
     }
 }

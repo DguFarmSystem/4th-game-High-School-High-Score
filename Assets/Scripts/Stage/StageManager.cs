@@ -22,14 +22,6 @@ public class StageManager : Singleton<StageManager>
     public enum GameMode { Tutorial, Normal, Infinite }
     private GameMode _gameMode = GameMode.Normal;
 
-    public bool isTutorialCleared { get; private set; } = false;
-    public bool isRestaurantCleared { get; private set; } = false;
-    public bool isMusicCleared { get; private set; } = false;
-
-    public void SetTutorialCleared(bool cleared) => isTutorialCleared = cleared;
-    public void SetRestaurantCleared(bool cleared) => isRestaurantCleared = cleared;
-    public void SetMusicCleared(bool cleared) => isMusicCleared = cleared;
-
     private string prevConvScene = null;
     private string nextConvScene = null;
 
@@ -38,7 +30,7 @@ public class StageManager : Singleton<StageManager>
         _sceneNames = sceneNames;
         _ui = Instantiate(_skinData.GetDictionary()[CutSceneSkin]);
         _ui.transform.SetParent(transform);
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
 
         _gameMode = gameMode;
 
@@ -143,6 +135,7 @@ public class StageManager : Singleton<StageManager>
 
     void EnsureUI()
     {
+        _ui.SetActive(true);
         if (_uiController != null) return;
         _uiController = gameObject.GetComponentInChildren<CutScene>();
     }
@@ -156,6 +149,7 @@ public class StageManager : Singleton<StageManager>
 
     public void LoadNextStage()
     {
+        gameObject.SetActive(true);
         StartCoroutine(LoadSceneCoroutine());
     }
 
@@ -172,8 +166,17 @@ public class StageManager : Singleton<StageManager>
                     if (_sceneIndex > 9)
                     {
                         //SetTutorialCleared(true);
-                        nextConvScene = SceneNames.TutorialConvEnd;
-                        yield return ExitToScene(SceneNames.Map);
+                        if (prevConvScene == SceneNames.TutorialConvStart)
+                            nextConvScene = SceneNames.TutorialConvEnd;
+                        
+                        if (nextConvScene != null)
+                        {
+                            yield return ExitToScene(nextConvScene);
+                        }
+                        else
+                        {
+                            yield return ExitToScene(SceneNames.Map);
+                        }
                         yield break;
                     }
 
@@ -195,9 +198,19 @@ public class StageManager : Singleton<StageManager>
                                 //SetMusicCleared(true);
                                 nextConvScene = SceneNames.MusicConvEnd;
                                 break;
+                            default:
+                                nextConvScene = null;
+                                break;
                         }
-                        
-                        yield return ExitToScene(nextConvScene);
+
+                        if (nextConvScene != null)
+                        {
+                            yield return ExitToScene(nextConvScene);
+                        }
+                        else
+                        {
+                            yield return ExitToScene(SceneNames.Map);
+                        }
                         yield break;
                     }
 

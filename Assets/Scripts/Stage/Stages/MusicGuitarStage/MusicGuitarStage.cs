@@ -42,6 +42,7 @@ public class MusicGuitarStage : StageNormal
 
     private void OnStageEndedGimmik(bool isStageCleared)
     {
+        CrowdAudio.Stop();
 
         if (isStageCleared)
         {

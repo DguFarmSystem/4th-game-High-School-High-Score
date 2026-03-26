@@ -22,9 +22,10 @@ public class TurnMusicOnStage : StageNormal
     {
         StageGimmik();
         TheAudio.volume = TheScroll.value * 0.5f;
-        if (TimerTime<=0&&TheScroll.value>0.77f&&TheScroll.value<0.86)
+        if (TimerTime >= 0f)
         {
-            OnStageClear();
+            if (TheScroll.value > 0.77f && TheScroll.value < 0.86f) OnStageClear();
+            else CurrentStageState = StageState.Playing;
         }
         
         print(TheScroll.value);

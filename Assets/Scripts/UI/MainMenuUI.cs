@@ -17,31 +17,36 @@ public class MainMenuUI : MonoBehaviour
 
     public void GameStart()
     {
-        // ============== 전시회 임시 조치, 나중에 삭제 ==============
-        /*
+
         if (DataManager.Instance.Player == null)
         {
             PopUpEnterNameWindow(true);
             return;
         }
-        */
 
-        LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvStart); // 추후 세이브 데이터와 연계하도록 변경
-        
-        /*
-        StageManager.Instance.Initialize(
-            new List<string> {
-                SceneNames.FindSeat,
-                SceneNames.FindSeat,
-                SceneNames.FindSeat,
-                SceneNames.SnackThrowing,
-            },
-            "tutorial"
-            ,
-            StageManager.GameMode.Tutorial
-        );
-        StageManager.Instance.LoadNextStage();
-        */
+        if (!DataManager.Instance.Player.GetTutorialCleared())
+        {
+            StageManager.Instance.Initialize(
+                new List<string>()
+                {
+                    SceneNames.BoardErasing,
+                    SceneNames.FindSeat,
+                    SceneNames.WindowClosing,
+                    SceneNames.SnackThrowing
+                },
+                "TutorialCS",
+                StageManager.GameMode.Tutorial,
+                SceneNames.TutorialConvStart
+            );
+
+            // 플레이어 데이터가 있지만 튜토리얼을 클리어하지 않은 경우, 튜토리얼로 이동
+            LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvStart);
+        }
+        else
+        {
+            // 플레이어 데이터가 존재하는 경우, 맵으로 이동
+            LoadingSceneController.Instance.LoadScene(SceneNames.Map);
+        }
     }
 
     public void PopUpSettings()
@@ -93,6 +98,18 @@ public class MainMenuUI : MonoBehaviour
         if (DataManager.Instance.Player == null)
         {
             DataManager.Instance.CreateNewGame(name);
+            StageManager.Instance.Initialize(
+                new List<string>()
+                {
+                    SceneNames.BoardErasing,
+                    SceneNames.FindSeat,
+                    SceneNames.WindowClosing,
+                    SceneNames.SnackThrowing
+                },
+                "TutorialCS",
+                StageManager.GameMode.Tutorial,
+                SceneNames.TutorialConvStart
+            );
             LoadingSceneController.Instance.LoadScene(SceneNames.TutorialConvStart); // 추후 튜토리얼 화면으로 넘어가도록 변경
         }
         else

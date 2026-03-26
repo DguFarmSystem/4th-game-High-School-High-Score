@@ -94,7 +94,7 @@ public class FruitSlicingStage : StageNormal
                     Instantiate(Fruits[Fruitnum], new Vector3(12, SpawnY, 0), Fruits[Fruitnum].transform.rotation);
                 }
                 CurrentCount++;
-                time =consttime;
+                time = consttime;
             }
         }
         
@@ -117,6 +117,7 @@ public class FruitSlicingStage : StageNormal
     {
         InputManager.Instance.OnStageTapPerformed -= StageGimmik;
         theaudio.Stop();
+        
         if (isStageCleared)
         {
             Debug.Log("Cleared");
@@ -141,14 +142,16 @@ public class FruitSlicingStage : StageNormal
 
     private void StageGimmik()
     {
-        Debug.Log(InputManager.TouchWorldPos);
-        if(Input.GetMouseButtonDown(0)) theaudio.PlayOneShot(audioClip);
-        if (InputManager.TouchedCollider != null)
+        Debug.Log(InputManager.Instance.TouchWorldPos);
+
+        theaudio.PlayOneShot(audioClip);
+
+        if (InputManager.Instance.TouchedCollider != null)
         {
-            if (InputManager.TouchedCollider.gameObject.tag == "Fruit")
+            if (InputManager.Instance.TouchedCollider.gameObject.tag == "Fruit")
             {
-                //Instantiate(Effect, InputManager.Instance.TouchWorldPos, Effect.transform.rotation);
-                InputManager.TouchedCollider.gameObject.tag = "Untagged";
+                Instantiate(Effect, InputManager.Instance.TouchWorldPos, Effect.transform.rotation);
+                InputManager.Instance.TouchedCollider.gameObject.tag = "Untagged";
                 GreenChecks[SliceCount].SetActive(true);
                 SliceCount++;
             }

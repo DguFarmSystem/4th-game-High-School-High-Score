@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
 [System.Serializable]
 public class ConversationLine
@@ -32,7 +33,7 @@ public class DialogueManager : MonoBehaviour
     private string stageKey;
     [SerializeField]
     private StageManager.GameMode gameMode;
-    private string prevScene;
+    //private string prevScene;
 
     [SerializeField]
     private bool isEndConv;
@@ -50,10 +51,18 @@ public class DialogueManager : MonoBehaviour
     public List<Sprite> ImageList;
 
     [Header("JSON Settings")]
-    public string jsonFileName = null;
+    public string jsonFileName;
 
-    [Header("Typing Settings")]
-    public float typingSpeed = 0.05f;
+    //[Header("Typing Settings")]
+    public float typingSpeed => DataManager.Instance != null && DataManager.Instance.Settings != null
+        ? DataManager.Instance.Settings.GetScriptSpeed() switch
+        {
+            ScriptSpeedState.Slow => 0.1f,
+            ScriptSpeedState.Normal => 0.05f,
+            ScriptSpeedState.Fast => 0.02f,
+            _ => 0.05f,
+        }
+        : 0.05f; // Default to Normal if settings are unavailable
 
     [Header("BGM Settings")]
     public AudioSource BGMSource;
@@ -93,7 +102,7 @@ public class DialogueManager : MonoBehaviour
         {
             // Ÿ���� ���̸� ���?? ��ü ���� ǥ��
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-            dialogueText.text = currentLineFullText;
+            dialogueText.text = currentLineFullText; // ISSUE: 치환된 <PLAYER_NAME> 토큰이 포함된 전체 텍스트를 즉시 표시해야함!
             isTyping = false;
             //타이핑 소리 중단
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
@@ -122,7 +131,7 @@ public class DialogueManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        prevScene = SceneManager.GetActiveScene().name;
+        //prevScene = SceneManager.GetActiveScene().name;
 
         Character1Img = Character1.GetComponent<Image>();
         Character2Img = Character2.GetComponent<Image>();
@@ -130,8 +139,9 @@ public class DialogueManager : MonoBehaviour
         c.a = 0;
         Character1Img.color = c;
         Character2Img.color = c;
-        LoadConversation();
-        ShowLine();
+        //LoadConversation();
+        //ShowLine();
+        StartCoroutine(LoadConversationRoutine());
     }
 
     // Update is called once per frame
@@ -156,7 +166,67 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public virtual void ShowLine()
+    public IEnumerator LoadConversationRoutine()
+    {
+        string jsonData = "";
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Texts", jsonFileName);
+        
+    #if UNITY_EDITOR || UNITY_STANDALONE
+        // --- PC 에디터 또는 PC 빌드 환경 ---
+
+        Debug.Log("PC/Editor 로드 경로: " + filePath);
+
+        if (File.Exists(filePath))
+        {
+            jsonData = File.ReadAllText(filePath);
+        }
+        else
+        {
+            Debug.LogError("파일을 찾을 수 없습니다: " + filePath);
+        }
+
+    #elif UNITY_ANDROID
+        // --- Android 빌드 환경 ---
+
+        Debug.Log("Android 로드 시도 경로: " + filePath);
+
+        using (UnityWebRequest www = UnityWebRequest.Get(filePath))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                jsonData = www.downloadHandler.text;
+            }
+            else
+            {
+                // 상세 에러와 경로를 함께 출력해 대소문자 오타 확인
+                Debug.LogError($"[Load Error] 경로: {filePath} | 에러: {www.error}");
+            }
+        }
+
+    #endif
+
+        // 데이터 할당 (공통)
+        if (!string.IsNullOrEmpty(jsonData))
+        {
+            conversationData = JsonUtility.FromJson<ConversationData>(jsonData);
+            Debug.Log("JSON 파싱 완료");
+
+            yield return null;
+            ShowLine();
+        }
+    }
+
+    /*
+     characterImage
+    -1 : �ƹ� �̹����� �����?? �ʴ´�.
+    0 : ���ΰ� ȥ�� ��ȭâ�� ����, ��ġ �ٲٰ� �迭 3��
+    1 : ù ���� - ü���� ��ȭ ����, left element 2, right element 1
+    2 : ���ΰ��� ü���� �� ���??. ���ΰ� ���� ȿ��. left element 0, right element 3
+    3 : ü�� ���� ȿ��.
+     */
+    void ShowLine()
     {
         //Settings for clearing image
         Color c = Character2Img.color;
@@ -165,7 +235,7 @@ public class DialogueManager : MonoBehaviour
         if (conversationData != null && currentIndex < conversationData.conversation.Count)
         {
             ConversationLine line = conversationData.conversation[currentIndex];
-            speakerText.text = line.speaker;
+            speakerText.text = ResolveSpeakerName(line.speaker);
 
             if(line.characterImage == -1)
             {
@@ -269,7 +339,10 @@ public class DialogueManager : MonoBehaviour
 
         if (line.texts != null && currentTextIndex < line.texts.Count)
         {
+            // 원본 텍스트에서 모든 <PLAYER_NAME> 토큰을 미리 치환
             currentLineFullText = line.texts[currentTextIndex];
+            currentLineFullText = currentLineFullText.Replace("<PLAYER_NAME>", GetPlayerNameOrDefault());
+
             dialogueText.text = "";
 
             //이벤트 사운드 플레이
@@ -284,23 +357,15 @@ public class DialogueManager : MonoBehaviour
                 EventSound.Play();
             }
 
-            ////타이핑 사운드 플레이
-            //if (!TypingSound.isPlaying)
-            //{
-            //    TypingSound.clip = EffectSounds[0];
-            //    TypingSound.loop = true;
-            //    TypingSound.Play();
-            //}
-
             TypingSound.Stop();
             TypingSound.clip = EffectSounds[0];
             TypingSound.loop = true;
             TypingSound.Play();
 
-
-            foreach (char c in currentLineFullText)
+            // 치환된 텍스트를 글자별로 출력
+            for (int i = 0; i < currentLineFullText.Length; i++)
             {
-                dialogueText.text += c;
+                dialogueText.text += currentLineFullText[i];
                 yield return new WaitForSeconds(typingSpeed);
             }
 
@@ -310,6 +375,24 @@ public class DialogueManager : MonoBehaviour
         }
 
         isTyping = false;
+    }
+
+    private string ResolveSpeakerName(string speaker)
+    {
+        if (string.IsNullOrEmpty(speaker)) return speaker;
+        if (speaker == "<PLAYER_NAME>") return GetPlayerNameOrDefault();
+        return speaker;
+    }
+
+    private string GetPlayerNameOrDefault()
+    {
+        if (DataManager.Instance == null || DataManager.Instance.Player == null)
+        {
+            return "나학생";
+        }
+
+        string playerName = DataManager.Instance.Player.GetName();
+        return string.IsNullOrEmpty(playerName) ? "나학생" : playerName;
     }
 
     public void NextLine()
@@ -333,16 +416,18 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
         BGMSource.Stop();
 
-
         if (!isEndConv) 
         {
+            /*
             StageManager.Instance.Initialize(
                 nextScenes,
                 stageKey,
                 gameMode,
                 prevScene
             );
-            StageManager.Instance.LoadNextStage();
+            */
+            LoadingSceneController.Instance.LoadScene(SceneNames.StageInitScene, StageManager.Instance.LoadNextStage);
+            
         }
         else LoadingSceneController.Instance.LoadScene(SceneNames.Map);
     }

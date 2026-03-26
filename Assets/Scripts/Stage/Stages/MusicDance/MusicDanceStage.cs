@@ -67,9 +67,10 @@ public class MusicDanceStage : StageNormal
         }
     }
 
-    public void SetStageClear()
+    public void SetStageClear(bool isCleared)
     {
-        OnStageClear();
+        if (isCleared) OnStageClear();
+        else CurrentStageState = StageState.Playing;
     }
 
     // ============ Lifecycle methods ============ //
