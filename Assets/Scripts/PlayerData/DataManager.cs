@@ -230,7 +230,7 @@ public class DataManager : Singleton<DataManager>
         if (File.Exists(settingsPath)) LoadSettingsData();
         else                           SaveSettingsData();
         
-        if (File.Exists(savePath)) LoadGameData();
+        if (File.Exists(savePath))     LoadGameData();
     }
 
     void Start()
