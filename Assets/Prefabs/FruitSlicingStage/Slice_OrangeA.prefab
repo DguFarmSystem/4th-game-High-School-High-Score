@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8752713817702819512}
   - component: {fileID: -69790103685590182}
   - component: {fileID: 1750246794619195309}
+  - component: {fileID: -81358238254996718}
   m_Layer: 0
   m_Name: Slice_OrangeA
   m_TagString: Untagged
@@ -117,9 +118,21 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.8962107, y: 1.0663756}
   serializedVersion: 2
   m_Radius: 4.2172327
+--- !u!114 &-81358238254996718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884133690181490164}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fea4ad3adb0ee44db8abb3a2f6f163a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

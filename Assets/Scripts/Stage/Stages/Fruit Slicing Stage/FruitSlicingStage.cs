@@ -34,7 +34,6 @@ public class FruitSlicingStage : StageNormal
     [SerializeField]
     InputManager InputManager;
 
-    // Start is called before the first frame update
     void Start()
     {
         time = consttime;
@@ -44,20 +43,20 @@ public class FruitSlicingStage : StageNormal
         switch (stagelevel)
         {
             case 1:
-                GoalCount = 2;
-                OpCount = 3;
+                GoalCount = 1;
+                OpCount = 2;
                 break;
             case 2:
-                GoalCount = 3;
-                OpCount= 4;
+                GoalCount = 2;
+                OpCount= 3;
                 break;
             case 3:
-                GoalCount = 4;
-                OpCount = 5;
+                GoalCount = 3;
+                OpCount = 4;
                 break;
             case 4:
-                GoalCount = 5;
-                OpCount = 6;
+                GoalCount = 3;
+                OpCount =4;
                 break;
         }
         OnStageStart();
@@ -97,7 +96,28 @@ public class FruitSlicingStage : StageNormal
                 time = consttime;
             }
         }
-        
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            Collider2D hitCollider = Physics2D.OverlapPoint(mousePos);
+
+            if (hitCollider != null)
+            {
+                Debug.Log("클릭된 물체: " + hitCollider.name);
+
+                if (hitCollider.CompareTag("Fruit"))
+                {
+                    hitCollider.tag = "Untagged";
+
+                    theaudio.PlayOneShot(audioClip);
+
+                        GreenChecks[SliceCount].SetActive(true);
+                    Instantiate(Effect, InputManager.TouchWorldPos, Effect.transform.rotation);
+
+                }
+            }
+        }  
     }
 
     public override void OnStageStart()
@@ -115,7 +135,7 @@ public class FruitSlicingStage : StageNormal
 
     private void OnStageEndedGimmik(bool isStageCleared)
     {
-        InputManager.Instance.OnStageTapPerformed -= StageGimmik;
+        InputManager.OnStageTapPerformed -= StageGimmik;
         theaudio.Stop();
         
         if (isStageCleared)
@@ -131,27 +151,26 @@ public class FruitSlicingStage : StageNormal
     }
     public void OnEnable()
     {
-        InputManager.Instance.OnStageTapPerformed += StageGimmik;
+        InputManager.OnStageTapPerformed += StageGimmik;
         OnStageEnded += OnStageEndedGimmik;
     }
     public void OnDisable()
     {
-        InputManager.Instance.OnStageTapPerformed -= StageGimmik;
+        InputManager.OnStageTapPerformed -= StageGimmik;
         OnStageEnded -= OnStageEndedGimmik;
     }
 
     private void StageGimmik()
     {
-        Debug.Log(InputManager.Instance.TouchWorldPos);
-
+        Debug.Log(InputManager.TouchedCollider.name);
         theaudio.PlayOneShot(audioClip);
 
-        if (InputManager.Instance.TouchedCollider != null)
+        if (InputManager.TouchedCollider != null)
         {
-            if (InputManager.Instance.TouchedCollider.gameObject.tag == "Fruit")
+            if (InputManager.TouchedCollider.gameObject.tag == "Fruit")
             {
-                Instantiate(Effect, InputManager.Instance.TouchWorldPos, Effect.transform.rotation);
-                InputManager.Instance.TouchedCollider.gameObject.tag = "Untagged";
+                //Instantiate(Effect, InputManager.TouchWorldPos, Effect.transform.rotation);
+                InputManager.TouchedCollider.gameObject.tag = "Untagged";
                 GreenChecks[SliceCount].SetActive(true);
                 SliceCount++;
             }
