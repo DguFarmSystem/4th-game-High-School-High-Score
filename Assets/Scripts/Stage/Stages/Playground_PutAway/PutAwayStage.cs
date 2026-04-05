@@ -30,6 +30,7 @@ public class PutAwayStage : StageNormal
 
     [Header("Sound Settings")]
     [SerializeField] private AudioClip _stageBGM;
+    [SerializeField] private AudioClip _putBallSFX;
                                                 
     public StageState CurrentState => CurrentStageState;
 
@@ -98,6 +99,11 @@ public class PutAwayStage : StageNormal
 
     private void EndTouch()
     {
+        if(_currentBall != null && _currentBall.GetComponent<PlayGroundBall>().IsInBasket())
+        {
+            SoundManager.Instance.PlaySFX(_putBallSFX);
+        }
+
         _currentBall = null;
     }
 
@@ -213,7 +219,7 @@ public class PutAwayStage : StageNormal
     {
         // 스테이지 시작
         OnStageStart();
-        //SoundManager.Instance.PlayBGM(_stageBGM);
+        SoundManager.Instance.PlayBGM(_stageBGM);
     }
 
     

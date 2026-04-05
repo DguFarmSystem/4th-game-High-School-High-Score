@@ -26,9 +26,11 @@ public class PlayGroundBall : MonoBehaviour
         if (a is CircleCollider2D circle)
             return IsCircleInside(circle, b);
         */
+
+        // lossyScale: 부모 객체를 고려한 객체의 절대 크기를 반환 
         Vector2 center = GetComponent<CircleCollider2D>().transform.TransformPoint(GetComponent<CircleCollider2D>().offset);
         float radius = GetComponent<CircleCollider2D>().radius * GetComponent<CircleCollider2D>().transform.lossyScale.x;
-
+    
         int sample = 16; // 샘플링 포인트 수
 
         for (int i = 0; i < sample; i++)
