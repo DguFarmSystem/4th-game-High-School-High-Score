@@ -42,6 +42,11 @@ namespace Stage
         [SerializeField] AudioClip igniteSfxClip;
         [SerializeField] AudioClip allLitSfxClip;
 
+        [Header("DEBUG (Editor/Dev only)")]
+        [SerializeField] bool debugForceDifficulty = false;
+        [Range(1, 4)]
+        [SerializeField] int debugDifficulty = 1; // 1~4
+
         int _activeIndex = -1;
         LevelEntry _active;
         readonly List<CandleFire> _candles = new();
@@ -71,9 +76,18 @@ namespace Stage
             _allLitSfxPlayed = false;
 
             int diff = 1;
-            if (StageManager.Instance != null)
+            #if UNITY_EDITOR || DEVELOPMENT_BUILD
+            if (debugForceDifficulty)
+            {
+                diff = Mathf.Max(1, debugDifficulty);
+            }
+            else
+            #endif
+            {
+                if (StageManager.Instance != null)
                 diff = Mathf.Max(1, StageManager.Instance.GetDifficulty());
-
+            }
+            
             _activeIndex = Mathf.Clamp(diff - 1, 0, Mathf.Max(0, levels.Count - 1));
 
             StopAllCoroutines();
