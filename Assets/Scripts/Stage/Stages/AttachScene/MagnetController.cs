@@ -83,7 +83,10 @@ public class MagnetController : MonoBehaviour
         _slotOccupied[slotIndex] = true;
 
         if (_stage != null)
+        {
+            _stage.PlayAttachSfx();
             _stage.NotifyObjectAttached(target);
+        }
     }
 
     private bool IsValidSlot(int index)
