@@ -5,7 +5,14 @@ using UnityEngine;
 using Stage;
 using System.Linq;
 
-public enum NoteType { Hi, Snare, Bass }
+public enum NoteType { Hi, Snare }
+
+[System.Serializable]
+public struct NoteSlot
+{
+    public bool isHi;
+    public bool isSnare;
+}
 
 public class BeatStageManager : MonoBehaviour, IStageBase
 {
@@ -15,13 +22,11 @@ public class BeatStageManager : MonoBehaviour, IStageBase
     [Tooltip("타이밍 오차 허용 범위 (예: +- 0.2초)")]
     public float HitTimeMargin = 0.2f;
 
-    [Header("바 이동 속도 계산용 (UI 기준)")]
-    [Tooltip("첫 번째 음표 UI를 넣으세요 (시작 위치 계산용)")]
+    [Header("바 이동 시작점 & 속도 계산용 (UI 기준)")]
+    [Tooltip("캔버스상의 첫 번째 연속 음표 (1초 위치)\n*바(ScanLineBar) 자체의 현재 위치가 0초 출발점이 됩니다.")]
     public RectTransform ReferencePoint1;
-    [Tooltip("두 번째 음표 UI를 넣으세요 (속도 계산용)")]
+    [Tooltip("캔버스상의 두 번째 연속 음표 (2초 위치) - 속도 계산용")]
     public RectTransform ReferencePoint2;
-    [Tooltip("첫 번째 음표를 치는 시간 및 두 음표 사이의 시간 간격 (초)")]
-    public float TimeBetweenReferencePoints = 1.0f;
 
     [Header("오브젝트 연결")]
     public GameObject ScanLineBar;
@@ -29,9 +34,8 @@ public class BeatStageManager : MonoBehaviour, IStageBase
     [System.Serializable]
     public class NotePattern
     {
-        public float[] HiTimes;
-        public float[] SnareTimes;
-        public float[] BassTimes;
+        [Tooltip("0초부터 9초까지 각 타이밍(총 10개)에 하이와 스네어의 포함 여부를 결정합니다.\n배열 길이를 더 늘리면 스테이지 유지 길이도 맞춰서 길어집니다.")]
+        public NoteSlot[] Notes = new NoteSlot[10];
     }
 
     [Header("레벨 1 설정")]
@@ -59,7 +63,11 @@ public class BeatStageManager : MonoBehaviour, IStageBase
     [Header("오디오 클립")]
     public AudioClip hiClip;
     public AudioClip snareClip;
-    public AudioClip bassClip;
+    [Header("배경 베이스(드럼) 사운드")]
+    public AudioClip level1BassClip;
+    public AudioClip level2BassClip;
+
+    private AudioClip currentBassClip;
 
     private AudioSource audioSource;
 
@@ -116,18 +124,17 @@ public class BeatStageManager : MonoBehaviour, IStageBase
 
     void CalculateSpeedAndStart()
     {
-        if (ReferencePoint1 != null && ReferencePoint2 != null && TimeBetweenReferencePoints > 0f)
+        if (ReferencePoint1 != null && ReferencePoint2 != null && ScanLineBar != null)
         {
-            // 두 기준점 사이의 거리(X 좌표)와 걸리는 시간을 이용해 1초당 이동해야 할 픽셀(=속도)을 구합니다
-            float distance = ReferencePoint2.position.x - ReferencePoint1.position.x;
-            uiSpeedX = distance / TimeBetweenReferencePoints;
+            // 속도는 연속된 두 음표 간의 거리로 도출합니다. (매 1초마다 이동할 픽셀량)
+            uiSpeedX = ReferencePoint2.position.x - ReferencePoint1.position.x;
 
-            // 0초일 때 스캔 라인 바가 위치해야 할 최초 시작 기준점 X위치를 역산해서 구합니다
-            startPosX = ReferencePoint1.position.x - (uiSpeedX * TimeBetweenReferencePoints);
+            // 유저가 에디터에 배치해둔 바 객체의 현재 위치를 초기 시작점(0초)으로 고정
+            startPosX = ScanLineBar.transform.position.x;
         }
         else
         {
-            Debug.LogWarning("속도 계산 기준점(Reference) 1, 2가 비어있거나 시간이 0입니다! 게임이 멈춥니다.");
+            Debug.LogWarning("바 이동을 계산할 ReferencePoint 1, 2 또는 ScanLineBar가 비어있습니다! 바가 제자리에 멈출 수 있습니다.");
         }
     }
 
@@ -141,15 +148,18 @@ public class BeatStageManager : MonoBehaviour, IStageBase
         yield return new WaitForSeconds(StartDelay);
 
         Debug.Log("레벨 1 시작");
+        currentBassClip = level1BassClip;
+        if (audioSource && currentBassClip) { audioSource.clip = currentBassClip; audioSource.PlayDelayed(1.0f); }
 
         if (ScanLineBar) ScanLineBar.SetActive(true);
         if (Level1_Sheet) Level1_Sheet.SetActive(true);
 
-        yield return StartCoroutine(PlayRound(Level1_Pattern, Level1_Pattern.BassTimes));
+        yield return StartCoroutine(PlayRound(Level1_Pattern));
 
         // [레벨 1] 정리
         if (ScanLineBar) ScanLineBar.SetActive(false);
         if (Level1_Sheet) Level1_Sheet.SetActive(false);
+        if (audioSource) audioSource.Stop();
 
         hittableHiNotes.Clear();
         hittableSnareNotes.Clear();
@@ -165,16 +175,18 @@ public class BeatStageManager : MonoBehaviour, IStageBase
         yield return new WaitForSeconds(StartDelay);
 
         Debug.Log("레벨 2 시작");
+        currentBassClip = level2BassClip;
+        if (audioSource && currentBassClip) { audioSource.clip = currentBassClip; audioSource.PlayDelayed(1.0f); }
 
         if (ScanLineBar) ScanLineBar.SetActive(true);
         if (Level2_Sheet) Level2_Sheet.SetActive(true);
 
-        // 레벨 2에서도 레벨 1의 둥둥 치는 베이스 타임을 강제로 가져와 똑같이 사용합니다.
-        yield return StartCoroutine(PlayRound(Level2_Pattern, Level1_Pattern.BassTimes));
+        yield return StartCoroutine(PlayRound(Level2_Pattern));
 
         // [레벨 2] 정리
         if (ScanLineBar) ScanLineBar.SetActive(false);
         if (Level2_Sheet) Level2_Sheet.SetActive(false);
+        if (audioSource) audioSource.Stop();
 
         // [레벨 2] 결과 판정
         if (isRoundFail)
@@ -189,7 +201,7 @@ public class BeatStageManager : MonoBehaviour, IStageBase
         }
     }
 
-    IEnumerator PlayRound(NotePattern pattern, float[] overrideBassTimes = null)
+    IEnumerator PlayRound(NotePattern pattern)
     {
         CalculateSpeedAndStart();
 
@@ -201,18 +213,13 @@ public class BeatStageManager : MonoBehaviour, IStageBase
         isRoundFail = false;
         isGameRunning = true;
 
-        SetupMemoryNotes(pattern, overrideBassTimes);
+        SetupMemoryNotes(pattern);
         OnStageStart();
 
-        // 마지막 음표 시간 찾기
-        float maxTime = 0f;
-        foreach (var note in currentActiveNotes)
-        {
-            if (note.HitTime > maxTime) maxTime = note.HitTime;
-        }
-
-        // 마지막 음표를 친 후 "한 음표 간격"만큼 기다린 시점을 스테이지 종료점(EndPoint)으로 자동 계산
-        float extraWait = (TimeBetweenReferencePoints > 0f) ? TimeBetweenReferencePoints : 1.0f;
+        // 음표를 일찍 끝내도 레벨이 빨리 끝나지 않도록 배열 Length 기준으로 종료 시점을 고정합니다.
+        // 예를 들어 10칸(9초)짜리면 마지막 판정이 10.0s 위치이고, 그 후 1초 대기하여 11.0s에 깔끔하게 종료됩니다.
+        float maxTime = pattern.Notes.Length; 
+        float extraWait = 1.0f;
         float endTime = maxTime + extraWait;
 
         while (currentStageTime < endTime)
@@ -224,26 +231,18 @@ public class BeatStageManager : MonoBehaviour, IStageBase
         isGameRunning = false;
     }
 
-    void SetupMemoryNotes(NotePattern pattern, float[] overrideBassTimes)
+    void SetupMemoryNotes(NotePattern pattern)
     {
         currentActiveNotes.Clear();
 
-        // 각 타입별 "가상 노트(VirtualNote)" 메모리 상에 생성
-        if (pattern.HiTimes != null)
+        if (pattern.Notes != null)
         {
-            foreach (float t in pattern.HiTimes) CreateVirtualNote(t, NoteType.Hi);
-        }
-        if (pattern.SnareTimes != null)
-        {
-            foreach (float t in pattern.SnareTimes) CreateVirtualNote(t, NoteType.Snare);
-        }
-
-        // 베이스 타이밍은 넘어온 override 배열을 최우선으로 적용합니다. (레벨 1과 통일)
-        float[] ultimateBassTimes = (overrideBassTimes != null && overrideBassTimes.Length > 0) ? overrideBassTimes : pattern.BassTimes;
-
-        if (ultimateBassTimes != null)
-        {
-            foreach (float t in ultimateBassTimes) CreateVirtualNote(t, NoteType.Bass);
+            for (int i = 0; i < pattern.Notes.Length; i++)
+            {
+                // 인덱스 0이 설정상 0초의 의미지만 1초 뒤에 재생되어야 하므로 i + 1.0f 를 사용합니다.
+                if (pattern.Notes[i].isHi) CreateVirtualNote((float)i + 1.0f, NoteType.Hi);
+                if (pattern.Notes[i].isSnare) CreateVirtualNote((float)i + 1.0f, NoteType.Snare);
+            }
         }
 
         // 시간순으로 List 정렬 (스캔 로직 정확도를 위해)
@@ -299,45 +298,29 @@ public class BeatStageManager : MonoBehaviour, IStageBase
             // diffT가 양수면 아직 칠 시간이 안 옴 (미래)
             // diffT가 음수면 칠 시간이 지났음 (과거)
 
-            // Bass는 판정 없이 정확한 시간에 자동 쾅!
-            if (note.type == NoteType.Bass)
+            // 치기 전, 오차 범위(HitTimeMargin) 안으로 진입했다면 유저가 칠 수 있게 '등록'
+            if (!note.isRegistered && Mathf.Abs(diffT) <= HitTimeMargin)
             {
-                if (diffT <= 0f) // 재생해야 할 시간이 됐거나 살짝 지났음
-                {
-                    PlayBass();
-                    note.isProcessed = true;
-                }
+                note.isRegistered = true;
+                RegisterHittableNote(note);
             }
-            else
+            // 유저가 안 치고 오차 범위(HitTimeMargin)를 완전히 통과해 버렸다면 'Miss'
+            else if (note.isRegistered && diffT < -HitTimeMargin)
             {
-                // 치기 전, 오차 범위(HitTimeMargin) 안으로 진입했다면 유저가 칠 수 있게 '등록'
-                if (!note.isRegistered && Mathf.Abs(diffT) <= HitTimeMargin)
-                {
-                    note.isRegistered = true;
-                    RegisterHittableNote(note);
-                }
-                // 유저가 안 치고 오차 범위(HitTimeMargin)를 완전히 통과해 버렸다면 'Miss'
-                else if (note.isRegistered && diffT < -HitTimeMargin)
-                {
-                    note.isProcessed = true;
-                    UnregisterNote(note, true); // (true) = Miss
-                }
+                note.isProcessed = true;
+                UnregisterNote(note, true); // (true) = Miss
             }
         }
     }
 
     public void RegisterHittableNote(VirtualNote note)
     {
-        // Bass는 자동 재생이므로 큐에 넣지 않습니다.
         if (note.type == NoteType.Hi) hittableHiNotes.Enqueue(note);
         else if (note.type == NoteType.Snare) hittableSnareNotes.Enqueue(note);
     }
 
     public void UnregisterNote(VirtualNote note, bool isMiss)
     {
-        // Bass는 Miss 판정이 없으므로 무시
-        if (note.type == NoteType.Bass) return;
-
         if (note.type == NoteType.Hi)
         {
             if (hittableHiNotes.Count > 0 && hittableHiNotes.Peek() == note)
@@ -487,7 +470,6 @@ public class BeatStageManager : MonoBehaviour, IStageBase
     // === 사운드 재생 함수 ===
     public void PlayHi() { if (audioSource) audioSource.PlayOneShot(hiClip); }
     public void PlaySnare() { if (audioSource) audioSource.PlayOneShot(snareClip); }
-    public void PlayBass() { if (audioSource && bassClip) audioSource.PlayOneShot(bassClip); }
 
     private void OnStageEndedGimmick(bool isClear) { StageManager.Instance.StageClear(isClear); }
     public void SetStageClear() { CurrentStageState = StageState.Clear; OnStageEnded?.Invoke(true); }

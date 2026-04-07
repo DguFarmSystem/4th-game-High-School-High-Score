@@ -274,7 +274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &370212141
 RectTransform:
   m_ObjectHideFlags: 0
@@ -562,7 +562,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 330, y: 299.02}
+  m_AnchoredPosition: {x: 306.9, y: 299.02}
   m_SizeDelta: {x: 20.72, y: 113.96}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &529200752
@@ -894,49 +894,45 @@ MonoBehaviour:
   HitTimeMargin: 0.2
   ReferencePoint1: {fileID: 3917802481583485734}
   ReferencePoint2: {fileID: 796464667}
-  TimeBetweenReferencePoints: 0.7
   ScanLineBar: {fileID: 529200750}
   Level1_Sheet: {fileID: 1395590004}
   Level1_Pattern:
-    HiTimes:
-    - 0.7
-    - 1.4
-    - 3.5
-    - 4.2
-    SnareTimes:
-    - 2.1
-    - 4.9
-    BassTimes:
-    - 0.6
-    - 1.3
-    - 2
-    - 2.7
-    - 3.4
-    - 4.1
-    - 4.8
-    - 5.5
+    Notes:
+    - isHi: 1
+      isSnare: 0
+    - isHi: 1
+      isSnare: 0
+    - isHi: 0
+      isSnare: 1
+    - isHi: 0
+      isSnare: 0
+    - isHi: 1
+      isSnare: 0
+    - isHi: 1
+      isSnare: 0
+    - isHi: 0
+      isSnare: 1
+    - isHi: 0
+      isSnare: 0
   Level2_Sheet: {fileID: 370212140}
   Level2_Pattern:
-    HiTimes:
-    - 0.7
-    - 1.4
-    - 3.5
-    - 4.2
-    - 5.6
-    SnareTimes:
-    - 0.7
-    - 2.1
-    - 3.5
-    - 4.9
-    BassTimes:
-    - 0.1
-    - 1.2
-    - 1.9
-    - 2.6
-    - 3.3
-    - 4
-    - 4.7
-    - 5.4
+    Notes:
+    - isHi: 1
+      isSnare: 1
+    - isHi: 1
+      isSnare: 0
+    - isHi: 0
+      isSnare: 1
+    - isHi: 0
+      isSnare: 0
+    - isHi: 1
+      isSnare: 1
+    - isHi: 1
+      isSnare: 0
+    - isHi: 0
+      isSnare: 1
+    - isHi: 1
+      isSnare: 0
   HiHitEffect: {fileID: 1241922143002156860}
   SnareHitEffect: {fileID: 4923714256298246174}
   HiFailArt: {fileID: 8649875543353626654}
@@ -947,7 +943,8 @@ MonoBehaviour:
   SnareFailPosition: {fileID: 1116270066}
   hiClip: {fileID: 8300000, guid: 4e94d9bb4ace1744ba604b6c42997305, type: 3}
   snareClip: {fileID: 8300000, guid: 5942b4a6bb6c44b43897d0c08da05b57, type: 3}
-  bassClip: {fileID: 8300000, guid: dc33b78d9ac01f94fafdb386379babc4, type: 3}
+  level1BassClip: {fileID: 8300000, guid: c09046a6ba9793543958e69198071459, type: 3}
+  level2BassClip: {fileID: 8300000, guid: ba27e9924e5edac4b82e5307e835bf84, type: 3}
 --- !u!82 &878228978
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1345,7 +1342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1395590005
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1598,7 +1595,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b372007930aa204889dd484ccd53fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testObject: {fileID: 0}
   _tapAction:
     m_Name: Tap
     m_Type: 0
