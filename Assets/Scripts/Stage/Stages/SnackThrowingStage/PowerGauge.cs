@@ -12,6 +12,9 @@ public class PowerGauge : MonoBehaviour
     [SerializeField] private Sprite gauge_lv2;
     [SerializeField] private Sprite gauge_lv3;
 
+    [SerializeField] private AudioClip _pressSfx;
+    [SerializeField] private AudioClip _throwSfx;
+
     private enum State { Idle, Pressed, Released }
     private State _currentState = State.Idle;
 
@@ -46,15 +49,19 @@ public class PowerGauge : MonoBehaviour
                             yOffset = 2.5f;
                             break;
                     }
+                    SoundManager.Instance.PlayStoppableSFX(_pressSfx, 0.08f);
                     Vector3 worldPos = _student.transform.position + Vector3.up * yOffset;
                     Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
                     gauge.GetComponent<RectTransform>().position = screenPos;
                     gauge.SetActive(true);
+                    _student.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = true;
                     break;
 
                 case State.Released:
+                    //SoundManager.Instance.StopStoppableSFX();
+                    //SoundManager.Instance.PlaySFX(_throwSfx);
                     _throwingCoroutine = StartCoroutine(WaitSnackArrival(0.5f));
-                    _student = null;
+                    //_student = null;
                     break;
             }
         }
@@ -117,6 +124,8 @@ public class PowerGauge : MonoBehaviour
     {
         yield return new WaitForSeconds(delay); // 약간의 딜레이 후에 스낵이 도착했다고 가정
         gauge.SetActive(false);
+        _student.gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        _student = null;
 
         setGaugeColor(Color.white);
 

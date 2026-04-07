@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
-using EasyTransition;
 
 public class StageManager : Singleton<StageManager>
 {
-    [SerializeField] private StageIntervalSkin _skinData;
-    //[SerializeField] private GameObject _transitionTemplate;
-    //[SerializeField] private TransitionSettings _transition;
+    [SerializeField] private CutSceneSkin _skinData;
 
     private GameObject _ui;
-    private StageIntervalCSController _uiController;
+    private CutScene _uiController;
     private bool _showCompleted = false;
 
     private int _sceneIndex = 0;
@@ -26,14 +22,19 @@ public class StageManager : Singleton<StageManager>
     public enum GameMode { Tutorial, Normal, Infinite }
     private GameMode _gameMode = GameMode.Normal;
 
-    public void Initialize(List<string> sceneNames, string skin, GameMode gameMode = GameMode.Normal)
+    private string prevConvScene = null;
+    private string nextConvScene = null;
+
+    public void Initialize(List<string> sceneNames, string CutSceneSkin, GameMode gameMode = GameMode.Normal, string prevConvScene = null)
     {
         _sceneNames = sceneNames;
-        _ui = Instantiate(_skinData.GetDictionary()[skin]);
+        _ui = Instantiate(_skinData.GetDictionary()[CutSceneSkin]);
         _ui.transform.SetParent(transform);
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
 
         _gameMode = gameMode;
+
+        this.prevConvScene = prevConvScene;
     }
 
     public void StageClear(bool clear)
@@ -87,16 +88,7 @@ public class StageManager : Singleton<StageManager>
     {
         yield return new WaitForSeconds(1.3f);
         SpeedInitialize();
-        /*
-        GameObject template = Instantiate(_transitionTemplate) as GameObject;
-        template.GetComponent<Transition>().transitionSettings = _transition;
 
-        float transitionTime = _transition.transitionTime;
-        if (_transition.autoAdjustTransitionTime)
-            transitionTime = transitionTime / _transition.transitionSpeed;
-
-        yield return new WaitForSecondsRealtime(transitionTime);
-        */
         _uiController.Hide();
         yield return null;
     }
@@ -143,8 +135,9 @@ public class StageManager : Singleton<StageManager>
 
     void EnsureUI()
     {
+        _ui.SetActive(true);
         if (_uiController != null) return;
-        _uiController = gameObject.GetComponentInChildren<StageIntervalCSController>();
+        _uiController = gameObject.GetComponentInChildren<CutScene>();
     }
 
     void Show()
@@ -156,6 +149,7 @@ public class StageManager : Singleton<StageManager>
 
     public void LoadNextStage()
     {
+        gameObject.SetActive(true);
         StartCoroutine(LoadSceneCoroutine());
     }
 
@@ -171,7 +165,18 @@ public class StageManager : Singleton<StageManager>
                 case GameMode.Tutorial:
                     if (_sceneIndex > 9)
                     {
-                        yield return ExitToScene(SceneNames.Main); // 튜토리얼 끝나면 메인으로
+                        //SetTutorialCleared(true);
+                        if (prevConvScene == SceneNames.TutorialConvStart)
+                            nextConvScene = SceneNames.TutorialConvEnd;
+                        
+                        if (nextConvScene != null)
+                        {
+                            yield return ExitToScene(nextConvScene);
+                        }
+                        else
+                        {
+                            yield return ExitToScene(SceneNames.Map);
+                        }
                         yield break;
                     }
 
@@ -183,7 +188,29 @@ public class StageManager : Singleton<StageManager>
                 case GameMode.Normal:
                     if (_sceneIndex > 16)
                     {
-                        yield return ExitToScene(SceneNames.Main); // 일반 모드 끝나면 메인으로
+                        switch (prevConvScene)
+                        {
+                            case SceneNames.RestaurantConvStart:
+                                //SetRestaurantCleared(true);
+                                nextConvScene = SceneNames.RestaurantConvEnd;
+                                break;
+                            case SceneNames.MusicConvStart:
+                                //SetMusicCleared(true);
+                                nextConvScene = SceneNames.MusicConvEnd;
+                                break;
+                            default:
+                                nextConvScene = null;
+                                break;
+                        }
+
+                        if (nextConvScene != null)
+                        {
+                            yield return ExitToScene(nextConvScene);
+                        }
+                        else
+                        {
+                            yield return ExitToScene(SceneNames.Map);
+                        }
                         yield break;
                     }
 
@@ -199,7 +226,7 @@ public class StageManager : Singleton<StageManager>
         }
         else
         {
-            yield return ExitToScene(SceneNames.Main); // 일단 메인으로!!
+            yield return ExitToScene(SceneNames.Map);
             yield break;
         }
 
@@ -231,6 +258,8 @@ public class StageManager : Singleton<StageManager>
         _hp = 4;
         _sceneNames.Clear();
         _gameMode = GameMode.Normal;
+        prevConvScene = null;
+        nextConvScene = null;
         if (_ui != null) Destroy(_ui);
     }
 

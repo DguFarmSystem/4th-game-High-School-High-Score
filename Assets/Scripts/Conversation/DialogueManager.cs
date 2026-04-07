@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
 [System.Serializable]
 public class ConversationLine
@@ -11,6 +13,9 @@ public class ConversationLine
     public int characterImage;
     public string speaker;
     public List<string> texts;
+
+    //selection part
+    public int specificSoundIndex = -1;
 }
 
 [System.Serializable]
@@ -21,6 +26,23 @@ public class ConversationData
 
 public class DialogueManager : MonoBehaviour
 {
+    [Header("Next Stage Settings")]
+    [SerializeField]
+    private List<string> nextScenes;
+    [SerializeField]
+    private string stageKey;
+    [SerializeField]
+    private StageManager.GameMode gameMode;
+    //private string prevScene;
+
+    [SerializeField]
+    private bool isEndConv;
+
+    [Header("Audio Source")]
+    public AudioSource TypingSound;
+    public AudioSource EventSound = null;
+    public List<AudioClip> EffectSounds;
+
     [Header("UI Components")]
     public Text speakerText;
     public Text dialogueText;
@@ -29,21 +51,32 @@ public class DialogueManager : MonoBehaviour
     public List<Sprite> ImageList;
 
     [Header("JSON Settings")]
-    public string jsonFileName = "Tutorial.json";
+    public string jsonFileName;
 
-    [Header("Typing Settings")]
-    public float typingSpeed = 0.05f;
+    //[Header("Typing Settings")]
+    public float typingSpeed => DataManager.Instance != null && DataManager.Instance.Settings != null
+        ? DataManager.Instance.Settings.GetScriptSpeed() switch
+        {
+            ScriptSpeedState.Slow => 0.1f,
+            ScriptSpeedState.Normal => 0.05f,
+            ScriptSpeedState.Fast => 0.02f,
+            _ => 0.05f,
+        }
+        : 0.05f; // Default to Normal if settings are unavailable
 
-    private ConversationData conversationData;
-    private int currentIndex = 0;
+    [Header("BGM Settings")]
+    public AudioSource BGMSource;
 
-    private Image Character1Img;
-    private Image Character2Img;
-
-    private Coroutine typingCoroutine;
-    private bool isTyping = false;
-    private string currentLineFullText;
-    private int currentTextIndex = 0; // texts �迭 �� ���� ���� �ε���
+    protected ConversationData conversationData;
+    protected int currentIndex = 0;
+     
+    protected Image Character1Img;
+    protected Image Character2Img;
+     
+    protected Coroutine typingCoroutine;
+    protected bool isTyping = false;
+    protected string currentLineFullText;
+    protected int currentTextIndex = 0; // texts �迭 �� ���� ���� �ε���
 
     void OnEnable()
     {
@@ -61,16 +94,19 @@ public class DialogueManager : MonoBehaviour
     {
         if(conversationData == null || currentIndex >= conversationData.conversation.Count)
         {
-            //���⼭ ���� ������ �ѱ��? �ɵ�?
+            //���⼭ ���� ������ �ѱ��?? �ɵ�?
             return;
         }
 
         if (isTyping)
         {
-            // Ÿ���� ���̸� ���? ��ü ���� ǥ��
+            // Ÿ���� ���̸� ���?? ��ü ���� ǥ��
             if (typingCoroutine != null) StopCoroutine(typingCoroutine);
-            dialogueText.text = currentLineFullText;
+            dialogueText.text = currentLineFullText; // ISSUE: 치환된 <PLAYER_NAME> 토큰이 포함된 전체 텍스트를 즉시 표시해야함!
             isTyping = false;
+            //타이핑 소리 중단
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+            TypingSound.Stop();
         }
         else
         {
@@ -80,11 +116,11 @@ public class DialogueManager : MonoBehaviour
 
             if (line.texts != null && currentTextIndex < line.texts.Count)
             {
-                typingCoroutine = StartCoroutine(TypeLine(line)); // ���� ���� ���?
+                typingCoroutine = StartCoroutine(TypeLine(line)); // ���� ���� ���??
             }
             else
             {
-                // ���� ȭ�� ���? ���� �Ϸ� �� ���� ���?
+                // ���� ȭ�� ���?? ���� �Ϸ� �� ���� ���??
                 currentIndex++;
                 currentTextIndex = 0;
                 ShowLine();
@@ -95,14 +131,17 @@ public class DialogueManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //prevScene = SceneManager.GetActiveScene().name;
+
         Character1Img = Character1.GetComponent<Image>();
         Character2Img = Character2.GetComponent<Image>();
         Color c = Character1Img.color;
         c.a = 0;
         Character1Img.color = c;
         Character2Img.color = c;
-        LoadConversation();
-        ShowLine();
+        //LoadConversation();
+        //ShowLine();
+        StartCoroutine(LoadConversationRoutine());
     }
 
     // Update is called once per frame
@@ -114,6 +153,7 @@ public class DialogueManager : MonoBehaviour
     void LoadConversation()
     {
         string filePath = Path.Combine(Application.dataPath, "Texts", jsonFileName);
+        Debug.Log("Loading conversation from: " + filePath);
 
         if (File.Exists(filePath))
         {
@@ -126,52 +166,142 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    public IEnumerator LoadConversationRoutine()
+    {
+        string jsonData = "";
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Texts", jsonFileName);
+        
+    #if UNITY_EDITOR || UNITY_STANDALONE
+        // --- PC 에디터 또는 PC 빌드 환경 ---
+
+        Debug.Log("PC/Editor 로드 경로: " + filePath);
+
+        if (File.Exists(filePath))
+        {
+            jsonData = File.ReadAllText(filePath);
+        }
+        else
+        {
+            Debug.LogError("파일을 찾을 수 없습니다: " + filePath);
+        }
+
+    #elif UNITY_ANDROID
+        // --- Android 빌드 환경 ---
+
+        Debug.Log("Android 로드 시도 경로: " + filePath);
+
+        using (UnityWebRequest www = UnityWebRequest.Get(filePath))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.Success)
+            {
+                jsonData = www.downloadHandler.text;
+            }
+            else
+            {
+                // 상세 에러와 경로를 함께 출력해 대소문자 오타 확인
+                Debug.LogError($"[Load Error] 경로: {filePath} | 에러: {www.error}");
+            }
+        }
+
+    #endif
+
+        // 데이터 할당 (공통)
+        if (!string.IsNullOrEmpty(jsonData))
+        {
+            conversationData = JsonUtility.FromJson<ConversationData>(jsonData);
+            Debug.Log("JSON 파싱 완료");
+
+            yield return null;
+            ShowLine();
+        }
+    }
+
     /*
      characterImage
-    -1 : �ƹ� �̹����� �����? �ʴ´�.
+    -1 : �ƹ� �̹����� �����?? �ʴ´�.
     0 : ���ΰ� ȥ�� ��ȭâ�� ����, ��ġ �ٲٰ� �迭 3��
     1 : ù ���� - ü���� ��ȭ ����, left element 2, right element 1
-    2 : ���ΰ��� ü���� �� ���?. ���ΰ� ���� ȿ��. left element 0, right element 3
+    2 : ���ΰ��� ü���� �� ���??. ���ΰ� ���� ȿ��. left element 0, right element 3
     3 : ü�� ���� ȿ��.
      */
     void ShowLine()
     {
+        //Settings for clearing image
+        Color c = Character2Img.color;
+        c.a = 0;
+
         if (conversationData != null && currentIndex < conversationData.conversation.Count)
         {
             ConversationLine line = conversationData.conversation[currentIndex];
-            speakerText.text = line.speaker;
+            speakerText.text = ResolveSpeakerName(line.speaker);
 
             if(line.characterImage == -1)
             {
-                Color c = Character2Img.color;
-                c.a = 0;
                 Character1Img.color = c;
                 Character2Img.color = c;
             }
             else if(line.characterImage == 0)
             {
-                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
-                StartCoroutine(FadeIn(Character2Img, 1f));
-                Character2Img.sprite = ImageList[3];
+                //Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
+                //StartCoroutine(FadeIn(Character2Img, 1f));
+                //Character2Img.sprite = ImageList[3];
+
+                Character2Img.color = c;
+                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
+                if(Character1Img.color.a == 0)
+                {
+                    StartCoroutine(FadeIn(Character1Img, 1f));
+                }
+                Character1Img.sprite = ImageList[2];
             }
             else if(line.characterImage == 1)
             {
-                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-444, 42);
-                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(499, 59);
-                StartCoroutine(FadeIn(Character1Img, 1f));
-                StartCoroutine(FadeIn(Character2Img, 1f));
-                Character1Img.sprite = ImageList[2];
-                Character2Img.sprite = ImageList[1];
+                //Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-444, 42);
+                //Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(499, 59);
+                //StartCoroutine(FadeIn(Character1Img, 1f));
+                //StartCoroutine(FadeIn(Character2Img, 1f));
+                //Character1Img.sprite = ImageList[2];
+                //Character2Img.sprite = ImageList[1];
+
+                Character1Img.color = c;
+                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
+                if(Character2Img.color.a == 0)
+                {
+                    StartCoroutine(FadeIn(Character2Img, 1f));
+                }
+                Character2Img.sprite = ImageList[3];
             }
             else if(line.characterImage == 2)
             {
-                Character1Img.sprite = ImageList[0];
-                Character2Img.sprite = ImageList[3];
+                //Character1Img.sprite = ImageList[0];
+                //Character2Img.sprite = ImageList[3];
+
+                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-550, -10);
+                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(550, 10);
+                if(Character1Img.color.a == 0 || Character2Img.color.a == 0)
+                {
+                    StartCoroutine(FadeIn(Character1Img, 1f));
+                    StartCoroutine(FadeIn(Character2Img, 1f));
+                }
+                Character1Img.sprite = ImageList[2];
+                Character2Img.sprite = ImageList[1];
             }
             else if(line.characterImage == 3)
             {
-                Character1Img.sprite = ImageList[2];
-                Character2Img.sprite = ImageList[1];
+                //Character1Img.sprite = ImageList[2];
+                //Character2Img.sprite = ImageList[1];
+
+                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-550, -10);
+                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(550, -10);
+                if (Character1Img.color.a == 0 || Character2Img.color.a == 0)
+                {
+                    StartCoroutine(FadeIn(Character1Img, 1f));
+                    StartCoroutine(FadeIn(Character2Img, 1f));
+                }
+                Character1Img.sprite = ImageList[0];
+                Character2Img.sprite = ImageList[3];
             }
 
             // coroutine���� Ÿ���� ȿ�� ����
@@ -207,20 +337,62 @@ public class DialogueManager : MonoBehaviour
     {
         isTyping = true;
 
-        // texts�� ������ ���� ���常 ���?
         if (line.texts != null && currentTextIndex < line.texts.Count)
         {
+            // 원본 텍스트에서 모든 <PLAYER_NAME> 토큰을 미리 치환
             currentLineFullText = line.texts[currentTextIndex];
+            currentLineFullText = currentLineFullText.Replace("<PLAYER_NAME>", GetPlayerNameOrDefault());
+
             dialogueText.text = "";
 
-            foreach (char c in currentLineFullText)
+            //이벤트 사운드 플레이
+            if (line.specificSoundIndex < 0)
             {
-                dialogueText.text += c;
+                if (EventSound.isPlaying) EventSound.Stop();
+                EventSound.clip = null;
+            }
+            else
+            {
+                EventSound.clip = EffectSounds[line.specificSoundIndex];
+                EventSound.Play();
+            }
+
+            TypingSound.Stop();
+            TypingSound.clip = EffectSounds[0];
+            TypingSound.loop = true;
+            TypingSound.Play();
+
+            // 치환된 텍스트를 글자별로 출력
+            for (int i = 0; i < currentLineFullText.Length; i++)
+            {
+                dialogueText.text += currentLineFullText[i];
                 yield return new WaitForSeconds(typingSpeed);
             }
+
+            // 문장 출력 완료 → 사운드 정지
+            TypingSound.Stop();
+            TypingSound.loop = false;
         }
 
         isTyping = false;
+    }
+
+    private string ResolveSpeakerName(string speaker)
+    {
+        if (string.IsNullOrEmpty(speaker)) return speaker;
+        if (speaker == "<PLAYER_NAME>") return GetPlayerNameOrDefault();
+        return speaker;
+    }
+
+    private string GetPlayerNameOrDefault()
+    {
+        if (DataManager.Instance == null || DataManager.Instance.Player == null)
+        {
+            return "나학생";
+        }
+
+        string playerName = DataManager.Instance.Player.GetName();
+        return string.IsNullOrEmpty(playerName) ? "나학생" : playerName;
     }
 
     public void NextLine()
@@ -236,26 +408,28 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    //����׿�? �Լ�
+    //����׿�?? �Լ�
     private void EndDialogue()
     {
         Debug.Log("��ȭ ����");
         speakerText.text = "";
         dialogueText.text = "";
+        BGMSource.Stop();
 
-        // TEST CODE
-        StageManager.Instance.Initialize(
-            new List<string> {
-                SceneNames.MusicDance,
-                SceneNames.RestaurantSpread,
-                SceneNames.RestaurantSpread,
-                SceneNames.RestaurantSpread,
-                SceneNames.MusicBeat,
-            },
-            "MusicCS",
-            StageManager.GameMode.Normal
-        );
-        StageManager.Instance.LoadNextStage();
+        if (!isEndConv) 
+        {
+            /*
+            StageManager.Instance.Initialize(
+                nextScenes,
+                stageKey,
+                gameMode,
+                prevScene
+            );
+            */
+            LoadingSceneController.Instance.LoadScene(SceneNames.StageInitScene, StageManager.Instance.LoadNextStage);
+            
+        }
+        else LoadingSceneController.Instance.LoadScene(SceneNames.Map);
     }
 
     //Skip ��ư�� �޼���
@@ -265,5 +439,11 @@ public class DialogueManager : MonoBehaviour
 
         currentIndex = conversationData.conversation.Count; // ��ȭ �ε����� ������ �̵�
         EndDialogue();
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            isTyping = false;
+            TypingSound.Stop();
+        }
     }
 }

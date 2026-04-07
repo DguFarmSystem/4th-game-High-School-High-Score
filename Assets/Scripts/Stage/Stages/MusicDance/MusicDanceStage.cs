@@ -46,6 +46,10 @@ public class MusicDanceStage : StageNormal
     [SerializeField] private Sprite Answer4_3;
     [SerializeField] private Sprite Answer4_4;
 
+    [Space(10)]
+    [Header("BGM Settings")]
+    [SerializeField] private AudioClip _stageBGM;
+
     private List<GameObject> buttons;
     public StageState CurrentState => CurrentStageState;
 
@@ -63,9 +67,10 @@ public class MusicDanceStage : StageNormal
         }
     }
 
-    public void SetStageClear()
+    public void SetStageClear(bool isCleared)
     {
-        OnStageClear();
+        if (isCleared) OnStageClear();
+        else CurrentStageState = StageState.Playing;
     }
 
     // ============ Lifecycle methods ============ //
@@ -159,6 +164,7 @@ public class MusicDanceStage : StageNormal
     {
         // 스테이지 시작
         OnStageStart();
+        SoundManager.Instance.PlayBGM(_stageBGM);
     }
 
     

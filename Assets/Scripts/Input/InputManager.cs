@@ -1,19 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
-using Vector3 = UnityEngine.Vector3;
-using Vector2 = UnityEngine.Vector2;
 using System.Linq;
 using System;
 
 public class InputManager : Singleton<InputManager>
 {
-    [SerializeField] private GameObject testObject; // 테스트용 오브젝트
     private PlayerInput _playerInput;
 
     public InputAction _tapAction;   // 탭 입력을 위한 액션
@@ -40,52 +36,62 @@ public class InputManager : Singleton<InputManager>
 
     private void OnEnable()
     {
-        // InputActions 활성화
-        if (_playerInput != null)
-        {
-            // InputActions 설정
-            _tapAction = _playerInput.actions["Tap"];
-            _pressAction = _playerInput.actions["Press"];
-            _positionAction = _playerInput.actions["TouchPosition"];
-            _dragAction = _playerInput.actions["Drag"];
+        // InputActions 설정
+        _tapAction = _playerInput.actions["Tap"];
+        _pressAction = _playerInput.actions["Press"];
+        _positionAction = _playerInput.actions["TouchPosition"];
+        _dragAction = _playerInput.actions["Drag"];
 
-            _tapAction.performed += tapPerformed;
+        _tapAction.performed += tapPerformed;
 
-            _pressAction.performed += pressPerformed;
-            _pressAction.canceled += pressCanceled;
+        _pressAction.started += pressStarted;
+        _pressAction.canceled += pressCanceled;
 
-            _positionAction.performed += getTouchPosition;
-            _positionAction.canceled += initTouchPosition;
+        _positionAction.performed += getTouchPosition;
+        _positionAction.canceled += initTouchPosition;
 
-            _dragAction.performed += getDragDelta;
-            _dragAction.canceled += initDragDelta;
-        }
+        _dragAction.performed += getDragDelta;
+        _dragAction.canceled += initDragDelta;
+
+        /*
+        _tapAction.Enable();
+        _pressAction.Enable();
+        _positionAction.Enable();
+        _dragAction.Enable();
+        */
     }
     private void OnDisable()
     {
         // InputActions 비활성화
-        if (_playerInput != null)
-        {
-            _tapAction.performed -= tapPerformed;
 
-            _pressAction.performed -= pressPerformed;
-            _pressAction.canceled -= pressCanceled;
+        _tapAction.performed -= tapPerformed;
 
-            _positionAction.performed -= getTouchPosition;
-            _positionAction.canceled -= initTouchPosition;
+        _pressAction.started -= pressStarted;
+        _pressAction.canceled -= pressCanceled;
 
-            _dragAction.performed -= getDragDelta;
-            _dragAction.canceled -= initDragDelta;
-        }
+        _positionAction.performed -= getTouchPosition;
+        _positionAction.canceled -= initTouchPosition;
+
+        _dragAction.performed -= getDragDelta;
+        _dragAction.canceled -= initDragDelta;
+
+        /*
+        _tapAction.Disable();
+        _pressAction.Disable();
+        _positionAction.Disable();
+        _dragAction.Disable();
+        */
     }
 
     private void tapPerformed(InputAction.CallbackContext context)
     {
         //Vector2 pos = Touchscreen.current.primaryTouch.position.ReadValue();
+        // 터치 월드 좌표 계산
+
         OnStageTapPerformed?.Invoke(); // 탭이 발생했을 때 이벤트 호출
     }
 
-    private void pressPerformed(InputAction.CallbackContext context)
+    private void pressStarted(InputAction.CallbackContext context)
     {
         _isPressing = true; // 터치 상태를 true로 설정
         _pressedCollider = GetTouchedCollider2D(_touchWorldPos); // 현재 터치한 콜라이더를 선택된 콜라이더로 설정
@@ -170,28 +176,19 @@ public class InputManager : Singleton<InputManager>
     }
 
     // Lifecycle methods
+    
     public override void Awake()
     {
         base.Awake();
 
-        /*
-        #if UNITY_EDITOR
-
-        // Touchscreen 디바이스를 설정
-        var touchscreen = InputSystem.GetDevice<Touchscreen>();
-            if (touchscreen != null)
-            {
-                Debug.Log("Touchscreen 디바이스가 설정되었습니다.");
-            }
-            else
-            {
-                Debug.LogWarning("Touchscreen 디바이스를 찾을 수 없습니다.");
-            }
-        #endif
-        */
-
-        _playerInput = GetComponent<PlayerInput>();
+        if (TryGetComponent<PlayerInput>(out var playerInput))
+        {
+            _playerInput = playerInput;
+        }
+        else
+        {
+            _playerInput = gameObject.AddComponent<PlayerInput>();
+            _playerInput.actions = Resources.Load<InputActionAsset>("Input/InputAction");
+        }
     }
-
-    
 }

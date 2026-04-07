@@ -22,7 +22,7 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 {
                     GameObject container = new GameObject(typeof(T).Name);
                     _instance = container.AddComponent<T>();
-                    DontDestroyOnLoad(_instance);
+                    DontDestroyOnLoad(container);
                 }
             }
             return _instance;
@@ -39,10 +39,17 @@ public abstract class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         if (_instance == null)
         {
             _instance = this as T;
+        }
+
+        if (_instance == this)
+        {
+            // 이미 Instance 프로퍼티를 통해 나 자신으로 설정된 경우라도 
+            // 여기서 파괴 방지를 한 번 더 보장해줍니다.
             DontDestroyOnLoad(gameObject);
         }
         else
         {
+            // 정말로 중복된 다른 객체라면 파괴
             Destroy(gameObject);
         }
     }

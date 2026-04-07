@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Stage;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class FruitSlicingStage : StageNormal
 {
@@ -22,10 +23,16 @@ public class FruitSlicingStage : StageNormal
     GameObject[] GreenChecks;
     [SerializeField]
     GameObject Effect;
+    [SerializeField]
+    AudioClip audioClip;
+    AudioSource theaudio;
 
     int LorR;
     int Fruitnum;
     float SpawnY;
+
+    [SerializeField]
+    InputManager InputManager;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +40,7 @@ public class FruitSlicingStage : StageNormal
         time = consttime;
         CurrentCount = 0;
         int stagelevel = StageManager.Instance.GetDifficulty();
+        theaudio = GetComponent<AudioSource>();
         switch (stagelevel)
         {
             case 1:
@@ -62,7 +70,6 @@ public class FruitSlicingStage : StageNormal
     // Update is called once per frame
     void Update()
     {
-        StageGimmik();
         if (CurrentCount == OpCount)
         {
             if (SliceCount >= GoalCount)
@@ -87,7 +94,7 @@ public class FruitSlicingStage : StageNormal
                     Instantiate(Fruits[Fruitnum], new Vector3(12, SpawnY, 0), Fruits[Fruitnum].transform.rotation);
                 }
                 CurrentCount++;
-                time =consttime;
+                time = consttime;
             }
         }
         
@@ -109,6 +116,8 @@ public class FruitSlicingStage : StageNormal
     private void OnStageEndedGimmik(bool isStageCleared)
     {
         InputManager.Instance.OnStageTapPerformed -= StageGimmik;
+        theaudio.Stop();
+        
         if (isStageCleared)
         {
             Debug.Log("Cleared");
@@ -134,11 +143,14 @@ public class FruitSlicingStage : StageNormal
     private void StageGimmik()
     {
         Debug.Log(InputManager.Instance.TouchWorldPos);
+
+        theaudio.PlayOneShot(audioClip);
+
         if (InputManager.Instance.TouchedCollider != null)
         {
             if (InputManager.Instance.TouchedCollider.gameObject.tag == "Fruit")
             {
-                //Instantiate(Effect, InputManager.Instance.TouchWorldPos, Effect.transform.rotation);
+                Instantiate(Effect, InputManager.Instance.TouchWorldPos, Effect.transform.rotation);
                 InputManager.Instance.TouchedCollider.gameObject.tag = "Untagged";
                 GreenChecks[SliceCount].SetActive(true);
                 SliceCount++;

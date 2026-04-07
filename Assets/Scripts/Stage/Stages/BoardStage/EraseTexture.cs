@@ -122,7 +122,6 @@ public class EraseTexture : MonoBehaviour
     private HashSet<Vector2Int> erasedPixelSet = new HashSet<Vector2Int>();
     public bool IsFullyErased => isFullyErased;
     public float ErasedRatio => (float)erasedPixels / totalPixels; // �ܺο����� ���� Ȯ�� ����
-    public GameObject eraseCursorPrefab; // ���� ���찳 ǥ�ÿ� ������
     private GameObject eraseCursorInstance;
     void Start()
     {
@@ -159,6 +158,7 @@ public class EraseTexture : MonoBehaviour
             }
         }
     }
+
     void Update()
     {
         if (InputManager.Instance.IsPressing)

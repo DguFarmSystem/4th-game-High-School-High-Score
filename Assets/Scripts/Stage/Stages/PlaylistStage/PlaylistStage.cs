@@ -13,8 +13,12 @@ public class PlaylistStage : StageNormal
     [SerializeField]
     Sprite[] Covers;
     [SerializeField]
-    AudioClip[] Audioes;//À½¾Ç ¼Ò½º ³ª¿À¸é ±âÈ¹¼­ ¼ø¼­´ë·Î À½¾Ç ´ëÀÔÇØÁÖ¸é µÊ.
+    AudioClip Audioes;//ï¿½ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿? ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ ï¿½ï¿½.
     AudioSource theaudio;
+    [SerializeField]
+    AudioSource musicaudio;
+    [SerializeField]
+    AudioClip Ef;
 
     float ArrowTime = 1f;
     [SerializeField]
@@ -23,6 +27,8 @@ public class PlaylistStage : StageNormal
     GameObject[] ArrowPostion;
 
     float time=5f;
+
+    bool on = false;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +39,7 @@ public class PlaylistStage : StageNormal
         OnStageStart();
         currentmusic = Random.Range(0, 3);
         CoverImage.sprite=Covers[currentmusic];
-        //theaudio.clip=Audioes[currentmusic];//À½¾Ç Å¬¸³ Ãß°¡ÇßÀ¸¸é ÁÖ¼® Ã³¸® Ãë¼Ò
+        //theaudio.clip=Audioes[currentmusic];//ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿?
     }
 
     void Update()
@@ -72,6 +78,22 @@ public class PlaylistStage : StageNormal
         {
             Arrow.SetActive(false);
         }
+        if (currentmusic == 3)
+        {
+            if (!on)
+            {
+                musicaudio.clip = Audioes;
+                musicaudio.time = 2f;
+                musicaudio.Play();
+                on = true;
+            }
+
+        }
+        else
+        {
+            on = false;
+            musicaudio.Stop();
+        }
     }
 
     public override void OnStageStart()
@@ -90,6 +112,7 @@ public class PlaylistStage : StageNormal
     private void OnStageEndedGimmik(bool isStageCleared)
     {
         InputManager.Instance.OnStageTapPerformed -= StageGimmik;
+        theaudio.Stop();
         if (isStageCleared)
         {
             Debug.Log("Cleared");
@@ -121,14 +144,17 @@ public class PlaylistStage : StageNormal
     {
         currentmusic++;
         if(currentmusic==6)currentmusic = 0;
-        //theaudio.clip = Audioes[currentmusic];//³ªÁß¿¡ À½¾Ç Ãß°¡ÇßÀ¸¸é ÁÖ¼®Ç¥½Ã Áö¿ì±â
+        //theaudio.clip = Audioes[currentmusic];//ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿?
         CoverImage.sprite = Covers[currentmusic];
+        theaudio.PlayOneShot(Ef);
+        
     }
     public void OnClickPrevious()
     {
         currentmusic--;
         if (currentmusic == -1) currentmusic = 5;
-        //theaudio.clip = Audioes[currentmusic];//³ªÁß¿¡ À½¾Ç Ãß°¡ÇßÀ¸¸é ÁÖ¼®Ç¥½Ã Áö¿ì±â
+        //theaudio.clip = Audioes[currentmusic];//ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿?
         CoverImage.sprite = Covers[currentmusic];
+        theaudio.PlayOneShot(Ef);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class tutorialCS : StageIntervalCSController
+public class tutorialCS : CutScene
 {
     [Header("Background")]
     [SerializeField] private Image _backgroundSuccess;
@@ -18,7 +18,7 @@ public class tutorialCS : StageIntervalCSController
 
     private bool _startFlag = true;
 
-    protected override IEnumerator StageIntervalCutscene()
+    protected override IEnumerator StartCutScene()
     {
         // HP 출력
         ShowHP();
@@ -38,14 +38,23 @@ public class tutorialCS : StageIntervalCSController
             else _backgroundFailure.enabled = true;
 
             // 캐릭터 출력 
-            if (StageManager.Instance.GetStageCleared()) _character.sprite = _characterSuccessSprite;
-            else _character.sprite = _characterFailureSprite;
+            if (StageManager.Instance.GetStageCleared()) 
+            {
+                SoundManager.Instance.PlayBGM(_bgaudioClip);
+                _character.sprite = _characterSuccessSprite;
+            }
+            else 
+            {
+                SoundManager.Instance.StopBGM();
+                _character.sprite = _characterFailureSprite;
+            }
 
             yield return new WaitForSeconds(2.5f);
 
             if (_stageIndex > _maxStageIndex)
             {
                 _notificationImage.sprite = _gameClearSprite;
+                SoundManager.Instance.PlaySFX(_allClearAudioClip);
                 _notificationImage.enabled = true;
                 yield return new WaitForSeconds(2.5f);
                 StageManager.Instance.ShowComplete();
@@ -55,6 +64,7 @@ public class tutorialCS : StageIntervalCSController
             if (StageManager.Instance.GetHP() <= 0)
             {
                 _notificationImage.sprite = _gameOverSprite;
+                SoundManager.Instance.PlaySFX(_gameOverAudioClip);
                 _notificationImage.enabled = true;
                 yield return new WaitForSeconds(2.5f);
                 StageManager.Instance.ShowComplete();
@@ -63,6 +73,7 @@ public class tutorialCS : StageIntervalCSController
         }
 
         /* ============ 기본 출력 ============ */
+        if (!SoundManager.Instance.BGMSource.isPlaying || _startFlag) SoundManager.Instance.PlayBGM(_bgaudioClip);
 
         foreach (var hp in _HPGameObjects)
         {
@@ -78,25 +89,10 @@ public class tutorialCS : StageIntervalCSController
         yield return ShowStageInfo();
         
         _startFlag = false;
+
+        SoundManager.Instance.StopBGM();
+
         StageManager.Instance.ShowComplete(); // 다 출력했다고 알림
-    }
-
-    private IEnumerator ShowStageInfo()
-    {
-        if (_stageIndex < _stageCountSprites.Count)
-        {
-            _currentStageImage.sprite = _stageCountSprites[_stageIndex];
-            _currentStageImage.enabled = true;
-        }
-
-        yield return new WaitForSeconds(1.5f);
-
-        if (_stageIndex == _stageCountSprites.Count - 1) // 보스 스테이지 알림
-        {
-            _notificationImage.sprite = _bossStageSprite;
-            _notificationImage.enabled = true;
-            yield return new WaitForSeconds(2.5f);
-        }
     }
 
     /* =========== Lifecycle Methods =========== */
