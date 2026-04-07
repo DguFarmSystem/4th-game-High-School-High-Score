@@ -267,6 +267,7 @@ MonoBehaviour:
   _transitionTemplate: {fileID: 5276914992623515724, guid: 616d511151a6c554caddf1c754e4f91d,
     type: 3}
   _transition: {fileID: 11400000, guid: b0126e1e0c6c2a04895d564bd230dfb9, type: 2}
+  _loadingSFX: {fileID: 8300000, guid: 21145da750a8c6b409a03679ceabac9d, type: 3}
 --- !u!1 &4019658884394132798
 GameObject:
   m_ObjectHideFlags: 0

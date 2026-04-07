@@ -17,9 +17,17 @@ namespace Stage
         [Header("숫자 4 아이콘 슬롯들")]
         [SerializeField] List<GameObject> numberSlots = new List<GameObject>();
 
+        [Header("Sound")]
+        [SerializeField] AudioSource bgmSource;
+        [SerializeField] AudioSource sfxSource;
+        [SerializeField] AudioClip fourButtonSfxClip;
+        [SerializeField] AudioSource clearBgmSource;
+        [SerializeField] AudioClip clearBgmClip;
+
         int  _currentCount = 0;
         bool _screenBroken = false;
         bool _isCleared    = false;
+        bool _clearBgmPlayed = false;
 
         void OnEnable()  => OnStageEnded += OnStageEndedGimmick;
         void OnDisable() => OnStageEnded -= OnStageEndedGimmick;
@@ -37,6 +45,7 @@ namespace Stage
             _currentCount = 0;
             _screenBroken = false;
             _isCleared    = false;
+            _clearBgmPlayed = false;
 
             // 노이즈 화면 끄기
             if (monitorGlitchObject)
@@ -45,12 +54,24 @@ namespace Stage
             // 4 아이콘 전부 끄기
             foreach (var go in numberSlots)
                 if (go) go.SetActive(false);
+
+            if (bgmSource && !bgmSource.isPlaying)
+                bgmSource.Play();
+
+            if (clearBgmSource)
+                clearBgmSource.Stop();
         }
 
         public void OnNumberButtonPressed(int number)
         {
             if (CurrentStageState != StageState.Playing) return;
             if (number != 4) return;   // 4 아니면 무시
+
+            if (fourButtonSfxClip)
+            {
+                if (sfxSource) sfxSource.PlayOneShot(fourButtonSfxClip);
+                else if (bgmSource) bgmSource.PlayOneShot(fourButtonSfxClip);
+            }
 
             // 첫 4 입력 시 노이즈 화면 켜기
             if (!_screenBroken)
@@ -75,7 +96,19 @@ namespace Stage
 
             if (_currentCount >= requiredPressCount) {
                 _isCleared = true;
-                
+
+                if (!_clearBgmPlayed)
+                {
+                    _clearBgmPlayed = true;
+
+                    if (clearBgmSource && clearBgmClip)
+                    {
+                        clearBgmSource.clip = clearBgmClip;
+                        clearBgmSource.loop = false;
+                        clearBgmSource.Play();
+                    }
+                }
+
                 // 4444를 모두 입력 시 클리어 조건 달성
                 Debug.Log("[PlayTheSongLv3Stage] CLEAR 조건 달성");
             }
@@ -83,6 +116,12 @@ namespace Stage
 
         protected override void OnStageEnd()
         {
+            if (bgmSource && bgmSource.isPlaying)
+                bgmSource.Stop();
+
+            if (clearBgmSource && clearBgmSource.isPlaying)
+                clearBgmSource.Stop();
+
             if (_isCleared)
             {
                 CurrentStageState = StageState.Clear;

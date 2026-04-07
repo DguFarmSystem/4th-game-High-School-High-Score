@@ -6,16 +6,14 @@ using System.Collections;
 
 public class SnackThrowingStage : MonoBehaviour, IStageBase
 {
+    [SerializeField] private AudioClip _BGMClip;
+
     public Action<bool> OnStageEnded { get; protected set; }
 
     protected StageState CurrentStageState = StageState.NotStart;
     public StageState CurrentState => CurrentStageState;
 
     private int _numberOfStudents = 0;
-
-    // TEST CODE
-    [SerializeField] private GameObject _greenSphere;
-    [SerializeField] private GameObject _redSphere;
     
     public void OnStageStart()
     {
@@ -55,14 +53,12 @@ public class SnackThrowingStage : MonoBehaviour, IStageBase
 
         if (isStageCleared)
         {
-            //TEST CODE
             Debug.Log("Stage cleared!");
 
             StageManager.Instance.StageClear(true);
         }
         else
         {
-            //TEST CODE
             Debug.Log("Stage failed!");
             StageManager.Instance.StageClear(false);
         }
@@ -96,6 +92,7 @@ public class SnackThrowingStage : MonoBehaviour, IStageBase
 
         // 스테이지 시작
         OnStageStart();
+        SoundManager.Instance.PlayBGM(_BGMClip);
     }
 
     void Update()

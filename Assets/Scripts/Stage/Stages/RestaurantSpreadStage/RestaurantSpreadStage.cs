@@ -72,6 +72,7 @@ public class RestaurantSpreadStage : StageNormal
         stageLevel = StageManager.Instance.GetDifficulty() - 1;
         backgroundImage.sprite = Backgrounds[stageLevel];
         foodImage.sprite = FoodSprites[stageLevel];
+        AdjustSauceRatio(stageLevel);
         sauceImage.sprite = SauceSprites[stageLevel];
         //Panels[stageLevel].SetActive(true); //ĥ�ؾ��ϴ� ���� Ȯ�ο�, ���߿� �ּ� ó��
         //active�� panel�� panelDivider�� Ÿ���� �ǵ��� ����
@@ -98,5 +99,40 @@ public class RestaurantSpreadStage : StageNormal
         //{
         //    OnStageEnd();
         //}
+    }
+
+    void AdjustSauceRatio(int stagelevel)
+    {
+        RectTransform rt = sauceImage.GetComponent<RectTransform>();
+        switch(stagelevel)
+        {
+            case 0: case 1:
+                {
+                    rt.sizeDelta = new Vector2(1424, 2084);
+                    rt.localScale = new Vector3(0.2f, 0.2f, 1.0f);
+                    break;
+                }
+
+            //case 1:
+            //    {
+            //        rt.sizeDelta = new Vector2(1424, 2084);
+            //        rt.localScale = new Vector3(0.4f, 0.4f, 1.0f);
+            //        break;
+            //    }
+
+            case 2:
+                {
+                    rt.sizeDelta = new Vector2(1000, 914);
+                    rt.localScale = new Vector3(0.4f, 0.4f, 1.0f);
+                    break;
+                }
+
+            case 3:
+                {
+                    rt.sizeDelta = new Vector2(1100, 900);
+                    rt.localScale = new Vector3(0.4f, 0.4f, 1.0f);
+                    break;
+                }
+        }
     }
 }

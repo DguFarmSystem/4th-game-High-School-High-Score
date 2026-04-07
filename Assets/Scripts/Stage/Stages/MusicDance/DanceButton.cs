@@ -2,31 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
+using Stage;
 
 public class DanceButton : MonoBehaviour
 {
+    private static GameObject prevTouchedBtn = null;
+
     private SpriteRenderer selectedFX;
     private bool isCorrectBtn = false;
-    private static bool isTapped = false;
+    //private static bool isTapped = false;
 
     private MusicDanceStage _musicDanceStage;
 
     public void SetCorrect() => isCorrectBtn = true;
 
+    [SerializeField] private AudioClip _tapSFX;
+
     public void OnTap(InputAction.CallbackContext context)
     {
-        if (InputManager.Instance.TouchedCollider.gameObject == this.gameObject && !isTapped)
-        {
-            isTapped = true;
-            selectedFX.enabled = true;
-            if (isCorrectBtn) _musicDanceStage.SetStageClear();
-            else {};
+        if (_musicDanceStage.TimerTime <= 0f) return;
 
+        if (InputManager.Instance.TouchedCollider != null && 
+            InputManager.Instance.TouchedCollider.gameObject == this.gameObject /*&&
+            !isTapped*/)
+        {
+            SoundManager.Instance.PlaySFX(_tapSFX);
+            //isTapped = true;
+            selectedFX.enabled = true;
+            if (isCorrectBtn) _musicDanceStage.SetStageClear(true);
+            else _musicDanceStage.SetStageClear(false);
+
+            // 이전에 탭한 버튼의 터치 효과를 끔
+            if (prevTouchedBtn != null && prevTouchedBtn != this.gameObject)
+            {
+                prevTouchedBtn.GetComponent<DanceButton>().selectedFX.enabled = false;
+            }
+            
+            prevTouchedBtn = this.gameObject;
+
+            /* // 모든 버튼의 탭 이벤트 해제
+            DanceButton[] allButtons = FindObjectsOfType<DanceButton>();
             DanceButton[] allButtons = FindObjectsOfType<DanceButton>();
             foreach (DanceButton button in allButtons)
             {
                 InputManager.Instance._tapAction.performed -= button.OnTap;
             }
+            */
         }
     }
 
@@ -47,7 +69,7 @@ public class DanceButton : MonoBehaviour
             InputManager.Instance._tapAction.performed += OnTap;
         }
 
-        isTapped = false;
+        //isTapped = false;
     }
 
     void OnDisable()
@@ -56,5 +78,7 @@ public class DanceButton : MonoBehaviour
         {
             InputManager.Instance._tapAction.performed -= OnTap;
         }
+
+        prevTouchedBtn = null;
     }
 }

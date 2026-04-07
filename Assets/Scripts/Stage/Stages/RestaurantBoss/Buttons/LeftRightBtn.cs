@@ -14,6 +14,8 @@ public class LeftRightBtn : MonoBehaviour
     [SerializeField] protected Image failImage;
     [SerializeField] protected GameObject comboNotifier;
 
+    [SerializeField] protected AudioClip failedInputSFX;
+
     protected Conveyor Conveyor;
     protected RestaurantBossStage RestaurantBossStage;
     protected static float criticalTimer = 1f;

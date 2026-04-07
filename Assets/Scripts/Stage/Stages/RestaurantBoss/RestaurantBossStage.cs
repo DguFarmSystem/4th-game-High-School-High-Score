@@ -14,7 +14,9 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
 
     [SerializeField] public int ClearItemCount { get; private set; }= 150;
 
-    public float StageTimeLimit { get; private set; } = 30f; // 30초
+    [SerializeField] private AudioClip _stageBGM;
+
+    public float StageTimeLimit { get; private set; } = 40f; // 40초
 
     public Action<bool> OnStageEnded { get; protected set; }
 
@@ -77,6 +79,7 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
 
     private IEnumerator DelayedStart()
     {
+        SoundManager.Instance.PlayBGM(_stageBGM);
         yield return new WaitForSeconds(2.3f); // 2.3초 대기
         
         _leftButton.interactable = true;
@@ -107,6 +110,13 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
         OnStageEnded -= OnStageEndedGimmik;
     }
 
+    void Awake()
+    {
+        // 컨베이어 아이템에 대한 정렬 방식 설정
+        Camera.main.transparencySortMode = TransparencySortMode.CustomAxis;
+        Camera.main.transparencySortAxis = new Vector3(0, 1, 1);
+    }
+
     void Start()
     {
         StartCoroutine(DelayedStart());
@@ -114,7 +124,7 @@ public class RestaurantBossStage : MonoBehaviour, IStageBase
 
     void Update()
     {
-        if (CurrentStageState != StageState.Playing) return;
+        if (CurrentStageState != StageState.Playing && CurrentStageState != StageState.Clear) return;
         
         StageTimeLimit -= Time.deltaTime;
 
