@@ -101,7 +101,7 @@ public class PutAwayStage : StageNormal
     {
         if(_currentBall != null && _currentBall.GetComponent<PlayGroundBall>().IsInBasket())
         {
-            SoundManager.Instance.PlaySFX(_putBallSFX);
+            SoundManager.Instance.PlaySFX(_putBallSFX, 1.0f);
         }
 
         _currentBall = null;
