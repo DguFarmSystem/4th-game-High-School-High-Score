@@ -12,10 +12,11 @@ public class SoundManager : Singleton<SoundManager>
     public AudioSource SFXSource => _sfxSource;
     public AudioSource GaugeSource => _gaugeSource;
 
-    public void PlayBGM(AudioClip clip)
+    public void PlayBGM(AudioClip clip, float volume = 0.1f)
     {
         _bgmSource.clip = clip;
         _bgmSource.loop = true;
+        _bgmSource.volume = volume;
         _bgmSource.Play();
     }
 
@@ -24,8 +25,9 @@ public class SoundManager : Singleton<SoundManager>
         _bgmSource.Stop();
     }
 
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFX(AudioClip clip, float volume = 0.1f)
     {
+        _sfxSource.volume = volume;
         _sfxSource.PlayOneShot(clip);
     }
 

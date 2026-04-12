@@ -190,7 +190,8 @@ MonoBehaviour:
     type: 3}
   waterMelon_Prefab: {fileID: 4976392554455367266, guid: 86f550335c1837149a956934d86eb652,
     type: 3}
-  _stageBGM: {fileID: 0}
+  _stageBGM: {fileID: 8300000, guid: dbfd2c2d59c7985469f8632f3848beb0, type: 3}
+  _putBallSFX: {fileID: 8300000, guid: 3da6c5b8f07b10541947f81c08dd60b7, type: 3}
 --- !u!1 &75144303
 GameObject:
   m_ObjectHideFlags: 0

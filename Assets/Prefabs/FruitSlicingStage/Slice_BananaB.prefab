@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5669093756571067228}
   - component: {fileID: -6829432011819765437}
   - component: {fileID: -4804576674188155087}
+  - component: {fileID: 6951180193041767151}
   m_Layer: 0
   m_Name: Slice_BananaB
   m_TagString: Untagged
@@ -117,7 +118,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -133,3 +134,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 10, y: 10.49}
   m_EdgeRadius: 0
+--- !u!114 &6951180193041767151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4426764190180940236}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fea4ad3adb0ee44db8abb3a2f6f163a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

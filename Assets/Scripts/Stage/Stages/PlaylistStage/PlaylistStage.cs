@@ -26,6 +26,8 @@ public class PlaylistStage : StageNormal
     [SerializeField]
     GameObject[] ArrowPostion;
 
+    public GameObject A;
+
     float time=5f;
 
     bool on = false;
@@ -39,7 +41,6 @@ public class PlaylistStage : StageNormal
         OnStageStart();
         currentmusic = Random.Range(0, 3);
         CoverImage.sprite=Covers[currentmusic];
-        //theaudio.clip=Audioes[currentmusic];//���� Ŭ�� �߰������� �ּ� ó�� ���?
     }
 
     void Update()
@@ -53,7 +54,7 @@ public class PlaylistStage : StageNormal
                 OnStageClear();
             }
         }
-        if (time > 4)
+        if (time > 3)
         {
             switch (currentmusic)
             {
@@ -77,6 +78,7 @@ public class PlaylistStage : StageNormal
         else
         {
             Arrow.SetActive(false);
+            A.SetActive(false);
         }
         if (currentmusic == 3)
         {

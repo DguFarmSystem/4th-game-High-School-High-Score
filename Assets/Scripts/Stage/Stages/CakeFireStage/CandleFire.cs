@@ -72,7 +72,7 @@ namespace Stage
             Show(true);
             Debug.Log($"[CandleFire:{name}] ignited by Lighter ({src})");
 
-            // ☆ 반드시 이벤트 쏜다 → CakeFireStage가 밝기/카운트 갱신
+            // CakeFireStage가 밝기/카운트 갱신
             OnIgnited?.Invoke(this);
         }
 
