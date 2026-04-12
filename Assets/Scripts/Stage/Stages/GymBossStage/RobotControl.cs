@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class RobotControl : MonoBehaviour
 {
+    public AudioClip RobotBodySound;
+
     [SerializeField]
     private Image[] RobotParts;
+    private AudioSource RobotAudio;
 
     public bool LeftTilted = true;
 
@@ -50,11 +53,15 @@ public class RobotControl : MonoBehaviour
     {
         LeftTilted = !LeftTilted;
         ChangeRobotHandLeg();
+        RobotAudio.clip = RobotBodySound;
+        RobotAudio.Play();
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        RobotAudio = GetComponent<AudioSource>();
         if (LeftTilted)
         {
             LeftLegHand();

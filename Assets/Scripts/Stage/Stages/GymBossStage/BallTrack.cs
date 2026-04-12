@@ -35,6 +35,9 @@ public class BallTrack : MonoBehaviour
     public RobotControl RobotState;
     public List<Ball> ActiveBall = new List<Ball>();
 
+    public AudioSource TrackAudio;
+    public AudioClip BallMovingSound;
+    public AudioClip BallCrushSound;
     public event Action<Ball> OnCheckFallLeft;
     public event Action<Ball> OnCheckFallRight;
 
@@ -125,6 +128,10 @@ public class BallTrack : MonoBehaviour
 
             // 해당 공의 타이머만 리셋!
             ball.Timer = deltaBallMoving;
+
+            //공 이동 사운드 출력
+            TrackAudio.clip = BallMovingSound;
+            TrackAudio.Play();
         }
         else
         {
@@ -154,6 +161,8 @@ public class BallTrack : MonoBehaviour
         DeActivateAll();
         FallenBalls[FallImageIndex].gameObject.SetActive(true);
         Fallen = true;
+        TrackAudio.clip = BallCrushSound;
+        TrackAudio.Play();
     }
 
     IEnumerator CheckRightTilt(Ball checkBall, int FallImageIndex)
@@ -177,6 +186,8 @@ public class BallTrack : MonoBehaviour
         DeActivateAll();
         FallenBalls[FallImageIndex].gameObject.SetActive(true);
         Fallen = true;
+        TrackAudio.clip = BallCrushSound;
+        TrackAudio.Play();
     }
 
     void CheckBallFall_LeftSide(Ball Checkball)
@@ -224,6 +235,7 @@ public class BallTrack : MonoBehaviour
     void Start()
     {
         RobotState = FindObjectOfType<RobotControl>();
+        TrackAudio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
