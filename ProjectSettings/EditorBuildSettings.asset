@@ -83,6 +83,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/NoneStages/StageInitScene.unity
     guid: fe1331db15c2d584885fb80c7fd1be96
+  - enabled: 1
+    path: Assets/Scenes/PlayGroundStages/AttachScene.unity
+    guid: ddb9952bc05f60a4c827676ac0a702d7
+  - enabled: 1
+    path: Assets/Scenes/PlayGroundStages/CountStage.unity
+    guid: daf1af95dcdc85e43b5a110e9b310b59
+  - enabled: 1
+    path: Assets/Scenes/PlayGroundStages/Gym_BossStage.unity
+    guid: a0cd197c8a7610a4688dec7386e0f655
+  - enabled: 1
+    path: Assets/Scenes/PlayGroundStages/PlaygroundPutAwayStage.unity
+    guid: 9304ccbdd5128144b9e1bca50da1f632
+  - enabled: 1
+    path: Assets/Scenes/PlayGroundStages/ScalesStage.unity
+    guid: 8567723f44f7ab540ae54fd494255070
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}

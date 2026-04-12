@@ -39,4 +39,11 @@ public static class SceneNames
     public const string MusicGuitar = "MusicGuitarStage";
     //public const string MusicNoteTracing = "MusicRoom_NoteTracing_Delayed";
     public const string MusicPiano = "PianoStage";
+
+    // playground
+    public const string PlaygroundScales = "ScalesStage";
+    public const string PlaygroundAttach = "AttachScene";
+    public const string PlaygroundCount = "CountStage";
+    public const string PlaygroundBoss = "Gym_BossStage";
+    public const string PlaygroundPutAway = "PlaygroundPutAwayStage";
 }

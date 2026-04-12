@@ -12,6 +12,7 @@ public class GameData
     [SerializeField] private bool isTutorialCleared = false;
     [SerializeField] private bool isRestaurantCleared = false;
     [SerializeField] private bool isMusicCleared = false;
+    [SerializeField] private bool isPlaygroundCleared = false;
 
     // 생성자
     public GameData(string name)
@@ -24,7 +25,7 @@ public class GameData
     public bool GetTutorialCleared() => isTutorialCleared;
     public bool GetRestaurantCleared() => isRestaurantCleared;
     public bool GetMusicRoomCleared() => isMusicCleared;
-
+    public bool GetPlaygroundCleared() => isPlaygroundCleared;
     public void SetTutorialCleared(bool cleared)
     {
         isTutorialCleared = cleared;
@@ -40,6 +41,12 @@ public class GameData
     public void SetMusicCleared(bool cleared)
     {
         isMusicCleared = cleared;
+        DataManager.Instance.SaveGameData();
+    }
+
+    public void SetPlaygroundCleared(bool cleared)
+    {
+        isPlaygroundCleared = cleared;
         DataManager.Instance.SaveGameData();
     }
 

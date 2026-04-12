@@ -57,11 +57,11 @@ public class ToggleController : MonoBehaviour
             case StageType.Tutorial:
                 return true;
             case StageType.Restaurant:
-                return DataManager.Instance.Player.GetTutorialCleared();
+                return true; //DataManager.Instance.Player.GetTutorialCleared();
             case StageType.MusicRoom:
-                return DataManager.Instance.Player.GetRestaurantCleared();
+                return true; //DataManager.Instance.Player.GetRestaurantCleared();
             case StageType.Gym:
-                return false;
+                return true; //DataManager.Instance.Player.GetMusicRoomCleared();
             case StageType.HealthRoom:
                 return false;
         }
@@ -176,6 +176,45 @@ public class ToggleController : MonoBehaviour
                     SceneNames.MusicBeat
                 },
                 "MusicCS",
+                StageManager.GameMode.Normal,
+                null
+            );
+            LoadingSceneController.Instance.LoadScene(SceneNames.StageInitScene, StageManager.Instance.LoadNextStage);
+        }
+    }
+
+    public void PlayGroundButtonAction(bool isOn)
+    {
+        //��ư �������� �� �׼�
+        if (!DataManager.Instance.Player.GetPlaygroundCleared())
+        {
+            StageManager.Instance.Initialize(
+            new List<string>()
+                {
+                    SceneNames.PlaygroundAttach,
+                    SceneNames.PlaygroundPutAway,
+                    SceneNames.PlaygroundScales,
+                    SceneNames.PlaygroundCount,
+                    SceneNames.PlaygroundBoss,
+                },
+                "MusicCS", // playground CS is not yet implemented, so temporarily use music CS
+                StageManager.GameMode.Normal,
+                SceneNames.MusicConvStart
+            );
+            LoadingSceneController.Instance.LoadScene(SceneNames.MusicConvStart);
+        }
+        else
+        {
+            StageManager.Instance.Initialize(
+                new List<string>()
+                {
+                    SceneNames.PlaygroundAttach,
+                    SceneNames.PlaygroundPutAway,
+                    SceneNames.PlaygroundScales,
+                    SceneNames.PlaygroundCount,
+                    SceneNames.PlaygroundBoss,
+                },
+                "MusicCS", // playground CS is not yet implemented, so temporarily use music CS 
                 StageManager.GameMode.Normal,
                 null
             );

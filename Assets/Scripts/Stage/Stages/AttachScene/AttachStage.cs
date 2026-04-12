@@ -90,7 +90,7 @@ namespace Stage
             StopAllCoroutines();
             CurrentStageState = StageState.Playing;
 
-            SetupLevel(_activeIndex);
+            SetupLevel(/*_activeIndex*/StageManager.Instance.GetDifficulty()-1);
             PlayStageBgm();
 
             base.OnStageStart();

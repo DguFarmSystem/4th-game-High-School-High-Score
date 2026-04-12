@@ -35,6 +35,16 @@ public class ScalesStage : StageNormal
 
     float timer = 5f;
 
+    public void OnEnable()
+    {
+        OnStageEnded += OnStageEndedGimmik;
+    }
+
+    public void OnDisable()
+    {
+        OnStageEnded -= OnStageEndedGimmik;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,7 +68,7 @@ public class ScalesStage : StageNormal
         }
         if (InputManager.Instance.IsPressing)
         {
-            if (!Spawned)
+            if (!Spawned && InputManager.Instance.TouchedCollider != null)
             {
                 switch (InputManager.Instance.TouchedCollider.name)
                 {
@@ -80,14 +90,20 @@ public class ScalesStage : StageNormal
             }
             else
             {
-                TheWeigh.transform.position = InputManager.Instance.TouchWorldPos;
+                if (TheWeigh != null)
+                {
+                    TheWeigh.transform.position = InputManager.Instance.TouchWorldPos;
+                }
             }
         }
         else
         {
             Spawned = false;
-            TheWeigh.GetComponent<BoxCollider2D>().enabled = true;
-            TheWeigh = null;
+            if (TheWeigh != null)
+            {
+                TheWeigh.GetComponent<BoxCollider2D>().enabled = true;
+                TheWeigh = null;
+            }
         }
     }
     private void OnStageEndedGimmik(bool isStageCleared)
