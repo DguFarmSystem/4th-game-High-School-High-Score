@@ -12,7 +12,7 @@ public class Weight : MonoBehaviour
 
     void Start()
     {
-        theaudio.GetComponent<AudioSource>();
+        theaudio=GetComponent<AudioSource>();
     }
 
     void Update()
@@ -31,7 +31,7 @@ public class Weight : MonoBehaviour
     {
         if (collision.gameObject.transform.position.y < transform.position.y && IsInRange)
         {
-            theaudio.PlayOneShot(Effect);
+            theaudio.Play();
         }
     }
 
