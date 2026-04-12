@@ -50,7 +50,6 @@ public class ScalesStage : StageNormal
     // Update is called once per frame
     void Update()
     {
-        print(answer);
         text[1].text = answer.ToString();
         timer -= Time.deltaTime;
         if(timer < 0 )
@@ -132,6 +131,7 @@ public class ScalesStage : StageNormal
                 answer += 10;
                 break;
         }
+        collision.gameObject.GetComponent<Weight>().IsInRange = true;
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
@@ -147,5 +147,6 @@ public class ScalesStage : StageNormal
                 answer -= 10;
                 break;
         }
+        collision.gameObject.GetComponent<Weight>().IsInRange = false;
     }
 }

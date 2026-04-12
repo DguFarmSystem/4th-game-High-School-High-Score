@@ -955,7 +955,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 8.744995}
+  m_Offset: {x: 0, y: 8.536382}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -966,7 +966,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 19.3, y: 1.5500102}
+  m_Size: {x: 19.3, y: 1.1327872}
   m_EdgeRadius: 0
 --- !u!212 &534994397
 SpriteRenderer:
@@ -1008,7 +1008,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a0d873af6bc9e2e4c931299fdaf1a6d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1060,12 +1060,12 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694422435}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 3301dbe2666b33545b705f62f7bee2e4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0.114
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1461,6 +1461,7 @@ GameObject:
   - component: {fileID: 1593378126}
   - component: {fileID: 1593378127}
   - component: {fileID: 1593378128}
+  - component: {fileID: 1593378129}
   m_Layer: 0
   m_Name: ScalesStage
   m_TagString: Untagged
@@ -1542,6 +1543,102 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.5457773, y: 6.9098477}
   m_EdgeRadius: 0
+--- !u!82 &1593378129
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593378124}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1614297938
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,6 +1921,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: 5Spawner
       objectReference: {fileID: 0}
+    - target: {fileID: 1953412876368362782, guid: f73d233693e2a03448227ddd0c8227ed,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1953412876368362783, guid: f73d233693e2a03448227ddd0c8227ed,
         type: 3}
       propertyPath: m_RootOrder
@@ -1906,7 +2008,7 @@ PrefabInstance:
     - target: {fileID: 5018892469000164155, guid: 6fc999f6e1adbd84780c014c5350ccc2,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.3999996
+      value: -3.443
       objectReference: {fileID: 0}
     - target: {fileID: 5018892469000164155, guid: 6fc999f6e1adbd84780c014c5350ccc2,
         type: 3}
@@ -1981,6 +2083,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: 10Spawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092215440724401759, guid: f6196eb1b5ea57b4f8c6547dc71dab65,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7092215440724401760, guid: f6196eb1b5ea57b4f8c6547dc71dab65,
         type: 3}
