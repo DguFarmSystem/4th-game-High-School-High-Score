@@ -98,6 +98,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlayGroundStages/ScalesStage.unity
     guid: 8567723f44f7ab540ae54fd494255070
+  - enabled: 1
+    path: Assets/Scenes/HealthStages/HealthTeethStage.unity
+    guid: ad8ba15647472bc4c8726b2b91cb04a6
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}

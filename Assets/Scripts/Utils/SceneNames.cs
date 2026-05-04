@@ -46,4 +46,8 @@ public static class SceneNames
     public const string PlaygroundCount = "CountStage";
     public const string PlaygroundBoss = "Gym_BossStage";
     public const string PlaygroundPutAway = "PlaygroundPutAwayStage";
+
+    // health
+    public const string HealthTeeth = "HealthTeethStage";
+    
 }
