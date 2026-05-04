@@ -2255,8 +2255,8 @@ MonoBehaviour:
   bgmSource: {fileID: 570798010}
   sfxSource: {fileID: 570798009}
   attachSfxClip: {fileID: 8300000, guid: 3a7c77a50b045426f844ac09c5ae5365, type: 3}
-  debugForceDifficulty: 1
-  debugDifficulty: 4
+  debugForceDifficulty: 0
+  debugDifficulty: 3
 --- !u!82 &570798009
 AudioSource:
   m_ObjectHideFlags: 0
