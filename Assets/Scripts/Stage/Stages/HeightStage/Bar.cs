@@ -46,6 +46,7 @@ public class Bar : MonoBehaviour
             currentLevel = Mathf.Max(1, StageManager.Instance.GetDifficulty());
         }
         
+        SetStartPosition();
         CalculateHeight();
     }
 
@@ -110,6 +111,29 @@ public class Bar : MonoBehaviour
         }
     }
 
+    void SetStartPosition()
+    {
+        if (pos50cm == null || pos100cm == null) return;
+
+        float targetCm = 70f;
+        switch (currentLevel)
+        {
+            case 1: targetCm = 70f; break;
+            case 2: targetCm = 70f; break;
+            case 3: targetCm = 90f; break;
+            case 4: targetCm = 90f; break;
+        }
+
+        float distanceUnits = pos100cm.position.y - pos50cm.position.y;
+        float unitsPerCm = distanceUnits / 50f;
+
+        float targetY = pos50cm.position.y + ((targetCm - 50f) * unitsPerCm);
+        
+        Vector3 newPos = transform.position;
+        newPos.y = targetY;
+        transform.position = newPos;
+    }
+
     void CalculateHeight()
     {
         if (pos50cm == null || pos100cm == null) return;
@@ -140,7 +164,7 @@ public class Bar : MonoBehaviour
                 if (currentCm >= 57.0f && currentCm <= 63.0f) isSuccess = true;
                 break;
             case 4:
-                if (currentCm >= 77.0f && currentCm <= 83.0f) isSuccess = true;
+                if (currentCm >= 67.0f && currentCm <= 73.0f) isSuccess = true;
                 break;
         }
 

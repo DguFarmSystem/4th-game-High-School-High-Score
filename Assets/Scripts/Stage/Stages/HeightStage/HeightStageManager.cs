@@ -17,8 +17,8 @@ public class HeightStageManager : StageNormal
     public GameObject[] levelBackgrounds;
 
     [Header("Stage Objects")]
-    [Tooltip("게임 시작 시 켜줄 Bar 오브젝트")]
-    public GameObject barObject;
+    [Tooltip("레벨별 Bar 오브젝트 (인덱스 0 = 레벨 1, 인덱스 1 = 레벨 2...)")]
+    public GameObject[] levelBars;
 
     public void OnEnable()
     {
@@ -79,9 +79,12 @@ public class HeightStageManager : StageNormal
         }
 
         // 3. 게임 플레이 오브젝트(Bar) 활성화
-        if (barObject != null)
+        for (int i = 0; i < levelBars.Length; i++)
         {
-            barObject.SetActive(true);
+            if (levelBars[i] != null)
+            {
+                levelBars[i].SetActive(i == (level - 1));
+            }
         }
     }
 }
