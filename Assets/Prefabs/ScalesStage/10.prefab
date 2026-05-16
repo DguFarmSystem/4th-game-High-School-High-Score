@@ -149,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Effect: {fileID: 8300000, guid: d2d463af6440cb248bfb61ab49c5b4cf, type: 3}
   IsInRange: 0
+  w: 10
 --- !u!82 &-6540620423986963245
 AudioSource:
   m_ObjectHideFlags: 0
