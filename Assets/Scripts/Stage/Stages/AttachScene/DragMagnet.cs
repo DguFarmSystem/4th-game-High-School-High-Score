@@ -24,6 +24,8 @@ public class DragMagnet : MonoBehaviour
     private readonly List<Collider2D> _myCols = new List<Collider2D>(8);
     private static readonly Collider2D[] _overlapBuf = new Collider2D[16];
 
+    
+
     private void Awake()
     {
         if (!followRoot) followRoot = transform;
