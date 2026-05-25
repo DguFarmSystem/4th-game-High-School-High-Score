@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Stage
@@ -7,6 +8,8 @@ namespace Stage
     {
         [Header("Icons")]
         [SerializeField] private GameObject[] icons;
+
+        public event Action OnSelected;
 
         private int currentIndex = 0;
         private bool canTouch = true;
@@ -19,6 +22,7 @@ namespace Stage
         private void OnMouseDown()
         {
             if (!canTouch) return;
+
             Next();
         }
 
@@ -46,7 +50,10 @@ namespace Stage
             if (currentIndex >= icons.Length)
                 currentIndex = 0;
 
+            OnSelected?.Invoke();
+
             ApplyVisual();
+
 
             Debug.Log($"[VisionAnswerSelector] currentIndex = {currentIndex}");
         }

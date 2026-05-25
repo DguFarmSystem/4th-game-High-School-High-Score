@@ -17,10 +17,6 @@ namespace Stage
             [Header("Correct Answer")]
             [Range(0, 3)]
             public int correctAnswerIndex;
-            // 0 = Answer1
-            // 1 = Answer2
-            // 2 = Answer3
-            // 3 = Answer4
         }
 
         [Header("Levels")]
@@ -31,6 +27,11 @@ namespace Stage
 
         [Range(1, 4)]
         [SerializeField] private int debugDifficulty = 1;
+
+        [Header("Sound")]
+        [SerializeField] private AudioSource bgmSource;
+        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioClip selectSfxClip;
 
         private int _activeIndex = -1;
         private LevelEntry _active;
@@ -45,6 +46,12 @@ namespace Stage
         private void OnDisable()
         {
             OnStageEnded -= OnStageEndedGimmick;
+
+            foreach (var level in levels)
+            {
+                if (level != null && level.answerSelector != null)
+                    level.answerSelector.OnSelected -= HandleSelect;
+            }
         }
 
         private void Start()
@@ -90,6 +97,9 @@ namespace Stage
                     SetupLevel(_activeIndex);
             }
 
+            if (bgmSource != null && !bgmSource.isPlaying)
+                bgmSource.Play();
+
             base.OnStageStart();
         }
 
@@ -101,6 +111,9 @@ namespace Stage
             {
                 if (levels[i].root != null)
                     levels[i].root.SetActive(i == index);
+
+                if (levels[i].answerSelector != null)
+                    levels[i].answerSelector.OnSelected -= HandleSelect;
             }
 
             _activeIndex = index;
@@ -108,11 +121,18 @@ namespace Stage
 
             if (_active != null && _active.answerSelector != null)
             {
+                _active.answerSelector.OnSelected += HandleSelect;
                 _active.answerSelector.Initialize();
                 _active.answerSelector.SetTouchEnabled(true);
             }
 
             Debug.Log($"[VisionStage] SetupLevel 완료 / Level = {index + 1}");
+        }
+
+        private void HandleSelect()
+        {
+            if (sfxSource != null && selectSfxClip != null)
+                sfxSource.PlayOneShot(selectSfxClip);
         }
 
         protected override void OnStageEnd()
@@ -121,6 +141,9 @@ namespace Stage
 
             if (_active != null && _active.answerSelector != null)
                 _active.answerSelector.SetTouchEnabled(false);
+
+            if (bgmSource != null && bgmSource.isPlaying)
+                bgmSource.Stop();
 
             if (isCorrect)
             {
