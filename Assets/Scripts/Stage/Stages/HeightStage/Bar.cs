@@ -18,6 +18,14 @@ public class Bar : MonoBehaviour
     [Tooltip("아래로 내려가는 속도")]
     public float moveSpeed = 2f;
 
+    [Header("Audio Settings")]
+    [Tooltip("바가 움직일 때 (숫자가 돌아갈 때) 나는 소리")]
+    public AudioClip movingSound;
+    [Tooltip("성공 범위 안에 멈췄을 때 나는 소리")]
+    public AudioClip successSound;
+    [Tooltip("성공 범위 밖에 멈췄을 때 나는 소리")]
+    public AudioClip failSound;
+
     // HeightStageManager에서만 레벨을 관리하도록 Bar의 인스펙터에서는 아예 숨깁니다.
     [HideInInspector]
     public int currentLevel = 1;
@@ -64,6 +72,10 @@ public class Bar : MonoBehaviour
         if (timer >= startDelay && !isMoving)
         {
             isMoving = true;
+            if (SoundManager.Instance != null && movingSound != null)
+            {
+                SoundManager.Instance.PlayGaugeSound(movingSound);
+            }
         }
 
         if (isMoving)
@@ -107,6 +119,10 @@ public class Bar : MonoBehaviour
         if (RectTransformUtility.RectangleContainsScreenPoint(myRect, hitPos, uiCamera))
         {
             isStopped = true;
+            if (SoundManager.Instance != null && isMoving)
+            {
+                SoundManager.Instance.StopGaugeSound();
+            }
             CheckClear();
         }
     }
@@ -170,6 +186,10 @@ public class Bar : MonoBehaviour
 
         if (isSuccess)
         {
+            if (SoundManager.Instance != null && successSound != null)
+            {
+                SoundManager.Instance.PlaySFX(successSound);
+            }
             Debug.Log($"[HeightStage] 성공! 멈춘 위치: {currentCm:F1}cm (적용된 레벨: {currentLevel})");
             // StageManager 연동 (CountManager, BeatStageManager 참고)
             if (StageManager.Instance != null)
@@ -179,6 +199,10 @@ public class Bar : MonoBehaviour
         }
         else
         {
+            if (SoundManager.Instance != null && failSound != null)
+            {
+                SoundManager.Instance.PlaySFX(failSound);
+            }
             Debug.Log($"[HeightStage] 실패... 멈춘 위치: {currentCm:F1}cm (적용된 레벨: {currentLevel})");
             if (StageManager.Instance != null)
             {

@@ -20,6 +20,10 @@ public class HeightStageManager : StageNormal
     [Tooltip("레벨별 Bar 오브젝트 (인덱스 0 = 레벨 1, 인덱스 1 = 레벨 2...)")]
     public GameObject[] levelBars;
 
+    [Header("Audio")]
+    [Tooltip("스테이지 배경음악")]
+    public AudioClip stageBGM;
+
     public void OnEnable()
     {
         // StageNormal의 이벤트 연결
@@ -33,6 +37,11 @@ public class HeightStageManager : StageNormal
 
     private void OnStageEndedGimmik(bool isStageCleared)
     {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.StopBGM();
+        }
+
         if (isStageCleared)
         {
             Debug.Log("[HeightStage] Stage cleared!");
@@ -62,6 +71,11 @@ public class HeightStageManager : StageNormal
 
     public override void OnStageStart()
     {
+        if (SoundManager.Instance != null && stageBGM != null)
+        {
+            SoundManager.Instance.PlayBGM(stageBGM);
+        }
+
         // 수동으로 상태 변경 (base.OnStageStart()의 타이머 기능 무시)
         CurrentStageState = StageState.Playing;
 
