@@ -114,4 +114,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5556944ca8ffa47804b864f8a1c1b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nextLvObjective: {fileID: 0}
+  _nextObjective: {fileID: 0}
+  _destroyAudio: {fileID: 8300000, guid: 24da7c180f4ac6a449da586128dcc5ea, type: 3}

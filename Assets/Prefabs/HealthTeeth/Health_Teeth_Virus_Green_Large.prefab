@@ -116,3 +116,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nextObjective: {fileID: 7551044138881516811, guid: ccad25ddce362114a9fe13026a797436,
     type: 3}
+  _destroyAudio: {fileID: 8300000, guid: 0a87c8938b5f5fa47a546721dec99618, type: 3}

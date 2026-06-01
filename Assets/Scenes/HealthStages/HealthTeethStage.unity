@@ -174,7 +174,7 @@ MonoBehaviour:
   _backgroundLv2: {fileID: 21300000, guid: 92f6c2803221b404ba826271643b43f8, type: 3}
   _backgroundLv3: {fileID: 21300000, guid: 14234dfc022f7db4c8708b80301ff6e0, type: 3}
   _backgroundLv4: {fileID: 21300000, guid: 6a960fa5a4e177642b876e7a067b4952, type: 3}
-  _stageBGM: {fileID: 0}
+  _stageBGM: {fileID: 8300000, guid: 225c9911d26cb0547821216ff86e6f1f, type: 3}
 --- !u!1 &52447285
 GameObject:
   m_ObjectHideFlags: 0

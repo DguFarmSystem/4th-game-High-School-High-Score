@@ -7,6 +7,7 @@ public class HealthObjective : MonoBehaviour
     public static int totalObjectives { get; private set; } = 0; // 총 목적물 수
 
     [SerializeField] private GameObject _nextObjective; // 다음 목적물
+    [SerializeField] private AudioClip _destroyAudio; // 파괴 시 재생할 오디오 클립
 
     public void Interact()
     {
@@ -16,7 +17,11 @@ public class HealthObjective : MonoBehaviour
 
             Destroy(gameObject);
         }
-        else Destroy(gameObject);
+        else 
+        {
+            SoundManager.Instance.PlaySFX(_destroyAudio);
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
