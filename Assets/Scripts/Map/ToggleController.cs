@@ -197,7 +197,7 @@ public class ToggleController : MonoBehaviour
                     SceneNames.PlaygroundCount,
                     SceneNames.PlaygroundBoss,
                 },
-                "MusicCS", // playground CS is not yet implemented, so temporarily use music CS
+                "SportCS", // playground CS is not yet implemented, so temporarily use sport CS
                 StageManager.GameMode.Normal,
                 SceneNames.MusicConvStart
             );
@@ -214,7 +214,7 @@ public class ToggleController : MonoBehaviour
                     SceneNames.PlaygroundCount,
                     SceneNames.PlaygroundBoss,
                 },
-                "MusicCS", // playground CS is not yet implemented, so temporarily use music CS 
+                "SportCS", // playground CS is not yet implemented, so temporarily use sport CS
                 StageManager.GameMode.Normal,
                 null
             );

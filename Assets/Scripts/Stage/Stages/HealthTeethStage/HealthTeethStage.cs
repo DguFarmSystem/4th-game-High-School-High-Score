@@ -72,7 +72,7 @@ public class HealthTeethStage : StageNormal
 
     public void Awake()
     {
-        int stageLevel = 4;
+        int stageLevel = StageManager.Instance.GetDifficulty();
         
         switch (stageLevel)
         {

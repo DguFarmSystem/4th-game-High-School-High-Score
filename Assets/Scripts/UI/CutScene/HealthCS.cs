@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -118,7 +119,6 @@ public class HealthCS : CutScene
             if (_stageIndex > _maxStageIndex)
             {
                 _HPGameObjects[i].GetComponent<Animator>().Play("Clear"); // animation state 호출
-                _HPGameObjects[i].GetComponent<Image>().SetNativeSize();
             }
 
             _HPGameObjects[i].GetComponent<Image>().enabled = true; 
