@@ -1,0 +1,53 @@
+{
+    "conversation": [
+        {
+            "id": 1,
+            "characterImage": 1,
+            "speaker": "<PLAYER_NAME>",
+            "texts": [
+                "(속이 울렁거린다. 이 학교는 학생의 건강을 존중하지 않는 것 같다.)"
+            ]
+        },
+        {
+            "id": 2,
+            "characterImage": 1,
+            "speaker": "쟈이로",
+            "texts": [
+                "고작 스트레칭에 나가떨어진 거야? 나약하네!",
+                "앞으로 더 많은 대결이 기다리고 있다고!"
+            ]
+        },
+        {
+            "id": 3,
+            "characterImage": 1,
+            "speaker": "<PLAYER_NAME>",
+            "texts": [
+                "(눈앞이 점점 흐려진다. 소리가 멀어진다.)",
+                "(눈이 점점 감겨온다….)"
+            ]
+        },
+        {
+            "id": 4,
+            "characterImage": -1,
+            "EffectType": "Confusing",
+            "specificSoundIndex": 2,
+            "texts": [
+                ""
+            ]
+        },
+        {
+            "id": 5,
+            "characterImage": -1,
+            "speaker": "???",
+            "EffectType": "ImageChange",
+            "texts": [
+                "…… 들려?",
+                "꿈속에서도 모든 게 현실 같잖아.",
+                "깨어나서야 이상한 걸 깨닫게 되지.",
+                "우리가 기억하는 건 꿈의 시작이 아니라 항상 꿈의 중간부터잖아?",
+                "생각해봐.",
+                "지금 어디에 있어?"
+            ]
+        }
+    ]
+}

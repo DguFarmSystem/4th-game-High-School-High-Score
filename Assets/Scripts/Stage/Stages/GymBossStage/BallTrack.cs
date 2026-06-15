@@ -42,7 +42,7 @@ public class BallTrack : MonoBehaviour
     public event Action<Ball> OnCheckFallRight;
 
     private float deltaBallMoving = 0.9f;
-    private float Tempdelta = 0.0f;
+    //private float Tempdelta = 0.0f;
     private bool Fallen = false;
 
 
