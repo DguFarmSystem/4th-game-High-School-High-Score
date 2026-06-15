@@ -10,6 +10,9 @@ public class WashStage : StageNormal
 {
     int StageLevel;
 
+    public AudioClip sound;
+    AudioSource theaudio;
+
     public GameObject Shower;
     public Image Background;
     public Sprite[] BackgroundSprite;
@@ -34,6 +37,7 @@ public class WashStage : StageNormal
 
     void Start()
     {
+        theaudio = GetComponent<AudioSource>();
         Water.enabled = false;
         Shower.transform.position = new Vector3(10.12f, 4.31f, 0);
         StageLevel = StageManager.Instance.GetDifficulty();
@@ -91,6 +95,11 @@ public class WashStage : StageNormal
             if(started)
             Shower.transform.position = InputManager.Instance.TouchWorldPos;
         }
+        if (CurrentBubbleCount == BubbleCount) theaudio.volume = 0f;
+        else if (CurrentBubbleCount >= BubbleCount * 0.5f) theaudio.volume = 0.05f;
+        else if (CurrentBubbleCount >= BubbleCount * 0.3f) theaudio.volume = 0.07f;
+
+
     }
     private void OnStageEndedGimmik(bool isStageCleared)
     {
