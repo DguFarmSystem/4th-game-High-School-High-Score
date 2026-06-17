@@ -233,7 +233,11 @@ namespace CartoonFX
 				//Use custom properties to enable/disable groups based on keywords
 				if(ShowNextProperty)
 				{
+#if UNITY_6000_1_OR_NEWER
+					if((properties[i].propertyFlags & (UnityEngine.Rendering.ShaderPropertyFlags.HideInInspector | UnityEngine.Rendering.ShaderPropertyFlags.PerRendererData)) == UnityEngine.Rendering.ShaderPropertyFlags.None)
+#else
 					if((properties[i].flags & (MaterialProperty.PropFlags.HideInInspector | MaterialProperty.PropFlags.PerRendererData)) == MaterialProperty.PropFlags.None)
+#endif
 					{
 						DisplayProperty(properties[i], materialEditor);
 					}
@@ -270,7 +274,11 @@ namespace CartoonFX
 	{
 		private static bool IsPropertyTypeSuitable(MaterialProperty prop)
 		{
+#if UNITY_6000_1_OR_NEWER
+			return prop.propertyType == UnityEngine.Rendering.ShaderPropertyType.Float || prop.propertyType == UnityEngine.Rendering.ShaderPropertyType.Range;
+#else
 			return prop.type == MaterialProperty.PropType.Float || prop.type == MaterialProperty.PropType.Range;
+#endif
 		}
 
 		public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
@@ -334,7 +342,11 @@ namespace CartoonFX
 
 		static bool IsPropertyTypeSuitable(MaterialProperty prop)
 		{
+#if UNITY_6000_1_OR_NEWER
+			return prop.propertyType == UnityEngine.Rendering.ShaderPropertyType.Float || prop.propertyType == UnityEngine.Rendering.ShaderPropertyType.Range;
+#else
 			return prop.type == MaterialProperty.PropType.Float || prop.type == MaterialProperty.PropType.Range;
+#endif
 		}
 
 		void SetKeyword(MaterialProperty prop, int index)
