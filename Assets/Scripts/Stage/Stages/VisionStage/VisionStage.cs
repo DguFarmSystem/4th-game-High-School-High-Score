@@ -131,8 +131,11 @@ namespace Stage
 
         private void HandleSelect()
         {
-            if (sfxSource != null && selectSfxClip != null)
-                sfxSource.PlayOneShot(selectSfxClip);
+            if (sfxSource == null || selectSfxClip == null) return;
+
+            sfxSource.Stop();
+            sfxSource.clip = selectSfxClip;
+            sfxSource.Play();
         }
 
         protected override void OnStageEnd()
