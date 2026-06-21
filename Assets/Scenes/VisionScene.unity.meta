@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/VisionScene.unity.meta
 guid: d4c94001e95ca194592c7b78029d9e9f
+========
+guid: 81d1b1ff7503c284d8c1cc2c3370ea34
+folderAsset: yes
+>>>>>>>> KDH:Assets/Essential Game Music Pack.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

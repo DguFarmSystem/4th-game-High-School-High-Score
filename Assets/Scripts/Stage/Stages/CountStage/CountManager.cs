@@ -81,7 +81,7 @@ public class CountManager : StageNormal
         if (level == 1 || level == 2)
             animalCount = Random.Range(3, 6);
         else
-            animalCount = Random.Range(6, 11);
+            animalCount = Random.Range(5, 8);
 
         // 3. 변수 및 클릭커 초기화
         clicker = Manbo.GetComponent<Clicker>();
