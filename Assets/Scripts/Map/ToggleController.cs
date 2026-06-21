@@ -199,9 +199,9 @@ public class ToggleController : MonoBehaviour
                 },
                 "SportCS",
                 StageManager.GameMode.Normal,
-                SceneNames.MusicConvStart
+                SceneNames.MusicConvStart // 대화씬 교체 필요
             );
-            LoadingSceneController.Instance.LoadScene(SceneNames.MusicConvStart);
+            LoadingSceneController.Instance.LoadScene(SceneNames.MusicConvStart); // 대화씬 교체 필요
         }
         else
         {
@@ -230,11 +230,11 @@ public class ToggleController : MonoBehaviour
             StageManager.Instance.Initialize(
             new List<string>()
                 {
-                    SceneNames.PlaygroundAttach,
-                    SceneNames.PlaygroundPutAway,
-                    SceneNames.PlaygroundScales,
-                    SceneNames.PlaygroundCount,
-                    SceneNames.PlaygroundBoss,
+                    SceneNames.HealthTeeth,
+                    SceneNames.HealthVision,
+                    SceneNames.HealthWash,
+                    SceneNames.HealthHeight,
+                    SceneNames.HealthWash, // 보스스테이지 완성 필요
                 },
                 "HealthCS",
                 StageManager.GameMode.Normal,
@@ -247,11 +247,11 @@ public class ToggleController : MonoBehaviour
             StageManager.Instance.Initialize(
                 new List<string>()
                 {
-                    SceneNames.PlaygroundAttach,
-                    SceneNames.PlaygroundPutAway,
-                    SceneNames.PlaygroundScales,
-                    SceneNames.PlaygroundCount,
-                    SceneNames.PlaygroundBoss,
+                    SceneNames.HealthTeeth,
+                    SceneNames.HealthVision,
+                    SceneNames.HealthWash,
+                    SceneNames.HealthHeight,
+                    SceneNames.HealthWash, // 보스스테이지 완성 필요
                 },
                 "HealthCS",
                 StageManager.GameMode.Normal,
