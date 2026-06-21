@@ -5,31 +5,31 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NoneStages/BootScene.unity
     guid: 8966f465628fd234088cf4deab0594c6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NoneStages/MainMenu.unity
     guid: a4f2682670237b54e87fa6e035343984
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TutorialStages/FindSeatStage.unity
     guid: 59e465b21eaadba4a8d9ee43e83b3754
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TutorialStages/SnackThrowingStage.unity
     guid: 9f84d2632c8e6154790d8d722c752f0f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NoneStages/ConversationStages/TutorialEnd.unity
     guid: e0e0090473e6a9c46aa243fdd5b62d7f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RestaurantStages/RestaurantBossStage.unity
     guid: 75780bc517f3c0b488abd09f2661499e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RestaurantStages/Restaurant_Spread.unity
     guid: 67b7190f44c4fe54f90ead4e7cc20519
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RestaurantStages/RestaurantFindStage.unity
     guid: 7a594496d8989724b80157b63a8fe5d1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/RestaurantStages/CakeFireScene.unity
     guid: 8269a807485114cb7b463aed149cd0c9
   - enabled: 1
@@ -38,64 +38,64 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MusicStages/MusicPlayStage_LV4.unity
     guid: fa6b4f922bd56404790584b8656f4089
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MusicStages/MusicDanceStage.unity
     guid: 2268dec193c738f4c8a8aa45e38105f1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MusicStages/BeatStage.unity
     guid: 06ce8fad850c9e0488033e86ac85c780
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TutorialStages/WindowClosingStage.unity
     guid: 5dd7e34fd70f51141a6fd8d751539bf2
   - enabled: 0
     path: Assets/Scenes/MusicStages/MusicRoom_NoteTracing_Delayed.unity
     guid: 3189bc28c613acf428ff37021ecd039b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MusicStages/MusicPlayStage.unity
     guid: 40304bf0ea84e8644a366d8cc32d8bbf
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NoneStages/Map.unity
     guid: 038420b5d4edb9145876f491735a5a96
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NoneStages/ConversationStages/MusicRoomEnd.unity
     guid: ff2b9cb7fc8c1494faa452c7e62f35fb
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NoneStages/ConversationStages/MusicRoomStart.unity
     guid: fe55ca8f793faf6439d5d8645bb36b5b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NoneStages/ConversationStages/RestaurantEnd.unity
     guid: bb0a0ac97730d32468bc87081c1303b5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NoneStages/ConversationStages/RestaurantStart.unity
     guid: aa0cffc920831ae4db321f6c02096c55
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NoneStages/ConversationStages/TutorialStart.unity
     guid: a5f9631d5838f714799fda0b441651b4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MusicStages/MusicGuitarStage.unity
     guid: f81c8f82e01f3b04ea08b02715bced51
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MusicStages/PianoStage.unity
     guid: 8952a728e23218d4a9c6fcd9aedf4514
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TutorialStages/BoardErasingStage.unity
     guid: c850ee8c3b14cc8459e7e186857cf567
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NoneStages/StageInitScene.unity
     guid: fe1331db15c2d584885fb80c7fd1be96
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PlayGroundStages/AttachScene.unity
     guid: ddb9952bc05f60a4c827676ac0a702d7
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PlayGroundStages/CountStage.unity
     guid: daf1af95dcdc85e43b5a110e9b310b59
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PlayGroundStages/Gym_BossStage.unity
     guid: a0cd197c8a7610a4688dec7386e0f655
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PlayGroundStages/PlaygroundPutAwayStage.unity
     guid: 9304ccbdd5128144b9e1bca50da1f632
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PlayGroundStages/ScalesStage.unity
     guid: 8567723f44f7ab540ae54fd494255070
   - enabled: 1

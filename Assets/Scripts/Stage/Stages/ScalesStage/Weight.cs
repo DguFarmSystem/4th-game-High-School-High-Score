@@ -10,6 +10,10 @@ public class Weight : MonoBehaviour
 
     public bool IsInRange=false;
 
+    public int w;
+
+    public bool set = false;
+
     void Start()
     {
         theaudio=GetComponent<AudioSource>();
@@ -17,6 +21,7 @@ public class Weight : MonoBehaviour
 
     void Update()
     {
+        if (!set&&(transform.position.x<1.79||transform.position.x> 8.52f||transform.position.y< 1.42f) && GetComponent<BoxCollider2D>().enabled) Destroy(this.gameObject);
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -31,7 +36,18 @@ public class Weight : MonoBehaviour
     {
         if (collision.gameObject.transform.position.y < transform.position.y && IsInRange)
         {
-            theaudio.Play();
+            if (!set)
+            {
+                transform.position = new Vector3(5.3f, transform.position.y, transform.position.z);
+                theaudio.Play();
+            }
+            set= true;
+            if (collision.gameObject.GetComponent<Weight>().w < GetComponent<Weight>().w)
+            {
+                Vector3 temp = collision.transform.position;
+                collision.transform.position = transform.position;
+                transform.position = temp;
+            }
         }
     }
 
