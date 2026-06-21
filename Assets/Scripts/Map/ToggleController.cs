@@ -63,7 +63,7 @@ public class ToggleController : MonoBehaviour
             case StageType.Gym:
                 return true; //DataManager.Instance.Player.GetMusicRoomCleared();
             case StageType.HealthRoom:
-                return false;
+                return true; //DataManager.Instance.Player.GetPlaygroundCleared();
         }
         return false;
     }
@@ -197,7 +197,7 @@ public class ToggleController : MonoBehaviour
                     SceneNames.PlaygroundCount,
                     SceneNames.PlaygroundBoss,
                 },
-                "SportCS", // playground CS is not yet implemented, so temporarily use sport CS
+                "SportCS",
                 StageManager.GameMode.Normal,
                 SceneNames.MusicConvStart
             );
@@ -214,7 +214,46 @@ public class ToggleController : MonoBehaviour
                     SceneNames.PlaygroundCount,
                     SceneNames.PlaygroundBoss,
                 },
-                "SportCS", // playground CS is not yet implemented, so temporarily use sport CS
+                "SportCS",
+                StageManager.GameMode.Normal,
+                null
+            );
+            LoadingSceneController.Instance.LoadScene(SceneNames.StageInitScene, StageManager.Instance.LoadNextStage);
+        }
+    }
+
+    public void HealthRoomButtonAction(bool isOn)
+    {
+        //��ư �������� �� �׼�
+        if (!DataManager.Instance.Player.GetHealthRoomCleared())
+        {
+            StageManager.Instance.Initialize(
+            new List<string>()
+                {
+                    SceneNames.PlaygroundAttach,
+                    SceneNames.PlaygroundPutAway,
+                    SceneNames.PlaygroundScales,
+                    SceneNames.PlaygroundCount,
+                    SceneNames.PlaygroundBoss,
+                },
+                "HealthCS",
+                StageManager.GameMode.Normal,
+                SceneNames.MusicConvStart // 대화씬 교체 필요
+            );
+            LoadingSceneController.Instance.LoadScene(SceneNames.MusicConvStart); // 대화씬 교체 필요
+        }
+        else
+        {
+            StageManager.Instance.Initialize(
+                new List<string>()
+                {
+                    SceneNames.PlaygroundAttach,
+                    SceneNames.PlaygroundPutAway,
+                    SceneNames.PlaygroundScales,
+                    SceneNames.PlaygroundCount,
+                    SceneNames.PlaygroundBoss,
+                },
+                "HealthCS",
                 StageManager.GameMode.Normal,
                 null
             );

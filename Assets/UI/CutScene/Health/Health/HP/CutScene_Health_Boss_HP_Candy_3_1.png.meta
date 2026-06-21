@@ -125,6 +125,30 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -132,10 +156,10 @@ TextureImporter:
       name: CutScene_Health_Boss_HP_Candy_3_1_0
       rect:
         serializedVersion: 2
-        x: 1004
-        y: 699
-        width: 266
-        height: 328
+        x: 994
+        y: 683
+        width: 304
+        height: 339
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,6 +169,27 @@ TextureImporter:
       bones: []
       spriteID: b346a5e63a1dce6499f0c496e601c22c
       internalID: 796880095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CutScene_Health_Boss_HP_Candy_3_1_1
+      rect:
+        serializedVersion: 2
+        x: 1296
+        y: 702
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33ab56a77858c3c49b97bd93f9cf4461
+      internalID: -717326390
       vertices: []
       indices: 
       edges: []
@@ -161,6 +206,7 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       CutScene_Health_Boss_HP_Candy_3_1_0: 796880095
+      CutScene_Health_Boss_HP_Candy_3_1_1: -717326390
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
