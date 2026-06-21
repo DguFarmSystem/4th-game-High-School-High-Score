@@ -20,9 +20,9 @@ namespace Stage
         [SerializeField] private float clearDelay = 0.3f;
 
         [Header("Sound")]
-        [SerializeField] private AudioSource bgmSource;     // 언더워터용
-        [SerializeField] private AudioSource sfxSource;     // 마그넷 효과음용
-        [SerializeField] private AudioClip attachSfxClip;   // Sports_Magnet
+        [SerializeField] private AudioSource bgmSource;
+        [SerializeField] private AudioSource sfxSource;
+        [SerializeField] private AudioClip attachSfxClip;
 
         [Header("DEBUG (Editor/Dev only)")]
         [SerializeField] private bool debugForceDifficulty = false;
@@ -90,7 +90,7 @@ namespace Stage
             StopAllCoroutines();
             CurrentStageState = StageState.Playing;
 
-            SetupLevel(/*_activeIndex*/StageManager.Instance.GetDifficulty()-1);
+            SetupLevel(_activeIndex);
             PlayStageBgm();
 
             base.OnStageStart();
@@ -105,12 +105,15 @@ namespace Stage
 
         private void SetupLevel(int index)
         {
+            index = Mathf.Clamp(index, 0, Mathf.Max(0, levels.Count - 1));
+
             for (int i = 0; i < levels.Count; i++)
             {
                 if (levels[i].root != null)
                     levels[i].root.SetActive(i == index);
             }
 
+            _activeIndex = index;
             _active = (index >= 0 && index < levels.Count) ? levels[index] : null;
 
             _targets.Clear();
@@ -129,7 +132,7 @@ namespace Stage
 
             RefreshCounts();
 
-            Debug.Log($"[AttachStage] SetupLevel 완료 / needCount = {_needCount}");
+            Debug.Log($"[AttachStage] SetupLevel 완료 / Level = {index + 1} / needCount = {_needCount}");
         }
 
         private void RefreshCounts()
@@ -223,19 +226,19 @@ namespace Stage
         }
 
         private void StopAllFishMovers()
-    {
-        if (_active == null || _active.root == null) return;
-
-        FishMover[] fishMovers = _active.root.GetComponentsInChildren<FishMover>(true);
-
-        foreach (FishMover fish in fishMovers)
         {
-            if (fish != null)
-                fish.StopMoving();
-        }
+            if (_active == null || _active.root == null) return;
 
-        Debug.Log("[AttachStage] 현재 레벨의 FishMover 정지");
-    }
+            FishMover[] fishMovers = _active.root.GetComponentsInChildren<FishMover>(true);
+
+            foreach (FishMover fish in fishMovers)
+            {
+                if (fish != null)
+                    fish.StopMoving();
+            }
+
+            Debug.Log("[AttachStage] 현재 레벨의 FishMover 정지");
+        }
 
         private void BeginClearSequence()
         {
