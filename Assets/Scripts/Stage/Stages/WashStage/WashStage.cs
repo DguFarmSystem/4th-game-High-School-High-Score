@@ -76,7 +76,8 @@ public class WashStage : StageNormal
     {
         if (!started)
         {
-            if (InputManager.Instance.TouchedCollider.gameObject == Shower)
+            
+            if (InputManager.Instance.TouchedCollider && InputManager.Instance.TouchedCollider.gameObject == Shower)
             {
                 started = true;
                 Water.enabled = true;
@@ -103,6 +104,10 @@ public class WashStage : StageNormal
     }
     private void OnStageEndedGimmik(bool isStageCleared)
     {
+        AudioSource showerAudio = Shower.GetComponent<AudioSource>();
+        showerAudio.Stop();
+        theaudio.Stop();
+        
         if (isStageCleared)
         {
             Debug.Log("Cleared");
