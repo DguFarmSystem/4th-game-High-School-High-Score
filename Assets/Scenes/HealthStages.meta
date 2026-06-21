@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/HealthStages.meta
 guid: a0bca78b75fdb90449917c4b23979ec0
 folderAsset: yes
+========
+guid: 7344b69b2fea45a4a98ad33ffb85ad2e
+>>>>>>>> CP_Spread:Assets/Scenes/HealthStages/HealthBossStage.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

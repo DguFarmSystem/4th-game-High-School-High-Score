@@ -1,0 +1,95 @@
+{
+    "conversation": [
+        {
+            "id": 1,
+            "characterImage": -1,
+            "speaker": "<PLAYER_NAME>",
+            "texts": [
+                "왜 운동장이 썰렁하지? 분명 체육시간인데.",
+                "뭔가 이상하다. 교실로 돌아가자"
+            ]
+        },
+        {
+            "id": 2,
+            "characterImage": -1,
+            "EffectType": "BlackOut",
+            "specificSoundIndex": 1,
+            "texts":[
+                ""
+            ]
+        },
+        {
+            "id": 3,
+            "characterImage": 1,
+            "speaker": "<PLAYER_NAME>",
+            "texts": [
+                "아무도 없잖아?",
+                "(시간표를 다시 확인해도 체육시간임이 틀림없었다.)",
+                "따돌림 당하는건가....",
+                "나만 두고 다 어디로 가버린거야?"
+            ]
+        },
+        {
+            "id": 4,
+            "characterImage": -1,
+            "EffectType": "Confusing",
+            "specificSoundIndex": 2,
+            "texts":[
+                ""
+            ]
+        },
+        {
+            "id": 5,
+            "charaterImage": -1,
+            "speaker": "????",
+            "EffectType": "ImageChange",
+            "ParsePlayerName": 1,
+            "texts":[
+                "<PLAYER_NAME>...",
+                "<PLAYER_NAME>..."
+            ]
+        },
+        {
+            "id": 6,
+            "charaterImage": 0,
+            "speaker": "소나타",
+            "EffectType":"ImageChange",
+            "texts": [
+                "<PLAYER_NAME>!!",
+                "...정신이 들어요?",
+                "깊게 잠들었나 보네요. 피아노를 너무 아름답게 연주해버렸나?",
+                "음악 수업 끝났어요. 다음 수업에 가야죠."
+            ]
+        },
+        {
+            "id": 7,
+            "characterImage": 1,
+            "speaker": "<PLAYER_NAME>",
+            "texts": [
+                "(꿈이었나? 정신을 차려보니 음악실이었다.)",
+                "(언제부터 음악실이었던 거지? 분명 운동장에 나갔다가 아무도 없어서 교실로 이동했는데.)",
+                "(새로운 환경에 적응하느라 피곤한 걸까? 몸이 무겁다.)",
+                "(다시 운동장으로 나가자.)"
+            ]
+        },
+        {
+            "id": 8,
+            "characterImage": 1,
+            "speaker":"???",
+            "EffectType": "ImageChange",
+            "texts": [
+                "거기, 전학생! 줄이 비뚤어졌잖아!",
+                "얼굴이 별로네. 그래서야 공이나 찰 수 있겠어?",
+                "난 체육 담당인 쟈이로다. 보아하니 스트레칭부터 시켜야겠어."
+            ]
+        },
+        {
+            "id": 9,
+            "characterImage": 1,
+            "speaker": "쟈이로",
+            "texts": [
+                "가볍게 몸부터 풀어보자고. 신호가 들리면 시작이다!"
+            ]
+        }
+    ]
+}

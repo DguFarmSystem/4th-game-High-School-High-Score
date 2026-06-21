@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 
@@ -15,7 +17,9 @@ public class ConversationLine
     public List<string> texts;
 
     //selection part
+    public string EffectType = null;
     public int specificSoundIndex = -1;
+    public int ParsePlayerName = 0;
 }
 
 [System.Serializable]
@@ -46,12 +50,20 @@ public class DialogueManager : MonoBehaviour
     [Header("UI Components")]
     public Text speakerText;
     public Text dialogueText;
+    public GameObject DialogueBox;
     public GameObject Character1;
     public GameObject Character2;
     public List<Sprite> ImageList;
+    
+
+    [Header("BackGroundImage Resource")]
+    public GameObject Background;
+    public List<Sprite> BackGroundImageList;
+    private int NextImageIndex = 0;
 
     [Header("JSON Settings")]
     public string jsonFileName;
+    private static int matchCount = 0;
 
     //[Header("Typing Settings")]
     public float typingSpeed => DataManager.Instance != null && DataManager.Instance.Settings != null
@@ -72,6 +84,7 @@ public class DialogueManager : MonoBehaviour
      
     protected Image Character1Img;
     protected Image Character2Img;
+    protected Image BackgroundImg;
      
     protected Coroutine typingCoroutine;
     protected bool isTyping = false;
@@ -135,6 +148,7 @@ public class DialogueManager : MonoBehaviour
 
         Character1Img = Character1.GetComponent<Image>();
         Character2Img = Character2.GetComponent<Image>();
+        BackgroundImg = Background.GetComponent<Image>();
         Color c = Character1Img.color;
         c.a = 0;
         Character1Img.color = c;
@@ -235,6 +249,10 @@ public class DialogueManager : MonoBehaviour
         if (conversationData != null && currentIndex < conversationData.conversation.Count)
         {
             ConversationLine line = conversationData.conversation[currentIndex];
+            if(!string.IsNullOrEmpty(line.EffectType))
+            {
+                ExecuteEffect(line.EffectType);
+            }
             speakerText.text = ResolveSpeakerName(line.speaker);
 
             if(line.characterImage == -1)
@@ -314,6 +332,8 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    ///////////////////////////////////////IEnumerator Part///////////////////////////////////////
+
     IEnumerator FadeIn(Image img, float duration)
     {
         float time = 0f;
@@ -341,7 +361,48 @@ public class DialogueManager : MonoBehaviour
         {
             // 원본 텍스트에서 모든 <PLAYER_NAME> 토큰을 미리 치환
             currentLineFullText = line.texts[currentTextIndex];
-            currentLineFullText = currentLineFullText.Replace("<PLAYER_NAME>", GetPlayerNameOrDefault());
+            //int matchCount = 0;
+            if(line.ParsePlayerName == 1)
+            {
+                string playerName = GetPlayerNameOrDefault();
+
+                currentLineFullText = Regex.Replace(
+                    currentLineFullText,
+                    "<PLAYER_NAME>",
+                    match =>
+                    {
+                        matchCount++; // 매칭될 때마다 1씩 증가 (첫 번째는 1, 두 번째는 2)
+
+                        int targetLength = 1; // 기본값
+
+                        // 순서에 따라 원하는 길이 지정
+                        if (matchCount == 1)
+                        {
+                            // 첫 번째 <PLAYER_NAME> 자르기 규칙
+                            targetLength = Math.Min(1, playerName.Length);
+                        }
+                        else if (matchCount == 2)
+                        {
+                            // 두 번째 <PLAYER_NAME> 자르기 규칙 (예: 이름의 절반 크기)
+                            targetLength = Math.Min(Mathf.RoundToInt((float)playerName.Length / 2), playerName.Length);
+                        }
+                        else
+                        {
+                            // 혹시 세 번째 이상이 나올 경우 처리 (필요에 따라)
+                            targetLength = playerName.Length;
+                        }
+
+                        // 0보다 작아지는 것 방지
+                        if (targetLength <= 0) targetLength = 1;
+
+                        return playerName.Substring(0, targetLength);
+                    });
+            }
+            else
+            {
+                currentLineFullText = currentLineFullText.Replace("<PLAYER_NAME>", GetPlayerNameOrDefault());
+            }
+            //currentLineFullText = currentLineFullText.Replace("<PLAYER_NAME>", GetPlayerNameOrDefault());
 
             dialogueText.text = "";
 
@@ -377,6 +438,57 @@ public class DialogueManager : MonoBehaviour
         isTyping = false;
     }
 
+    IEnumerator BlackoutCoroutine(float duration)
+    {
+        float time = 0.0f;
+        DialogueBox.SetActive(false);
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            Color c = BackgroundImg.color;
+            c.a = Mathf.Lerp(1f, 0f, time / duration);
+            BackgroundImg.color = c;
+            yield return null;
+        }
+
+        //3초 기다리고
+        yield return new WaitForSeconds(3.0f);
+        //배경 이미지 바꾸고 다시 FadeIn
+        BackgroundImg.sprite = BackGroundImageList[NextImageIndex];
+        ++NextImageIndex;
+        DialogueBox.SetActive(true);
+
+        time = 0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            Color c = BackgroundImg.color;
+            c.a = Mathf.Lerp(0f, 1f, time / duration);
+            BackgroundImg.color = c;
+            yield return null;
+        }
+    }
+
+    IEnumerator ConfusingCoroutine(float duration)
+    {
+        float time = 0.0f;
+        DialogueBox.SetActive(false);
+        BackgroundImg.sprite = BackGroundImageList[NextImageIndex];
+        ++NextImageIndex;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            Color c = BackgroundImg.color;
+            c.a = Mathf.Lerp(0f, 1f, time / duration);
+            BackgroundImg.color = c;
+            yield return null;
+        }
+
+        //3초 기다리고
+        yield return new WaitForSeconds(3.0f);
+        DialogueBox.SetActive(true);
+    }
+
     private string ResolveSpeakerName(string speaker)
     {
         if (string.IsNullOrEmpty(speaker)) return speaker;
@@ -393,6 +505,32 @@ public class DialogueManager : MonoBehaviour
 
         string playerName = DataManager.Instance.Player.GetName();
         return string.IsNullOrEmpty(playerName) ? "나학생" : playerName;
+    }
+
+    public void ExecuteEffect(string Type)
+    {
+        switch(Type)
+        {
+            case "BlackOut":
+                {
+                    StartCoroutine(BlackoutCoroutine(0.2f));
+                    break;
+                }
+
+            case "Confusing":
+                {
+                    StartCoroutine(ConfusingCoroutine(0.2f));
+                    break;
+                }
+
+            case "ImageChange":
+                {
+                    BackgroundImg.sprite = BackGroundImageList[NextImageIndex];
+                    ++NextImageIndex;
+                    StartCoroutine(FadeIn(BackgroundImg, 0.2f));
+                    break;
+                }
+        }
     }
 
     public void NextLine()
