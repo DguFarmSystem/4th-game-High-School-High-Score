@@ -84,6 +84,21 @@ public class Bar : MonoBehaviour
         }
 
         CalculateHeight();
+
+        if (isMoving && currentCm <= 0f)
+        {
+            currentCm = 0f; // UI 표시를 위해 0으로 고정
+            if (heightText != null)
+            {
+                heightText.text = "0.0cm";
+            }
+            isStopped = true;
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.StopGaugeSound();
+            }
+            CheckClear();
+        }
     }
 
     void HandleInput()
