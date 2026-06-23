@@ -20,7 +20,8 @@ public class AttachableObject : MonoBehaviour
     public bool IsAttached => _isAttached;
     public int PreferredSlotIndex => preferredSlotIndex;
 
-    public bool AttachTo(Transform targetSlot) {
+    public bool AttachTo(Transform targetSlot)
+    {
         if (_isAttached) return false;
         if (targetSlot == null) return false;
 
@@ -30,38 +31,53 @@ public class AttachableObject : MonoBehaviour
 
         Quaternion worldRot = transform.rotation;
 
+        transform.SetParent(targetSlot, true);
+
         if (attachPivot != null)
         {
-            Vector3 offset = transform.position - attachPivot.position;
-            transform.position = targetSlot.position + offset;
+            Vector3 diff = targetSlot.position - attachPivot.position;
+            transform.position += diff;
         }
         else
         {
             transform.position = targetSlot.position;
         }
 
-        transform.SetParent(targetSlot, true);
-        transform.rotation = worldRot;   // 현재 월드 회전 유지
+        transform.rotation = worldRot;
 
         if (disableColliderOnAttach)
         {
             Collider2D[] cols = GetComponentsInChildren<Collider2D>();
+
             foreach (Collider2D col in cols)
                 col.enabled = false;
         }
 
         Debug.Log("[AttachableObject] Attach 완료: " + name);
+
         return true;
     }
 
     private void StopMovement()
     {
         FloatMover floatMover = GetComponent<FloatMover>();
+
         if (floatMover != null)
             floatMover.StopMoving();
 
         FishMover fishMover = GetComponent<FishMover>();
+
         if (fishMover != null)
             fishMover.StopMoving();
+
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+
+        if (rb != null)
+        {
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.simulated = false;
+        }
     }
 }

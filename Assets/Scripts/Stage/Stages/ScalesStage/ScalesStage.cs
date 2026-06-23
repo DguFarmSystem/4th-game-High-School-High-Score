@@ -53,15 +53,20 @@ public class ScalesStage : StageNormal
         ProblemScaleOBJ.sprite=ProblemScales[StageLevel - 1];
         ProblemNum = ProblemNumList[StageLevel - 1];
         theaudio = GetComponent<AudioSource>();
-        text[0].text= ProblemNum.ToString();
+        if(ProblemNum<10)
+            text[0].text= "0"+ProblemNum.ToString();
+        else
+            text[0].text = ProblemNum.ToString();
         OnStageStart();
     }
 
     // Update is called once per frame
     void Update()
     {
-        text[1].text = answer.ToString();
-        timer -= Time.deltaTime;
+        if(answer<10)
+        text[1].text = "0"+answer.ToString();
+        else text[1].text = answer.ToString();
+            timer -= Time.deltaTime;
         if(timer < 0 )
         {
             if(ProblemNum==answer)OnStageClear();
@@ -93,6 +98,7 @@ public class ScalesStage : StageNormal
                 if (TheWeigh != null)
                 {
                     TheWeigh.transform.position = InputManager.Instance.TouchWorldPos;
+                    TheWeigh.GetComponent<Weight>().set = false;
                 }
             }
         }

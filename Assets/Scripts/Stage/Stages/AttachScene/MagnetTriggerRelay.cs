@@ -3,44 +3,63 @@ using UnityEngine;
 public class MagnetTriggerRelay : MonoBehaviour
 {
     [SerializeField] private MagnetController magnetController;
+    [SerializeField] private Collider2D triggerCollider;
+
+    private readonly Collider2D[] _results = new Collider2D[20];
 
     private void Awake()
     {
         if (magnetController == null)
             magnetController = GetComponentInParent<MagnetController>();
+
+        if (triggerCollider == null)
+            triggerCollider = GetComponent<Collider2D>();
+
+        if (triggerCollider != null)
+            triggerCollider.isTrigger = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void Update()
     {
-        if (other == null) return;
-
-        AttachableObject target = other.GetComponent<AttachableObject>();
-        if (target == null)
-            target = other.GetComponentInParent<AttachableObject>();
-
-        if (target == null)
+        if (magnetController == null)
         {
-            Debug.Log("[MagnetTriggerRelay] 무시됨(붙일 수 없는 오브젝트): " + other.name);
+            Debug.LogWarning("[MagnetTriggerRelay] magnetController 없음");
             return;
         }
 
-        Debug.Log("[MagnetTriggerRelay] Trigger Enter: " + other.name);
+        if (triggerCollider == null)
+        {
+            Debug.LogWarning("[MagnetTriggerRelay] triggerCollider 없음");
+            return;
+        }
 
-        if (magnetController != null)
+        int count = triggerCollider.OverlapCollider(new ContactFilter2D().NoFilter(), _results);
+
+        for (int i = 0; i < count; i++)
+        {
+            Collider2D other = _results[i];
+            if (other == null) continue;
+
+            Transform magnetTransform = magnetController.transform;
+
+            // 자기 자신 / 자식 콜라이더 무시
+            if (other.transform == magnetTransform ||
+                other.transform.IsChildOf(magnetTransform))
+            {
+                continue;
+            }
+
+            AttachableObject target = other.GetComponent<AttachableObject>();
+
+            if (target == null)
+                target = other.GetComponentInParent<AttachableObject>();
+
+            if (target == null) continue;
+            if (target.IsAttached) continue;
+
+            Debug.Log("[MagnetTriggerRelay] 겹침 감지됨: " + target.name);
+
             magnetController.TryAttach(other);
-        else
-            Debug.LogWarning("[MagnetTriggerRelay] magnetController가 비어 있음");
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other == null) return;
-
-        AttachableObject target = other.GetComponent<AttachableObject>();
-        if (target == null)
-            target = other.GetComponentInParent<AttachableObject>();
-
-        if (target != null)
-            Debug.Log("[Stay] " + other.name);
+        }
     }
 }

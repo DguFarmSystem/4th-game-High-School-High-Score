@@ -35,7 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RestaurantStages/Fruit Slicing Stage.unity
     guid: 2fb67fd00b69a4a4eaa96a1cb437a5e8
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MusicStages/MusicPlayStage_LV4.unity
     guid: fa6b4f922bd56404790584b8656f4089
   - enabled: 1
@@ -47,7 +47,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TutorialStages/WindowClosingStage.unity
     guid: 5dd7e34fd70f51141a6fd8d751539bf2
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MusicStages/MusicRoom_NoteTracing_Delayed.unity
     guid: 3189bc28c613acf428ff37021ecd039b
   - enabled: 1
@@ -98,6 +98,21 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlayGroundStages/ScalesStage.unity
     guid: 8567723f44f7ab540ae54fd494255070
+  - enabled: 1
+    path: Assets/Scenes/HealthStages/HealthTeethStage.unity
+    guid: ad8ba15647472bc4c8726b2b91cb04a6
+  - enabled: 1
+    path: Assets/Scenes/HealthStages/WashStage.unity
+    guid: f2e489e1524695a479444375f6b27451
+  - enabled: 1
+    path: Assets/Scenes/HealthStages/HeightStage.unity
+    guid: 887490ab894b15b4fa4a54a8b51ecea4
+  - enabled: 1
+    path: Assets/Scenes/HealthStages/VisionScene.unity
+    guid: 7a67cbe66c693184e93fe1844374feb3
+  - enabled: 0
+    path: Assets/Scenes/HealthStages/HealthBossStage.unity
+    guid: 299a41a2943760c43b0fd18a78e94eec
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000,
       guid: fe42426d0b5c3344ba0f6d238b22ea63, type: 2}

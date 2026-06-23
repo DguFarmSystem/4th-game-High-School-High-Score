@@ -5,6 +5,7 @@ using Stage;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class PutAwayStage : StageNormal
@@ -127,7 +128,7 @@ public class PutAwayStage : StageNormal
         if (isCleared) OnStageClear();
         else CurrentStageState = StageState.Playing;
     }
-
+    
     void SpawnBalls(int count)
     {
         if (_ballSpawnPools.Count == 0) return;
@@ -146,7 +147,7 @@ public class PutAwayStage : StageNormal
             {
                 spawnPos = new Vector3(
                     Random.Range(bottomLeft.x+1.5f, topright.x-1.5f),
-                    Random.Range(bottomLeft.y+1f, topright.y-1f),
+                    Random.Range(bottomLeft.y+2.5f, topright.y-1f),
                     0
                 );
 

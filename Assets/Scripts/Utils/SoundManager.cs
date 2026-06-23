@@ -14,6 +14,7 @@ public class SoundManager : Singleton<SoundManager>
 
     public void PlayBGM(AudioClip clip, float volume = 0.1f)
     {
+        if (_bgmSource == null || clip == null) return;
         _bgmSource.clip = clip;
         _bgmSource.loop = true;
         _bgmSource.volume = volume;
@@ -22,17 +23,20 @@ public class SoundManager : Singleton<SoundManager>
 
     public void StopBGM()
     {
+        if (_bgmSource == null) return;
         _bgmSource.Stop();
     }
 
     public void PlaySFX(AudioClip clip, float volume = 0.1f)
     {
+        if (_sfxSource == null || clip == null) return;
         _sfxSource.volume = volume;
         _sfxSource.PlayOneShot(clip);
     }
 
     public void PlayStoppableSFX(AudioClip clip, float volume = 0.1f)
     {
+        if (_sfxSource == null || clip == null) return;
         _sfxSource.clip = clip;
         _sfxSource.volume = volume;
         _sfxSource.Play();
@@ -40,12 +44,14 @@ public class SoundManager : Singleton<SoundManager>
 
     public void StopStoppableSFX()
     {
+        if (_sfxSource == null) return;
         _sfxSource.Stop();
     }
 
     
     public void PlayGaugeSound(AudioClip clip)
     {
+        if (_gaugeSource == null || clip == null) return;
         _gaugeSource.clip = clip;
         _gaugeSource.loop = true;
         _gaugeSource.Play();
@@ -53,6 +59,7 @@ public class SoundManager : Singleton<SoundManager>
 
     public void StopGaugeSound()
     {
+        if (_gaugeSource == null) return;
         _gaugeSource.Stop();
     }
 

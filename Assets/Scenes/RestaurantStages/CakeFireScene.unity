@@ -2429,7 +2429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63206c1a7dbad467db6c6b1eb7fb05c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerTime: 10
+  timerTime: 5
   levels:
   - root: {fileID: 1005497512}
     dimmer: {fileID: 358357549}

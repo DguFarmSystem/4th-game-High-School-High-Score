@@ -12,6 +12,9 @@ public class Fruit : MonoBehaviour
 
     GameObject a;
     GameObject b;
+
+    float DestroyTime = 1f;
+    bool Sliced;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,8 +44,21 @@ public class Fruit : MonoBehaviour
             b.GetComponent<Rigidbody2D>().angularVelocity = rigid.angularVelocity;
             Vector2 TheVector = transform.right;
             a.GetComponent<Rigidbody2D>().velocity += TheVector * -3;
-            b.GetComponent<Rigidbody2D>().velocity += TheVector * 3;  
-            Destroy(gameObject);
+            b.GetComponent<Rigidbody2D>().velocity += TheVector * 3;
+            GetComponent<SpriteRenderer>().enabled = false;
+            Sliced = true;
+        }
+        if (Sliced)
+        {
+            DestroyTime -= Time.deltaTime;
+            if (DestroyTime < 0.9f)
+            {
+                if (gameObject.name == "Slice_Banana(Clone)")
+                    GetComponent<BoxCollider2D>().enabled = false;
+                else
+                    GetComponent<CircleCollider2D>().enabled = false;
+            }
+            if (DestroyTime < 0) Destroy(gameObject);
         }
     }
 }

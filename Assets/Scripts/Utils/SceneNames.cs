@@ -41,9 +41,17 @@ public static class SceneNames
     public const string MusicPiano = "PianoStage";
 
     // playground
-    public const string PlaygroundScales = "ScalesStage";
     public const string PlaygroundAttach = "AttachScene";
+    public const string PlaygroundPutAway = "PlaygroundPutAwayStage";
+    public const string PlaygroundScales = "ScalesStage";
     public const string PlaygroundCount = "CountStage";
     public const string PlaygroundBoss = "Gym_BossStage";
-    public const string PlaygroundPutAway = "PlaygroundPutAwayStage";
+
+    // health
+    public const string HealthTeeth = "HealthTeethStage";
+    public const string HealthVision = "VisionScene";
+    public const string HealthWash = "WashStage";
+    public const string HealthHeight = "HeightStage";
+    public const string HealthBoss = "HealthBossStage";
+    
 }

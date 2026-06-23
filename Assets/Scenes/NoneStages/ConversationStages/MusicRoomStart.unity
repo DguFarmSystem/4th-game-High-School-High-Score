@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -836,6 +836,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d6ddb68c6b33a2343a81da24c24dab4d, type: 3}
   speakerText: {fileID: 1962083036}
   dialogueText: {fileID: 1510772930}
+  DialogueBox: {fileID: 0}
   Character1: {fileID: 98381105}
   Character2: {fileID: 1078065509}
   ImageList:
@@ -843,8 +844,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: cdde6c2711d75e249b860da518090396, type: 3}
   - {fileID: 21300000, guid: b2b121b03a4e8514baa5046b6c791c73, type: 3}
   - {fileID: 21300000, guid: 55128fdcaeafa2746b820294cbc49a52, type: 3}
+  Background: {fileID: 1929470260}
+  BackGroundImageList: []
   jsonFileName: MusicRoomStart.json
-  typingSpeed: 0.05
   BGMSource: {fileID: 3844105}
 --- !u!4 &1316887657
 Transform:

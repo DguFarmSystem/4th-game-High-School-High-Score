@@ -19,3 +19,7 @@ MonoBehaviour:
     value: {fileID: 683027219147417711, guid: cd64efda7b635f2498cf0e0bd8b3c75d, type: 3}
   - key: RestaurantCS
     value: {fileID: 683027219147417711, guid: 38df37649e9814447b3e2c204d8dd4fe, type: 3}
+  - key: HealthCS
+    value: {fileID: 683027219147417711, guid: 6d872e7f9a356a242b0a4aa1f5470c3d, type: 3}
+  - key: SportCS
+    value: {fileID: 683027219147417711, guid: 3b82ec967f45c5b4eb67e367c0f1204b, type: 3}

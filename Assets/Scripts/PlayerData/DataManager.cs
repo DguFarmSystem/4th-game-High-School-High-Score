@@ -13,6 +13,7 @@ public class GameData
     [SerializeField] private bool isRestaurantCleared = false;
     [SerializeField] private bool isMusicCleared = false;
     [SerializeField] private bool isPlaygroundCleared = false;
+    [SerializeField] private bool isHealthRoomCleared = false;
 
     // 생성자
     public GameData(string name)
@@ -26,6 +27,7 @@ public class GameData
     public bool GetRestaurantCleared() => isRestaurantCleared;
     public bool GetMusicRoomCleared() => isMusicCleared;
     public bool GetPlaygroundCleared() => isPlaygroundCleared;
+    public bool GetHealthRoomCleared() => isHealthRoomCleared;
     public void SetTutorialCleared(bool cleared)
     {
         isTutorialCleared = cleared;
