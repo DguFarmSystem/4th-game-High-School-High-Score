@@ -891,7 +891,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartDelay: 2.3
   FailDuration: 0.3
-  HitTimeMargin: 0.2
+  HitTimeMargin: 0.4
   ReferencePoint1: {fileID: 3917802481583485734}
   ReferencePoint2: {fileID: 796464667}
   ScanLineBar: {fileID: 529200750}
