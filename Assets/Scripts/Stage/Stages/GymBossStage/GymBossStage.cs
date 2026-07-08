@@ -14,6 +14,7 @@ public class GymBossStage : StageNormal
 
     private float StageTimeLimit = 30.0f;
     private bool BallFallen = false;
+    private bool isGameEnded = false;
 
     //public override void OnStageStart()
     //{
@@ -128,13 +129,21 @@ public class GymBossStage : StageNormal
             //스테이지 시간 종료
             else
             {
-                OnStageEnded?.Invoke(!BallFallen);
+                if(!isGameEnded)
+                {
+                    OnStageEnded?.Invoke(!BallFallen);
+                    isGameEnded = true;
+                }
             }
         }
         //공이 떨어짐
         else
         {
-            OnStageEnded?.Invoke(!BallFallen);
+            if (!isGameEnded)
+            {
+                OnStageEnded?.Invoke(!BallFallen);
+                isGameEnded = true;
+            }
         }
     }
 }
