@@ -23,6 +23,13 @@ public class HeartLineDrawing : MonoBehaviour
 
     // 현재까지 연결에 성공한 총 선의 개수 (7개가 되면 클리어)
     private int totalConnectedLines = 0;
+    // 이미 선이 연결된 도착지 오브젝트들을 저장할 셋 (중복 방지)
+    private HashSet<GameObject> connectedEndZones = new HashSet<GameObject>();
+
+    public bool GetLineClear()
+    {
+        return isGameClear;
+    }
 
     void Start()
     {
@@ -104,6 +111,7 @@ public class HeartLineDrawing : MonoBehaviour
         isDrawing = true;
         lineRenderer.positionCount = 1;
         lineRenderer.SetPosition(0, startPos);
+        lineRenderer.endWidth = lineRenderer.startWidth;
         pointCount = 1;
         Debug.Log($"<color=cyan>[Line Start]</color> {currentLineColor} 선 그리기 시작");
     }
@@ -139,31 +147,38 @@ public class HeartLineDrawing : MonoBehaviour
         {
             GameObject hitUI = results[0].gameObject;
 
+            // 이미 선이 연결된 도착지라면 무시
+            if (connectedEndZones.Contains(hitUI)) return;
+
             // 파란 선 -> 파란 도착지
             if (currentLineColor == ColorType.Blue && hitUI.CompareTag("BlueEnd"))
             {
-                CompleteDrawing(hitUI.transform.position);
+                CompleteDrawing(hitUI);
             }
             // 빨간 선 -> 빨간 도착지
             else if (currentLineColor == ColorType.Red && hitUI.CompareTag("RedEnd"))
             {
-                CompleteDrawing(hitUI.transform.position);
+                CompleteDrawing(hitUI);
             }
         }
     }
 
-    void CompleteDrawing(Vector3 targetPosition)
+    void CompleteDrawing(GameObject endZoneValue)
     {
         isDrawing = false;
 
+        // 도착지 오브젝트를 중복 방지 리스트에 등록
+        connectedEndZones.Add(endZoneValue);
+
         // 최종 목적지 좌표 고정
+        Vector3 targetPosition = endZoneValue.transform.position;
         lineRenderer.SetPosition(pointCount - 1, new Vector3(targetPosition.x, targetPosition.y, targetPosition.z));
+        lineRenderer.endWidth = 1.0f;
 
         // 총 성공 연결 개수 증가
         totalConnectedLines++;
         Debug.Log($"<color=green>★ 연결 성공! ★ | 현재 누적 연결 선: {totalConnectedLines}/7</color>");
 
-        // 현재 그린 선을 화면에 복제(박제)하여 남기기
         GameObject finishedLine = Instantiate(this.gameObject, transform.parent);
         Destroy(finishedLine.GetComponent<HeartLineDrawing>());
 
@@ -175,7 +190,7 @@ public class HeartLineDrawing : MonoBehaviour
         if (totalConnectedLines >= 7)
         {
             isGameClear = true;
-            Debug.Log("<color=magenta>♥♥♥♥ 모든 선(7개) 연결 완료! 게임 클리어! ♥♥♥?</color>");
+            Debug.Log("<color=magenta>♥♥♥♥ 모든 선(7개) 연결 완료! 게임 클리어! ♥♥♥</color>");
         }
     }
 

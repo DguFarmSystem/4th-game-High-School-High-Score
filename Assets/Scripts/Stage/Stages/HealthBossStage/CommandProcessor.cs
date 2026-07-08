@@ -9,7 +9,8 @@ public class CommandProcessor : StageCommand
     private Sprite[] CommandSprites;
     [SerializeField]
     private Image CommandImage;
-    void ChangeCommand(int index)
+
+    public void ChangeCommand(int index)
     {
         CommandImage.sprite = CommandSprites[index];
         StartCoroutine(ShowAndOut());

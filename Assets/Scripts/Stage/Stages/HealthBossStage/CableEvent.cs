@@ -13,6 +13,12 @@ public class CableEvent : MonoBehaviour, IDragHandler
 
     private RectTransform Mytransform;
     private Canvas Mycanvas;
+    private bool isCableClear = false;
+
+    public bool GetCableClear()
+    {
+        return isCableClear;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -80,8 +86,8 @@ public class CableEvent : MonoBehaviour, IDragHandler
     private void OnCollisionSuccess()
     {
         Debug.Log("UI 이미지 2초 연속 충돌 성공!");
+        isCableClear = true;
         StartCoroutine(ActivateVFX());
-        // 여기에 애니메이션 실행, 게이지 충전 완료, 다음 단계 이동 등의 로직을 넣으세요.
     }
 
     private bool CheckUICollision(RectTransform a, RectTransform b)
