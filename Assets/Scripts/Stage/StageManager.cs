@@ -198,6 +198,14 @@ public class StageManager : Singleton<StageManager>
                                 //SetMusicCleared(true);
                                 nextConvScene = SceneNames.MusicConvEnd;
                                 break;
+                            case SceneNames.PlaygroundConvStart:
+                                //SetPlaygroundCleared(true);
+                                nextConvScene = SceneNames.PlaygroundConvEnd;
+                                break;
+                            case SceneNames.HealthConvStart:
+                                //SetHealthCleared(true);
+                                nextConvScene = SceneNames.HealthConvEnd;
+                                break;
                             default:
                                 nextConvScene = null;
                                 break;
