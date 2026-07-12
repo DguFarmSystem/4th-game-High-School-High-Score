@@ -21,7 +21,6 @@ public class WashStage : StageNormal
     public int CurrentBubbleCount = 0;
     public GameObject Bubble;
     public BoxCollider2D Water;
-
     bool started = false;
 
     float TheTime = 4f;
@@ -39,7 +38,7 @@ public class WashStage : StageNormal
     {
         theaudio = GetComponent<AudioSource>();
         Water.enabled = false;
-        Shower.transform.position = new Vector3(10.12f, 4.31f, 0);
+        Shower.transform.position = new Vector3(0,0, 0);
         StageLevel = StageManager.Instance.GetDifficulty();
         switch (StageLevel)
         {

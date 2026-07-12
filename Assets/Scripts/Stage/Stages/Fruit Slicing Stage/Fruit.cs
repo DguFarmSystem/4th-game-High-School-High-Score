@@ -47,6 +47,7 @@ public class Fruit : MonoBehaviour
             b.GetComponent<Rigidbody2D>().velocity += TheVector * 3;
             GetComponent<SpriteRenderer>().enabled = false;
             Sliced = true;
+            gameObject.tag = "LeftSide";
         }
         if (Sliced)
         {

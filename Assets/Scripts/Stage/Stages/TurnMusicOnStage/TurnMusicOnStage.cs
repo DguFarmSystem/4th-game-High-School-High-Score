@@ -24,7 +24,7 @@ public class TurnMusicOnStage : StageNormal
         TheAudio.volume = TheScroll.value * 0.5f;
         if (TimerTime >= 0f)
         {
-            if (TheScroll.value > 0.77f && TheScroll.value < 0.86f) OnStageClear();
+            if (TheScroll.value > 0.7f && TheScroll.value < 0.9f) OnStageClear();
             else CurrentStageState = StageState.Playing;
         }
         
