@@ -12,6 +12,11 @@ public class GymBossStage : StageNormal
     [SerializeField]
     private NumberCountDown Timer;
 
+    [Header("Audio Source")]
+    public AudioSource BackgroundAudio;
+    public AudioSource RobotAudio;
+
+
     private float StageTimeLimit = 30.0f;
     private bool BallFallen = false;
     private bool isGameEnded = false;
@@ -39,11 +44,13 @@ public class GymBossStage : StageNormal
         if (isStageCleared)
         {
             Debug.Log("Stage cleared!");
+            StopAllSound();
             StageManager.Instance.StageClear(true);
         }
         else
         {
             Debug.Log("Stage failed!");
+            StopAllSound();
             StageManager.Instance.StageClear(false);
         }
     }
@@ -100,6 +107,13 @@ public class GymBossStage : StageNormal
                 Inner.DeActivateAll();
             }
         }
+    }
+
+    void StopAllSound()
+    {
+        BackgroundAudio.Stop();
+        // 조작은 계속 될텐데 소리가 안 나도록
+        RobotAudio.volume = 0.0f;
     }
 
     // Start is called before the first frame update

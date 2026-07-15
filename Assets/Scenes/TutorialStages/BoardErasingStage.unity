@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -428,7 +428,7 @@ MonoBehaviour:
   Eraser: {fileID: 2068833211}
   erasePrefabs:
   - {fileID: 7594895995051142273, guid: ee8fb746a397a524f8f4312827bdd73d, type: 3}
-  - {fileID: 2890047266602959167, guid: 99e7784b374838c4f9d3cb91bde4fa58, type: 3}
+  - {fileID: 2243318144764122379, guid: c177e232fc25b4a4f867766358543d19, type: 3}
   - {fileID: 2890047266602959167, guid: 99e7784b374838c4f9d3cb91bde4fa58, type: 3}
   spawnParent: {fileID: 74208637}
   clearThreshold: 0.8
@@ -780,6 +780,7 @@ GameObject:
   - component: {fileID: 1138397526}
   - component: {fileID: 1138397528}
   - component: {fileID: 1138397527}
+  - component: {fileID: 1138397529}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -845,6 +846,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138397525}
   m_CullTransparentMesh: 1
+--- !u!114 &1138397529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138397525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e4cb45a7c18efe418df912b3dc8dd5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1255758332
 GameObject:
   m_ObjectHideFlags: 0

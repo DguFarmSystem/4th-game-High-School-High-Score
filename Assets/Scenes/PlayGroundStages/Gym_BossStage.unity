@@ -3137,6 +3137,10 @@ MonoBehaviour:
   Outer: {fileID: 2033116328}
   Inner: {fileID: 1131249633}
   Timer: {fileID: 995140346}
+  BackgroundAudio: {fileID: 521198157}
+  InnerTrackAudio: {fileID: 1131249634}
+  OuterTrackAudio: {fileID: 2033116329}
+  RobotAudio: {fileID: 1057566000}
 --- !u!4 &1658425801
 Transform:
   m_ObjectHideFlags: 0

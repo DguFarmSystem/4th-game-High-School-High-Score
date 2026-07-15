@@ -32,7 +32,7 @@ public class PanelTouchHandler : MonoBehaviour,
         //음원 초기 세팅
         SoundSource.clip = GuitarClip;
         SoundSource.time = 52.0f;
-        SoundSource.volume = 0.7f;
+        SoundSource.volume = 0.3f;
     }
 
     public void OnPointerEnter(PointerEventData eventData)

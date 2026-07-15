@@ -31,7 +31,7 @@ public class BlackBoardStage : StageNormal
     private static int stageLevel = 0;  // ���߿� StageManager���� stageLevel�� �Ѱ��ִ� ������� ���ҽ� ����
 
     private EraseTexture eraseObject;  // ������ EraseTexture �ν��Ͻ�
-    private float timer;
+    //private float timer;
     //private bool stageEnded = false;
 
     public override void OnStageStart()
@@ -52,6 +52,7 @@ public class BlackBoardStage : StageNormal
     private void StageDistinction(bool cleared)
     {
         BGM_Audio.Stop();
+        EffectAudio.volume = 0.0f;
         
         if (cleared)
         {

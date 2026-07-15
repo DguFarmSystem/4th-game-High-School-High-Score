@@ -10,6 +10,7 @@ public class PumpAction : MonoBehaviour, IPointerClickHandler
 
     private Animator MyAnimator;
     private int CountClick = 0;
+    private bool CanClick = true;
     private bool isPumpClear = false;
 
     public bool GetPumpClear()
@@ -35,8 +36,13 @@ public class PumpAction : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        ++CountClick;
-        MyAnimator.SetTrigger("Click");
+        if(CanClick)
+        {
+            ++CountClick;
+            MyAnimator.SetTrigger("Click");
+            CanClick = false;
+            StartCoroutine(BlockClick());
+        }
     }
 
     void ChangeVitalImage()
@@ -49,5 +55,11 @@ public class PumpAction : MonoBehaviour, IPointerClickHandler
         {
             VitalCheck.ChangeImage(2);
         }
+    }
+
+    private IEnumerator BlockClick()
+    {
+        yield return new WaitForSeconds(0.5f);
+        CanClick = true;
     }
 }

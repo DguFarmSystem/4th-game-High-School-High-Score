@@ -12,13 +12,18 @@ public class MusicGuitarStage : StageNormal
     private Image CrowdImage;
     [SerializeField]
     private List<Sprite> CrowdSprite;
+    [Header("Audio Source")]
     [SerializeField]
     private AudioSource CrowdAudio;
+    [SerializeField]
+    private AudioSource GuitarAudio;
+
     [SerializeField]
     private AudioClip CrowdSource;
     [SerializeField]
     private List<int> Goal;
 
+    private bool StopCrowdSound = false;
     private int CurrentCount = 0;
     private bool StageClearFlag = false;
     private static int stageLevel = 0;
@@ -89,6 +94,7 @@ public class MusicGuitarStage : StageNormal
         if(StageClearFlag && CurrentStageState == StageState.Playing)
         {
             OnStageClear();
+            StartCoroutine(StopSound());
         }
     }
 
@@ -101,29 +107,25 @@ public class MusicGuitarStage : StageNormal
 
         if (ClearRatio <= 0.25f)
         {
-            //Debug.Log("[ChangeCrowdImage] Range: <= 0.25 (Sprite 0)");
             CrowdImage.sprite = CrowdSprite[0];
         }
         else if (ClearRatio > 0.25f && ClearRatio <= 0.5f)
         {
-            //Debug.Log("[ChangeCrowdImage] Range: 0.25 ~ 0.5 (Sprite 1)");
             CrowdImage.sprite = CrowdSprite[1];
-            volumeSize = 0.4f;
+            volumeSize = 0.2f;
             HandleCrowdSound(volumeSize);
 
         }
         else if (ClearRatio > 0.5f && ClearRatio <= 0.75f)
         {
-            //Debug.Log("[ChangeCrowdImage] Range: 0.5 ~ 0.75 (Sprite 2)");
             CrowdImage.sprite = CrowdSprite[2];
-            volumeSize = 0.7f;
+            volumeSize = 0.3f;
             HandleCrowdSound(volumeSize);
         }
         else
         {
-            //Debug.Log("[ChangeCrowdImage] Range: > 0.75 (Sprite 3)");
             CrowdImage.sprite = CrowdSprite[3];
-            volumeSize = 1.0f;
+            volumeSize = 0.4f;
             HandleCrowdSound(volumeSize);
         }
     }
@@ -136,5 +138,17 @@ public class MusicGuitarStage : StageNormal
         {
             CrowdAudio.volume = volumeRatio;
         }
+
+        if(StopCrowdSound)
+        {
+            CrowdAudio.Stop();
+        }
+    }
+
+    private IEnumerator StopSound()
+    {
+        yield return new WaitForSeconds(2f);
+        GuitarAudio.Stop();
+        StopCrowdSound = true;
     }
 }

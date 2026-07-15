@@ -17,6 +17,7 @@ public class HealthBossStage : StageNormal
     public GameObject HoseUI;
     public GameObject CableUI;
     public GameObject PumpUI;
+    public VitalProcessor Vital;
 
     private bool isLineClear = false;
     private bool isShockingClear = false;
@@ -24,6 +25,9 @@ public class HealthBossStage : StageNormal
 
     private bool CableCommandCalled = false;
     private bool PumpCommandCalled = false;
+
+    private float StageTimer = 0.0f;
+    private bool GameOver = false;
 
     private void OnStageEndedGimmik(bool isStageCleared)
     {
@@ -61,6 +65,7 @@ public class HealthBossStage : StageNormal
     void Update()
     {
         CheckGameClear();
+        CheckGameOver();
         if(isLineClear && isShockingClear && isPumpingClear)
         {
             StartCoroutine(MakeEndDelay(2.0f));
@@ -73,6 +78,7 @@ public class HealthBossStage : StageNormal
         {
             StartCoroutine(MakeCableDelay(0.7f));
         }
+        StageTimer += Time.deltaTime;
     }
 
     void CheckGameClear()
@@ -80,6 +86,30 @@ public class HealthBossStage : StageNormal
         isLineClear = LineStage.GetLineClear();
         isShockingClear = ShockingStage.GetCableClear();
         isPumpingClear = PumpStage.GetPumpClear();
+        //1. 10초 이내에 isLineClear가 true가 되는지 check
+        if (!isLineClear && StageTimer > 12.0f)
+        {
+            GameOver = true;
+        }
+        //2. 5초 이내에 isShockingClear가 true가 되는지 check
+        else if (!isShockingClear && StageTimer > 19.0f)
+        {
+            GameOver = true;
+        }
+        else if (!isPumpingClear && StageTimer > 30.0f)
+        {
+            GameOver = true;
+        }
+    }
+
+    void CheckGameOver()
+    {
+        if(GameOver)
+        {
+            Command.TouchBlocker.SetActive(true);
+            Vital.ChangeImage(3);
+            OnStageEnded.Invoke(false);
+        }
     }
 
     void SetCableGame()
