@@ -8,8 +8,12 @@ using UnityEngine.InputSystem;
 public class StageManager : Singleton<StageManager>
 {
     [SerializeField] private CutSceneSkin _skinData;
+    [SerializeField] private GameObject _pauseMenuPrefab;
 
     private GameObject _ui;
+    private string _currentCutSceneSkin;
+    private GameObject _pauseMenuInstance;
+
     private CutScene _uiController;
     private bool _showCompleted = false;
 
@@ -25,9 +29,13 @@ public class StageManager : Singleton<StageManager>
     private string prevConvScene = null;
     private string nextConvScene = null;
 
+    private AsyncOperation _pendingOp;
+    private Coroutine loadsceneCORef;
+
     public void Initialize(List<string> sceneNames, string CutSceneSkin, GameMode gameMode = GameMode.Normal, string prevConvScene = null)
     {
         _sceneNames = sceneNames;
+        _currentCutSceneSkin = CutSceneSkin;
         _ui = Instantiate(_skinData.GetDictionary()[CutSceneSkin]);
         _ui.transform.SetParent(transform);
         //gameObject.SetActive(true);
@@ -35,6 +43,18 @@ public class StageManager : Singleton<StageManager>
         _gameMode = gameMode;
 
         this.prevConvScene = prevConvScene;
+    }
+
+    public void Restart()
+    {
+        _sceneIndex = 0;
+        _difficulty = 1;
+        _hp = 4;
+        Destroy(_ui);
+        Initialize(_sceneNames, _currentCutSceneSkin, _gameMode, prevConvScene);
+        _uiController = _ui.GetComponent<CutScene>();
+
+        LoadNextStage();
     }
 
     public void StageClear(bool clear)
@@ -144,13 +164,37 @@ public class StageManager : Singleton<StageManager>
     {
         EnsureUI();
         _uiController.Show();
+        if (_pauseMenuInstance == null)
+        {
+            _pauseMenuInstance = Instantiate(_pauseMenuPrefab, transform);
+            _pauseMenuInstance.transform.SetParent(null, false); // 부모를 null로 설정하여 DontDestroyOnLoad가 적용되도록 함
+            DontDestroyOnLoad(_pauseMenuInstance);
+        }
+        else
+        {
+            _pauseMenuInstance.SetActive(true);
+        }
+        
         _showCompleted = false;
     }
 
     public void LoadNextStage()
     {
         gameObject.SetActive(true);
-        StartCoroutine(LoadSceneCoroutine());
+        loadsceneCORef = StartCoroutine(LoadSceneCoroutine());
+    }
+
+    public void RequestSceneChange(string newSceneName, Action action = null)
+    {
+        StopCoroutine(loadsceneCORef); // 1번 코루틴 정지
+
+        if (_pendingOp != null && !_pendingOp.isDone)
+        {
+            _pendingOp.allowSceneActivation = true; // 큐를 풀어줌 (일단 활성화되게 둠)
+            _pendingOp = null;
+        }
+
+        LoadingSceneController.Instance.LoadScene(newSceneName, action);
     }
 
     IEnumerator LoadSceneCoroutine()
@@ -239,17 +283,17 @@ public class StageManager : Singleton<StageManager>
         }
 
         op.allowSceneActivation = false;
-        
-        while (op.progress < 0.9f)
-        {
-            yield return null;
-        }
+        _pendingOp = op; // 참조 저장
 
-        // 연출이 끝날 때까지 대기
+        while (op.progress < 0.9f)
+            yield return null;
+
         yield return new WaitUntil(() => _showCompleted);
 
         op.allowSceneActivation = true;
-        UnityEngine.Debug.Log($"Stage {_sceneIndex + 1}, Difficulty {_difficulty}");
+        _pendingOp = null;
+
+        Debug.Log($"Stage {_sceneIndex + 1}, Difficulty {_difficulty}");
 
         yield return null;
 
@@ -269,6 +313,7 @@ public class StageManager : Singleton<StageManager>
         prevConvScene = null;
         nextConvScene = null;
         if (_ui != null) Destroy(_ui);
+        if (_pauseMenuInstance != null) _pauseMenuInstance.SetActive(false);
     }
 
     public override void Awake()

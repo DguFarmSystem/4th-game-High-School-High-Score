@@ -97,3 +97,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e7832f9f95b68249b07b73cbd0be7e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _windowBrokenSfx: {fileID: 8300000, guid: bbfa86cce8c7da34ab0940cc6b281b77, type: 3}

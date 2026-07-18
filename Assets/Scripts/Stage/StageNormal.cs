@@ -13,6 +13,12 @@ namespace Stage
         public float TimerTime => timerTime;
         protected StageState CurrentStageState = StageState.NotStart;
         private Coroutine _timerCoroutine;
+        private bool _gameInterrupted = false;
+
+        public void SetGameInterrupted(bool interrupted)
+        {
+            _gameInterrupted = interrupted;
+        }
 
         public virtual void OnStageStart()
         {
@@ -36,8 +42,11 @@ namespace Stage
             while (time > 0)
             {
                 yield return null;
-                time -= Time.deltaTime;
-                timerTime = time;
+                if (!_gameInterrupted)
+                {
+                    time -= Time.deltaTime;
+                    timerTime = time;
+                }
             }
             
             if (CurrentStageState != StageState.Clear) CurrentStageState = StageState.Over;

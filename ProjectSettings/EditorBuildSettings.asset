@@ -128,6 +128,8 @@ EditorBuildSettings:
       guid: 24fbde28fce565b44810443a67d00661, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000,
       guid: 675bf7abf79056a469681b8a76662707, type: 2}
+    com.unity.addressableassets: {fileID: 11400000, guid: 9d4417e429d4e5942bb2690285b8e688,
+      type: 2}
     com.unity.input.settings: {fileID: 11400000, guid: 491b957a1e58da1438f955c730137fbd,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 176b8d3c96bcda9478d089e15ef64829,

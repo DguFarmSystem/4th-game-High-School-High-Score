@@ -45,6 +45,8 @@ public class HealthTeethStage : StageNormal
 
     private void OnStageEndedGimmik(bool isStageCleared)
     {
+        InputManager.Instance.OnStageTapPerformed -= StageGimmikTap;
+        SoundManager.Instance.StopBGM();
         if (isStageCleared)
         {
             Debug.Log("Stage cleared!");
@@ -72,7 +74,7 @@ public class HealthTeethStage : StageNormal
 
     public void Awake()
     {
-        int stageLevel = StageManager.Instance.GetDifficulty();
+        int stageLevel = 4;
         
         switch (stageLevel)
         {

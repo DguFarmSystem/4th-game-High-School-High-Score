@@ -91,4 +91,9 @@ public class ProcessTimer : MonoBehaviour
         if (timerSprites.Length > 0 && targetImage != null)
             targetImage.sprite = timerSprites[0];
     }
+
+    void OnDestroy()
+    {
+        SoundManager.Instance.StopGaugeSound();
+    }
 }
