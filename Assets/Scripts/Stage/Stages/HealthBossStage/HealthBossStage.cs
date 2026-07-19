@@ -19,6 +19,10 @@ public class HealthBossStage : StageNormal
     public GameObject PumpUI;
     public VitalProcessor Vital;
 
+    [Header("Audio Resource")]
+    public AudioSource VitalSource;
+    public AudioClip DeadSound;
+
     private bool isLineClear = false;
     private bool isShockingClear = false;
     private bool isPumpingClear = false;
@@ -28,6 +32,7 @@ public class HealthBossStage : StageNormal
 
     private float StageTimer = 0.0f;
     private bool GameOver = false;
+    private Coroutine GameOverCoroutine;
 
     private void OnStageEndedGimmik(bool isStageCleared)
     {
@@ -64,8 +69,8 @@ public class HealthBossStage : StageNormal
     // Update is called once per frame
     void Update()
     {
-        CheckGameClear();
         CheckGameOver();
+        CheckGameClear();
         if(isLineClear && isShockingClear && isPumpingClear)
         {
             StartCoroutine(MakeEndDelay(2.0f));
@@ -86,6 +91,10 @@ public class HealthBossStage : StageNormal
         isLineClear = LineStage.GetLineClear();
         isShockingClear = ShockingStage.GetCableClear();
         isPumpingClear = PumpStage.GetPumpClear();
+    }
+
+    void CheckGameOver()
+    {
         //1. 10초 이내에 isLineClear가 true가 되는지 check
         if (!isLineClear && StageTimer > 12.0f)
         {
@@ -100,15 +109,15 @@ public class HealthBossStage : StageNormal
         {
             GameOver = true;
         }
-    }
 
-    void CheckGameOver()
-    {
-        if(GameOver)
+        if (GameOver)
         {
             Command.TouchBlocker.SetActive(true);
             Vital.ChangeImage(3);
-            OnStageEnded.Invoke(false);
+            if(GameOverCoroutine == null)
+            {
+                GameOverCoroutine = StartCoroutine(GameOverDelay());
+            }
         }
     }
 
@@ -148,5 +157,15 @@ public class HealthBossStage : StageNormal
     {
         yield return new WaitForSeconds(DelayTime);
         OnStageEnded.Invoke(true);
+    }
+
+    IEnumerator GameOverDelay()
+    {
+        VitalSource.clip = DeadSound;
+        VitalSource.loop = false;
+        VitalSource.Play();
+        yield return new WaitForSeconds(3f);
+        VitalSource.Stop();
+        OnStageEnded.Invoke(false);
     }
 }

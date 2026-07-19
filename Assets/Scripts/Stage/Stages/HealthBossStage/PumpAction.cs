@@ -7,8 +7,12 @@ public class PumpAction : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField]
     private VitalProcessor VitalCheck;
+    //[SerializeField]
+    //private AudioClip PumpSound;
 
     private Animator MyAnimator;
+    private AudioSource MyAudioSource;
+
     private int CountClick = 0;
     private bool CanClick = true;
     private bool isPumpClear = false;
@@ -22,6 +26,8 @@ public class PumpAction : MonoBehaviour, IPointerClickHandler
     void Start()
     {
         MyAnimator = GetComponent<Animator>();
+        MyAudioSource = GetComponent<AudioSource>();
+        MyAudioSource.Stop();
     }
 
     // Update is called once per frame
@@ -41,6 +47,7 @@ public class PumpAction : MonoBehaviour, IPointerClickHandler
             ++CountClick;
             MyAnimator.SetTrigger("Click");
             CanClick = false;
+            MyAudioSource.Play();
             StartCoroutine(BlockClick());
         }
     }
