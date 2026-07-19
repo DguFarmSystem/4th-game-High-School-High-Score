@@ -112,20 +112,20 @@ public class MusicGuitarStage : StageNormal
         else if (ClearRatio > 0.25f && ClearRatio <= 0.5f)
         {
             CrowdImage.sprite = CrowdSprite[1];
-            volumeSize = 0.2f;
+            volumeSize = 0.05f;
             HandleCrowdSound(volumeSize);
 
         }
         else if (ClearRatio > 0.5f && ClearRatio <= 0.75f)
         {
             CrowdImage.sprite = CrowdSprite[2];
-            volumeSize = 0.3f;
+            volumeSize = 0.1f;
             HandleCrowdSound(volumeSize);
         }
         else
         {
             CrowdImage.sprite = CrowdSprite[3];
-            volumeSize = 0.4f;
+            volumeSize = 0.2f;
             HandleCrowdSound(volumeSize);
         }
     }
