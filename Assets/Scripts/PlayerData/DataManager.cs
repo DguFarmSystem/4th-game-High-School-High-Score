@@ -52,6 +52,12 @@ public class GameData
         DataManager.Instance.SaveGameData();
     }
 
+    public void SetHealthRoomCleared(bool cleared)
+    {
+        isHealthRoomCleared = cleared;
+        DataManager.Instance.SaveGameData();
+    }
+
     public void UpdatePlayerName(string newName)
     {
         Name = newName;

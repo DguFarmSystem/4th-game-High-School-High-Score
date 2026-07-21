@@ -8,26 +8,6 @@ using System.Text.RegularExpressions;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 
-[System.Serializable]
-public class ConversationLine
-{
-    public int id;
-    public int characterImage;
-    public string speaker;
-    public List<string> texts;
-
-    //selection part
-    public string EffectType = null;
-    public int specificSoundIndex = -1;
-    public int ParsePlayerName = 0;
-}
-
-[System.Serializable]
-public class ConversationData
-{
-    public List<ConversationLine> conversation;
-}
-
 public class DialogueManager : MonoBehaviour
 {
     [Header("Next Stage Settings")]
@@ -48,22 +28,10 @@ public class DialogueManager : MonoBehaviour
     public List<AudioClip> EffectSounds;
 
     [Header("UI Components")]
+    public UIController DialogueController;
     public Text speakerText;
     public Text dialogueText;
-    public GameObject DialogueBox;
-    public GameObject Character1;
-    public GameObject Character2;
-    public List<Sprite> ImageList;
-    
-
-    [Header("BackGroundImage Resource")]
-    public GameObject Background;
-    public List<Sprite> BackGroundImageList;
     private int NextImageIndex = 0;
-
-    [Header("JSON Settings")]
-    public string jsonFileName;
-    private static int matchCount = 0;
 
     //[Header("Typing Settings")]
     public float typingSpeed => DataManager.Instance != null && DataManager.Instance.Settings != null
@@ -79,12 +47,11 @@ public class DialogueManager : MonoBehaviour
     [Header("BGM Settings")]
     public AudioSource BGMSource;
 
+    [Header("Json File Settings")]
+    public ReadJsonFile JsonReader;
     protected ConversationData conversationData;
     protected int currentIndex = 0;
-     
-    protected Image Character1Img;
-    protected Image Character2Img;
-    protected Image BackgroundImg;
+    private static int matchCount = 0;
      
     protected Coroutine typingCoroutine;
     protected bool isTyping = false;
@@ -146,16 +113,7 @@ public class DialogueManager : MonoBehaviour
     {
         //prevScene = SceneManager.GetActiveScene().name;
 
-        Character1Img = Character1.GetComponent<Image>();
-        Character2Img = Character2.GetComponent<Image>();
-        BackgroundImg = Background.GetComponent<Image>();
-        Color c = Character1Img.color;
-        c.a = 0;
-        Character1Img.color = c;
-        Character2Img.color = c;
-        //LoadConversation();
-        //ShowLine();
-        StartCoroutine(LoadConversationRoutine());
+        StartCoroutine(LoadJsonRoutine());
     }
 
     // Update is called once per frame
@@ -164,88 +122,8 @@ public class DialogueManager : MonoBehaviour
         
     }
 
-    void LoadConversation()
-    {
-        string filePath = Path.Combine(Application.dataPath, "Texts", jsonFileName);
-        Debug.Log("Loading conversation from: " + filePath);
-
-        if (File.Exists(filePath))
-        {
-            string jsonData = File.ReadAllText(filePath);
-            conversationData = JsonUtility.FromJson<ConversationData>(jsonData);
-        }
-        else
-        {
-            Debug.LogError("JSON ������ ã�� �� �����ϴ�: " + filePath);
-        }
-    }
-
-    public IEnumerator LoadConversationRoutine()
-    {
-        string jsonData = "";
-        string filePath = Path.Combine(Application.streamingAssetsPath, "Texts", jsonFileName);
-        
-    #if UNITY_EDITOR || UNITY_STANDALONE
-        // --- PC 에디터 또는 PC 빌드 환경 ---
-
-        Debug.Log("PC/Editor 로드 경로: " + filePath);
-
-        if (File.Exists(filePath))
-        {
-            jsonData = File.ReadAllText(filePath);
-        }
-        else
-        {
-            Debug.LogError("파일을 찾을 수 없습니다: " + filePath);
-        }
-
-    #elif UNITY_ANDROID
-        // --- Android 빌드 환경 ---
-
-        Debug.Log("Android 로드 시도 경로: " + filePath);
-
-        using (UnityWebRequest www = UnityWebRequest.Get(filePath))
-        {
-            yield return www.SendWebRequest();
-
-            if (www.result == UnityWebRequest.Result.Success)
-            {
-                jsonData = www.downloadHandler.text;
-            }
-            else
-            {
-                // 상세 에러와 경로를 함께 출력해 대소문자 오타 확인
-                Debug.LogError($"[Load Error] 경로: {filePath} | 에러: {www.error}");
-            }
-        }
-
-    #endif
-
-        // 데이터 할당 (공통)
-        if (!string.IsNullOrEmpty(jsonData))
-        {
-            conversationData = JsonUtility.FromJson<ConversationData>(jsonData);
-            Debug.Log("JSON 파싱 완료");
-
-            yield return null;
-            ShowLine();
-        }
-    }
-
-    /*
-     characterImage
-    -1 : �ƹ� �̹����� �����?? �ʴ´�.
-    0 : ���ΰ� ȥ�� ��ȭâ�� ����, ��ġ �ٲٰ� �迭 3��
-    1 : ù ���� - ü���� ��ȭ ����, left element 2, right element 1
-    2 : ���ΰ��� ü���� �� ���??. ���ΰ� ���� ȿ��. left element 0, right element 3
-    3 : ü�� ���� ȿ��.
-     */
     void ShowLine()
     {
-        //Settings for clearing image
-        Color c = Character2Img.color;
-        c.a = 0;
-
         if (conversationData != null && currentIndex < conversationData.conversation.Count)
         {
             ConversationLine line = conversationData.conversation[currentIndex];
@@ -257,69 +135,15 @@ public class DialogueManager : MonoBehaviour
 
             if(line.characterImage == -1)
             {
-                Character1Img.color = c;
-                Character2Img.color = c;
+                DialogueController.SetNarration();
             }
             else if(line.characterImage == 0)
             {
-                //Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
-                //StartCoroutine(FadeIn(Character2Img, 1f));
-                //Character2Img.sprite = ImageList[3];
-
-                Character2Img.color = c;
-                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
-                if(Character1Img.color.a == 0)
-                {
-                    StartCoroutine(FadeIn(Character1Img, 1f));
-                }
-                Character1Img.sprite = ImageList[2];
+                DialogueController.SetMyCharacterTalk();
             }
             else if(line.characterImage == 1)
             {
-                //Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-444, 42);
-                //Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(499, 59);
-                //StartCoroutine(FadeIn(Character1Img, 1f));
-                //StartCoroutine(FadeIn(Character2Img, 1f));
-                //Character1Img.sprite = ImageList[2];
-                //Character2Img.sprite = ImageList[1];
-
-                Character1Img.color = c;
-                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 59);
-                if(Character2Img.color.a == 0)
-                {
-                    StartCoroutine(FadeIn(Character2Img, 1f));
-                }
-                Character2Img.sprite = ImageList[3];
-            }
-            else if(line.characterImage == 2)
-            {
-                //Character1Img.sprite = ImageList[0];
-                //Character2Img.sprite = ImageList[3];
-
-                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-550, -10);
-                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(550, 10);
-                if(Character1Img.color.a == 0 || Character2Img.color.a == 0)
-                {
-                    StartCoroutine(FadeIn(Character1Img, 1f));
-                    StartCoroutine(FadeIn(Character2Img, 1f));
-                }
-                Character1Img.sprite = ImageList[2];
-                Character2Img.sprite = ImageList[1];
-            }
-            else if(line.characterImage == 3)
-            {
-                //Character1Img.sprite = ImageList[2];
-                //Character2Img.sprite = ImageList[1];
-
-                Character1.GetComponent<RectTransform>().anchoredPosition = new Vector2(-550, -10);
-                Character2.GetComponent<RectTransform>().anchoredPosition = new Vector2(550, -10);
-                if (Character1Img.color.a == 0 || Character2Img.color.a == 0)
-                {
-                    StartCoroutine(FadeIn(Character1Img, 1f));
-                    StartCoroutine(FadeIn(Character2Img, 1f));
-                }
-                Character1Img.sprite = ImageList[0];
-                Character2Img.sprite = ImageList[3];
+                DialogueController.SetCharacterTalk();
             }
 
             // coroutine���� Ÿ���� ȿ�� ����
@@ -334,6 +158,13 @@ public class DialogueManager : MonoBehaviour
 
     ///////////////////////////////////////IEnumerator Part///////////////////////////////////////
 
+    IEnumerator LoadJsonRoutine()
+    {
+        //데이터가 들어올 1프레임의 시간
+        yield return null;
+        conversationData = JsonReader.GetFileData();
+        ShowLine();
+    }
     IEnumerator FadeIn(Image img, float duration)
     {
         float time = 0f;
@@ -441,30 +272,30 @@ public class DialogueManager : MonoBehaviour
     IEnumerator BlackoutCoroutine(float duration)
     {
         float time = 0.0f;
-        DialogueBox.SetActive(false);
+        DialogueController.DialogueBox.SetActive(false);
         while (time < duration)
         {
             time += Time.deltaTime;
-            Color c = BackgroundImg.color;
+            Color c = DialogueController.Background.color;
             c.a = Mathf.Lerp(1f, 0f, time / duration);
-            BackgroundImg.color = c;
+            DialogueController.Background.color = c;
             yield return null;
         }
 
         //3초 기다리고
         yield return new WaitForSeconds(3.0f);
         //배경 이미지 바꾸고 다시 FadeIn
-        BackgroundImg.sprite = BackGroundImageList[NextImageIndex];
+        DialogueController.Background.sprite = DialogueController.BackGroundImageList[NextImageIndex];
         ++NextImageIndex;
-        DialogueBox.SetActive(true);
+        DialogueController.DialogueBox.SetActive(true);
 
         time = 0f;
         while (time < duration)
         {
             time += Time.deltaTime;
-            Color c = BackgroundImg.color;
+            Color c = DialogueController.Background.color;
             c.a = Mathf.Lerp(0f, 1f, time / duration);
-            BackgroundImg.color = c;
+            DialogueController.Background.color = c;
             yield return null;
         }
     }
@@ -472,21 +303,21 @@ public class DialogueManager : MonoBehaviour
     IEnumerator ConfusingCoroutine(float duration)
     {
         float time = 0.0f;
-        DialogueBox.SetActive(false);
-        BackgroundImg.sprite = BackGroundImageList[NextImageIndex];
+        DialogueController.DialogueBox.SetActive(false);
+        DialogueController.Background.sprite = DialogueController.BackGroundImageList[NextImageIndex];
         ++NextImageIndex;
         while (time < duration)
         {
             time += Time.deltaTime;
-            Color c = BackgroundImg.color;
+            Color c = DialogueController.Background.color;
             c.a = Mathf.Lerp(0f, 1f, time / duration);
-            BackgroundImg.color = c;
+            DialogueController.Background.color = c;
             yield return null;
         }
 
         //3초 기다리고
         yield return new WaitForSeconds(3.0f);
-        DialogueBox.SetActive(true);
+        DialogueController.DialogueBox.SetActive(true);
     }
 
     private string ResolveSpeakerName(string speaker)
@@ -511,6 +342,12 @@ public class DialogueManager : MonoBehaviour
     {
         switch(Type)
         {
+            case "Debut":
+                {
+                    StartCoroutine(FadeIn(DialogueController.Character, 1f));
+                    break;
+                }
+
             case "BlackOut":
                 {
                     StartCoroutine(BlackoutCoroutine(0.2f));
@@ -525,9 +362,9 @@ public class DialogueManager : MonoBehaviour
 
             case "ImageChange":
                 {
-                    BackgroundImg.sprite = BackGroundImageList[NextImageIndex];
+                    DialogueController.Background.sprite = DialogueController.BackGroundImageList[NextImageIndex];
                     ++NextImageIndex;
-                    StartCoroutine(FadeIn(BackgroundImg, 0.2f));
+                    StartCoroutine(FadeIn(DialogueController.Background, 0.2f));
                     break;
                 }
         }
@@ -549,7 +386,7 @@ public class DialogueManager : MonoBehaviour
     //����׿�?? �Լ�
     private void EndDialogue()
     {
-        Debug.Log("��ȭ ����");
+        Debug.Log("End Dialogue");
         speakerText.text = "";
         dialogueText.text = "";
         BGMSource.Stop();
