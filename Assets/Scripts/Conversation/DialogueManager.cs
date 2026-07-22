@@ -32,6 +32,8 @@ public class DialogueManager : MonoBehaviour
     public Text speakerText;
     public Text dialogueText;
     private int NextImageIndex = 0;
+    //For Ending
+    public EndingController EndingSetter;
 
     //[Header("Typing Settings")]
     public float typingSpeed => DataManager.Instance != null && DataManager.Instance.Settings != null
@@ -129,21 +131,32 @@ public class DialogueManager : MonoBehaviour
             ConversationLine line = conversationData.conversation[currentIndex];
             if(!string.IsNullOrEmpty(line.EffectType))
             {
-                ExecuteEffect(line.EffectType);
+                ExecuteEffect(line, line.EffectType);
             }
             speakerText.text = ResolveSpeakerName(line.speaker);
-
-            if(line.characterImage == -1)
+            
+            //캐릭터 이미지 설정
+            if (line.characterImage == -1)
             {
                 DialogueController.SetNarration();
             }
-            else if(line.characterImage == 0)
+            else if (line.characterImage == 0)
             {
                 DialogueController.SetMyCharacterTalk();
             }
-            else if(line.characterImage == 1)
+            else if (line.characterImage == 1)
             {
                 DialogueController.SetCharacterTalk();
+            }
+            else if (line.characterImage == 2)
+            {
+                DialogueController.SetMoreTalk(line.characterImage);
+            }
+
+            //대화 버블 설정
+            if (line.BubbleColor != 0)
+            {
+                DialogueController.SetBubbleColor(line.BubbleColor);
             }
 
             // coroutine���� Ÿ���� ȿ�� ����
@@ -237,17 +250,17 @@ public class DialogueManager : MonoBehaviour
 
             dialogueText.text = "";
 
-            //이벤트 사운드 플레이
-            if (line.specificSoundIndex < 0)
-            {
-                if (EventSound.isPlaying) EventSound.Stop();
-                EventSound.clip = null;
-            }
-            else
-            {
-                EventSound.clip = EffectSounds[line.specificSoundIndex];
-                EventSound.Play();
-            }
+            ////이벤트 사운드 플레이
+            //if (line.specificSoundIndex < 0)
+            //{
+            //    if (EventSound.isPlaying) EventSound.Stop();
+            //    EventSound.clip = null;
+            //}
+            //else
+            //{
+            //    EventSound.clip = EffectSounds[line.specificSoundIndex];
+            //    EventSound.Play();
+            //}
 
             TypingSound.Stop();
             TypingSound.clip = EffectSounds[0];
@@ -269,10 +282,17 @@ public class DialogueManager : MonoBehaviour
         isTyping = false;
     }
 
-    IEnumerator BlackoutCoroutine(float duration)
+    IEnumerator BlackoutCoroutine(ConversationLine line, float duration)
     {
         float time = 0.0f;
         DialogueController.DialogueBox.SetActive(false);
+        DialogueController.Character.gameObject.SetActive(false);
+
+        //사운드 조절
+        BGMSource.Stop();
+        EventSound.clip = EffectSounds[line.specificSoundIndex];
+        EventSound.Play();
+
         while (time < duration)
         {
             time += Time.deltaTime;
@@ -288,6 +308,10 @@ public class DialogueManager : MonoBehaviour
         DialogueController.Background.sprite = DialogueController.BackGroundImageList[NextImageIndex];
         ++NextImageIndex;
         DialogueController.DialogueBox.SetActive(true);
+        DialogueController.Character.gameObject.SetActive(true);
+        //이벤트 사운드 정지, BGM 실행
+        BGMSource.Play();
+        EventSound.clip = null;
 
         time = 0f;
         while (time < duration)
@@ -300,12 +324,19 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    IEnumerator ConfusingCoroutine(float duration)
+    IEnumerator ConfusingCoroutine(ConversationLine line, float duration)
     {
         float time = 0.0f;
         DialogueController.DialogueBox.SetActive(false);
         DialogueController.Background.sprite = DialogueController.BackGroundImageList[NextImageIndex];
         ++NextImageIndex;
+        BGMSource.Stop();
+        EventSound.clip = EffectSounds[line.specificSoundIndex];
+        EventSound.loop = true;
+        EventSound.Play();
+        //사운드 조절
+        EventSound.volume = 0.1f;
+
         while (time < duration)
         {
             time += Time.deltaTime;
@@ -318,6 +349,8 @@ public class DialogueManager : MonoBehaviour
         //3초 기다리고
         yield return new WaitForSeconds(3.0f);
         DialogueController.DialogueBox.SetActive(true);
+        EventSound.loop = false;
+        EventSound.clip = null;
     }
 
     private string ResolveSpeakerName(string speaker)
@@ -338,7 +371,7 @@ public class DialogueManager : MonoBehaviour
         return string.IsNullOrEmpty(playerName) ? "나학생" : playerName;
     }
 
-    public void ExecuteEffect(string Type)
+    public void ExecuteEffect(ConversationLine line, string Type)
     {
         switch(Type)
         {
@@ -350,13 +383,24 @@ public class DialogueManager : MonoBehaviour
 
             case "BlackOut":
                 {
-                    StartCoroutine(BlackoutCoroutine(0.2f));
+                    StartCoroutine(BlackoutCoroutine(line, 0.2f));
                     break;
                 }
 
             case "Confusing":
                 {
-                    StartCoroutine(ConfusingCoroutine(0.2f));
+                    StartCoroutine(ConfusingCoroutine(line, 0.2f));
+                    break;
+                }
+
+            case "WakeUp":
+                {
+                    EventSound.clip = null;
+                    BGMSource.Play();
+                    DialogueController.Background.sprite = DialogueController.BackGroundImageList[NextImageIndex];
+                    ++NextImageIndex;
+                    StartCoroutine(FadeIn(DialogueController.Background, 1f));
+                    StartCoroutine(FadeIn(DialogueController.Character, 1f));
                     break;
                 }
 
@@ -365,6 +409,11 @@ public class DialogueManager : MonoBehaviour
                     DialogueController.Background.sprite = DialogueController.BackGroundImageList[NextImageIndex];
                     ++NextImageIndex;
                     StartCoroutine(FadeIn(DialogueController.Background, 0.2f));
+                    break;
+                }
+            case "Ending":
+                {
+                    EndingSetter.SetEnding();
                     break;
                 }
         }

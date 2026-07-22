@@ -1,0 +1,22 @@
+{
+    "conversation": [
+        {
+            "characterImage": 1,
+            "EffectType": "Debut",
+            "speaker": "애쉬",
+            "texts": [
+                "그렇게 먹기 싫었냐?",
+                "너는 이름보다 사고 칠 얼굴이 먼저 외워지겠다.",
+                "정신 차렸으면 썩 꺼져."
+            ]
+        },
+        {
+            "characterImage": 1,
+            "EffectType": "Ending",
+            "speaker": "애쉬",
+            "texts": [
+                
+            ]
+        }
+    ]
+}

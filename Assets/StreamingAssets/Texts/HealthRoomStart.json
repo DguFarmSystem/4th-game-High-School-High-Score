@@ -1,0 +1,72 @@
+{
+    "conversation": [
+        {
+            "charaterImage": -1,
+            "BubbleColor": 1,
+            "specificSoundIndex": 1,
+            "ParsePlayerName": 1,
+            "speaker": "????",
+            "texts": [
+                "<PLAYER_NAME>..."
+            ]
+        },
+        {
+            "characterImage": -1,
+            "BubbleColor": 1,
+            "speaker": "????",
+            "texts": [
+                "<PLAYER_NAME>..."
+            ]
+        },
+        {
+            "characterImage": 0,
+            "EffectType": "WakeUp",
+            "speaker": "",
+            "texts": [
+                "…윽.",
+                "(낯선 천장이다.)",
+                "(병원 냄새가 난다. 그리고 옅은 꽃 향기도…)",
+                "(보건실이구나.)"
+            ]
+        },
+        {
+            "characterImage": 1,
+            "speaker": "애쉬",
+            "texts":[
+                "...어이.",
+                "너는 전학오자마자 정신줄을 놓고 왔냐?"
+            ]
+        },
+        {
+            "characterImage": 0,
+            "speaker": "",
+            "texts": [
+                "(보건 선생님이다.)",
+                "아, 안녕하세요...."
+            ]
+        },
+        {
+            "characterImage": 1,
+            "speaker": "애쉬",
+            "texts": [
+                "안녕 못해."
+            ]
+        },
+        {
+            "characterImage": 0,
+            "speaker": "",
+            "texts": [
+                "(시니컬한 성격이네.)"
+            ]
+        },
+        {
+            "characterImage": 1,
+            "speaker": "애쉬",
+            "texts": [
+                "전학생.",
+                "고작 미니게임 몇 판으로 나가떨어지다니 저질 체력이네.",
+                "나약한 전학생에게는 생강맛 물약을 처방해줘야겠어."
+            ]
+        }
+    ]
+}

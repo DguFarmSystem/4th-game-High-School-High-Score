@@ -31,7 +31,8 @@ public class UIController : MonoBehaviour
      characterImage
     -1 : Narration
     0 : 나 Talk
-    1 : 캐릭터 Talk
+    1 : 체인 Talk
+    2 : 켄도 Talk
      */
     public void SetNarration()
     {
@@ -53,4 +54,23 @@ public class UIController : MonoBehaviour
         DialogueBubble.gameObject.SetActive(true);
         DialogueBubble.sprite = DialogueList[0];
     }
+
+    public void SetMoreTalk(int index)
+    {
+        Character.sprite = ImageList[index];
+        DialogueBubble.gameObject.SetActive(true);
+        DialogueBubble.sprite = DialogueList[1];
+    }
+
+    public void SetBubbleColor(int index)
+    {
+        DialogueBubble.gameObject.SetActive(true);
+        DialogueBubble.sprite = DialogueList[index];
+    }
+
+    //public void OtherVoiceTalk()
+    //{
+    //    Character.gameObject.SetActive(false);
+    //    DialogueBubble.gameObject.SetActive(true);
+    //}
 }

@@ -11,6 +11,7 @@ public class ConversationLine
     public List<string> texts;
 
     //selection part
+    public int BubbleColor = 0;
     public string EffectType = null;
     public int specificSoundIndex = -1;
     public int ParsePlayerName = 0;

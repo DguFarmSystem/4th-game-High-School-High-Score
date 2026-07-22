@@ -1,17 +1,16 @@
 {
     "conversation": [
         {
-            "id": 1,
-            "characterImage": 0,
-            "speaker": "<PLAYER_NAME>",
+            "characterImage": -1,
+            "speaker": "",
             "texts": [
                 "(맛있는 냄새가 난다.)",
                 "(저쪽에 짝꿍이 보인다. 옆에 가서 줄을 서자)"
             ]
         },
         {
-            "id": 2,
-            "characterImage": 2,
+            "characterImage": 1,
+            "EffectType": "Debut",
             "speaker": "체인",
             "texts": [
                 "뭐야?",
@@ -19,9 +18,8 @@
             ]
         },
         {
-            "id": 3,
             "characterImage": 0,
-            "speaker": "<PLAYER_NAME>",
+            "speaker": "",
             "texts": [
                 "(점수가 없으면 밥 먹는 것 하나도 힘들다니 가혹한 세계다.)",
                 "(맨끝으로 가서 다시 줄을 서자.)",
@@ -29,7 +27,6 @@
             ]
         },
         {
-            "id": 4,
             "characterImage": 2,
             "speaker": "켄도",
             "texts": [
