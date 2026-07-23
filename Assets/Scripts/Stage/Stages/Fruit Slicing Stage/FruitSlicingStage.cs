@@ -113,7 +113,7 @@ public class FruitSlicingStage : StageNormal
                     theaudio.PlayOneShot(audioClip);
 
                         GreenChecks[SliceCount++].SetActive(true);
-                    Instantiate(Effect, InputManager.TouchWorldPos, Effect.transform.rotation);
+                    Instantiate(Effect, mousePos, Effect.transform.rotation);
 
                 }
             }
