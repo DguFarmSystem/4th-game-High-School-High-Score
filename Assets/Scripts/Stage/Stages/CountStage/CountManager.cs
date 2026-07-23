@@ -38,6 +38,11 @@ public class CountManager : StageNormal
 
     private void OnStageEndedGimmik(bool isStageCleared)
     {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.StopBGM();
+        }
+
         if (isStageCleared)
         {
             Debug.Log("[CountStage] Stage cleared!");
