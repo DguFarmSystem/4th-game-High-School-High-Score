@@ -431,7 +431,7 @@ MonoBehaviour:
   - {fileID: 2243318144764122379, guid: c177e232fc25b4a4f867766358543d19, type: 3}
   - {fileID: 2890047266602959167, guid: 99e7784b374838c4f9d3cb91bde4fa58, type: 3}
   spawnParent: {fileID: 74208637}
-  clearThreshold: 0.8
+  clearThreshold: 0.6
 --- !u!4 &493056557
 Transform:
   m_ObjectHideFlags: 0
