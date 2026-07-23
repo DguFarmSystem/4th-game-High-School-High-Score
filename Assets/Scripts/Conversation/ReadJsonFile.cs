@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using System.IO;
 
 [System.Serializable]
@@ -37,7 +39,7 @@ public class ReadJsonFile : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LoadConversation();
+        StartCoroutine(LoadConversation());
     }
 
     // Update is called once per frame
@@ -52,9 +54,9 @@ public class ReadJsonFile : MonoBehaviour
 //        string filePath = Path.Combine(Application.streamingAssetsPath, "Texts", jsonFileName);
 
 //#if UNITY_EDITOR || UNITY_STANDALONE
-//        // --- PC ¿¡µðÅÍ ¶Ç´Â PC ºôµå È¯°æ ---
+//        // --- PC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ PC ï¿½ï¿½ï¿½ï¿½ È¯ï¿½ï¿½ ---
 
-//        Debug.Log("PC/Editor ·Îµå °æ·Î: " + filePath);
+//        Debug.Log("PC/Editor ï¿½Îµï¿½ ï¿½ï¿½ï¿½: " + filePath);
 
 //        if (File.Exists(filePath))
 //        {
@@ -62,13 +64,13 @@ public class ReadJsonFile : MonoBehaviour
 //        }
 //        else
 //        {
-//            Debug.LogError("ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù: " + filePath);
+//            Debug.LogError("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½: " + filePath);
 //        }
 
 //#elif UNITY_ANDROID
-//        // --- Android ºôµå È¯°æ ---
+//        // --- Android ï¿½ï¿½ï¿½ï¿½ È¯ï¿½ï¿½ ---
 
-//        Debug.Log("Android ·Îµå ½Ãµµ °æ·Î: " + filePath);
+//        Debug.Log("Android ï¿½Îµï¿½ ï¿½Ãµï¿½ ï¿½ï¿½ï¿½: " + filePath);
 
 //        using (UnityWebRequest www = UnityWebRequest.Get(filePath))
 //        {
@@ -80,33 +82,33 @@ public class ReadJsonFile : MonoBehaviour
 //            }
 //            else
 //            {
-//                // »ó¼¼ ¿¡·¯¿Í °æ·Î¸¦ ÇÔ²² Ãâ·ÂÇØ ´ë¼Ò¹®ÀÚ ¿ÀÅ¸ È®ÀÎ
-//                Debug.LogError($"[Load Error] °æ·Î: {filePath} | ¿¡·¯: {www.error}");
+//                // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½Ô²ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ È®ï¿½ï¿½
+//                Debug.LogError($"[Load Error] ï¿½ï¿½ï¿½: {filePath} | ï¿½ï¿½ï¿½ï¿½: {www.error}");
 //            }
 //        }
 
 //#endif
 
-//        // µ¥ÀÌÅÍ ÇÒ´ç (°øÅë)
+//        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½ (ï¿½ï¿½ï¿½ï¿½)
 //        if (!string.IsNullOrEmpty(jsonData))
 //        {
 //            FileData = JsonUtility.FromJson<ConversationData>(jsonData);
-//            Debug.Log("JSON ÆÄ½Ì ¿Ï·á");
+//            Debug.Log("JSON ï¿½Ä½ï¿½ ï¿½Ï·ï¿½");
 
 //            yield return null;
 //            ShowLine();
 //        }
 //    }
 
-    void LoadConversation()
+    IEnumerator LoadConversation()
     {
         string jsonData = "";
         string filePath = Path.Combine(Application.streamingAssetsPath, "Texts", jsonFileName);
 
 #if UNITY_EDITOR || UNITY_STANDALONE
-        // --- PC ¿¡µðÅÍ ¶Ç´Â PC ºôµå È¯°æ ---
+        // --- PC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ PC ï¿½ï¿½ï¿½ï¿½ È¯ï¿½ï¿½ ---
 
-        Debug.Log("PC/Editor ·Îµå °æ·Î: " + filePath);
+        Debug.Log("PC/Editor ï¿½Îµï¿½ ï¿½ï¿½ï¿½: " + filePath);
 
         if (File.Exists(filePath))
         {
@@ -114,13 +116,13 @@ public class ReadJsonFile : MonoBehaviour
         }
         else
         {
-            Debug.LogError("ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù: " + filePath);
+            Debug.LogError("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½: " + filePath);
         }
 
 #elif UNITY_ANDROID
-                // --- Android ºôµå È¯°æ ---
+                // --- Android ï¿½ï¿½ï¿½ï¿½ È¯ï¿½ï¿½ ---
 
-                Debug.Log("Android ·Îµå ½Ãµµ °æ·Î: " + filePath);
+                Debug.Log("Android ï¿½Îµï¿½ ï¿½Ãµï¿½ ï¿½ï¿½ï¿½: " + filePath);
 
                 using (UnityWebRequest www = UnityWebRequest.Get(filePath))
                 {
@@ -132,18 +134,19 @@ public class ReadJsonFile : MonoBehaviour
                     }
                     else
                     {
-                        // »ó¼¼ ¿¡·¯¿Í °æ·Î¸¦ ÇÔ²² Ãâ·ÂÇØ ´ë¼Ò¹®ÀÚ ¿ÀÅ¸ È®ÀÎ
-                        Debug.LogError($"[Load Error] °æ·Î: {filePath} | ¿¡·¯: {www.error}");
+                        // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½Ô²ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ È®ï¿½ï¿½
+                        Debug.LogError($"[Load Error] ï¿½ï¿½ï¿½: {filePath} | ï¿½ï¿½ï¿½ï¿½: {www.error}");
                     }
                 }
 
 #endif
 
-        // µ¥ÀÌÅÍ ÇÒ´ç (°øÅë)
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½ (ï¿½ï¿½ï¿½ï¿½)
         if (!string.IsNullOrEmpty(jsonData))
         {
             FileData = JsonUtility.FromJson<ConversationData>(jsonData);
-            Debug.Log("JSON ÆÄ½Ì ¿Ï·á");
+            Debug.Log("JSON ï¿½Ä½ï¿½ ï¿½Ï·ï¿½");
+            yield return null;
         }
     }
 }

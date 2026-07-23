@@ -234,7 +234,7 @@ public class ToggleController : MonoBehaviour
                     SceneNames.HealthVision,
                     SceneNames.HealthWash,
                     SceneNames.HealthHeight,
-                    SceneNames.HealthWash, // 보스스테이지 완성 필요
+                    SceneNames.HealthBoss, // 보스스테이지 완성 필요
                 },
                 "HealthCS",
                 StageManager.GameMode.Normal,
@@ -251,7 +251,7 @@ public class ToggleController : MonoBehaviour
                     SceneNames.HealthVision,
                     SceneNames.HealthWash,
                     SceneNames.HealthHeight,
-                    SceneNames.HealthWash, // 보스스테이지 완성 필요
+                    SceneNames.HealthBoss, // 보스스테이지 완성 필요
                 },
                 "HealthCS",
                 StageManager.GameMode.Normal,
