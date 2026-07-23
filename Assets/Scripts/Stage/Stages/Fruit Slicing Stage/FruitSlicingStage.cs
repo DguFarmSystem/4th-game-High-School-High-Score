@@ -112,7 +112,7 @@ public class FruitSlicingStage : StageNormal
 
                     theaudio.PlayOneShot(audioClip);
 
-                        GreenChecks[SliceCount].SetActive(true);
+                        GreenChecks[SliceCount++].SetActive(true);
                     Instantiate(Effect, InputManager.TouchWorldPos, Effect.transform.rotation);
 
                 }
@@ -165,7 +165,7 @@ public class FruitSlicingStage : StageNormal
         Debug.Log(InputManager.TouchedCollider.name);
         theaudio.PlayOneShot(audioClip);
 
-        if (InputManager.TouchedCollider != null)
+/*        if (InputManager.TouchedCollider != null)
         {
             if (InputManager.TouchedCollider.gameObject.tag == "Fruit")
             {
@@ -174,6 +174,6 @@ public class FruitSlicingStage : StageNormal
                 GreenChecks[SliceCount].SetActive(true);
                 SliceCount++;
             }
-        }
+        }*/
     }
 }

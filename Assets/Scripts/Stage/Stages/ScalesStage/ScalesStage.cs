@@ -87,6 +87,7 @@ public class ScalesStage : StageNormal
                         TheWeigh = Instantiate(Weigh[2], InputManager.Instance.TouchWorldPos, new Quaternion(0, 0, 0, 0));
                         break;
                     default:
+                        if(TheWeigh.tag=="weigh")
                         TheWeigh = InputManager.Instance.TouchedCollider.gameObject;
                         break;
                 }
