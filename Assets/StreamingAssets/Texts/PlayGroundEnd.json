@@ -1,15 +1,13 @@
 {
     "conversation": [
         {
-            "id": 1,
-            "characterImage": 1,
-            "speaker": "<PLAYER_NAME>",
+            "characterImage": 0,
+            "speaker": "",
             "texts": [
                 "(속이 울렁거린다. 이 학교는 학생의 건강을 존중하지 않는 것 같다.)"
             ]
         },
         {
-            "id": 2,
             "characterImage": 1,
             "speaker": "쟈이로",
             "texts": [
@@ -18,16 +16,14 @@
             ]
         },
         {
-            "id": 3,
-            "characterImage": 1,
-            "speaker": "<PLAYER_NAME>",
+            "characterImage": 0,
+            "speaker": "",
             "texts": [
                 "(눈앞이 점점 흐려진다. 소리가 멀어진다.)",
                 "(눈이 점점 감겨온다….)"
             ]
         },
         {
-            "id": 4,
             "characterImage": -1,
             "EffectType": "Confusing",
             "specificSoundIndex": 2,
@@ -36,8 +32,7 @@
             ]
         },
         {
-            "id": 5,
-            "characterImage": -1,
+            "characterImage": 3,
             "speaker": "???",
             "EffectType": "ImageChange",
             "texts": [

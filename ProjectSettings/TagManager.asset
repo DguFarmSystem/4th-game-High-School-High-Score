@@ -17,6 +17,10 @@ TagManager:
   - Fruit
   - Bar
   - Key
+  - BlueStart
+  - BlueEnd
+  - RedStart
+  - RedEnd
   layers:
   - Default
   - TransparentFX

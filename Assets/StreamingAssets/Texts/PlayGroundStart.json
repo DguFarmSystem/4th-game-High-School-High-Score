@@ -1,27 +1,25 @@
 {
     "conversation": [
         {
-            "id": 1,
             "characterImage": -1,
-            "speaker": "<PLAYER_NAME>",
+            "speaker": "",
             "texts": [
                 "왜 운동장이 썰렁하지? 분명 체육시간인데.",
                 "뭔가 이상하다. 교실로 돌아가자"
             ]
         },
         {
-            "id": 2,
             "characterImage": -1,
             "EffectType": "BlackOut",
             "specificSoundIndex": 1,
-            "texts":[
+            "speaker": "",
+            "texts": [
                 ""
             ]
         },
         {
-            "id": 3,
-            "characterImage": 1,
-            "speaker": "<PLAYER_NAME>",
+            "characterImage": -1,
+            "speaker": "",
             "texts": [
                 "아무도 없잖아?",
                 "(시간표를 다시 확인해도 체육시간임이 틀림없었다.)",
@@ -30,7 +28,6 @@
             ]
         },
         {
-            "id": 4,
             "characterImage": -1,
             "EffectType": "Confusing",
             "specificSoundIndex": 2,
@@ -39,21 +36,20 @@
             ]
         },
         {
-            "id": 5,
-            "charaterImage": -1,
-            "speaker": "????",
+            "charaterImage": 3,
             "EffectType": "ImageChange",
             "ParsePlayerName": 1,
+            "specificSoundIndex": 3,
+            "speaker": "????",
             "texts":[
                 "<PLAYER_NAME>...",
                 "<PLAYER_NAME>..."
             ]
         },
         {
-            "id": 6,
-            "charaterImage": 0,
+            "charaterImage": 1,
             "speaker": "소나타",
-            "EffectType":"ImageChange",
+            "EffectType":"WakeUp",
             "texts": [
                 "<PLAYER_NAME>!!",
                 "...정신이 들어요?",
@@ -62,9 +58,8 @@
             ]
         },
         {
-            "id": 7,
-            "characterImage": 1,
-            "speaker": "<PLAYER_NAME>",
+            "characterImage": 0,
+            "speaker": "",
             "texts": [
                 "(꿈이었나? 정신을 차려보니 음악실이었다.)",
                 "(언제부터 음악실이었던 거지? 분명 운동장에 나갔다가 아무도 없어서 교실로 이동했는데.)",
@@ -73,10 +68,9 @@
             ]
         },
         {
-            "id": 8,
-            "characterImage": 1,
-            "speaker":"???",
+            "characterImage": 2,
             "EffectType": "ImageChange",
+            "speaker":"???",
             "texts": [
                 "거기, 전학생! 줄이 비뚤어졌잖아!",
                 "얼굴이 별로네. 그래서야 공이나 찰 수 있겠어?",
@@ -84,8 +78,7 @@
             ]
         },
         {
-            "id": 9,
-            "characterImage": 1,
+            "characterImage": 2,
             "speaker": "쟈이로",
             "texts": [
                 "가볍게 몸부터 풀어보자고. 신호가 들리면 시작이다!"

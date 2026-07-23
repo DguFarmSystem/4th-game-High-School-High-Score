@@ -7,10 +7,18 @@ using UnityEngine.EventSystems;
 public class CableEvent : MonoBehaviour, IDragHandler
 {
     [SerializeField]
-    private RectTransform HeartRange; 
+    private RectTransform HeartRange;
+    [SerializeField]
+    private GameObject ElectricVFX;
 
     private RectTransform Mytransform;
     private Canvas Mycanvas;
+    private bool isCableClear = false;
+
+    public bool GetCableClear()
+    {
+        return isCableClear;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -78,7 +86,8 @@ public class CableEvent : MonoBehaviour, IDragHandler
     private void OnCollisionSuccess()
     {
         Debug.Log("UI 이미지 2초 연속 충돌 성공!");
-        // 여기에 애니메이션 실행, 게이지 충전 완료, 다음 단계 이동 등의 로직을 넣으세요.
+        isCableClear = true;
+        StartCoroutine(ActivateVFX());
     }
 
     private bool CheckUICollision(RectTransform a, RectTransform b)
@@ -101,4 +110,12 @@ public class CableEvent : MonoBehaviour, IDragHandler
 
         return new Rect(corners[0].x, corners[0].y, width, height);
     }
+    
+    private IEnumerator ActivateVFX()
+    {
+        ElectricVFX.SetActive(true);
+        yield return new WaitForSeconds(0.8f);
+        ElectricVFX.SetActive(false);
+    }
 }
+

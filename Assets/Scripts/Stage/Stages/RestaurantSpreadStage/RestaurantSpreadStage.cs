@@ -11,6 +11,9 @@ public class RestaurantSpreadStage : StageNormal
     public Image foodImage;
     public Image sauceImage;
 
+    [Header("Audio")]
+    public AudioSource BackgroundAudio;
+
     [SerializeField]
     private GameObject[] Panels;
     [SerializeField]
@@ -46,11 +49,13 @@ public class RestaurantSpreadStage : StageNormal
         if (isStageCleared)
         {
             Debug.Log("Stage cleared!");
+            BackgroundAudio.Stop();
             StageManager.Instance.StageClear(true);
         }
         else
         {
             Debug.Log("Stage failed!");
+            BackgroundAudio.Stop();
             StageManager.Instance.StageClear(false);
         }
     }
