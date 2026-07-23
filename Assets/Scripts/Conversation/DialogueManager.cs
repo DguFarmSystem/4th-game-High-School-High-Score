@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
+//using System.IO;
 using System.Text.RegularExpressions;
-using UnityEngine.SceneManagement;
-using UnityEngine.Networking;
+//using UnityEngine.SceneManagement;
+//using UnityEngine.Networking;
 
 public class DialogueManager : MonoBehaviour
 {

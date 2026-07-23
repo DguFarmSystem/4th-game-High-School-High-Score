@@ -27,7 +27,7 @@ public class BlackBoardStage : StageNormal
     [Header("Prefab & Stage Config")]
     public EraseTexture[] erasePrefabs;   // ������ (���� �̹���)
     public Transform spawnParent;      // ������ �θ� ������Ʈ (��: Canvas�� Ư�� ��ġ)
-    public float clearThreshold = 0.8f; // Ŭ���� ��ǥ (0~1 ���� ��)
+    public float clearThreshold = 0.6f; // Ŭ���� ��ǥ (0~1 ���� ��)
     private static int stageLevel = 0;  // ���߿� StageManager���� stageLevel�� �Ѱ��ִ� ������� ���ҽ� ����
 
     private EraseTexture eraseObject;  // ������ EraseTexture �ν��Ͻ�
