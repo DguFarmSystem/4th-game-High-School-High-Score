@@ -25,9 +25,17 @@ public abstract class CutScene : MonoBehaviour
     [SerializeField] protected AudioClip _gameOverAudioClip;
     [SerializeField] protected AudioClip _hpDecreaseAudioClip;
 
+    protected bool _gameInterrupted = false;
+
     protected abstract IEnumerator StartCutScene();
 
     protected int _previousHP;
+
+    public void SetGameInterrupted(bool interrupted)
+    {
+        _gameInterrupted = interrupted;
+    }
+
     protected int _stageIndex => StageManager.Instance.GetCurrentStage();
     protected int _maxStageIndex
     {
@@ -156,4 +164,12 @@ public abstract class CutScene : MonoBehaviour
     }
 
     protected abstract void OnDisable();
+
+    protected virtual void Update()
+    {
+        if (_gameInterrupted)
+        {
+            StopAllCoroutines();
+        }
+    }
 }

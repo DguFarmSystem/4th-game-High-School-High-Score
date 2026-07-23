@@ -105,6 +105,8 @@ public class InputManager : Singleton<InputManager>
 
     private void getTouchPosition(InputAction.CallbackContext context)
     {
+        if (Camera.main == null) return;
+        
         // 터치 월드 좌표 계산
         _screenPos = context.ReadValue<Vector2>();
 
@@ -128,6 +130,8 @@ public class InputManager : Singleton<InputManager>
 
     private void getDragDelta(InputAction.CallbackContext context)
     {
+        if (Camera.main == null) return;
+
         Vector2 screenDelta = context.ReadValue<Vector2>();
         _worldDelta = Camera.main.ScreenToWorldPoint(screenDelta + _screenPos)
                     - Camera.main.ScreenToWorldPoint(_screenPos);
@@ -161,6 +165,7 @@ public class InputManager : Singleton<InputManager>
         return collider;
     }
 
+    /*
     // UI 터치 여부를 확인하는 메서드
     private bool IsPointerOverUI(Vector2 screenPos)
     {
@@ -173,6 +178,34 @@ public class InputManager : Singleton<InputManager>
         EventSystem.current.RaycastAll(eventData, results);
 
         return results.Count > 0; // UI 요소가 감지되면 true 반환
+    }
+    */
+
+    // 외부(예: PauseMenu)에서 입력을 켜고 끌 때 호출할 함수
+    public void SetInputActive(bool active)
+    {
+        if (_playerInput == null) return;
+
+        // PlayerInput 컴포넌트를 켜고 꺼서 모든 입력을 차단/허용합니다.
+        _playerInput.enabled = active;
+
+        // 입력을 끌 때, 기존에 누르고 있던 상태를 안전하게 초기화합니다 (터치 끼임 방지)
+        if (!active)
+        {
+            ClearInputStates();
+        }
+    }
+
+    // 터치 데이터 초기화 함수
+    private void ClearInputStates()
+    {
+        _isPressing = false;
+        _screenPos = Vector2.zero;
+        _touchWorldPos = Vector3.zero;
+        _worldDelta = Vector2.zero;
+        _tappedCollider = null;
+        _touchedCollider = null;
+        _pressedCollider = null;
     }
 
     // Lifecycle methods

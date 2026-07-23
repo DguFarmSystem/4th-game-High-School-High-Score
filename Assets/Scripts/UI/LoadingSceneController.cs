@@ -125,7 +125,7 @@ public class LoadingSceneController : MonoBehaviour
 
         //씬 로드가 끝나지 않은 상태라면?
         while (!op.isDone)
-        {
+        {     
             fadeTimer += Time.deltaTime;
             yield return null;
 

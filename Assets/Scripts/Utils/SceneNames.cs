@@ -17,6 +17,10 @@ public static class SceneNames
     public const string RestaurantConvEnd = "RestaurantEnd";
     public const string MusicConvStart = "MusicRoomStart";
     public const string MusicConvEnd = "MusicRoomEnd";
+    public const string PlaygroundConvStart = "PlayGroundStart";
+    public const string PlaygroundConvEnd = "PlayGroundEnd";
+    public const string HealthConvStart = "HealthRoomStart";
+    public const string HealthConvEnd = "HealthRoomEnd";
 
     // 스테이지 씬들
     // tutorial

@@ -199,9 +199,9 @@ public class ToggleController : MonoBehaviour
                 },
                 "SportCS",
                 StageManager.GameMode.Normal,
-                SceneNames.MusicConvStart // 대화씬 교체 필요
+                SceneNames.PlaygroundConvStart
             );
-            LoadingSceneController.Instance.LoadScene(SceneNames.MusicConvStart); // 대화씬 교체 필요
+            LoadingSceneController.Instance.LoadScene(SceneNames.PlaygroundConvStart);
         }
         else
         {

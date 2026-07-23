@@ -110,6 +110,10 @@ public class PutAwayStage : StageNormal
 
     private void OnStageEndedGimmik(bool isStageCleared)
     {
+        InputManager.Instance._pressAction.started -= OnTouch;
+        InputManager.Instance._positionAction.performed -= OnTouch;
+        InputManager.Instance._pressAction.canceled -= OnTouch;
+        
         SoundManager.Instance.StopBGM();
         if (isStageCleared)
         {

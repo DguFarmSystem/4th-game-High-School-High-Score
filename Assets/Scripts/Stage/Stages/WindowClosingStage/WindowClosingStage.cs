@@ -84,15 +84,18 @@ public class WindowClosingStage : StageNormal
 
                         windowCol = hits
                             .Where(hit => hit.GetComponent<SpriteRenderer>() != null && !hit.CompareTag("Bug")
-                            && !hit.CompareTag("Blind") && !hit.CompareTag("MovingRange")) // SpriteRenderer가 null이 아닌 경우만 선택
+                            && !hit.CompareTag("Blind") && !hit.CompareTag("MovingRange") && !hit.gameObject.name.Equals("Fixed_Window")) // SpriteRenderer가 null이 아닌 경우만 선택
                             .OrderBy(hit => hit.GetComponent<SpriteRenderer>().sortingOrder) // sortingOrder 기준으로 정렬
                             .LastOrDefault();
 
-                        GameObject broken = Instantiate(_windowBrokenPrefab, InputManager.Instance.TouchWorldPos, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
-
-                        if (broken != null)
+                        if (windowCol != null)
                         {
-                            broken.transform.SetParent(windowCol.transform, true);
+                            GameObject broken = Instantiate(_windowBrokenPrefab, InputManager.Instance.TouchWorldPos, Quaternion.Euler(0f, 0f, Random.Range(0f, 360f)));
+
+                            if (broken != null)
+                            {
+                                broken.transform.SetParent(windowCol.transform, true);
+                            }
                         }
 
                         if (_bugInStage <= 0)

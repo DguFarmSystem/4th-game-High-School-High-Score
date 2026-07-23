@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WindowBroken : MonoBehaviour
 {
+    [SerializeField] private AudioClip _windowBrokenSfx;
     Transform parent;
     Collider2D parentCollider;
     MaterialPropertyBlock mpb;
@@ -25,6 +26,8 @@ public class WindowBroken : MonoBehaviour
         mpb.SetFloat("_ClipYMax", bounds.max.y);
         
         sr.SetPropertyBlock(mpb);
+
+        SoundManager.Instance.PlaySFX(_windowBrokenSfx);
 
         GetComponent<SpriteRenderer>().sortingOrder = parentCollider.GetComponent<SpriteRenderer>().sortingOrder + 1;
     }

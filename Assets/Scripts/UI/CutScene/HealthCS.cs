@@ -90,7 +90,7 @@ public class HealthCS : CutScene
         yield return ShowStageInfo();
         
         _startFlag = false;
-
+        
         SoundManager.Instance.StopBGM();
 
         StageManager.Instance.ShowComplete(); // 다 출력했다고 알림
