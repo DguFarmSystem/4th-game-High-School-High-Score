@@ -61,9 +61,6 @@ public class CableEvent : MonoBehaviour, IDragHandler
                 if (currentMatchTime >= targetDuration)
                 {
                     OnCollisionSuccess();
-
-                    // 성공 후 타이머를 리셋하고 계속 감지할지, 
-                    // 아니면 루프를 탈출(break)할지는 기획에 따라 선택하세요.
                     break;
                 }
             }
